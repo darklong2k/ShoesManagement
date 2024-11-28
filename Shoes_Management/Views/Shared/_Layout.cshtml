@@ -1,49 +1,197 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Shoes_Management</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Shoes_Management.styles.css" asp-append-version="true" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>King shoes - Cửa hàng giày chất nhất việt nam</title>
+
+    <!-- Thêm các tệp CSS từ kingshoes.vn -->
+    <link rel="stylesheet" href="https://kingshoes.vn/template/Default/css/plugins/pro6.min.css?v=211020241649">
+    <link rel="stylesheet" href="https://kingshoes.vn/template/Default/css/bootstrap.min.css?v=211020241649">
+    <link rel="stylesheet"
+          href="https://kingshoes.vn/template/Default/js/plugins/slider/splide/css/splide.min.css?v=211020241649">
+    <link rel="stylesheet" href="https://kingshoes.vn/template/Default/css/all.min.css?v=211020241649">
+
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+
+<body class="ohide">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header__top">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Shoes_Management</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                <div class="row">
+                    <div class="col-12 text-end">
+                        <p class="hotline-top d-inline">
+                            <i class="fa-solid fa-phone-volume fa-fw"></i> <span class="d-none d-lg-inline-block">Hotline:</span> <a href="tel:0909300746">0909300746</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav class="navigation">
+            <div class="container-fluid">
+                <div class="navigation__column left">
+                    <div class="header__logo">
+                        <a class="ps-logo" href=".">
+                            <img src="T1.png" alt="" style="width: 100px; height: 50;">
+                        </a>
+                    </div>
+                </div>
+                <div class="navigation__column center d-none d-xl-block">
+                    <ul class="main-menu menu">
+                        <li class="" id=""><a href="">Trang chủ</a></li>
+                        <li class="" id=""><a href="">Giới thiệu</a></li>
+                        <li class=" menu-item menu-item-has-children dropdown 1 menu77 " id="">
+                            <a href="">Nike</a>
+                            <ul class="sub-menu">
+                                <li class="menu-item  2 menu87 " id="menu87"><a href="">Nam</a></li>
+                                <li class="menu-item  3 menu88 " id="menu88"><a href="">Nữ</a></li>
+                            </ul>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        <li class=" menu-item menu-item-has-children dropdown 2 menu76 " id="">
+                            <a href="">Adidas</a>
+                            <ul class="sub-menu">
+                                <li class="menu-item  3 menu85 " id=""><a href="nam">Nam</a></li>
+                                <li class="menu-item  4 menu86 " id=""><a href="nu">Nữ</a></li>
+                            </ul>
                         </li>
+                        <li class=" menu-item menu-item-has-children dropdown 3 menu79 " id="">
+                            <a href="">MLB</a>
+                            <ul class="sub-menu">
+                                <li class="menu-item  4 menu91 " id=""><a href="">Chunky</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="  9 menu83 " id=""><a href="">Liên hệ</a></li>
                     </ul>
+                </div>
+                <div class="navigation__column right">
+                    <form class="ps-search--header searchform" id="searchform" method="get" action="">
+
+                        <input class="form-control inputString" autocomplete="off" name="search" id="inputString"
+                               placeholder="Nhập từ cần tìm" />
+
+                        <button type="submit"><i class="ps-icon-search"></i></button>
+                        <button id="btnsearch" type="button"><i class="ps-icon-search"></i></button>
+                        <div class="suggestions" id="suggestions"></div>
+                    </form>
+                    <!-- Giỏ hàng -->
+                    <div class="ps-cart" id="reloaddiv">
+                        <a class="ps-cart__toggle" rel="noindex nofollow" href="gio-hang">
+                            <span>
+                                <i class="numberSumProduct">1</i>
+                            </span><i class="ps-icon-shopping-cart"></i>
+                        </a>
+
+                        <div class="ps-cart__listing">
+                            <div class="ps-cart__content">
+
+                                <div class="ps-cart-item tr74552294">
+                                    <a href="javascript:;" class="ps-cart-item__close"
+                                       onclick="return deteleSPGHPageName(74552294,'JORDAN STADIUM 90','gio-hang/remove','gio-hang','sumprice7455','sumpro7455','.tr74552294');"></a>
+                                    <div class="ps-cart-item__thumbnail">
+                                        <a href="https://kingshoes.vn/jordan-stadium-90-fb2269-106-chinh-hang-gia-tot-den-king-shoes.html"></a>
+                                        <img src="https://kingshoes.vn/data/upload/media/fb2269-106-giay-jordan-stadium-90-gia-tot-den-king-shoes-store-12.jpeg"
+                                             alt="JORDAN STADIUM 90">
+                                    </div>
+                                    <div class="ps-cart-item__content">
+                                        <a class="ps-cart-item__title"
+                                           href="https://kingshoes.vn/jordan-stadium-90-fb2269-106-chinh-hang-gia-tot-den-king-shoes.html">
+                                            JORDAN
+                                            STADIUM 90
+                                        </a>
+                                        <div class="attribute_pro">
+                                            <span class="badge bg-primary me-2">
+                                                Size Giày:
+                                                <b>38.5</b>
+                                            </span>
+                                        </div>
+                                        <p>
+                                            <span>Số lượng:<i class="qtypro74552294">1</i></span><span>
+                                                Thành tiền:<i class="sumprice74552294">3,900,000đ</i>
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="ps-cart__total">
+                                <p>Số sản phẩm:<span class="numberSumProduct"> 1</span></p>
+                                <p>Tổng:<span class="sumPrice"> 3,900,000đ</span></p>
+                            </div>
+                            <div class="ps-cart__footer">
+                                <a class="ps-btn" href="gio-hang">
+                                    Giỏ hàng<i class="ps-icon-arrow-left"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- End giỏ hàng -->
+                    <div class="menu-toggle"><span></span></div>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
+    @RenderBody()
+
+
+    <footer class="bg-dark text-white py-4">
         <div class="container">
-            &copy; 2024 - Shoes_Management - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div class="row">
+                <!-- Cột 1: Logo -->
+                <div class="col-lg-3">
+                    <aside>
+                        <a class="d-block mb-3" href=".">
+                            <img src="T1.png" alt="Logo" style="max-width: 150px;">
+                        </a>
+                    </aside>
+                </div>
+
+                <!-- Cột 2: Menu dọc -->
+                <div class="col-lg-3">
+                    <aside>
+                        <ul class="list-unstyled">
+                            <li><a href="" target="_blank" class="text-white">Nike</a></li>
+                            <li><a href="" target="_blank" class="text-white">Adidas</a></li>
+                            <li><a href="" target="_blank" class="text-white">MLB</a></li>
+                            <li><a href="" target="_blank" class="text-white">Jordan</a></li>
+                            <li><a href="" target="_blank" class="text-white">Yeezy</a></li>
+                        </ul>
+                    </aside>
+                </div>
+
+                <!-- Cột 3: Thông tin liên hệ -->
+                <div class="col-lg-3">
+                    <p><strong>KINGSHOES.VN Trang Thông Tin Chính Thức.</strong></p>
+                    <p>⛪ <strong>Địa chỉ: 192/2 Nguyễn Thái Bình, Phường 12, Quận Tân Bình, Thành phố Hồ Chí Minh</strong></p>
+                    <p><strong>Email: cskh.kingshoes.vn@gmail.com</strong></p>
+                    <p>☎️ <strong>Hotline Bán Hàng: 0909.300.746 - 0909.45.0001</strong></p>
+                    <p>☎️ <strong>Hotline CSKH: 0902.368.001</strong></p>
+                </div>
+
+                <!-- Cột 4: Liên kết mạng xã hội -->
+                <div class="col-lg-3">
+                    <p><a href="https://kingshoes.vn/" target="_blank"><strong>Website chính thức</strong></a></p>
+                    <p><a href="https://twitter.com/kingshoes_vn" target="_blank"><strong>Twitter</strong></a></p>
+                    <p><a href="https://instagram.com/kingshoes.vn" target="_blank"><strong>Instagram</strong></a></p>
+                    <p><a href="https://www.facebook.com/Kingshoes.vnn/" target="_blank"><strong>Facebook</strong></a></p>
+                    <p><a href="https://www.youtube.com/c/KingShoesvn" target="_blank"><strong>YouTube</strong></a></p>
+                    <p><a href="http://bit.ly/KINGSHOES_map" target="_blank"><strong>Bản đồ</strong></a></p>
+                    <p><a href="https://www.tiktok.com/kingshoes_sneaker" target="_blank"><strong>TikTok</strong></a></p>
+                </div>
+            </div>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+    <!-- Thêm các tệp JavaScript từ kingshoes.vn -->
+    <script type="text/javascript" src="https://kingshoes.vn/template/Default/js/jquery.min.js"></script>
+    <script type="text/javascript" src="https://kingshoes.vn/template/Default/js/jquery.barrating.min.js"></script>
+    <script type="text/javascript"
+            src="https://kingshoes.vn/template/Default/js/plugins/slider/splide/js/splide.min.js"></script>
+
+    <!-- Kiểm tra các tệp JS -->
 </body>
+
 </html>
