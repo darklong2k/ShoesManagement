@@ -17,7 +17,11 @@ namespace Shoes_Management.Controllers
 		{
 			return View();
 		}
-		public IActionResult Privacy()
+        public IActionResult CompleteTheOrderPage()
+        {
+            return View();
+        }
+        public IActionResult Privacy()
 		{
 			return View();
 		}
