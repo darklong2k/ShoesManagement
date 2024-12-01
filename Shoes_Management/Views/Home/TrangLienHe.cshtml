@@ -29,37 +29,38 @@
 				</div>
 			</div>
 		</section>
-		<div class="container">
-			<div class="row row-flex">
-				<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-					<div class="ps-section__header mb-50">
-						<h2 class="ps-section__title" data-mask="Liên hệ">LIÊN HỆ VỚI CHÚNG TÔI</h2>
-						<form id="fcontact" name="fcontact" class="pl-lg-2" action="">
-							<input type="hidden" name="_token" value="3ed2afb1b57a71c47a7b6c0dd399073b">
-							<input name="link" type="hidden" value="https://kingshoes.vn/lien-he.html" />
-							<div class="row mb-2">
-								<div class="col-12 mb-4">
-									<textarea class="form-control" name="fmessenger" id="fmessenger" placeholder="Nôi dung"></textarea>
-								</div>
-								<div class="col-md-12 mb-4">
-									<input name="fname" id="fname" class="form-control" type="text" placeholder="Tên bạn *" required>
-								</div>
-								<div class="col-md-6 mb-4">
-									<input class="form-control" type="email" name="femail" id="femail" placeholder="Email *" required data-msg-required="Chưa nhập email" data-rule-email="true" data-msg-email="" />
-								</div>
-								<div class="col-md-6 mb-4">
-									<input class="form-control" type="text" name="fphone" id="fphone" placeholder="Điện thoại *" required maxlength="12" minlength="10" data-msg-required="Chưa nhập số điện thoại" rangelength="[10,12]" data-msg-rangelength="Số điện thoại từ 10-12" data-rule-number="true" data-msg-number="Chỉ nhập số" onkeypress="inputNumberInt(this);" onkeyup="inputNumberInt(this);" onblur="inputNumberInt(this);" />
-								</div>
-							</div>
-							<div class="form-group">
-								<button type="submit" class="ps-btn">Gửi ngay<i class="ps-icon-next"></i></button>
-								<button type="reset" class="ps-btn">Nhập lại<i class="ps-icon-next"></i></button>
-							</div>
-						</form>
+		<div class="container d-flex justify-content-center align-items-center">
+			<div class="row justify-content-center w-100">
+				<div class="col-lg-6 col-md-8 col-sm-12">
+					<div class="ps-section__header text-center mb-4">
+						<h2 class="ps-section__title">LIÊN HỆ VỚI CHÚNG TÔI</h2>
 					</div>
+					<form id="fcontact" name="fcontact" action="" class="p-4 border rounded shadow-sm bg-light">
+						<input type="hidden" name="_token" value="3ed2afb1b57a71c47a7b6c0dd399073b">
+						<input name="link" type="hidden" value="https://kingshoes.vn/lien-he.html" />
+						<div class="mb-3">
+							<textarea class="form-control" name="fmessenger" id="fmessenger" placeholder="Nội dung" rows="4"></textarea>
+						</div>
+						<div class="mb-3">
+							<input name="fname" id="fname" class="form-control" type="text" placeholder="Tên bạn *" required>
+						</div>
+						<div class="row g-3">
+							<div class="col-md-6">
+								<input class="form-control" type="email" name="femail" id="femail" placeholder="Email *" required>
+							</div>
+							<div class="col-md-6">
+								<input class="form-control" type="text" name="fphone" id="fphone" placeholder="Điện thoại *" required maxlength="12" minlength="10">
+							</div>
+						</div>
+						<div class="mt-4 text-center">
+							<button type="submit" class="btn btn-primary me-2">Gửi ngay</button>
+							<button type="reset" class="btn btn-secondary">Nhập lại</button>
+						</div>
+					</form>
 				</div>
 			</div>
 		</div>
+
 	</div>
 </main>
 <!--end:body-->
