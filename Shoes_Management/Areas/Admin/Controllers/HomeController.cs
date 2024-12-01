@@ -15,5 +15,9 @@ namespace Shoes_Management.Areas.Admin.Controllers
 		{
 			return View();
 		}
+		public IActionResult Product_Page()
+		{
+			return View();
+		}
 	}
 }
