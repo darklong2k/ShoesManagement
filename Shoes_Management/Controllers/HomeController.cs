@@ -42,6 +42,16 @@ namespace Shoes_Management.Controllers
 			return View();
 		}
 
+		public IActionResult TrangGioHang()
+		{
+			return View();
+		}
+
+		public IActionResult TrangLienHe()
+		{
+			return View();
+		}
+
 		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
 		public IActionResult Error()
 		{
