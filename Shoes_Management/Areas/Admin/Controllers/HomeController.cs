@@ -9,5 +9,13 @@ namespace Shoes_Management.Areas.Admin.Controllers
 		{
 			return View();
 		}
+		public IActionResult Dashboard()
+		{
+			return View();
+		}
+		public IActionResult Statistics()
+		{ 
+			return View(); 
+		}
 	}
 }
