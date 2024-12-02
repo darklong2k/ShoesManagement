@@ -21,10 +21,11 @@ namespace Shoes_Management.Controllers
         {
             return View();
         }
-        public IActionResult ThongTInGiaoHang()
+        public IActionResult ThongTinGiaoHang()
         {
             return View();
         }
+        
         public IActionResult Privacy()
 		{
 			return View();

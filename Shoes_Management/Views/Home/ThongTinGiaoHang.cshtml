@@ -1,4 +1,4 @@
-﻿<div class="container my-4">
+﻿<div class="container my-4" style="max-width: 850px;">
     <ul class="breadcrumb">
         <li class="breadcrumb-item">
             <a href="gio-hang">Giỏ hàng</a>
@@ -15,39 +15,36 @@
     </div>
     <div>
         <form>
-            <!-- Họ và tên -->
-            <div class="mb-3">
-                <label for="billing_address_full_name" class="form-label">Họ và tên</label>
-                <input type="text" id="billing_address_full_name" name="billing_address_full_name" class="form-control text-capitalize" placeholder="Họ và tên" required>
+            <div class="row mb-3">
+                <!-- Họ và tên (7 phần) -->
+                <div class="col-md-9">
+                    <input type="text" id="billing_address_full_name" name="billing_address_full_name" class="form-control text-capitalize" placeholder="Họ và tên" required style="font-size: 14px; padding: 0.5rem;">
+                </div>
+                <!-- Số điện thoại (3 phần) -->
+                <div class="col-md-3">
+                    <input type="tel" id="billing_address_phone" name="billing_address_phone" class="form-control" placeholder="Số điện thoại" maxlength="12" minlength="10" required style="font-size: 14px; padding: 0.5rem;">
+                </div>
             </div>
-            <!-- Số điện thoại -->
-            <div class="mb-3">
-                <label for="billing_address_phone" class="form-label">Số điện thoại</label>
-                <input type="tel" id="billing_address_phone" name="billing_address_phone" class="form-control" placeholder="Số điện thoại" maxlength="12" minlength="10" required>
-            </div>
+
             <!-- Địa chỉ -->
             <div class="mb-3">
-                <label for="billing_address_address" class="form-label">Địa chỉ</label>
-                <input type="text" id="billing_address_address" name="billing_address_address" class="form-control text-capitalize" placeholder="Địa chỉ" required>
+                <input type="text" id="billing_address_address" name="billing_address_address" class="form-control text-capitalize" placeholder="Địa chỉ" required style="font-size: 14px; padding: 0.5rem;">
             </div>
-            <div class="row">
+            <div class="mb-3 row">
                 <div class="col-md-4">
-                    <label for="billing_shipping_province" class="form-label">Tỉnh/Thành</label>
-                    <select id="billing_shipping_province" name="billing_shipping_province" class="form-control" required>
+                    <select id="billing_shipping_province" name="billing_shipping_province" class="form-control" required style="font-size: 14px; padding: 0.5rem;">
                         <option value="" disabled selected>Chọn Tỉnh/Thành</option>
                         <option value="10">Bà Rịa Vũng Tàu</option>
                     </select>
                 </div>
                 <div class="col-md-4">
-                    <label for="billing_shipping_district" class="form-label">Quận/Huyện</label>
-                    <select id="billing_shipping_district" name="billing_shipping_district" class="form-control" required>
+                    <select id="billing_shipping_district" name="billing_shipping_district" class="form-control" required style="font-size: 14px; padding: 0.5rem;">
                         <option value="" disabled selected>Chọn Quận/Huyện</option>
                         <option value="3139">Thị xã Bà Rịa</option>
                     </select>
                 </div>
                 <div class="col-md-4">
-                    <label for="billing_shipping_ward" class="form-label">Phường/Xã</label>
-                    <select id="billing_shipping_ward" name="billing_shipping_ward" class="form-control" required>
+                    <select id="billing_shipping_ward" name="billing_shipping_ward" class="form-control" required style="font-size: 14px; padding: 0.5rem;">
                         <option value="" disabled selected>Chọn Phường/Xã</option>
                         <option value="22053">Xã Hòa Long</option>
                     </select>
@@ -56,16 +53,19 @@
 
             <!-- Email -->
             <div class="mb-3">
-                <label for="billing_email" class="form-label">Email</label>
-                <input type="email" id="billing_email" name="billing_email" class="form-control text-lowercase" placeholder="example@domain.com" required>
+                <input type="email" id="billing_email" name="billing_email" class="form-control" placeholder="Email: example@domain.com" required style="font-size: 14px; padding: 0.5rem;">
+            </div>
+            <!-- Nội dung -->
+            <div class="mb-3">
+                <textarea id="billing_note" name="billing_note" class="form-control" placeholder="Nội dung" style="font-size: 14px; padding: 0.5rem;"></textarea>
             </div>
             <div class="d-flex justify-content-between mt-4">
                 <!-- Nút quay lại giỏ hàng -->
-                <a href="gio-hang" class="btn btn-outline-secondary">
+                <a href="gio-hang" class="btn btn-outline-secondary" style="font-size: 14px;">
                     <i class="fas fa-arrow-left"></i> Quay lại giỏ hàng
                 </a>
                 <!-- Nút tiếp tục đến phương thức thanh toán -->
-                <a href="phuong-thuc-thanh-toan" class="btn btn-primary">
+                <a href="phuong-thuc-thanh-toan" class="btn btn-primary" style="font-size: 14px;">
                     Tiếp tục đến phương thức thanh toán <i class="fas fa-arrow-right"></i>
                 </a>
             </div>
