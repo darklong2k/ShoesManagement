@@ -17,7 +17,11 @@ namespace Shoes_Management.Controllers
 		{
 			return View();
 		}
-        public IActionResult CompleteTheOrderPage()
+        public IActionResult HoanThanhDonHang()
+        {
+            return View();
+        }
+        public IActionResult ThongTInGiaoHang()
         {
             return View();
         }
