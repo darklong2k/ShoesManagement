@@ -1,0 +1,72 @@
+﻿
+    <div class="container mt-3">
+        <h2>Quản lý đánh giá</h2>
+        <!-- Tabs Navigation -->
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="table1-tab" data-bs-toggle="tab" data-bs-target="#table1" type="button" role="tab" aria-controls="table1" aria-selected="true">
+                    Đánh giá đã duyệt
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="table2-tab" data-bs-toggle="tab" data-bs-target="#table2" type="button" role="tab" aria-controls="table2" aria-selected="false">
+                    Đánh giá chưa duyệt
+                </button>
+            </li>
+        </ul>
+
+        <!-- Tab Content -->
+        <div class="tab-content mt-3" id="myTabContent">
+            <!-- Tab 1 -->
+            <div class="tab-pane fade show active" id="table1" role="tabpanel" aria-labelledby="table1-tab">
+                <h4>Table 1</h4>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Age</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>John Doe</td>
+                            <td>30</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Jane Doe</td>
+                            <td>25</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Tab 2 -->
+            <div class="tab-pane fade" id="table2" role="tabpanel" aria-labelledby="table2-tab">
+                <h4>Table 2</h4>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Product</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Product A</td>
+                            <td>$100</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Product B</td>
+                            <td>$150</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
