@@ -33,5 +33,18 @@ namespace Shoes_Management.Areas.Admin.Controllers
 		{
 			return View();
 		}
+		public IActionResult Edit_Product_Page()
+		{
+			return View();
+		}
+		public IActionResult Details_Product_Page()
+		{
+
+			return View();
+		}
+		public IActionResult NhapHang_Page()
+		{
+			return View();
+		}
 	}
 }

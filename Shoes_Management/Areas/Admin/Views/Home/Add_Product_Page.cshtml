@@ -1,1 +1,179 @@
-﻿
+﻿ 
+<div  class="container mt-5">
+    <h2 class="mb-3">Them san pham</h2>
+
+    <div class="container">
+        <form id="productForm">
+            <!-- Tên sản phẩm -->
+            <div class="form-group">
+                <label for="productName">Tên sản phẩm</label>
+                <input type="text" class="form-control" id="productName" name="productName" placeholder="Nhập tên sản phẩm" required />
+            </div>
+
+            <!-- Slug -->
+            <div class="form-group mt-3">
+                <label for="productSlug">Slug</label>
+                <input type="text" class="form-control" id="productSlug" name="productSlug" placeholder="" readonly />
+            </div>
+
+            <!-- Giá tiền -->
+            <div class="form-group mt-3">
+                <label for="productPrice">Giá tiền</label>
+                <input type="number" class="form-control" id="productPrice" name="productPrice" placeholder="Nhập giá tiền" required />
+            </div>
+
+            <!-- Mô tả -->
+            <div class="form-group mt-3">
+                <label for="productDescription">Mô tả</label>
+                <textarea class="form-control" id="productDescription" name="productDescription" rows="3" placeholder="Nhập mô tả"></textarea>
+            </div>
+
+            <!-- Hình ảnh -->
+            <div class="form-group mt-3">
+                <label for="productImage">Hình ảnh</label>
+                <input type="file" class="form-control" id="productImage" name="productImage" />
+            </div>
+
+            <!-- Combobox Nhà cung cấp -->
+            <div class="form-group mt-3">
+                <label for="supplier">Nhà cung cấp</label>
+                <div class="input-group">
+                    <select class="form-control" id="supplier" name="supplier">
+                        <option value="">Chọn nhà cung cấp</option>
+                        <option value="1">Nhà cung cấp 1</option>
+                        <option value="2">Nhà cung cấp 2</option>
+                    </select>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSupplierModal">
+                        Thêm nhà cung cấp
+                    </button>
+                </div>
+            </div>
+
+            <!-- Combobox Thương hiệu -->
+            <div class="form-group mt-3">
+                <label for="brand">Thương hiệu</label>
+                <div class="input-group">
+                    <select class="form-control" id="brand" name="brand">
+                        <option value="">Chọn thương hiệu</option>
+                        <option value="1">Thương hiệu 1</option>
+                        <option value="2">Thương hiệu 2</option>
+                    </select>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addBrandModal">
+                        Thêm thương hiệu
+                    </button>
+                </div>
+            </div>
+
+            <!-- Combobox Danh mục -->
+            <div class="form-group mt-3">
+                <label for="category">Danh mục</label>
+                <div class="input-group">
+                    <select class="form-control" id="category" name="category">
+                        <option value="">Chọn danh mục</option>
+                        <option value="1">Danh mục 1</option>
+                        <option value="2">Danh mục 2</option>
+                    </select>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCategoryModal">
+                        Thêm danh mục
+                    </button>
+                </div>
+            </div>
+
+            <!-- Nút lưu -->
+            <button type="submit" class="btn btn-success mt-4">Lưu sản phẩm</button>
+        </form>
+    </div>
+</div>
+<!-- Modal Thêm Nhà Cung Cấp -->
+<div class="modal fade" id="addSupplierModal" tabindex="-1" aria-labelledby="addSupplierModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addSupplierModalLabel">Thêm Nhà Cung Cấp</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="newSupplier">Tên Nhà Cung Cấp</label>
+                    <input type="text" class="form-control" id="newSupplier" placeholder="Nhập tên nhà cung cấp" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary">Lưu</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Thêm Thương Hiệu -->
+<div class="modal fade" id="addBrandModal" tabindex="-1" aria-labelledby="addBrandModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addBrandModalLabel">Thêm Thương Hiệu</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="newBrand">Tên Thương Hiệu</label>
+                    <input type="text" class="form-control" id="newBrand" placeholder="Nhập tên thương hiệu" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary">Lưu</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Thêm Danh Mục -->
+<div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addCategoryModalLabel">Thêm Danh Mục</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="newCategory">Tên Danh Mục</label>
+                    <input type="text" class="form-control" id="newCategory" placeholder="Nhập tên danh mục" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary">Lưu</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        // Tự động thay đổi slug khi tên sản phẩm thay đổi
+        function createSlug(str) {
+            // Đổi dấu thành chữ cái không dấu và thay thế ký tự đặc biệt bằng '-'
+            var slug = str.toLowerCase();
+            slug = slug.replace(/[àáạảãâầấậẩẫăằắặẳẵ]/g, 'a');
+            slug = slug.replace(/[èéẹẻẽêềếệểễ]/g, 'e');
+            slug = slug.replace(/[ìíịỉĩ]/g, 'i');
+            slug = slug.replace(/[òóọỏõôồốộổỗơờớợởỡ]/g, 'o');
+            slug = slug.replace(/[ùúụủũưừứựửữ]/g, 'u');
+            slug = slug.replace(/[ỳýỵỷỹ]/g, 'y');
+            slug = slug.replace(/[đ]/g, 'd');
+            slug = slug.replace(/[^a-z0-9-]/g, '-'); // Thay thế các ký tự không phải chữ cái hoặc số thành '-'
+            slug = slug.replace(/--+/g, '-'); // Loại bỏ dấu gạch nối thừa
+            slug = slug.replace(/^-+/, ''); // Loại bỏ dấu gạch nối ở đầu
+            slug = slug.replace(/-+$/, ''); // Loại bỏ dấu gạch nối ở cuối
+            return slug;
+        }
+
+        // Tự động thay đổi slug khi tên sản phẩm thay đổi
+        document.getElementById('productName').addEventListener('input', function () {
+            var name = this.value;
+            var slug = createSlug(name);  // Sử dụng hàm createSlug để tạo slug từ tên sản phẩm
+            document.getElementById('productSlug').value = slug;
+        });
+    </script>
+}

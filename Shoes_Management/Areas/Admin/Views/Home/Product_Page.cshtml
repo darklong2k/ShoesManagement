@@ -1,13 +1,22 @@
-﻿<div class="container mt-5">
+﻿<div class="container mt-3">
     <h2 class="mb-4">Quản Lý Sản Phẩm</h2>
 
-    <!-- Nút Thêm Sản Phẩm -->
-    <div class="text-right mb-3">
+    <!-- Nút Thêm Sản Phẩm và Nhập Hàng -->
+    <div class="d-flex justify-content-between mb-3">
         <button class="btn btn-primary" data-toggle="modal" data-target="#addProductModal">
             <i class="fas fa-plus"></i> Thêm Sản Phẩm
         </button>
+        <a href="nhap-hang.html" class="btn btn-success">
+            <i class="fas fa-truck"></i> Nhập Hàng
+        </a>
     </div>
-
+    <!-- Ô Tìm Kiếm -->
+    <div class="mb-3">
+        <input type="text"
+               id="searchInput"
+               class="form-control"
+               placeholder="Tìm kiếm sản phẩm..." />
+    </div>
     <!-- Bảng Sản Phẩm -->
     <div class="card shadow-sm">
         <div class="card-body">
@@ -29,11 +38,14 @@
                         <td>100.000</td>
                         <td>50</td>
                         <td>
-                            <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editProductModal">
+                            <button class="btn btn-warning btn-sm">
                                 <i class="fas fa-edit"></i> Sửa
                             </button>
                             <button class="btn btn-danger btn-sm">
                                 <i class="fas fa-trash"></i> Xóa
+                            </button>
+                            <button class="btn btn-info btn-sm" >
+                                <i class="fas fa-info-circle"></i> Chi Tiết
                             </button>
                         </td>
                     </tr>
