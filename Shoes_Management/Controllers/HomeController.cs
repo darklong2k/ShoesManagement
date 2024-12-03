@@ -17,7 +17,67 @@ namespace Shoes_Management.Controllers
 		{
 			return View();
 		}
-		public IActionResult Privacy()
+        public IActionResult HoanThanhDonHang()
+        {
+            return View();
+        }
+        public IActionResult ThongTinGiaoHang()
+        {
+            return View();
+        }
+        public IActionResult DangNhapOrDangKi()
+        {
+            return View();
+        }
+        public IActionResult HoSoCaNhan()
+        {
+            return View();
+        }
+        public IActionResult QuenMatKhau()
+        {
+            return View();
+        }
+        public IActionResult DonHang()
+        {
+            return View();
+        }
+        public IActionResult SanPhamYeuThich()
+        {
+            return View();
+        }
+
+
+        public IActionResult Privacy()
+		{
+			return View();
+		}
+
+		public IActionResult TrangChu()
+		{
+			return View();
+		}
+
+		public IActionResult TrangTimKiem()
+		{
+			return View();
+		}
+
+		public IActionResult TrangGioiThieu()
+		{
+			return View();
+		}
+
+		public IActionResult TrangChiTietSP()
+		{
+			return View();
+		}
+
+		public IActionResult TrangGioHang()
+		{
+			return View();
+		}
+
+		public IActionResult TrangLienHe()
 		{
 			return View();
 		}
