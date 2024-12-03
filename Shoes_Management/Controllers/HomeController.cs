@@ -29,6 +29,23 @@ namespace Shoes_Management.Controllers
         {
             return View();
         }
+        public IActionResult HoSoCaNhan()
+        {
+            return View();
+        }
+        public IActionResult QuenMatKhau()
+        {
+            return View();
+        }
+        public IActionResult DonHang()
+        {
+            return View();
+        }
+        public IActionResult SanPhamYeuThich()
+        {
+            return View();
+        }
+
 
         public IActionResult Privacy()
 		{
