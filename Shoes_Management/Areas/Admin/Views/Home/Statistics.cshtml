@@ -1,1 +1,114 @@
-﻿<h1>hello</h1>
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <!-- Flatpickr CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container my-4">
+        <div class="row">
+            <div class="col-lg-12">
+                <h3 class="mb-4">Thống kê</h3>
+                <!-- Flatpickr Date Picker -->
+                <div class="row mt-3">
+                    <div class="col-lg-12">
+                        <input id="datePicker" class="form-control w-25 mb-3" placeholder="Chọn tháng và năm" readonly />
+                    </div>
+                </div>
+                <!-- Buttons to switch between charts -->
+                <div class="d-flex mb-4">
+                    <button class="btn btn-success me-2" id="btnDoanhThu">Doanh thu</button>
+                    <button class="btn btn-warning me-2" id="btnLuotMua">Lượt mua</button>
+                </div>
+                <!-- Chart Container -->
+                <canvas id="mainChart" style="height: 200px;"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Flatpickr JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <!-- Chart.js Script -->
+    <script>
+        // Khởi tạo Flatpickr
+        flatpickr("#datePicker", {
+            dateFormat: "Y-m", // Chỉ hiển thị năm và tháng
+            defaultDate: "today",
+            onChange: function (selectedDates, dateStr) {
+                const [year, month] = dateStr.split("-");
+                console.log("Tháng:", month, "Năm:", year);
+                // Gọi API hoặc cập nhật dữ liệu biểu đồ theo tháng và năm
+            }
+        });
+
+        const ctx = document.getElementById('mainChart').getContext('2d');
+        let chartInstance;
+
+        // Data for different charts
+        const dataDoanhThu = {
+            labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
+            datasets: [{
+                label: 'Doanh thu (VND)',
+                data: [120000000, 150000000,100000000,130000000,150000000,90000000,170000000, 180000000, 220000000, 300000000,200000000, 240000000],
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                tension: 0.3,
+                fill: true
+            }]
+        };
+
+        const dataLuotMua = {
+            labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
+            datasets: [{
+                label: 'Lượt mua',
+                data: [100,350,200,150,400,350,300, 350, 300, 150, 400, 550],
+                borderColor: 'rgba(255, 159, 64, 1)',
+                backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                tension: 0.3,
+                fill: true
+            }]
+        };
+
+        // Function to create chart
+        function createChart(data) {
+            if (chartInstance) {
+                chartInstance.destroy(); // Destroy existing chart before creating a new one
+            }
+            chartInstance = new Chart(ctx, {
+                type: 'line', // Chart type
+                data: data,
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        // Event listeners for buttons
+        document.getElementById('btnDoanhThu').addEventListener('click', () => createChart(dataDoanhThu));
+        document.getElementById('btnLuotMua').addEventListener('click', () => createChart(dataLuotMua));
+
+        // Initialize with the first chart (Doanh Thu)
+        createChart(dataDoanhThu);
+    </script>
+</body>
+</html>
