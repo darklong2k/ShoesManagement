@@ -1,113 +1,33 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-</head>
-<body>
+﻿<div>
+
+
     <div class="d-flex">
-        <!-- Sidebar -->
-        <nav class="sidebar bg-light">
-            <div class="p-3">
-                <div class="text-center mb-3">
-                    <img src="../assets/img/logo-small.png" alt="Logo" class="img-fluid">
-                    <h5>Creative Tim</h5>
-                </div>
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="./dashboard.html">
-                            <i class="fas fa-tachometer-alt"></i> Dashboard
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./icons.html">
-                            <i class="fas fa-gem"></i> Icons
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./map.html">
-                            <i class="fas fa-map-marked-alt"></i> Maps
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./notifications.html">
-                            <i class="fas fa-bell"></i> Notifications
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./user.html">
-                            <i class="fas fa-user"></i> User Profile
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./tables.html">
-                            <i class="fas fa-table"></i> Table List
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./typography.html">
-                            <i class="fas fa-font"></i> Typography
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-danger" href="./upgrade.html">
-                            <i class="fas fa-rocket"></i> Upgrade to PRO
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
         <!-- Main Panel -->
         <div class="main-panel flex-grow-1">
-            <!-- Navbar -->
-            <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="#">Paper Dashboard 2</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <form class="d-flex ms-auto">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-secondary" type="submit"><i class="fas fa-search"></i></button>
-                        </form>
-                        <ul class="navbar-nav ms-3">
-                            <li class="nav-item">
-                                <a class="nav-link" href="#"><i class="fas fa-chart-line"></i></a>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fas fa-bell"></i>
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                </ul>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#"><i class="fas fa-cog"></i></a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-            <!-- End Navbar -->
             <div class="content container my-4">
                 <div class="row">
                     <div class="col-lg-3 col-md-6">
                         <div class="card">
                             <div class="card-body d-flex">
                                 <div class="flex-shrink-0">
-                                    <i class="fas fa-globe text-warning fs-1"></i>
+                                    <i class="fas fa-chart-line text-success fs-1"></i>
                                 </div>
                                 <div class="ms-3">
-                                    <p class="mb-1 text-muted">Capacity</p>
-                                    <h5>150GB</h5>
+                                    <p class="mb-1 text-muted">Doanh Thu</p>
+                                    <h5>350,000,000 VND</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-7">
+                        <div class="card">
+                            <div class="card-body d-flex">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-shopping-cart text-warning fs-1"></i>
+                                </div>
+                                <div class="ms-3">
+                                    <p class="mb-1 text-muted">Lượt mua</p>
+                                    <h5>350</h5>
                                 </div>
                             </div>
                         </div>
@@ -116,25 +36,81 @@
                         <div class="card">
                             <div class="card-body d-flex">
                                 <div class="flex-shrink-0">
-                                    <i class="fas fa-coins text-success fs-1"></i>
+                                    <i class=" fas fa-users text-primary fs-1"></i>
                                 </div>
                                 <div class="ms-3">
-                                    <p class="mb-1 text-muted">Revenue</p>
-                                    <h5>$1,345</h5>
+                                    <p class="mb-1 text-muted">Lượt truy cập</p>
+                                    <h5>345</h5>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- Add more cards as needed -->
                 </div>
+                <!-- Lựa chọn mốc thời gian -->
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <select id="timeRange" class="form-select w-25">
+                            <option value="3">3 tháng</option>
+                            <option value="6" selected>6 tháng</option>
+                            <option value="9">9 tháng</option>
+                            <option value="12">12 tháng</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- Biểu đồ -->
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Thống kê doanh thu</h5>
+                                <canvas id="revenueChart" style="height: 300px;"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
-    <!-- Footer -->
-    <footer class="bg-dark text-white text-center py-3">
-        <p>© 2024 Creative Tim, made with <i class="fas fa-heart text-danger"></i></p>
-    </footer>
-    <!-- Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+</div>
+@section Scripts{
+    <!-- Chart.js Script -->
+    <script>
+        const ctx = document.getElementById('revenueChart').getContext('2d');
+        const revenueChart = new Chart(ctx, {
+            type: 'bar', // Kiểu biểu đồ: bar (biểu đồ thanh)
+            data: {
+                labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6'], // Các nhãn
+                datasets: [{
+                    label: 'Doanh thu (VND)',
+                    data: [12000000, 15000000, 18000000, 22000000, 20000000, 24000000], // Dữ liệu
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 0.2)', // Màu nền
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(255, 99, 132, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(75, 192, 192, 1)', // Màu viền
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(255, 99, 132, 1)'
+                    ],
+                    borderWidth: 1 // Độ dày viền
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true // Trục Y bắt đầu từ 0
+                    }
+                }
+            }
+        });
+    </script>
+}
+    

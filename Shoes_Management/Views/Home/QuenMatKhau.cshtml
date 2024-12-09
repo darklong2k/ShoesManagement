@@ -1,0 +1,33 @@
+﻿<div class="container my-5">
+    <!-- Header -->
+    <div class="text-center mb-4">
+        <h1 class="h4">Đổi mật khẩu</h1>
+        <p class="text-muted">Để bảo mật tài khoản, vui lòng không chia sẻ mật khẩu cho người khác</p>
+    </div>
+
+    <!-- Form -->
+    <form action="/change-password" method="post">
+        <!-- Mật khẩu hiện tại -->
+        <div class="mb-3">
+            <label for="PasswordOld" class="form-label">Mật khẩu hiện tại</label>
+            <input type="password" id="PasswordOld" name="PasswordOld" class="form-control" placeholder="Nhập mật khẩu hiện tại" required />
+        </div>
+
+        <!-- Mật khẩu mới -->
+        <div class="mb-3">
+            <label for="PasswordNew" class="form-label">Mật khẩu mới</label>
+            <input type="password" id="PasswordNew" name="PasswordNew" class="form-control" placeholder="Nhập mật khẩu mới" required>
+        </div>
+
+        <!-- Xác nhận mật khẩu -->
+        <div class="mb-3">
+            <label for="PasswordNewConfirm" class="form-label">Xác nhận mật khẩu</label>
+            <input type="password" id="PasswordNewConfirm" name="PasswordNewConfirm" class="form-control" placeholder="Nhập lại mật khẩu mới" required>
+        </div>
+
+        <!-- Nút xác nhận -->
+        <div class="text-end">
+            <button type="submit" class="btn btn-primary">Xác nhận</button>
+        </div>
+    </form>
+</div>
