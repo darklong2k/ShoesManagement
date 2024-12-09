@@ -1,1 +1,289 @@
-﻿
+﻿<div class="mt-3 m-lg-3">
+    <h1>Quản lý danh mục sản phẩm</h1>
+
+    <!-- Nút thêm danh mục -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalThemNCC">
+        Thêm nhà cung cấp
+    </button>
+
+    <!-- Popup cho thêm danh mục -->
+    <div class="modal fade " id="modalThemNCC" tabindex="-1" aria-labelledby="modalThemNCC" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <form class="row g-3">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalThemNCC">Thêm nhà cung cấp</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col">
+                                <label for="supplier_name" class="form-label">Tên nhà cung cấp</label>
+                                <input type="text" class="form-control" id="supplier_name" name="supplier_name" placeholder="Nhập tên nhà cung cấp" required />
+                            </div>
+
+                            <div class="col">
+                                <label for="contact_name" class="form-label">Tên người liên hệ</label>
+                                <input type="text" class="form-control" id="contact_name" name="contact_name" placeholder="Nhập tên người liên hệ" required />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <label for="contact_email" class="form-label">Email người liên hệ</label>
+                                <input type="text" class="form-control" id="contact_email" name="contact_email" placeholder="Nhập email người liên hệ" required />
+                            </div>
+
+                            <div class="col">
+                                <label for="phone" class="form-label">SĐT</label>
+                                <input type="text" class="form-control" id="phone" name="phone" placeholder="Nhập sđt người liên hệ" required />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <label for="inputCity" class="form-label">Tỉnh/Thành</label>
+                                <select class="form-select inputCity">
+                                    <option>Chọn</option>
+                                </select>
+                            </div>
+
+                            <div class="col">
+                                <label for="inputDistrict" class="form-label">Quận/Huyện</label>
+                                <select class="form-select inputDistrict">
+                                    <option>Chọn</option>
+                                </select>
+                            </div>
+
+                            <div class="col">
+                                <label for="inputWard" class="form-label">Phường/Xã</label>
+                                <select class="form-select inputWard">
+                                    <option>Chọn</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <label for="address" class="form-label">Địa chỉ</label>
+                                <input type="text" class="form-control" id="address" name="address" placeholder="Nhập địa chỉ người liên hệ" required />
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                            <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="input-group rounded">
+        <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+        <span class="input-group-text border-0" id="search-addon">
+            <i class="fas fa-search" style="cursor: pointer"></i>
+        </span>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Supplier ID</th>
+                <th>Supplier Name</th>
+                <th>Contact Name</th>
+                <th>Contact Email</th>
+                <th>Phone</th>
+                <th>Address</th>
+                <th>Functions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Nike ultra boost</td>
+                <td>Nike</td>
+                <td>Nike@gmail.com</td>
+                <td>+84123456789</td>
+                <td>HCM</td>
+                <td>
+                    <!-- Nút chỉnh sửa nhà cung cấp -->
+                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalChinhSuaNCC">
+                        Chỉnh sửa
+                    </button>
+
+                    <!-- Popup cho chỉnh sửa nhà cung cấpc -->
+                    <div class="modal fade" id="modalChinhSuaNCC" tabindex="-1" aria-labelledby="modalChinhSuaNCC" aria-hidden="true">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+
+                                    <div class="row">
+                                        <div class="col">
+                                            <label for="supplier_id" class="form-label">Mã nhà cung cấp</label>
+                                            <input readonly
+                                                   type="text"
+                                                   class="form-control"
+                                                   id="supplier_id"
+                                                   name="supplier_id"
+                                                   value="12345" />
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col">
+                                            <label for="supplier_name" class="form-label">Tên nhà cung cấp</label>
+                                            <input type="text" class="form-control" id="supplier_name" name="supplier_name" placeholder="Nhập tên nhà cung cấp" required />
+                                        </div>
+
+                                        <div class="col">
+                                            <label for="contact_name" class="form-label">Tên người liên hệ</label>
+                                            <input type="text" class="form-control" id="contact_name" name="contact_name" placeholder="Nhập tên người liên hệ" required />
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col">
+                                            <label for="contact_email" class="form-label">Email người liên hệ</label>
+                                            <input type="text" class="form-control" id="contact_email" name="contact_email" placeholder="Nhập email người liên hệ" required />
+                                        </div>
+
+                                        <div class="col">
+                                            <label for="phone" class="form-label">SĐT</label>
+                                            <input type="text" class="form-control" id="phone" name="phone" placeholder="Nhập sđt người liên hệ" required />
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col">
+                                            <label for="inputCity" class="form-label">Tỉnh/Thành</label>
+                                            <select name="" class="form-select inputCity">
+                                                <option>Chọn</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col">
+                                            <label for="inputDistrict" class="form-label">Quận/Huyện</label>
+                                            <select class="form-select inputDistrict">
+                                                <option>Chọn</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col">
+                                            <label for="inputWard" class="form-label">Phường/Xã</label>
+                                            <select class="form-select inputWard">
+                                                <option>Chọn</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col">
+                                            <label for="status" class="form-label">Trạng thái</label>
+                                            <select class="form-control" id="status" name="status">
+                                                <option value="available" selected>Available</option>
+                                                <option value="out_of_stock">Unavailable</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                        <button type="button" class="btn btn-primary">Lưu thay đổi</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-danger">
+                        Xóa
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"></script>
+<script>
+    $(document).ready(function () {
+        const $inputCity = $(".inputCity");
+        const $inputDistrict = $(".inputDistrict");
+        const $inputWard = $(".inputWard");
+
+        const getProvince = async () => {
+            const url = "https://provinces.open-api.vn/api";
+            const response = await fetch(url);
+            return await response.json();
+        };
+
+        const getDistrict = async () => {
+            const url = "https://provinces.open-api.vn/api/d/";
+            const response = await fetch(url);
+            return await response.json();
+        };
+
+        const getWard = async () => {
+            const url = "https://provinces.open-api.vn/api/w/";
+            const response = await fetch(url);
+            return await response.json();
+        };
+
+        const loadInputCity = async () => {
+            const provinces = await getProvince();
+            provinces.forEach((province) => {
+                $inputCity.append(
+                    $("<option>")
+                        .val(province.code)
+                        .text(province.name)
+                );
+            });
+        };
+
+        $inputCity.on("change", async function () {
+            const districts = await getDistrict();
+            $inputDistrict.html("<option value=''>Chọn</option>");
+            const selectedValue = $(this).val();
+
+            districts.forEach((district) => {
+                if (parseInt(district.province_code) === parseInt(selectedValue)) {
+                    $inputDistrict.append(
+                        $("<option>")
+                            .val(district.code)
+                            .text(district.name)
+                    );
+                }
+            });
+        });
+
+        $inputDistrict.on("change", async function () {
+            const wards = await getWard();
+            $inputWard.html("<option value=''>Chọn</option>");
+            const selectedValue = $(this).val();
+
+            wards.forEach((ward) => {
+                if (parseInt(ward.district_code) === parseInt(selectedValue)) {
+                    $inputWard.append(
+                        $("<option>")
+                            .val(ward.code)
+                            .text(ward.name)
+                    );
+                }
+            });
+        });
+
+        loadInputCity();
+    });
+
+</script>
