@@ -1,73 +1,153 @@
-﻿
-    <div class="container mt-3">
-        <h2>Quản lý đánh giá</h2>
-        <!-- Tabs Navigation -->
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="table1-tab" data-bs-toggle="tab" data-bs-target="#table1" type="button" role="tab" aria-controls="table1" aria-selected="true">
-                    Đánh giá đã duyệt
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="table2-tab" data-bs-toggle="tab" data-bs-target="#table2" type="button" role="tab" aria-controls="table2" aria-selected="false">
-                    Đánh giá chưa duyệt
-                </button>
-            </li>
-        </ul>
+﻿<div class="container mt-3">
+    <h2>Quản lý đánh giá</h2>
 
-        <!-- Tab Content -->
-        <div class="tab-content mt-3" id="myTabContent">
-            <!-- Tab 1 -->
-            <div class="tab-pane fade show active" id="table1" role="tabpanel" aria-labelledby="table1-tab">
-                <h4>Table 1</h4>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Name</th>
-                            <th>Age</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>John Doe</td>
-                            <td>30</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Jane Doe</td>
-                            <td>25</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+    <!-- Tabs Navigation -->
+    <ul class="nav nav-tabs" id="reviewTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="approved-tab" data-bs-toggle="tab" data-bs-target="#approvedReviews" type="button" role="tab" aria-controls="approvedReviews" aria-selected="true">
+                Đánh giá đã duyệt
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="pending-tab" data-bs-toggle="tab" data-bs-target="#pendingReviews" type="button" role="tab" aria-controls="pendingReviews" aria-selected="false">
+                Đánh giá chưa duyệt
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="rejected-tab" data-bs-toggle="tab" data-bs-target="#rejectedReviews" type="button" role="tab" aria-controls="rejectedReviews" aria-selected="false">
+                Đánh giá đã từ chối
+            </button>
+        </li>
+    </ul>
 
-            <!-- Tab 2 -->
-            <div class="tab-pane fade" id="table2" role="tabpanel" aria-labelledby="table2-tab">
-                <h4>Table 2</h4>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Product</th>
-                            <th>Price</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Product A</td>
-                            <td>$100</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Product B</td>
-                            <td>$150</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+    <!-- Tab Content -->
+    <div class="tab-content mt-3" id="reviewTabsContent">
+        <!-- Tab: Đánh giá đã duyệt -->
+        <div class="tab-pane fade show active" id="approvedReviews" role="tabpanel" aria-labelledby="approved-tab">
+            <h4>Đánh giá đã duyệt</h4>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Khách Hàng</th>
+                        <th>Chi Tiết Sản Phẩm</th>
+                        <th>Rating</th>
+                        <th>Comment</th>
+                        <th>Trạng Thái</th>
+                    </tr>
+                </thead>
+                <tbody id="approvedReviewsTable">
+                    <!-- Dynamic Content Here -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Tab: Đánh giá chưa duyệt -->
+        <div class="tab-pane fade" id="pendingReviews" role="tabpanel" aria-labelledby="pending-tab">
+            <h4>Đánh giá chưa duyệt</h4>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Khách Hàng</th>
+                        <th>Chi Tiết Sản Phẩm</th>
+                        <th>Rating</th>
+                        <th>Comment</th>
+                        <th>Trạng Thái</th>
+                        <th>Thao Tác</th>
+                    </tr>
+                </thead>
+                <tbody id="pendingReviewsTable">
+                    <!-- Dynamic Content Here -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Tab: Đánh giá đã từ chối -->
+        <div class="tab-pane fade" id="rejectedReviews" role="tabpanel" aria-labelledby="rejected-tab">
+            <h4>Đánh giá đã từ chối</h4>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Khách Hàng</th>
+                        <th>Chi Tiết Sản Phẩm</th>
+                        <th>Rating</th>
+                        <th>Comment</th>
+                        <th>Trạng Thái</th>
+                    </tr>
+                </thead>
+                <tbody id="rejectedReviewsTable">
+                    <!-- Dynamic Content Here -->
+                </tbody>
+            </table>
         </div>
     </div>
-    long vui ve
+</div>
+
+<script>
+    // Mock dữ liệu (thay bằng dữ liệu thật từ backend)
+    const reviews = [
+        { id: 1, customer: "Nguyễn Văn A", product: "Giày Da - Đen - Size 43", rating: 5, comment: "Rất tốt!", status: "approved" },
+        { id: 2, customer: "Trần Thị B", product: "Giày Thể Thao - Xanh - Size 40", rating: 4, comment: "Ổn", status: "pending" },
+        { id: 3, customer: "Lê Văn C", product: "Giày Tây - Nâu - Size 42", rating: 2, comment: "Không ưng ý", status: "rejected" },
+    ];
+
+    // Render bảng đánh giá theo trạng thái
+    function renderReviews() {
+        const approvedTable = document.getElementById("approvedReviewsTable");
+        const pendingTable = document.getElementById("pendingReviewsTable");
+        const rejectedTable = document.getElementById("rejectedReviewsTable");
+
+        approvedTable.innerHTML = "";
+        pendingTable.innerHTML = "";
+        rejectedTable.innerHTML = "";
+
+        reviews.forEach((review, index) => {
+            const row = `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${review.customer}</td>
+                    <td>${review.product}</td>
+                    <td>${review.rating}</td>
+                    <td>${review.comment}</td>
+                    <td>${review.status === "approved" ? "Đã duyệt" : review.status === "rejected" ? "Đã từ chối" : "Chưa duyệt"}</td>
+                    ${
+                        review.status === "pending"
+                            ? `<td>
+                                <button class="btn btn-success btn-sm" onclick="handleApprove(${review.id})">Duyệt</button>
+                                <button class="btn btn-danger btn-sm" onclick="handleReject(${review.id})">Từ chối</button>
+                              </td>`
+                            : ""
+                    }
+                </tr>
+            `;
+            if (review.status === "approved") approvedTable.innerHTML += row;
+            if (review.status === "pending") pendingTable.innerHTML += row;
+            if (review.status === "rejected") rejectedTable.innerHTML += row;
+        });
+    }
+
+    // Xác nhận duyệt đánh giá
+    function handleApprove(id) {
+        if (confirm("Bạn có chắc chắn muốn duyệt đánh giá này không?")) {
+            const review = reviews.find((r) => r.id === id);
+            review.status = "approved";
+            renderReviews();
+            alert("Đánh giá đã được duyệt!");
+        }
+    }
+
+    // Xác nhận từ chối đánh giá
+    function handleReject(id) {
+        if (confirm("Bạn có chắc chắn muốn từ chối đánh giá này không?")) {
+            const review = reviews.find((r) => r.id === id);
+            review.status = "rejected";
+            renderReviews();
+            alert("Đánh giá đã bị từ chối!");
+        }
+    }
+
+    // Khởi tạo
+    renderReviews();
+</script>

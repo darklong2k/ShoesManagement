@@ -23,6 +23,7 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <!-- Dữ liệu bảng sẽ được tự động cập nhật từ backend -->
                     <tr>
                         <td>1</td>
                         <td>Trắng</td>
@@ -32,7 +33,7 @@
                             <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editVariantModal">
                                 <i class="fas fa-edit"></i> Sửa
                             </button>
-                            <button class="btn btn-danger btn-sm">
+                            <button class="btn btn-danger btn-sm" onclick="confirmDelete(this)">
                                 <i class="fas fa-trash"></i> Xóa
                             </button>
                         </td>
@@ -55,18 +56,36 @@
             </div>
             <div class="modal-body">
                 <form id="addVariantForm">
+                    <!-- Chọn Màu Sắc -->
                     <div class="form-group">
                         <label for="variantColor">Màu Sắc</label>
-                        <input type="text" class="form-control" id="variantColor" required>
+                        <select class="form-control" id="variantColor" required>
+                            <option value="">Chọn Màu</option>
+                            <!-- Dữ liệu sẽ được đổ từ backend vào đây -->
+                            <option value="Trắng">Trắng</option>
+                            <option value="Đen">Đen</option>
+                            <option value="Xanh">Xanh</option>
+                        </select>
                     </div>
+
+                    <!-- Chọn Size -->
                     <div class="form-group">
                         <label for="variantSize">Size</label>
-                        <input type="number" class="form-control" id="variantSize" required>
+                        <select class="form-control" id="variantSize" required>
+                            <option value="">Chọn Size</option>
+                            <!-- Dữ liệu sẽ được đổ từ backend vào đây -->
+                            <option value="38">38</option>
+                            <option value="40">40</option>
+                            <option value="42">42</option>
+                        </select>
                     </div>
+
+                    <!-- Nhập Số Lượng -->
                     <div class="form-group">
                         <label for="variantQuantity">Số Lượng</label>
-                        <input type="number" class="form-control" id="variantQuantity" required>
+                        <input type="number" class="form-control" id="variantQuantity" required min="0" placeholder="Số lượng >= 0">
                     </div>
+
                     <button type="submit" class="btn btn-primary">Thêm</button>
                 </form>
             </div>
@@ -86,21 +105,67 @@
             </div>
             <div class="modal-body">
                 <form id="editVariantForm">
+                    <!-- Màu Sắc (Không sửa được trong modal này) -->
                     <div class="form-group">
                         <label for="editVariantColor">Màu Sắc</label>
-                        <input type="text" class="form-control" id="editVariantColor" required>
+                        <input type="text" class="form-control" id="editVariantColor" disabled>
                     </div>
+
+                    <!-- Size (Không sửa được trong modal này) -->
                     <div class="form-group">
                         <label for="editVariantSize">Size</label>
-                        <input type="number" class="form-control" id="editVariantSize" required>
+                        <input type="text" class="form-control" id="editVariantSize" disabled>
                     </div>
+
+                    <!-- Nhập Số Lượng -->
                     <div class="form-group">
                         <label for="editVariantQuantity">Số Lượng</label>
-                        <input type="number" class="form-control" id="editVariantQuantity" required>
+                        <input type="number" class="form-control" id="editVariantQuantity" required min="0" placeholder="Số lượng >= 0">
                     </div>
+
                     <button type="submit" class="btn btn-warning">Cập Nhật</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    // Xác nhận xóa biến thể
+    function confirmDelete(button) {
+        if (confirm("Bạn có chắc chắn muốn xóa biến thể này?")) {
+            button.closest('tr').remove(); // Xóa dòng khỏi bảng
+        }
+    }
+
+    // Kiểm tra dữ liệu khi thêm biến thể
+    document.getElementById('addVariantForm').addEventListener('submit', function (e) {
+        e.preventDefault(); // Ngừng hành động mặc định
+
+        const color = document.getElementById('variantColor').value;
+        const size = document.getElementById('variantSize').value;
+        const quantity = document.getElementById('variantQuantity').value;
+
+        if (color && size && quantity >= 0) {
+            alert('Biến thể đã được thêm thành công!');
+            // Gửi dữ liệu đến backend (sử dụng fetch/axios nếu cần)
+            // Sau khi lưu, có thể tự động thêm dòng mới vào bảng nếu cần
+        } else {
+            alert('Vui lòng điền đầy đủ và hợp lệ các trường!');
+        }
+    });
+
+    // Kiểm tra dữ liệu khi sửa biến thể
+    document.getElementById('editVariantForm').addEventListener('submit', function (e) {
+        e.preventDefault(); // Ngừng hành động mặc định
+
+        const quantity = document.getElementById('editVariantQuantity').value;
+
+        if (quantity >= 0) {
+            alert('Biến thể đã được cập nhật!');
+            // Gửi dữ liệu sửa đổi (chỉ số lượng) đến backend (sử dụng fetch/axios nếu cần)
+        } else {
+            alert('Vui lòng nhập số lượng hợp lệ!');
+        }
+    });
+</script>

@@ -31,7 +31,10 @@
             <!-- Hình ảnh -->
             <div class="form-group mt-3">
                 <label for="productImage">Hình ảnh</label>
-                <input type="file" class="form-control" id="productImage" name="productImage" />
+                <input type="file" class="form-control" id="productImage" name="productImage" accept="image/*" onchange="previewImage(event)" />
+            </div>
+            <div class="mt-3">
+                <img id="preview" src="#" alt="Hình ảnh preview" style="max-width: 100px; display: none;" />
             </div>
 
             <!-- Combobox Nhà cung cấp -->
@@ -93,18 +96,40 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="form-group">
+                <!-- Tên Nhà Cung Cấp -->
+                <div class="form-group mb-3">
                     <label for="newSupplier">Tên Nhà Cung Cấp</label>
                     <input type="text" class="form-control" id="newSupplier" placeholder="Nhập tên nhà cung cấp" />
+                </div>
+                <!-- Tên Người Liên Hệ -->
+                <div class="form-group mb-3">
+                    <label for="contactPerson">Tên Người Liên Hệ</label>
+                    <input type="text" class="form-control" id="contactPerson" placeholder="Nhập tên người liên hệ" />
+                </div>
+                <!-- Email Người Liên Hệ -->
+                <div class="form-group mb-3">
+                    <label for="contactEmail">Email Người Liên Hệ</label>
+                    <input type="email" class="form-control" id="contactEmail" placeholder="Nhập email người liên hệ" />
+                </div>
+                <!-- Số Điện Thoại -->
+                <div class="form-group mb-3">
+                    <label for="contactPhone">Số Điện Thoại</label>
+                    <input type="text" class="form-control" id="contactPhone" placeholder="Nhập số điện thoại" />
+                </div>
+                <!-- Địa Chỉ -->
+                <div class="form-group mb-3">
+                    <label for="address">Địa Chỉ</label>
+                    <input type="text" class="form-control" id="address" placeholder="Nhập địa chỉ" />
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                <button type="button" class="btn btn-primary">Lưu</button>
+                <button type="button" class="btn btn-primary" onclick="saveSupplier()">Lưu</button>
             </div>
         </div>
     </div>
 </div>
+
 
 <!-- Modal Thêm Thương Hiệu -->
 <div class="modal fade" id="addBrandModal" tabindex="-1" aria-labelledby="addBrandModalLabel" aria-hidden="true">
@@ -137,20 +162,58 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="form-group">
+                <!-- Tên danh mục -->
+                <div class="form-group mb-3">
                     <label for="newCategory">Tên Danh Mục</label>
                     <input type="text" class="form-control" id="newCategory" placeholder="Nhập tên danh mục" />
+                </div>
+
+                <!-- Danh mục cha (parent_id) -->
+                <div class="form-group mb-3">
+                    <label for="parentCategory">Danh Mục Cha</label>
+                    <select class="form-select" id="parentCategory">
+                        <option value="" selected>Không có danh mục cha</option>
+                        <!-- Dữ liệu danh mục cha sẽ được thêm vào đây -->
+                        <option value="1">Giày Nam</option>
+                        <option value="2">Giày Nữ</option>
+                        <option value="3">Giày Trẻ Em</option>
+                    </select>
+                </div>
+
+                <!-- Mô tả danh mục -->
+                <div class="form-group">
+                    <label for="categoryDescription">Mô Tả</label>
+                    <textarea class="form-control" id="categoryDescription" rows="3" placeholder="Nhập mô tả danh mục"></textarea>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                <button type="button" class="btn btn-primary">Lưu</button>
+                <button type="button" class="btn btn-primary" onclick="saveCategory()">Lưu</button>
             </div>
         </div>
     </div>
 </div>
 @section Scripts {
+
     <script>
+        function previewImage(event) {
+            const input = event.target;
+            const preview = document.getElementById('preview');
+
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    preview.src = e.target.result; // Gán URL ảnh được tạo
+                    preview.style.display = 'block'; // Hiển thị hình ảnh preview
+                };
+
+                reader.readAsDataURL(input.files[0]); // Đọc file dưới dạng DataURL
+            } else {
+                preview.src = '#';
+                preview.style.display = 'none'; // Ẩn hình ảnh nếu không có file
+            }
+        }
         // Tự động thay đổi slug khi tên sản phẩm thay đổi
         function createSlug(str) {
             // Đổi dấu thành chữ cái không dấu và thay thế ký tự đặc biệt bằng '-'

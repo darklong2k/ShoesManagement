@@ -16,10 +16,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Dòng đầu tiên -->
-                    <tr>
-                        <td>1</td>
-                        <td colspan="5" class="text-center">
+                    <!-- Dòng cuối cùng chứa nút "Thêm Sản Phẩm" -->
+                    <tr id="addRowButtonRow">
+                        <td colspan="6" class="text-center">
                             <button class="btn btn-primary btn-sm" onclick="addNewRow()">
                                 <i class="fas fa-plus"></i> Thêm Sản Phẩm
                             </button>
@@ -40,25 +39,82 @@
         </button>
     </div>
 </div>
-@section Scripts{
+@section Scripts {
     <script>
-        // Thêm dòng mới vào bảng
+        // Tạo API giả lập (thay bằng API thật trong môi trường production)
+        const fakeApiResponse = {
+            "Giày Da": { sizes: ["40", "41", "42", "43"], colors: ["Đen", "Nâu"] },
+            "Giày Thể Thao": { sizes: ["38", "39", "40"], colors: ["Đen", "Trắng", "Xanh"] },
+        };
+
+        // Thêm dòng mới vào bảng trước nút "Thêm Sản Phẩm"
         function addNewRow() {
             const tableBody = document.querySelector("#importTable tbody");
+            const addRowButtonRow = document.getElementById("addRowButtonRow");
+
+            // Tạo dòng mới
             const newRow = document.createElement("tr");
             newRow.innerHTML = `
-                    <td>#</td>
-                    <td><input type="text" class="form-control" placeholder="Tên sản phẩm" /></td>
-                    <td><input type="text" class="form-control" placeholder="Size" /></td>
-                    <td><input type="text" class="form-control" placeholder="Màu" /></td>
-                    <td><input type="number" class="form-control" placeholder="Số lượng" /></td>
-                    <td class="text-center">
-                        <button class="btn btn-danger btn-sm" onclick="removeRow(this)">
-                            <i class="fas fa-trash"></i> Xóa
-                        </button>
-                    </td>
-                `;
-            tableBody.appendChild(newRow);
+                <td>#</td>
+                <td>
+                    <select class="form-select product-select" onchange="updateProductDetails(this)">
+                        <option value="">-- Chọn Sản Phẩm --</option>
+                        ${Object.keys(fakeApiResponse).map(product => `<option value="${product}">${product}</option>`).join("")}
+                    </select>
+                </td>
+                <td>
+                    <select class="form-select size-select">
+                        <option value="">-- Chọn Size --</option>
+                    </select>
+                </td>
+                <td>
+                    <select class="form-select color-select">
+                        <option value="">-- Chọn Màu --</option>
+                    </select>
+                </td>
+                <td>
+                    <input type="number" class="form-control" placeholder="Số lượng" />
+                </td>
+                <td class="text-center">
+                    <button class="btn btn-danger btn-sm" onclick="removeRow(this)">
+                        <i class="fas fa-trash"></i> Xóa
+                    </button>
+                </td>
+            `;
+
+            // Chèn dòng mới trước nút "Thêm Sản Phẩm"
+            tableBody.insertBefore(newRow, addRowButtonRow);
+        }
+
+        // Cập nhật Size và Màu dựa trên Sản Phẩm đã chọn
+        function updateProductDetails(productSelect) {
+            const selectedProduct = productSelect.value;
+            const row = productSelect.closest("tr");
+            const sizeSelect = row.querySelector(".size-select");
+            const colorSelect = row.querySelector(".color-select");
+
+            // Xóa các tùy chọn cũ
+            sizeSelect.innerHTML = `<option value="">-- Chọn Size --</option>`;
+            colorSelect.innerHTML = `<option value="">-- Chọn Màu --</option>`;
+
+            if (selectedProduct && fakeApiResponse[selectedProduct]) {
+                const { sizes, colors } = fakeApiResponse[selectedProduct];
+
+                // Thêm các tùy chọn mới
+                sizes.forEach(size => {
+                    const option = document.createElement("option");
+                    option.value = size;
+                    option.textContent = size;
+                    sizeSelect.appendChild(option);
+                });
+
+                colors.forEach(color => {
+                    const option = document.createElement("option");
+                    option.value = color;
+                    option.textContent = color;
+                    colorSelect.appendChild(option);
+                });
+            }
         }
 
         // Xóa dòng
@@ -69,6 +125,26 @@
 
         // Lưu thông tin nhập hàng
         function saveImport() {
+            const rows = document.querySelectorAll("#importTable tbody tr:not(#addRowButtonRow)");
+            const importData = [];
+
+            rows.forEach(row => {
+                const product = row.querySelector(".product-select").value;
+                const size = row.querySelector(".size-select").value;
+                const color = row.querySelector(".color-select").value;
+                const quantity = row.querySelector("td:nth-child(5) input").value;
+
+                if (product && size && color && quantity) {
+                    importData.push({
+                        product,
+                        size,
+                        color,
+                        quantity: parseInt(quantity, 10),
+                    });
+                }
+            });
+
+            console.log("Dữ liệu nhập hàng:", importData);
             alert("Thông tin nhập hàng đã được lưu.");
         }
     </script>
