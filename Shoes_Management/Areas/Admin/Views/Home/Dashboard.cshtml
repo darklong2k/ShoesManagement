@@ -1,3 +1,4 @@
+
 ﻿<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <link rel="stylesheet" href="~/css/Style_DashBoard.css">
 <div class="d-flex">
@@ -11,6 +12,7 @@
                         <div class="card-body d-flex">
                             <div class="flex-shrink-0">
                                 <i class="fas fa-chart-line text-success fs-1"></i>
+
                             </div>
                             <div class="ms-5">
                                 <p class="mb-1 text-muted">Đơn hàng</p>
@@ -120,6 +122,7 @@
     </div>
 </div>
 
+@section Scripts{
 <script>
 
 
@@ -164,6 +167,7 @@
                         }
                     }
                 }
+
             },
             scales: {
                 x: { title: { display: true, text: 'Năm 2023' } },
@@ -175,6 +179,7 @@
                     }
                 }
             }
+
         }
 
     };
@@ -267,3 +272,4 @@
         alert('Thông tin đã được lưu!');
     });
 </script>
+}

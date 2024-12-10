@@ -1,6 +1,7 @@
 <!-- Thêm Font Awesome -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
+
 <div class="container my-4">
     <div class="row">
         <div class="col-lg-12">
@@ -15,6 +16,7 @@
                 <div>
                     <label for="endDate">Đến ngày:</label>
                     <input type="date" id="endDate" class="form-control">
+
                 </div>
             </div>
 
@@ -46,9 +48,11 @@
     </div>
 </div>
 
+
 <!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 @section scripts{
+
     <script>
     // Dữ liệu ví dụ về doanh thu và lượt mua
     const data = {
@@ -134,10 +138,12 @@
         createChart(configDoanhThu); // Hiển thị biểu đồ doanh thu và cập nhật tổng
     });
 
+
     // Lắng nghe sự kiện nút "Lượt mua"
     document.getElementById('btnLuotMua').addEventListener('click', function () {
         createChart(configLuotMua); // Hiển thị biểu đồ lượt mua và cập nhật tổng
     });
 </script>
+
 }
 

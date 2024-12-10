@@ -1,4 +1,17 @@
-﻿<div class="container my-4">
+﻿<style>
+    #starRating .fa-star {
+        font-size: 24px;
+        color: gray;
+        cursor: pointer;
+        margin-right: 5px;
+    }
+
+        #starRating .fa-star.checked {
+            color: gold;
+        }
+</style>
+
+<div class="container my-4">
     <!-- Tab Navigation -->
     <ul class="nav nav-tabs mb-3" id="orderTab" role="tablist">
         <li class="nav-item">
@@ -76,10 +89,36 @@
             </div>
         </div>
 
-        <!-- Done -->
+        <!-- Đã giao -->
         <div class="tab-pane fade" id="order-tab-done" role="tabpanel" aria-labelledby="done-tab">
-            <div class="text-center">
-                <p>Chưa có đơn hàng</p>
+            @* <div class="text-center">
+                <p>Chưa có đơhàngn </p>
+            </div> *@
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card mb-3">
+                        <div class="card-header d-flex justify-content-between">
+                            <span class="text-muted">Đơn hàng #123456</span>
+                            <span class="badge bg-success text-white">Đã giao</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <img src="https://via.placeholder.com/78" alt="Product Image" class="img-thumbnail me-3" style="width: 78px; height: 78px;">
+                                <div>
+                                    <h5 class="card-title">Vớ nam nữ MWC - AT59</h5>
+                                    <p class="card-text">
+                                        <small class="text-muted">Phân loại: Xám - Free Size</small><br>
+                                        <small>Số lượng: x1</small>
+                                    </p>
+                                </div>
+                                <div class="ms-auto">
+                                    <span class="fw-bold">30,000₫</span>
+                                </div>
+                                <button class="bg-success text-white" data-bs-toggle="modal" data-bs-target="#formReview">Đánh giá</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -91,3 +130,67 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Đánh giá -->
+<div class="modal fade" id="formReview" tabindex="-1" aria-labelledby="ReviewModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">Vớ nam nữ MWC - AT59</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="review-action" method="post">
+                    <!-- Đánh giá theo sao -->
+                    <div class="mb-3">
+                        <label for="rating" class="form-label">Đánh giá:</label>
+                        <div id="starRating" class="d-flex">
+                            <!-- Các ngôi sao -->
+                            <i class="fa fa-star" data-value="1"></i>
+                            <i class="fa fa-star" data-value="2"></i>
+                            <i class="fa fa-star" data-value="3"></i>
+                            <i class="fa fa-star" data-value="4"></i>
+                            <i class="fa fa-star" data-value="5"></i>
+                        </div>
+                        <input type="hidden" name="rating" id="rating" value="0">
+                    </div>
+
+                    <!-- Nội dung -->
+                    <div class="mb-3">
+                        <label for="reviewContent" class="form-label">Nội dung</label>
+                        <textarea id="reviewContent" name="reviewContent" class="form-control" rows="4" required></textarea>
+                    </div>
+
+                    <!-- Nút Gửi đánh giá -->
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary w-50">Đánh giá</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const stars = document.querySelectorAll('#starRating .fa-star');
+        const ratingInput = document.getElementById('rating');
+
+        stars.forEach(star => {
+            star.addEventListener('click', function () {
+                const value = this.getAttribute('data-value');
+
+                // Gán giá trị cho input ẩn
+                ratingInput.value = value;
+
+                // Đổi màu các sao dựa trên giá trị được chọn
+                stars.forEach(s => {
+                    if (s.getAttribute('data-value') <= value) {
+                        s.classList.add('checked');
+                    } else {
+                        s.classList.remove('checked');
+                    }
+                });
+            });
+        });
+    });
+</script>
