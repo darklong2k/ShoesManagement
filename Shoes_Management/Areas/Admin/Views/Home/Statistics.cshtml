@@ -1,98 +1,149 @@
+<!-- Thêm Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-<div>
-    <div class="container my-4">
-        <div class="row">
-            <div class="col-lg-12">
-                <h3 class="mb-4">Thống kê</h3>
-                <!-- Flatpickr Date Picker -->
-                <div class="row mt-3">
-                    <div class="col-lg-12">
-                        <input id="datePicker" class="form-control w-25 mb-3" placeholder="Chọn tháng và năm" readonly />
+
+<div class="container my-4">
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="mb-4 text-center text-primary">Thống kê</h3>
+
+            <!-- Bộ lọc thời gian -->
+            <div class="d-flex justify-content-center mb-4">
+                <div class="me-3">
+                    <label for="startDate">Từ ngày:</label>
+                    <input type="date" id="startDate" class="form-control">
+                </div>
+                <div>
+                    <label for="endDate">Đến ngày:</label>
+                    <input type="date" id="endDate" class="form-control">
+
+                </div>
+            </div>
+
+            <!-- Các nút chuyển đổi giữa biểu đồ -->
+            <div class="d-flex justify-content-center mb-4">
+                <button class="btn btn-success me-3" id="btnDoanhThu">
+                    <i class="fas fa-chart-line"></i> Doanh thu
+                </button>
+                <button class="btn btn-warning" id="btnLuotMua">
+                    <i class="fas fa-shopping-cart"></i> Lượt mua
+                </button>
+            </div>
+
+            <!-- Biểu đồ -->
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title text-center">Biểu Đồ</h5>
+                            <canvas id="myChart"></canvas>
+                        </div>
                     </div>
                 </div>
-                <!-- Buttons to switch between charts -->
-                <div class="d-flex mb-4">
-                    <button class="btn btn-success me-2" id="btnDoanhThu">Doanh thu</button>
-                    <button class="btn btn-warning me-2" id="btnLuotMua">Lượt mua</button>
-                </div>
-                <!-- Chart Container -->
-                <canvas id="mainChart" style="height: 200px;"></canvas>
             </div>
+
+            <!-- Tổng doanh thu hoặc lượt mua -->
+            <div id="totalStat" class="mt-4 text-center text-info fs-4">Tổng doanh thu: 1,500,000 VND</div>
         </div>
     </div>
 </div>
-@section Scripts{
-    <!-- Chart.js Script -->
+
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+@section scripts{
+
     <script>
-        // Khởi tạo Flatpickr
-        flatpickr("#datePicker", {
-            dateFormat: "Y-m", // Chỉ hiển thị năm và tháng
-            defaultDate: "today",
-            onChange: function (selectedDates, dateStr) {
-                const [year, month] = dateStr.split("-");
-                console.log("Tháng:", month, "Năm:", year);
-                // Gọi API hoặc cập nhật dữ liệu biểu đồ theo tháng và năm
-            }
-        });
+    // Dữ liệu ví dụ về doanh thu và lượt mua
+    const data = {
+        doanhThu: [200000, 300000, 250000, 450000, 350000], // doanh thu cho từng tháng
+        luotMua: [15, 25, 20, 35, 30], // lượt mua cho từng tháng
+    };
 
-        const ctx = document.getElementById('mainChart').getContext('2d');
-        let chartInstance;
+    // Biến để lưu biểu đồ
+    let myChart;
 
-        // Data for different charts
-        const dataDoanhThu = {
-            labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
+    // Dữ liệu ban đầu: Doanh thu
+    const configDoanhThu = {
+        type: 'line',
+        data: {
+            labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5'],
             datasets: [{
                 label: 'Doanh thu (VND)',
-                data: [120000000, 150000000,100000000,130000000,150000000,90000000,170000000, 180000000, 220000000, 300000000,200000000, 240000000],
-                borderColor: 'rgba(75, 192, 192, 1)',
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                tension: 0.3,
+                data: data.doanhThu,
+                borderColor: 'green',
+                backgroundColor: 'rgba(0, 255, 0, 0.1)',
                 fill: true
             }]
-        };
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    };
 
-        const dataLuotMua = {
-            labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
+    const configLuotMua = {
+        type: 'bar',
+        data: {
+            labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5'],
             datasets: [{
                 label: 'Lượt mua',
-                data: [100,350,200,150,400,350,300, 350, 300, 150, 400, 550],
-                borderColor: 'rgba(255, 159, 64, 1)',
-                backgroundColor: 'rgba(255, 159, 64, 0.2)',
-                tension: 0.3,
-                fill: true
+                data: data.luotMua,
+                backgroundColor: 'rgba(255, 165, 0, 0.5)',
             }]
-        };
-
-        // Function to create chart
-        function createChart(data) {
-            if (chartInstance) {
-                chartInstance.destroy(); // Destroy existing chart before creating a new one
-            }
-            chartInstance = new Chart(ctx, {
-                type: 'line', // Chart type
-                data: data,
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top'
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
                 }
-            });
+            }
         }
+    };
 
-        // Event listeners for buttons
-        document.getElementById('btnDoanhThu').addEventListener('click', () => createChart(dataDoanhThu));
-        document.getElementById('btnLuotMua').addEventListener('click', () => createChart(dataLuotMua));
+    // Hàm khởi tạo biểu đồ
+    function createChart(config) {
+        const ctx = document.getElementById('myChart').getContext('2d');
+        if (myChart) {
+            myChart.destroy(); // Hủy biểu đồ cũ nếu có
+        }
+        myChart = new Chart(ctx, config);
 
-        // Initialize with the first chart (Doanh Thu)
-        createChart(dataDoanhThu);
-    </script>
+        // Cập nhật tổng doanh thu hoặc lượt mua
+        updateTotal(config);
+    }
+
+    // Hàm cập nhật tổng doanh thu hoặc lượt mua
+    function updateTotal(config) {
+        // Nếu nhấn Doanh thu, hiển thị tổng doanh thu cố định
+        if (config === configDoanhThu) {
+            document.getElementById('totalStat').innerHTML = "Tổng doanh thu: 1,500,000 VND";  // Tổng doanh thu cố định
+        }
+        // Nếu nhấn Lượt mua, hiển thị tổng lượt mua cố định
+        else if (config === configLuotMua) {
+            document.getElementById('totalStat').innerHTML = "Tổng lượt mua: 125";  // Tổng lượt mua cố định
+        }
+    }
+
+    // Khởi tạo biểu đồ doanh thu mặc định
+    createChart(configDoanhThu);
+
+    // Lắng nghe sự kiện nút "Doanh thu"
+    document.getElementById('btnDoanhThu').addEventListener('click', function () {
+        createChart(configDoanhThu); // Hiển thị biểu đồ doanh thu và cập nhật tổng
+    });
+
+
+    // Lắng nghe sự kiện nút "Lượt mua"
+    document.getElementById('btnLuotMua').addEventListener('click', function () {
+        createChart(configLuotMua); // Hiển thị biểu đồ lượt mua và cập nhật tổng
+    });
+</script>
+
 }
 
