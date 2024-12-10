@@ -1,0 +1,50 @@
+﻿@{
+    ViewData["Title"] = "DangkyTaiKhoan";
+}
+
+<div class="container mt-5 d-flex justify-content-center">
+    <div class="card p-4" style="width: 400px;">
+        <h2 class="text-center">Đăng ký tài khoản</h2>
+        <hr />
+        <form  method="post">
+            <div class="mb-3">
+                <label for="username" class="form-label">Tên đăng nhập</label>
+                <input type="text" class="form-control" id="username" name="username" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Mật khẩu</label>
+                <div class="input-group">
+                    <input type="password" class="form-control" id="password" name="password" required>
+                    <button type="button" class="btn btn-outline-secondary" id="togglePassword">👁️</button>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="confirmPassword" class="form-label">Xác nhận mật khẩu</label>
+                <div class="input-group">
+                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+                    <button type="button" class="btn btn-outline-secondary toggle-password" data-target="#confirmPassword">👁️</button>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary mt-4 w-100">Đăng ký</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll('.toggle-password').forEach(button => {
+        button.addEventListener('click', function () {
+            // Lấy trường input liên kết thông qua data-target
+            const target = document.querySelector(this.getAttribute('data-target'));
+
+            // Chuyển đổi loại input giữa password và text
+            if (target.type === 'password') {
+                target.type = 'text';
+                this.innerHTML = '🙈'; // Đổi biểu tượng thành ẩn
+            } else {
+                target.type = 'password';
+                this.innerHTML = '👁️'; // Đổi biểu tượng thành hiện
+            }
+        });
+    });
+</script>
+
