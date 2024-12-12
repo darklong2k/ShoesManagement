@@ -1,4 +1,4 @@
-html {
+﻿html {
   font-size: 14px;
 }
 
@@ -19,4 +19,8 @@ html {
 
 body {
   margin-bottom: 60px;
+}
+.modal {
+    display: block !important; /* Đảm bảo modal hiển thị */
+    z-index: 1050; /* Modal luôn ở trên các phần tử khác */
 }
