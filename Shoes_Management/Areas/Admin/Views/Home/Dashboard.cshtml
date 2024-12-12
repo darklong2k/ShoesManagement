@@ -1,126 +1,129 @@
 
 ﻿<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <link rel="stylesheet" href="~/css/Style_DashBoard.css">
-<div class="d-flex">
-    <!-- Main Panel -->
-    <div class="main-panel flex-grow-1">
-        <div class="content container my-4">
-            <!-- Thống kê -->
-            <div class="row">
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card">
-                        <div class="card-body d-flex">
-                            <div class="flex-shrink-0">
-                                <i class="fas fa-chart-line text-success fs-1"></i>
 
-                            </div>
-                            <div class="ms-5">
-                                <p class="mb-1 text-muted">Đơn hàng</p>
-                                <h5>1785</h5>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card">
-                        <div class="card-body d-flex">
-                            <div class="flex-shrink-0">
-                                <i class="fas fa-shopping-cart text-warning fs-1"></i>
-                            </div>
-                            <div class="ms-3">
-                                <p class="mb-1 text-muted">Doanh thu</p>
-                                <h5>200,000,000 VND</h5>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card">
-                        <div class="card-body d-flex">
-                            <div class="flex-shrink-0">
-                                <i class="fas fa-check-circle text-primary fs-1"></i>
-                            </div>
-                            <div class="ms-3">
-                                <p class="mb-1 text-muted">Sản phẩm</p>
-                                <h5>108</h5>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-8">
-                    <div class="pb-3">
-                        <!-- Biểu đồ doanh thu Line-->
-
+    <div class="d-flex">
+        <!-- Main Panel -->
+        <div class="main-panel flex-grow-1">
+            <div class="content container my-4">
+                <!-- Thống kê -->
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 mb-4">
                         <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Đơn hàng</h5>
-                                <canvas id="lineChart"></canvas>
+                            <div class="card-body d-flex">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-chart-line text-success fs-1"></i>
+
+                                </div>
+                                <div class="ms-5">
+                                    <p class="mb-1 text-muted">Đơn hàng</p>
+                                    <h5>1785</h5>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row" style="margin-bottom:10px">
-                        <div class="col-md-12">
-                            <!-- Biểu đồ Lượt mua area-->
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-body d-flex">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-shopping-cart text-warning fs-1"></i>
+                                </div>
+                                <div class="ms-3">
+                                    <p class="mb-1 text-muted">Doanh thu</p>
+                                    <h5>200,000,000 VND</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-body d-flex">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-check-circle text-primary fs-1"></i>
+                                </div>
+                                <div class="ms-3">
+                                    <p class="mb-1 text-muted">Sản phẩm</p>
+                                    <h5>108</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="pb-3">
+                            <!-- Biểu đồ doanh thu Line-->
 
                             <div class="card">
                                 <div class="card-body">
-                                    <h5 class="card-title">Doanh thu</h5>
-                                    <canvas id="areaChart"></canvas>
+                                    <h5 class="card-title">Đơn hàng</h5>
+                                    <canvas id="lineChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom:10px">
+                            <div class="col-md-12">
+                                <!-- Biểu đồ Lượt mua area-->
+
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Doanh thu</h5>
+                                        <canvas id="areaChart"></canvas>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
 
-            <!-- Chỉnh sửa thông tin website -->
-            <div class="row mb-4">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Chỉnh sửa thông tin website</h5>
-                            <form id="websiteInfoForm">
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label for="websiteName" class="form-label">Tên website</label>
-                                        <input type="text" class="form-control" id="websiteName" placeholder="Nhập tên website">
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="websiteAddress" class="form-label">Địa chỉ website</label>
-                                        <input type="text" class="form-control" id="websiteAddress" placeholder="Nhập địa chỉ website">
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="websiteImage" class="form-label">Logo website</label>
-                                        <input type="file" class="form-control" id="websiteImage" accept="image/*">
-                                        <div class="mt-3">
-                                            <img id="imagePreview" src="" alt="Xem trước hình ảnh" class="img-thumbnail" style="max-width: 200px; display: none;">
+                <!-- Chỉnh sửa thông tin website -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Chỉnh sửa thông tin website</h5>
+                                <form id="websiteInfoForm">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="websiteName" class="form-label">Tên website</label>
+                                            <input type="text" class="form-control" id="websiteName" placeholder="Nhập tên website">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="websiteAddress" class="form-label">Địa chỉ website</label>
+                                            <input type="text" class="form-control" id="websiteAddress" placeholder="Nhập địa chỉ website">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="websiteImage" class="form-label">Logo website</label>
+                                            <input type="file" class="form-control" id="websiteImage" accept="image/*">
+                                            <div class="mt-3">
+                                                <img id="imagePreview" src="" alt="Xem trước hình ảnh" class="img-thumbnail" style="max-width: 200px; display: none;">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="websiteLinkFB" class="form-label">Link Facebook</label>
+                                            <input type="text" class="form-control" id="websiteLinkFB" placeholder="URL Facebook">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="websitePhone" class="form-label">Số điện thoại</label>
+                                            <input type="text" class="form-control" id="websitePhone" placeholder="Nhập số điện thoại">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="websiteEmail" class="form-label">Email</label>
+                                            <input type="email" class="form-control" id="websiteEmail" placeholder="Nhập email">
                                         </div>
                                     </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="websiteLinkFB" class="form-label">Link Facebook</label>
-                                        <input type="text" class="form-control" id="websiteLinkFB" placeholder="URL Facebook">
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="websitePhone" class="form-label">Số điện thoại</label>
-                                        <input type="text" class="form-control" id="websitePhone" placeholder="Nhập số điện thoại">
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="websiteEmail" class="form-label">Email</label>
-                                        <input type="email" class="form-control" id="websiteEmail" placeholder="Nhập email">
-                                    </div>
-                                </div>
-                                <button type="button" class="btn btn-primary" id="saveWebsiteInfo">Lưu thông tin</button>
-                            </form>
+                                    <button type="button" class="btn btn-primary" id="saveWebsiteInfo">Lưu thông tin</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+
+
 
 @section Scripts{
 <script>
