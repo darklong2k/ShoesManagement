@@ -20,6 +20,18 @@ namespace Shoes_Management.Areas.Admin.Controllers
 		{
 			return View();
 		}
+		public IActionResult Customer_Page()
+		{
+			return View();
+		}
+		public IActionResult Account_Page() 
+		{
+			return View();
+		}
+		public IActionResult Contact_Page()
+		{
+			return View();
+		}
 		public IActionResult Dashboard()
 		{
 			return View();
