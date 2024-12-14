@@ -23,6 +23,7 @@
                     <div class="col-12 text-end">
                         <p class="hotline-top d-inline">
                             <i class="fa-solid fa-phone-volume fa-fw"></i> <span class="d-none d-lg-inline-block">Hotline:</span> <a href="tel:0909300746">0909300746</a>
+                            <i class="fa-solid fa-user fa-fw"></i>  <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Đăng nhập</a>
                         </p>
                     </div>
                 </div>
@@ -39,38 +40,36 @@
                 </div>
                 <div class="navigation__column center d-none d-xl-block">
                     <ul class="main-menu menu">
-                        <li class="" id=""><a href="">Trang chủ</a></li>
-                        <li class="" id=""><a href="">Giới thiệu</a></li>
-                        <li class=" menu-item menu-item-has-children dropdown 1 menu77 " id="">
+
+                        <li class=""><a href="">Trang chủ</a></li>
+                        <li class=""><a href="">Giới thiệu</a></li>
+                        <li class=" menu-item menu-item-has-children dropdown 1 menu77 ">
                             <a href="">Nike</a>
                             <ul class="sub-menu">
-                                <li class="menu-item  2 menu87 " id="menu87"><a href="">Nam</a></li>
-                                <li class="menu-item  3 menu88 " id="menu88"><a href="">Nữ</a></li>
+                                <li class="menu-item"><a href="">Nam</a></li>
+                                <li class="menu-item"><a href="">Nữ</a></li>
                             </ul>
                         </li>
-                        <li class=" menu-item menu-item-has-children dropdown 2 menu76 " id="">
+                        <li class=" menu-item menu-item-has-children dropdown 2 menu76 ">
                             <a href="">Adidas</a>
                             <ul class="sub-menu">
-                                <li class="menu-item  3 menu85 " id=""><a href="nam">Nam</a></li>
-                                <li class="menu-item  4 menu86 " id=""><a href="nu">Nữ</a></li>
+                                <li class="menu-item"><a href="nam">Nam</a></li>
+                                <li class="menu-item"><a href="nu">Nữ</a></li>
                             </ul>
                         </li>
-                        <li class=" menu-item menu-item-has-children dropdown 3 menu79 " id="">
+                        <li class=" menu-item menu-item-has-children dropdown 3 menu79 ">
                             <a href="">MLB</a>
                             <ul class="sub-menu">
-                                <li class="menu-item  4 menu91 " id=""><a href="">Chunky</a></li>
+                                <li class="menu-item"><a href="">Chunky</a></li>
                             </ul>
                         </li>
 
-                        <li class="  9 menu83 " id=""><a href="">Liên hệ</a></li>
+                        <li class="  9 menu83 " id=""><a asp-controller="home" asp-action="contact">Liên hệ</a></li>
                     </ul>
                 </div>
                 <div class="navigation__column right">
                     <form class="ps-search--header searchform" id="searchform" method="get" action="">
-
-                        <input class="form-control inputString" autocomplete="off" name="search" id="inputString"
-                               placeholder="Nhập từ cần tìm" />
-
+                        <input class="form-control inputString" autocomplete="off" name="search" id="inputString" placeholder="Nhập từ cần tìm" />
                         <button type="submit"><i class="ps-icon-search"></i></button>
                         <button id="btnsearch" type="button"><i class="ps-icon-search"></i></button>
                         <div class="suggestions" id="suggestions"></div>
@@ -78,61 +77,17 @@
                     <!-- Giỏ hàng -->
                     <div class="ps-cart" id="reloaddiv">
                         <a class="ps-cart__toggle" rel="noindex nofollow" href="gio-hang">
-                            <span>
-                                <i class="numberSumProduct">1</i>
-                            </span><i class="ps-icon-shopping-cart"></i>
+                            <i class="ps-icon-shopping-cart"></i>
                         </a>
-
-                        <div class="ps-cart__listing">
-                            <div class="ps-cart__content">
-
-                                <div class="ps-cart-item tr74552294">
-                                    <a href="javascript:;" class="ps-cart-item__close"
-                                       onclick="return deteleSPGHPageName(74552294,'JORDAN STADIUM 90','gio-hang/remove','gio-hang','sumprice7455','sumpro7455','.tr74552294');"></a>
-                                    <div class="ps-cart-item__thumbnail">
-                                        <a href="https://kingshoes.vn/jordan-stadium-90-fb2269-106-chinh-hang-gia-tot-den-king-shoes.html"></a>
-                                        <img src="https://kingshoes.vn/data/upload/media/fb2269-106-giay-jordan-stadium-90-gia-tot-den-king-shoes-store-12.jpeg"
-                                             alt="JORDAN STADIUM 90">
-                                    </div>
-                                    <div class="ps-cart-item__content">
-                                        <a class="ps-cart-item__title"
-                                           href="https://kingshoes.vn/jordan-stadium-90-fb2269-106-chinh-hang-gia-tot-den-king-shoes.html">
-                                            JORDAN
-                                            STADIUM 90
-                                        </a>
-                                        <div class="attribute_pro">
-                                            <span class="badge bg-primary me-2">
-                                                Size Giày:
-                                                <b>38.5</b>
-                                            </span>
-                                        </div>
-                                        <p>
-                                            <span>Số lượng:<i class="qtypro74552294">1</i></span><span>
-                                                Thành tiền:<i class="sumprice74552294">3,900,000đ</i>
-                                            </span>
-                                        </p>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="ps-cart__total">
-                                <p>Số sản phẩm:<span class="numberSumProduct"> 1</span></p>
-                                <p>Tổng:<span class="sumPrice"> 3,900,000đ</span></p>
-                            </div>
-                            <div class="ps-cart__footer">
-                                <a class="ps-btn" href="gio-hang">
-                                    Giỏ hàng<i class="ps-icon-arrow-left"></i>
-                                </a>
-                            </div>
-                        </div>
-
                     </div>
                     <!-- End giỏ hàng -->
-                    <div class="menu-toggle"><span></span></div>
+                   
                 </div>
+
             </div>
         </nav>
     </header>
+
 
     @RenderBody()
 
@@ -189,8 +144,68 @@
     <script type="text/javascript" src="https://kingshoes.vn/template/Default/js/jquery.barrating.min.js"></script>
     <script type="text/javascript"
             src="https://kingshoes.vn/template/Default/js/plugins/slider/splide/js/splide.min.js"></script>
-
+    @RenderSection("Scripts",required:false)
     <!-- Kiểm tra các tệp JS -->
+
+    <!-- Modal Đăng nhập -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">Đăng nhập</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="login-action" method="post">
+                     
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Tên đăng nhập</label>
+                            <input type="text" class="form-control" id="username" name="username" required>
+                        </div>
+
+                     
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Mật khẩu</label>
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="password" name="password" required>
+                                <button type="button" class="btn btn-outline-secondary" id="togglePassword">👁️</button>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn btn-primary w-50 mb-2">Đăng nhập</button>
+                        </div>
+                        <div class="d-flex justify-content-center align-items-center mb-2">
+                            <hr class="flex-grow-1 me-3">
+                            <span>Hoặc</span>
+                            <hr class="flex-grow-1 ms-3">
+                        </div>
+
+                        <div class="d-flex justify-content-center">
+                            <a asp-controller="Home" asp-action="DangkyTaiKhoan" class="btn btn-secondary w-50">Đăng ký</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Thêm các script cần thiết cho modal -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
+
+<script>
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordInput = document.getElementById('password');
+
+    togglePassword.addEventListener('click', function () {
+        // Toggle giữa type "password" và "text"
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+
+        // Thay đổi biểu tượng (tuỳ chọn)
+        this.textContent = type === 'password' ? '👁️' : '🙈';
+    });
+</script>

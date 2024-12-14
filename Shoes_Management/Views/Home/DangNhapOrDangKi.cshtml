@@ -1,0 +1,92 @@
+﻿<section id="site-content">
+    <div id="main">
+        <link href="/css/login.css" rel="stylesheet" type="text/css">
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                <!-- Login Section (Left Side) -->
+                <div class="col-md-6 col-lg-5">
+                    <div class="taikhoan">
+                        <div class="login">
+                            <form action="/login" method="post" id="form_login">
+                                <h4 class="mb-4 text-center">Đăng nhập</h4>
+                                <div class="mb-3">
+                                    <label for="UserName" class="form-label">Tên đăng nhập<span class="text-danger">*</span></label>
+                                    <input id="UserName" name="UserName" required type="text" class="form-control" placeholder="Tên đăng nhập">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="Password" class="form-label">Mật khẩu<span class="text-danger">*</span></label>
+                                    <input id="Password" name="Password" type="password" class="form-control" placeholder="Mật khẩu">
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <a href="/forgot-pass" class="text-muted">Quên mật khẩu?</a>
+                                    <input type="submit" value="Đăng nhập" class="btn btn-primary">
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="social-network my-3 text-center">
+                            <div class="social-network-line"></div>
+                            <span class="social-network-title">HOẶC</span>
+                            <div class="social-network-line"></div>
+                        </div>
+
+                        <div class="d-flex justify-content-center">
+                            <a href="/logingoogle" class="btn btn-outline-danger w-100">
+                                <i class="fab fa-google"></i> Google
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Register Section (Right Side) -->
+                <div class="col-md-6 col-lg-5">
+                    <div class="register">
+                        <form action="/signup" method="post" id="form_register">
+                            <h4 class="mb-4 text-center">Đăng ký</h4>
+                            <div class="mb-3">
+                                <label for="UserName" class="form-label">Tên đăng nhập<span class="text-danger">*</span></label>
+                                <input id="UserName" name="UserName" required type="text" class="form-control" placeholder="Tên đăng nhập">
+                            </div>
+                            <div class="mb-3">
+                                <label for="Phone" class="form-label">Số điện thoại<span class="text-danger">*</span></label>
+                                <input id="Phone" name="Phone" required type="text" class="form-control" placeholder="Số điện thoại">
+                            </div>
+                            <div class="mb-3">
+                                <label for="Password" class="form-label">Mật khẩu<span class="text-danger">*</span></label>
+                                <input id="Password" name="Password" required type="password" class="form-control" placeholder="Mật khẩu">
+                            </div>
+                            <div class="mb-3">
+                                <label for="PasswordConfirm" class="form-label">Nhắc lại mật khẩu<span class="text-danger">*</span></label>
+                                <input id="PasswordConfirm" name="PasswordConfirm" required type="password" class="form-control" placeholder="Nhắc lại mật khẩu">
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <input type="submit" value="Đăng ký" class="btn btn-primary">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="note mt-3">
+                        <p class="text-muted">Thông tin cá nhân của bạn sẽ được dùng để điền vào hóa đơn, giúp bạn thanh toán nhanh chóng và dễ dàng.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="mr-auto">Thông báo</strong>
+                <small>Vừa xong</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                Chào mừng bạn đến với trang web của chúng tôi!
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    $('#login-google').click(function () {
+        window.location = "/logingoogle";
+    });
+</script>

@@ -1,0 +1,275 @@
+
+﻿<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="stylesheet" href="~/css/Style_DashBoard.css">
+<div class="d-flex">
+    <!-- Main Panel -->
+    <div class="main-panel flex-grow-1">
+        <div class="content container my-4">
+            <!-- Thống kê -->
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-body d-flex">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-chart-line text-success fs-1"></i>
+
+                            </div>
+                            <div class="ms-5">
+                                <p class="mb-1 text-muted">Đơn hàng</p>
+                                <h5>1785</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-body d-flex">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-shopping-cart text-warning fs-1"></i>
+                            </div>
+                            <div class="ms-3">
+                                <p class="mb-1 text-muted">Doanh thu</p>
+                                <h5>200,000,000 VND</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-body d-flex">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-check-circle text-primary fs-1"></i>
+                            </div>
+                            <div class="ms-3">
+                                <p class="mb-1 text-muted">Sản phẩm</p>
+                                <h5>108</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="pb-3">
+                        <!-- Biểu đồ doanh thu Line-->
+
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Đơn hàng</h5>
+                                <canvas id="lineChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-bottom:10px">
+                        <div class="col-md-12">
+                            <!-- Biểu đồ Lượt mua area-->
+
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Doanh thu</h5>
+                                    <canvas id="areaChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Chỉnh sửa thông tin website -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Chỉnh sửa thông tin website</h5>
+                            <form id="websiteInfoForm">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="websiteName" class="form-label">Tên website</label>
+                                        <input type="text" class="form-control" id="websiteName" placeholder="Nhập tên website">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="websiteAddress" class="form-label">Địa chỉ website</label>
+                                        <input type="text" class="form-control" id="websiteAddress" placeholder="Nhập địa chỉ website">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="websiteImage" class="form-label">Logo website</label>
+                                        <input type="file" class="form-control" id="websiteImage" accept="image/*">
+                                        <div class="mt-3">
+                                            <img id="imagePreview" src="" alt="Xem trước hình ảnh" class="img-thumbnail" style="max-width: 200px; display: none;">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="websiteLinkFB" class="form-label">Link Facebook</label>
+                                        <input type="text" class="form-control" id="websiteLinkFB" placeholder="URL Facebook">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="websitePhone" class="form-label">Số điện thoại</label>
+                                        <input type="text" class="form-control" id="websitePhone" placeholder="Nhập số điện thoại">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="websiteEmail" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="websiteEmail" placeholder="Nhập email">
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-primary" id="saveWebsiteInfo">Lưu thông tin</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+<script>
+
+
+    // Thêm gradient cho biểu đồ Line (Đơn Hàng)
+    const lineDonHangGradient = (ctx) => {
+        const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+        gradient.addColorStop(0, 'rgba(76, 175, 80, 1)');
+        gradient.addColorStop(1, 'rgba(76, 175, 80, 0.2)');
+        return gradient;
+    };
+
+    // Thêm gradient cho biểu đồ Area (Doanh Thu)
+    const areaDoanhThuGradient = (ctx) => {
+        const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+        gradient.addColorStop(0, 'rgba(255, 193, 7, 1)');
+        gradient.addColorStop(1, 'rgba(255, 193, 7, 0.2)');
+        return gradient;
+    };
+
+    // Dữ liệu và cấu hình biểu đồ Đơn Hàng
+    const lineConfig = {
+        type: 'line',
+        data: {
+            labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
+            datasets: [{
+                label: 'Đơn Hàng',
+                data: [1000, 1500, 1200, 1250, 1350, 1300, 1400, 1150, 1300, 1600, 1700],
+                borderColor: '#4CAF50',
+                backgroundColor: (ctx) => lineDonHangGradient(ctx.chart.ctx),
+                tension: 0.4,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'top' },
+                tooltip: {
+                    callbacks: {
+                        label: (context) => {
+                            return `${context.dataset.label}: ${context.raw.toLocaleString()} Đơn`;
+                        }
+                    }
+                }
+
+            },
+            scales: {
+                x: { title: { display: true, text: 'Năm 2023' } },
+                y: {
+                    title: { display: true, text: 'Đơn Hàng' },
+                    beginAtZero: true,
+                    ticks: {
+                        callback: (value) => value.toLocaleString(),
+                    }
+                }
+            }
+
+        }
+
+    };
+
+    // Dữ liệu và cấu hình biểu đồ Doanh Thu
+    const areaConfig = {
+        type: 'line',
+        data: {
+            labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
+            datasets: [{
+                label: 'Doanh Thu',
+                data: [200000000, 150000000, 300000000, 200000000, 250000000, 100000000, 200000000, 150000000, 300000000, 100000000, 200000000],
+                borderColor: '#FFC107',
+                backgroundColor: (ctx) => areaDoanhThuGradient(ctx.chart.ctx),
+                tension: 0.4,
+                fill: true
+            }]
+        },
+              options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'top' },
+                tooltip: {
+                    callbacks: {
+                        label: (context) => {
+                            return `${context.dataset.label}: ${context.raw.toLocaleString()} VND`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: { title: { display: true, text: 'Năm 2023' } },
+                y: {
+                    title: { display: true, text: 'Doanh thu (VND)' },
+                    beginAtZero: true,
+                    ticks: {
+                        callback: (value) => value.toLocaleString(),
+                    }
+                }
+            }
+        }
+    };
+
+    // Khởi tạo biểu đồ
+    window.onload = function () {
+        const lineCtx = document.getElementById('lineChart').getContext('2d');
+        const areaCtx = document.getElementById('areaChart').getContext('2d');
+        new Chart(lineCtx, lineConfig);
+        new Chart(areaCtx, areaConfig);
+    };
+
+</script>
+
+
+<!-- Scripts -->
+<script>
+    // Hiển thị hình ảnh xem trước
+    document.getElementById('websiteImage').addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        const preview = document.getElementById('imagePreview');
+
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        } else {
+            preview.style.display = 'none';
+            preview.src = '';
+        }
+    });
+
+    // Lưu thông tin website
+    document.getElementById('saveWebsiteInfo').addEventListener('click', () => {
+        const websiteName = document.getElementById('websiteName').value;
+        const websiteAddress = document.getElementById('websiteAddress').value;
+        const websiteLinkFB = document.getElementById('websiteLinkFB').value;
+        const websitePhone = document.getElementById('websitePhone').value;
+        const websiteEmail = document.getElementById('websiteEmail').value;
+
+        console.log('Thông tin website:');
+        console.log('Tên:', websiteName);
+        console.log('Địa chỉ:', websiteAddress);
+        console.log('Facebook:', websiteLinkFB);
+        console.log('Số điện thoại:', websitePhone);
+        console.log('Email:', websiteEmail);
+
+        alert('Thông tin đã được lưu!');
+    });
+</script>
+}

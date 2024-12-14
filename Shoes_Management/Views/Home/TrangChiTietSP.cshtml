@@ -1,0 +1,439 @@
+﻿<style>
+	.rating {
+		display: flex;
+		gap: 5px;
+	}
+
+		.rating .star {
+			font-size: 20px;
+			color: gold;
+			cursor: pointer;
+			transition: transform 0.2s ease;
+		}
+
+			.rating .star:hover {
+				transform: scale(1.2);
+			}
+
+	.ps-shoe__rating {
+		display: flex;
+		gap: 2px; /* Khoảng cách giữa các sao */
+	}
+
+		.ps-shoe__rating .star {
+			font-size: 16px; /* Kích thước ngôi sao */
+			color: gold; /* Màu sao */
+		}
+
+			.ps-shoe__rating .star:last-child {
+				color: #ccc; /* Màu sao rỗng (chưa được đánh giá) */
+			}
+
+	.ps-product-comments .tab-content {
+		margin-top: 20px;
+	}
+
+	.ps-product-comments .nav-tabs {
+		border-bottom: 2px solid #ddd;
+	}
+
+	.ps-product-comments .nav-link {
+		color: #333;
+		font-weight: bold;
+	}
+
+		.ps-product-comments .nav-link.active {
+			color: #007bff;
+		}
+
+	.ps-product-comments .tab-pane {
+		padding: 15px;
+		border: 1px solid #ddd;
+		border-top: none;
+		background: #f9f9f9;
+	}
+
+</style>
+<section class="section-breadcrumbs">
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-xl-10 col-lg-12 col-xl-offset-1">
+				<div class="breadcrumbs">
+					<nav aria-label="breadcrumb">
+						<ol class="breadcrumb breadcrumb-light d-flex justify-content-center justify-content-lg-start" itemscope itemtype="http://schema.org/BreadcrumbList">
+							<li class="breadcrumb-item text-nowrap" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+								<a itemprop="item" href="https://kingshoes.vn/">
+									<span itemprop="name"><i class="fa-light fa-house"></i> Home</span>
+								</a>
+								<meta itemprop="position" content="1" />
+							</li>
+							<li class="breadcrumb-item text-nowrap" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+								<a itemprop="item" href="https://kingshoes.vn/san-pham">
+									<span itemprop="name">Sản phẩm</span>
+								</a>
+								<meta itemprop="position" content="2" />
+							</li>
+							<li class="breadcrumb-item text-nowrap" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+								<a itemprop="item" href="nike">
+									<span itemprop="name">Nike</span>
+								</a>
+								<meta itemprop="position" content="3" />
+							</li>
+							<li class="breadcrumb-item text-nowrap" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+								<a itemprop="item" href="nike-nam">
+									<span itemprop="name">Nam</span>
+								</a>
+								<meta itemprop="position" content="4" />
+							</li>
+							<li class="breadcrumb-item text-nowrap" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+								<a itemprop="item" href="https://kingshoes.vn/air-force-1-emb-dr9866-100-gia-tot-den-king-shoes.html">
+									<span itemprop="name">AIR FORCE 1 EMB</span>
+								</a>
+								<meta itemprop="position" content="5" />
+							</li>
+						</ol>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="ps-product--detail pt-2 pt-lg-5">
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-12 col-lg-6 col-xl-7">
+				<div class="row justify-content-center">
+					<div class="col-12 col-xxl-10 order-1 order-xxl-2">
+						<div class="position-relative">
+							<div class="splide main-slider-new">
+								<div class="splide__track">
+									<ul class="splide__list">
+
+										<li class="splide__slide"><a class="image-gallery-main image-full image-full-cover" href="https://kingshoes.vn/data/upload/media/dr9866-100-giay-nike-air-force-1-low-world-champ-gia-tot-den-king-shoes-2.jpeg" data-fancybox="gallery"><img src="https://kingshoes.vn/data/upload/media/dr9866-100-giay-nike-air-force-1-low-world-champ-gia-tot-den-king-shoes-2.jpeg" alt=""></a></li>
+
+										<li class="splide__slide"><a class="image-gallery-main image-full image-full-cover" href="https://kingshoes.vn/data/upload/media/dr9866-100-giay-nike-air-force-1-low-world-champ-gia-tot-den-king-shoes-3.jpeg" data-fancybox="gallery"><img src="https://kingshoes.vn/data/upload/media/dr9866-100-giay-nike-air-force-1-low-world-champ-gia-tot-den-king-shoes-3.jpeg" alt=""></a></li>
+
+										<li class="splide__slide"><a class="image-gallery-main image-full image-full-cover" href="https://kingshoes.vn/data/upload/media/dr9866-100-giay-nike-air-force-1-low-world-champ-gia-tot-den-king-shoes-4.jpeg" data-fancybox="gallery"><img src="https://kingshoes.vn/data/upload/media/dr9866-100-giay-nike-air-force-1-low-world-champ-gia-tot-den-king-shoes-4.jpeg" alt=""></a></li>
+									</ul>
+								</div>
+							</div>
+							<div class="product-label-group">
+							</div>
+						</div>
+					</div>
+
+					<div class="col-12 col-xxl-2 order-2 order-xxl-1 mt-2 mt-xxl-0">
+						<div class="splide thumbnail-slider">
+							<div class="splide__track">
+								<ul class="splide__list">
+
+									<li class="splide__slide"><div class="image-full image-full-cover"><img src="data:image/gif;base64,R0lGODlhAQABAPAAAMzMzAAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" data-splide-lazy="https://kingshoes.vn/data/upload/media/dr9866-100-giay-nike-air-force-1-low-world-champ-gia-tot-den-king-shoes-2.jpeg" alt=""></div></li>
+
+									<li class="splide__slide"><div class="image-full image-full-cover"><img src="data:image/gif;base64,R0lGODlhAQABAPAAAMzMzAAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" data-splide-lazy="https://kingshoes.vn/data/upload/media/dr9866-100-giay-nike-air-force-1-low-world-champ-gia-tot-den-king-shoes-3.jpeg" alt=""></div></li>
+
+									<li class="splide__slide"><div class="image-full image-full-cover"><img src="data:image/gif;base64,R0lGODlhAQABAPAAAMzMzAAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" data-splide-lazy="https://kingshoes.vn/data/upload/media/dr9866-100-giay-nike-air-force-1-low-world-champ-gia-tot-den-king-shoes-4.jpeg" alt=""></div></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<div class="col-12 col-lg-6 col-xl-5 mt-3 mt-lg-0">
+				<div class="ps-product__info">
+					<div class="ps-product__rating_code d-flex flex-wrap justify-content-between">
+						<div class="rating">
+							<!-- Hiển thị 5 sao -->
+							<span class="star">&#9733;</span> <!-- Ngôi sao đầy -->
+							<span class="star">&#9733;</span> <!-- Ngôi sao đầy -->
+							<span class="star">&#9733;</span> <!-- Ngôi sao đầy -->
+							<span class="star">&#9734;</span> <!-- Ngôi sao rỗng -->
+							<span class="star">&#9734;</span> <!-- Ngôi sao rỗng -->
+						</div>
+						<div id="alertsuccess" style="display: none; color: green; margin-top: 10px;"></div>
+					</div>
+
+				</div>
+				<div id="alertsuccess" class="alert alert-success" style="display:none;"></div>
+				<div class="name-price">
+					<h1>AIR FORCE 1 EMB</h1>
+					<p class="ps-product__category">Mã SP: <strong>DR9866 100</strong></p>
+					<div class="infor-price">
+						<div class="ps-product__price"><b class="new-price">3,600,000 đ</b>  </div>
+					</div>
+				</div>
+
+
+				@* Size giày *@
+				<div class="size-color mt-3">
+
+					<div class="product-form product-size">
+						<div class="row">
+							<label class="font-weight-bold text-uppercase h6 mb-2 d-block col-12">Chọn Size Giày</label>
+							<div class="col-12">
+								<div class="list-attribute-in">
+									<ul class="wapper_cb size d-flex flex-lg-wrap">
+										<li class="cb">
+											<label for="radio72294">
+												<input type="radio" data-id="2294" value="2294" id="radio72294" name="radio7" class="radio" checked>
+												<div class="rd_in">38.5</div>
+											</label>
+										</li>
+										<li class="cb">
+											<label for="radio72296">
+												<input type="radio" data-id="2296" value="2296" id="radio72296" name="radio7" class="radio">
+												<div class="rd_in">40</div>
+											</label>
+										</li>
+										<div class="clear"></div>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+				<form id="addToCart" method="post" accept-charset="UTF-8" class="ProductForm mt-2 mt-lg-3 mb-4" enctype="multipart/form-data">
+					<input type="hidden" name="attribute" id="proPer" />
+					<input type="hidden" name="maSanPham" value="8627" />
+
+					<div class="row align-items-center g-1">
+						<div id="message-box" class="col-12"></div>
+						<div class="col-12 col-md-auto col-auto mb-2 mb-md-0">
+							<div class="product-form product-qty">
+								<div class="product-form-group">
+									<div class="number_price d-flex justify-content-center">
+										<div class="custom">
+											<button class="reduced items-count sub" type="button">-</button>
+
+											<input type="text" class="input-text qty" title="Qty" min="1" maxlength="12" id="qty" name="quantity" value="1" readonly />
+
+											<button class="increase items-count add" type="button">+</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-6 col-md-auto">
+							<button class="ps-btn d-block m-0 w-100 mb-10 text-center btn-pro-detail" data-action="addCart"><i class="fa-solid fa-cart-circle-plus"></i> Thêm vào giỏ</button>
+						</div>
+						<div class="col-6 col-md-auto">
+							<button class="ps-btn btn-buy-now d-block m-0 w-100 mb-10 text-center btn-pro-detail" data-action="buyNow"> Mua ngay <i class="fa-solid fa-arrow-right-to-line"></i></button>
+						</div>
+					</div>
+
+				</form>
+				<div class="girdPro">
+				</div>
+				<div class="block_phone">
+					<span class="text">Hoặc đặt mua: </span><a title="Tư vấn &amp; đặt hàng: 0909300746" href="tel:0909300746">0909300746</a>
+					( Tư vấn Miễn phí )
+				</div>
+			</div>
+		</div>
+	</div>
+
+	</div>
+	<div class="container mt-5">
+		<div class="row">
+			<div class="col-12">
+				<div class="ps-product-comments">
+					<div class="tab-content tab-content-info">
+						<h2>Chi tiết sản phẩm</h2>
+						<div class="tab-pane active">
+							Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+							Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
+							when an unknown printer took a galley of type and scrambled it to make a type specimen book. 
+							It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, 
+							and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		@* bình luận *@
+		<section class="ps-product-comments mt-5">
+			<div class="container">
+				<div class="row">
+					<div class="col-12">
+						<h3 class="ps-section__title">Customer Reviews</h3>
+
+						<!-- Bình luận hiện có -->
+						<div class="comments-list">
+							<div class="comment">
+								<p class="comment-author">John Doe <span class="comment-date">- 2 days ago</span></p>
+								<p class="comment-text">Great product! Very comfortable and stylish.</p>
+							</div>
+
+							<div class="comment">
+								<p class="comment-author">Jane Smith <span class="comment-date">- 1 week ago</span></p>
+								<p class="comment-text">Excellent quality. I love it!</p>
+							</div>
+						</div>
+
+						<!-- Form nhập bình luận -->
+						<div class="comment-form mt-4">
+							<h4>Leave a Review</h4>
+							<form id="comment-form">
+								<div class="form-group">
+									<label for="comment-name">Your Name</label>
+									<input type="text" id="comment-name" class="form-control" placeholder="Your name">
+								</div>
+
+								<div class="form-group">
+									<label for="comment-text">Your Review</label>
+									<textarea id="comment-text" class="form-control" rows="4" placeholder="Write your review"></textarea>
+								</div>
+
+								<button type="submit" class="btn btn-primary mt-3">Submit Review</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		@* Sản phẩm liên quan *@
+		<section class="ps-section ps-section--top-sales ps-owl-root pt-40 pb-40">
+			<div class="container">
+				<div class="ps-section__header mb-30">
+					<div class="row">
+						<div class="col-12">
+							<h3 class="ps-section__title" data-mask="Products">- Sản phẩm liên quan</h3>
+						</div>
+					</div>
+					<div class="ps-section__content pt-3">
+						<div class="row g-3">
+							<!-- Sản phẩm 1 -->
+							<div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12 itemPro">
+								<div class="ps-shoe">
+									<div class="ps-shoe__thumbnail">
+										<div class="product-label-group">
+											<div class="product-label"><span>New</span></div>
+										</div>
+										<img class="lazy" src="https://kingshoes.vn/data/upload/thumb/sneaker-315122-111-air-force-1-07-nike-kingshoesvn-tphcm-tanbinh-17-logo-1551924204-jpg/500_SNEAKER-315122-111-AIR-FORCE-1-07-NIKE-KINGSHOES.VN-TPHCM-TANBINH-17-logo-1551924204-.jpg.webp" alt="AIR FORCE 1">
+										<a class="ps-shoe__overlay" href="https://kingshoes.vn/air-force-1-cw2288-111.html"></a>
+									</div>
+									<div class="ps-shoe__content">
+										<div class="ps-shoe__detail">
+											<a class="ps-shoe__name" href="https://kingshoes.vn/air-force-1-cw2288-111.html">AIR FORCE 1</a>
+											<span class="ps-shoe__price">3,200,000 đ</span>
+										</div>
+										<div class="ps-shoe__rating">
+											<span class="star">★</span>
+											<span class="star">★</span>
+											<span class="star">★</span>
+											<span class="star">★</span>
+											<span class="star">★</span> <!-- Sao chưa đánh giá -->
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- Sản phẩm 2 -->
+							<div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12 itemPro">
+								<div class="ps-shoe">
+									<div class="ps-shoe__thumbnail">
+										<div class="product-label-group">
+											<div class="product-label"><span>New</span></div>
+										</div>
+										<img class="lazy" src="https://kingshoes.vn/data/upload/thumb/fb7054-105-giay-nike-zoom-vapor-pro-2-hc-prm-gia-tot-den-king-shoes-12jpeg/500_fb7054-105-giay-nike-zoom-vapor-pro-2-hc-prm-gia-tot-den-king-shoes-12.jpeg.webp" alt="NIKECOURT AIR ZOOM VAPOR PRO 2 PREMIUM">
+										<a class="ps-shoe__overlay" href="https://kingshoes.vn/nikecourt-air-zoom-vapor-pro-2-premium-fb7054-105-chinh-hang-gia-tot-den-king-shoes.html"></a>
+									</div>
+									<div class="ps-shoe__content">
+										<div class="ps-shoe__detail">
+											<a class="ps-shoe__name" href="https://kingshoes.vn/nikecourt-air-zoom-vapor-pro-2-premium-fb7054-105-chinh-hang-gia-tot-den-king-shoes.html">NIKECOURT AIR ZOOM VAPOR PRO 2 PREMIUM</a>
+											<span class="ps-shoe__price">3,500,000 đ</span>
+										</div>
+										<div class="ps-shoe__rating">
+											<span class="star">★</span>
+											<span class="star">★</span>
+											<span class="star">★</span>
+											<span class="star">★</span>
+											<span class="star">★</span> <!-- Sao chưa đánh giá -->
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- Sản phẩm 3 -->
+							<div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12 itemPro">
+								<div class="ps-shoe">
+									<div class="ps-shoe__thumbnail">
+										<div class="product-label-group">
+											<div class="product-label"><span>New</span></div>
+										</div>
+										<img class="lazy" src="https://kingshoes.vn/data/upload/thumb/fb2269-106-giay-jordan-stadium-90-gia-tot-den-king-shoes-store-12jpeg/500_fb2269-106-giay-jordan-stadium-90-gia-tot-den-king-shoes-store-12.jpeg.webp" alt="JORDAN STADIUM 90">
+										<a class="ps-shoe__overlay" href="https://kingshoes.vn/jordan-stadium-90-fb2269-106-chinh-hang-gia-tot-den-king-shoes.html"></a>
+									</div>
+									<div class="ps-shoe__content">
+										<div class="ps-shoe__detail">
+											<a class="ps-shoe__name" href="https://kingshoes.vn/jordan-stadium-90-fb2269-106-chinh-hang-gia-tot-den-king-shoes.html">JORDAN STADIUM 90</a>
+											<span class="ps-shoe__price">3,900,000 đ</span>
+										</div>
+										<div class="ps-shoe__rating">
+											<span class="star">★</span>
+											<span class="star">★</span>
+											<span class="star">★</span>
+											<span class="star">★</span>
+											<span class="star">★</span> <!-- Sao chưa đánh giá -->
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- Sản phẩm 4 -->
+							<div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12 itemPro">
+								<div class="ps-shoe">
+									<div class="ps-shoe__thumbnail">
+										<div class="product-label-group">
+											<div class="product-label"><span>New</span></div>
+										</div>
+										<img class="lazy" src="https://kingshoes.vn/data/upload/thumb/fb2269-106-giay-jordan-stadium-90-gia-tot-den-king-shoes-store-12jpeg/500_fb2269-106-giay-jordan-stadium-90-gia-tot-den-king-shoes-store-12.jpeg.webp" alt="JORDAN STADIUM 90">
+										<a class="ps-shoe__overlay" href="https://kingshoes.vn/jordan-stadium-90-fb2269-106-chinh-hang-gia-tot-den-king-shoes.html"></a>
+									</div>
+									<div class="ps-shoe__content">
+										<div class="ps-shoe__detail">
+											<a class="ps-shoe__name" href="https://kingshoes.vn/jordan-stadium-90-fb2269-106-chinh-hang-gia-tot-den-king-shoes.html">JORDAN STADIUM 90</a>
+											<span class="ps-shoe__price">3,900,000 đ</span>
+										</div>
+										<div class="ps-shoe__rating">
+											<span class="star">★</span>
+											<span class="star">★</span>
+											<span class="star">★</span>
+											<span class="star">★</span>
+											<span class="star">★</span> <!-- Sao chưa đánh giá -->
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		</section>
+</section>
+
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+		const qtyInput = document.getElementById("qty");
+		const addButton = document.querySelector(".increase");
+		const subtractButton = document.querySelector(".reduced");
+
+		addButton.addEventListener("click", function () {
+			let currentQty = parseInt(qtyInput.value) || 1;
+			qtyInput.value = currentQty + 1;
+		});
+
+		subtractButton.addEventListener("click", function () {
+			let currentQty = parseInt(qtyInput.value) || 1;
+			if (currentQty > 1) {
+				qtyInput.value = currentQty - 1;
+			}
+		});
+	});
+
+</script>
