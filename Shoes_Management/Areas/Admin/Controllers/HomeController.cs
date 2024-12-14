@@ -10,8 +10,6 @@ namespace Shoes_Management.Areas.Admin.Controllers
 		{
 			return View();
 		}
-
-
         public IActionResult TrangDanhMucSanPham()
         {
             return View();
@@ -31,7 +29,8 @@ namespace Shoes_Management.Areas.Admin.Controllers
         {
             return View();
         }
-		public IActionResult Comment_Page()
+
+        public IActionResult Comment_Page()
 		{
 			return View();
 		}
@@ -65,6 +64,7 @@ namespace Shoes_Management.Areas.Admin.Controllers
 		{
 			return View();
 		}
-	}
-
+    }
 }
+
+
