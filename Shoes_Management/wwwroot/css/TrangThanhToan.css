@@ -1,0 +1,20 @@
+﻿.container {
+    max-width: 850px;
+    margin-top: 30px;
+}
+
+.btn-outline-secondary, .btn-primary, .btn-success {
+    font-size: 14px;
+}
+
+.form-label {
+    font-weight: bold;
+}
+
+.form-check-input {
+    margin-right: 10px;
+}
+
+.alert {
+    display: none;
+}

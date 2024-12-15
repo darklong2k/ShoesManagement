@@ -1,0 +1,183 @@
+﻿<link href="~/css/TrangCaNhan.css" rel="stylesheet" />
+
+<div class="container my-4">
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="bg-light p-4 rounded shadow-sm">
+                <h4 class="text-center mb-4">Trang Cá Nhân</h4>
+                <div class="nav flex-column">
+                    <a href="javascript:void(0);" class="nav-link text-dark active" onclick="showSection('personal-info')" id="nav-personal-info">
+                        <i class="fas fa-user-circle"></i> Thông Tin Cá Nhân
+                    </a>
+                    <a href="javascript:void(0);" class="nav-link text-dark" onclick="showSection('order-list')" id="nav-order-list">
+                        <i class="fas fa-box"></i> Danh Sách Đơn Hàng
+                    </a>
+                    <a href="javascript:void(0);" class="nav-link text-dark" onclick="showSection('favorite-products')" id="nav-favorite-products">
+                        <i class="fas fa-heart"></i> Sản Phẩm Yêu Thích
+                    </a>
+                    <a href="javascript:void(0);" class="nav-link text-dark" onclick="showSection('rated-products')" id="nav-rated-products">
+                        <i class="fas fa-star"></i> Sản Phẩm Đã Chấm Điểm
+                    </a>
+                    <a href="#" class="nav-link text-dark" data-bs-toggle="modal" data-bs-target="#changePasswordModal"><i class="fas fa-lock"></i> Đổi Mật Khẩu</a>
+                    <a href="#" class="nav-link text-dark"><i class="fas fa-sign-out-alt"></i> Đăng Xuất</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-9">
+            <div id="personal-info" class="section-content mb-4">
+                <div class="d-flex align-items-center mb-4">
+                    <img src="~/images/T1.svg" alt="Avatar" class="rounded-circle me-3" style="width: 100px; height: 100px;">
+                    <h4 class="mb-0">Nguyễn Văn A</h4>
+                </div>
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <table class="table table-bordered">
+                            <tbody>
+                                <tr><th>Tên:</th><td>Nguyễn Văn A</td></tr>
+                                <tr><th>Địa chỉ email:</th><td>nguyen.vana@example.com</td></tr>
+                                <tr><th>Số điện thoại:</th><td>0123456789</td></tr>
+                                <tr><th>Địa chỉ:</th><td>Số 10, Đường ABC, Quận XYZ</td></tr>
+                                <tr><th>Ngày sinh:</th><td>01/01/1990</td></tr>
+                                <tr><th>Giới tính:</th><td>Nam</td></tr>
+                            </tbody>
+                        </table>
+                        <button class="btn btn-primary"><i class="fas fa-edit"></i> Chỉnh sửa thông tin</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="order-list" class="section-content mb-4" style="display: none;">
+                <h4 class="mb-3">Danh Sách Đơn Hàng</h4>
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr><th>Mã đơn hàng</th><th>Ngày đặt</th><th>Trạng thái</th><th>Thao tác</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>#001</td><td>12/11/2024</td><td><span class="badge bg-success"><i class="fas fa-check-circle"></i> Đã giao</span></td><td><button class="btn btn-danger btn-sm" onclick="cancelOrder(1)">Hủy đơn</button></td></tr>
+                                <tr><td>#002</td><td>10/11/2024</td><td><span class="badge bg-warning"><i class="fas fa-hourglass-half"></i> Đang xử lý</span></td><td><button class="btn btn-danger btn-sm" onclick="cancelOrder(2)">Hủy đơn</button></td></tr>
+                                <tr><td>#003</td><td>08/11/2024</td><td><span class="badge bg-danger"><i class="fas fa-times-circle"></i> Đã hủy</span></td><td><button class="btn btn-danger btn-sm" disabled>Hủy đơn</button></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="favorite-products" class="section-content mb-4" style="display: none;">
+                <h4 class="mb-3">Sản Phẩm Yêu Thích</h4>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <div class="card shadow-sm">
+                            <img src="https://via.placeholder.com/150" class="card-img-top" alt="Product Image">
+                            <div class="card-body">
+                                <h5 class="card-title">Sản phẩm 1</h5>
+                                <p class="card-text">Giá: 500,000 VND</p>
+                                <button class="btn btn-danger btn-sm">Bỏ yêu thích</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card shadow-sm">
+                            <img src="https://via.placeholder.com/150" class="card-img-top" alt="Product Image">
+                            <div class="card-body">
+                                <h5 class="card-title">Sản phẩm 2</h5>
+                                <p class="card-text">Giá: 300,000 VND</p>
+                                <button class="btn btn-danger btn-sm">Bỏ yêu thích</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card shadow-sm">
+                            <img src="https://via.placeholder.com/150" class="card-img-top" alt="Product Image">
+                            <div class="card-body">
+                                <h5 class="card-title">Sản phẩm 3</h5>
+                                <p class="card-text">Giá: 400,000 VND</p>
+                                <button class="btn btn-danger btn-sm">Bỏ yêu thích</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="rated-products" class="section-content mb-4" style="display: none;">
+                <h4 class="mb-3">Sản Phẩm Đã Chấm Điểm</h4>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <div class="card shadow-sm">
+                            <img src="https://via.placeholder.com/150" class="card-img-top" alt="Product Image">
+                            <div class="card-body">
+                                <h5 class="card-title">Sản phẩm 4</h5>
+                                <p class="card-text">Giá: 600,000 VND</p>
+                                <p class="card-text">Đánh giá: 4/5</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card shadow-sm">
+                            <img src="https://via.placeholder.com/150" class="card-img-top" alt="Product Image">
+                            <div class="card-body">
+                                <h5 class="card-title">Sản phẩm 5</h5>
+                                <p class="card-text">Giá: 350,000 VND</p>
+                                <p class="card-text">Đánh giá: 5/5</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card shadow-sm">
+                            <img src="https://via.placeholder.com/150" class="card-img-top" alt="Product Image">
+                            <div class="card-body">
+                                <h5 class="card-title">Sản phẩm 6</h5>
+                                <p class="card-text">Giá: 700,000 VND</p>
+                                <p class="card-text">Đánh giá: 3/5</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Đổi Mật Khẩu -->
+<div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="changePasswordModalLabel">Đổi Mật Khẩu</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="currentPassword" class="form-label">Mật khẩu hiện tại</label>
+                        <input type="password" class="form-control" id="currentPassword" placeholder="Nhập mật khẩu hiện tại" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="newPassword" class="form-label">Mật khẩu mới</label>
+                        <input type="password" class="form-control" id="newPassword" placeholder="Nhập mật khẩu mới" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirmNewPassword" class="form-label">Xác nhận mật khẩu mới</label>
+                        <input type="password" class="form-control" id="confirmNewPassword" placeholder="Xác nhận mật khẩu mới" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Cập nhật mật khẩu</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function showSection(sectionId) {
+            document.querySelectorAll('.section-content').forEach(section => section.style.display = 'none');
+            document.getElementById(sectionId).style.display = 'block';
+            document.querySelectorAll('.nav-link').forEach(item => item.classList.remove('active'));
+            document.getElementById('nav-' + sectionId).classList.add('active');
+        }
+        document.addEventListener("DOMContentLoaded", () => showSection('personal-info'));
+    </script>
+}
+

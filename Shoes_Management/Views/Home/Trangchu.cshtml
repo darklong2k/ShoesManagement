@@ -1,444 +1,428 @@
-﻿    <!-- SLideShow -->
-<div class="splide" id="image-slider">
-    <div class="splide__track">
-        <ul class="splide__list">
-            <!-- Các slide hình ảnh -->
-            <li class="splide__slide">
-                <img src="aaa.jpg" alt="Slide 1">
-            </li>
-            <li class="splide__slide">
-                <img src="asp-net-core.png" alt="Slide 2">
-            </li>
-            <li class="splide__slide">
-                <img src="~/images/background.jpg" alt="Slide 3">
-            </li>
-            <!-- Thêm các slide hình ảnh khác nếu cần -->
-        </ul>
+﻿@{
+    ViewData["Title"] = "Trang chủ";
+}
+
+<style>
+    /* Slideshow container */
+    .slideshow-container {
+        position: relative;
+        max-width: 100%;
+        margin: auto;
+        overflow: hidden; /* Hide overflow to keep everything neat */
+    }
+
+    /* Each slide */
+    .mySlides {
+        width: 100%;
+        height: 100vh; /* Full viewport height */
+        display: none; /* Hide slides initially */
+        display: flex; /* Use Flexbox to center the content */
+        justify-content: center; /* Center horizontally */
+        align-items: center; /* Center vertically */
+    }
+
+        /* Style for images to ensure they scale properly */
+        .mySlides img {
+            width: 100%;
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain; /* Ensure image fits without distortion */
+        }
+
+    /* Navigation buttons (left and right) */
+    .prev, .next {
+        position: absolute;
+        top: 50%;
+        padding: 16px;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 18px;
+        border-radius: 50%;
+        z-index: 100;
+        transform: translateY(-50%);
+    }
+
+    .prev {
+        left: 10px;
+    }
+
+    .next {
+        right: 10px;
+    }
+
+</style>
+
+<!-- Slideshow Container -->
+<div class="slideshow-container">
+    <!-- Slide 1 -->
+    <div class="mySlides">
+        <img src="~/images/T1.svg" alt="Slide 1">
     </div>
 
-    <!-- Các nút điều khiển -->
-    <div class="splide__arrows">
-        <button class="splide__arrow splide__arrow--prev"><<</button>
-        <button class="splide__arrow splide__arrow--next"> >> </button>
+    <!-- Slide 2 -->
+    <div class="mySlides">
+        <img src="~/images/T2.svg" alt="Slide 2">
     </div>
+
+    <!-- Slide 3 -->
+    <div class="mySlides">
+        <img src="~/images/T3.svg" alt="Slide 3">
+    </div>
+
+    <!-- Left navigation button -->
+    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+
+    <!-- Right navigation button -->
+    <a class="next" onclick="plusSlides(1)">&#10095;</a>
 </div>
-<section class="ps-features pt-40 pb-20 bg--cover">
+
+
+
+
+<!-- Features Section -->
+<section class="pt-4 pb-2 bg-light">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-4 col-md-4 col-sm-4 col-12 mb-4">
-                <div class="ps-iconbox ps-iconbox--inverse">
-                    <div class="ps-iconbox__header">
-                        <span class="icon-box-icon icon-shipping"><i class='ps-icon-money'></i></span>
-                        <h3>CAM KẾT CHÍNH HÃNG</h3>
-                        <p>100 % Authentic</p>
+        <div class="row text-center">
+            <div class="col-md-4 mb-3">
+                <div class="bg-white p-4 rounded shadow-sm">
+                    <div class="mb-3">
+                        <i class="bi bi-bag-check-fill fs-2 text-primary"></i>
                     </div>
-                    <div class="ps-iconbox__content">
-                        <p>Cam kết sản phẩm chính hãng từ Châu Âu, Châu Mỹ...</p>
-                    </div>
+                    <h5 class="fw-bold">CAM KẾT CHÍNH HÃNG</h5>
+                    <p class="text-muted mb-0">100% Authentic</p>
+                    <small>Cam kết sản phẩm chính hãng từ Châu Âu, Châu Mỹ...</small>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-4 col-12 mb-4">
-                <div class="ps-iconbox ps-iconbox--inverse">
-                    <div class="ps-iconbox__header">
-                        <span class="icon-box-icon icon-shipping"><i class='ps-icon-delivery'></i></span>
-                        <h3>GIAO HÀNG HỎA TỐC</h3>
-                        <p>Express delivery</p>
+            <div class="col-md-4 mb-3">
+                <div class="bg-white p-4 rounded shadow-sm">
+                    <div class="mb-3">
+                        <i class="bi bi-truck fs-2 text-primary"></i>
                     </div>
-                    <div class="ps-iconbox__content">
-                        <p>SHIP hỏa tốc 1h nhận hàng trong nội thành HCM</p>
-                    </div>
+                    <h5 class="fw-bold">GIAO HÀNG HỎA TỐC</h5>
+                    <p class="text-muted mb-0">Express Delivery</p>
+                    <small>SHIP hỏa tốc 1h nhận hàng trong nội thành HCM</small>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-4 col-12 mb-4">
-                <div class="ps-iconbox ps-iconbox--inverse">
-                    <div class="ps-iconbox__header">
-                        <span class="icon-box-icon icon-shipping"><i class='ps-icon-customer-service'></i></span>
-                        <h3>HỖ TRỢ 24/24</h3>
-                        <p>Supporting 24/24</p>
+            <div class="col-md-4 mb-3">
+                <div class="bg-white p-4 rounded shadow-sm">
+                    <div class="mb-3">
+                        <i class="bi bi-headset fs-2 text-primary"></i>
                     </div>
-                    <div class="ps-iconbox__content">
-                        <p>Gọi ngay <a href='tel:0909300746'>0909300746</a></p>
-                    </div>
+                    <h5 class="fw-bold">HỖ TRỢ 24/24</h5>
+                    <p class="text-muted mb-0">Supporting 24/24</p>
+                    <small>Gọi ngay <a href="tel:0909300746">0909300746</a></small>
                 </div>
             </div>
         </div>
     </div>
 </section>
-<!-- End slideShow -->
-<!-- Sản phẩm mới -->
-<section class="ps-section--features-product ps-section pt-40 pb-40">
+
+<!-- Sản phẩm -->
+<section class="pt-4 pb-4">
     <div class="container">
-        <div class="ps-section__header mb-50 clearfix">
-            <h3 class="ps-section__title" data-mask="Product"><a href="san-pham">- Sản phẩm mới</a></h3>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="fw-bold mb-0">Sản phẩm mới</h3>
+            <a href="/tat-ca-san-pham" class="btn btn-outline-primary btn-sm">Xem tất cả</a>
         </div>
-        <div class="ps-products" data-mh="product-listing">
-            <div class="row g-3">
-                <!-- Sản phẩm 1 -->
-                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12 itemPro">
-                    <div class="ps-shoe">
-                        <div class="ps-shoe__thumbnail">
-                            <div class="product-label-group">
-                                <div class="product-label"><span>New</span></div>
-                            </div>
-                            <img class="lazy" src="https://kingshoes.vn/data/upload/thumb/sneaker-315122-111-air-force-1-07-nike-kingshoesvn-tphcm-tanbinh-17-logo-1551924204-jpg/500_SNEAKER-315122-111-AIR-FORCE-1-07-NIKE-KINGSHOES.VN-TPHCM-TANBINH-17-logo-1551924204-.jpg.webp" alt="AIR FORCE 1">
-                            <a class="ps-shoe__overlay" href="https://kingshoes.vn/air-force-1-cw2288-111.html"></a>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+            <!-- Sản phẩm 1 -->
+            <div class="col">
+                <div class="card h-100">
+                    <a href="https://kingshoes.vn/air-force-1-cw2288-111.html">
+                        <img src="https://kingshoes.vn/data/upload/thumb/sneaker-315122-111-air-force-1-07-nike-kingshoesvn-tphcm-tanbinh-17-logo-1551924204-jpg/500_SNEAKER-315122-111-AIR-FORCE-1-07-NIKE-KINGSHOES.VN-TPHCM-TANBINH-17-logo-1551924204-.jpg.webp"
+                             class="card-img-top" alt="AIR FORCE 1">
+                    </a>
+                    <div class="card-body">
+                        <a href="https://kingshoes.vn/air-force-1-cw2288-111.html" style="text-decoration:none">
+                            <h5 class="card-title">AIR FORCE 1</h5>
+                        </a>
+                        <div>
+                            <span class="text-warning">★★★★☆</span>
                         </div>
-                        <div class="ps-shoe__content">
-                            <div class="ps-shoe__detail">
-                                <a class="ps-shoe__name" href="https://kingshoes.vn/air-force-1-cw2288-111.html">AIR FORCE 1</a>
-                                <span class="ps-shoe__price">
-                                    3,200,000 đ
-                                </span>
-                            </div>
-                            <div class="ps-shoe__rating">
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">☆</span> <!-- Sao chưa đánh giá -->
-                            </div>
-                        </div>
+                        <p class="text-danger">3,200,000 đ</p>
+
                     </div>
                 </div>
-
-                <!-- Sản phẩm 2 -->
-                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12 itemPro">
-                    <div class="ps-shoe">
-                        <div class="ps-shoe__thumbnail">
-                            <div class="product-label-group">
-                                <div class="product-label"><span>New</span></div>
-                            </div>
-                            <img class="lazy" src="https://kingshoes.vn/data/upload/thumb/fb7054-105-giay-nike-zoom-vapor-pro-2-hc-prm-gia-tot-den-king-shoes-12jpeg/500_fb7054-105-giay-nike-zoom-vapor-pro-2-hc-prm-gia-tot-den-king-shoes-12.jpeg.webp" alt="NIKECOURT AIR ZOOM VAPOR PRO 2 PREMIUM">
-                            <a class="ps-shoe__overlay" href="https://kingshoes.vn/nikecourt-air-zoom-vapor-pro-2-premium-fb7054-105-chinh-hang-gia-tot-den-king-shoes.html"></a>
-                        </div>
-                        <div class="ps-shoe__content">
-                            <div class="ps-shoe__detail">
-                                <a class="ps-shoe__name" href="https://kingshoes.vn/nikecourt-air-zoom-vapor-pro-2-premium-fb7054-105-chinh-hang-gia-tot-den-king-shoes.html">NIKECOURT AIR ZOOM VAPOR PRO 2 PREMIUM</a>
-                                <span class="ps-shoe__price">3,500,000 đ</span>
-                                <div class="ps-shoe__rating">
-                                    <span class="star">★</span>
-                                    <span class="star">★</span>
-                                    <span class="star">★</span>
-                                    <span class="star">★</span>
-                                    <span class="star">☆</span> <!-- Sao chưa đánh giá -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Sản phẩm 3 -->
-                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12 itemPro">
-                    <div class="ps-shoe">
-                        <div class="ps-shoe__thumbnail">
-                            <div class="product-label-group">
-                                <div class="product-label"><span>New</span></div>
-                            </div>
-                            <img class="lazy" src="https://kingshoes.vn/data/upload/thumb/fb2269-106-giay-jordan-stadium-90-gia-tot-den-king-shoes-store-12jpeg/500_fb2269-106-giay-jordan-stadium-90-gia-tot-den-king-shoes-store-12.jpeg.webp" alt="JORDAN STADIUM 90">
-                            <a class="ps-shoe__overlay" href="https://kingshoes.vn/jordan-stadium-90-fb2269-106-chinh-hang-gia-tot-den-king-shoes.html"></a>
-                        </div>
-                        <div class="ps-shoe__content">
-                            <div class="ps-shoe__detail">
-                                <a class="ps-shoe__name" href="https://kingshoes.vn/jordan-stadium-90-fb2269-106-chinh-hang-gia-tot-den-king-shoes.html">JORDAN STADIUM 90</a>
-                                <span class="ps-shoe__price">3,900,000 đ</span>
-                            </div>
-                            <div class="ps-shoe__rating">
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">☆</span> <!-- Sao chưa đánh giá -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Sản phẩm 4 -->
-                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12 itemPro">
-                    <div class="ps-shoe">
-                        <div class="ps-shoe__thumbnail">
-                            <div class="product-label-group">
-                                <div class="product-label"><span>New</span></div>
-                            </div>
-                            <img class="lazy" src="https://kingshoes.vn/data/upload/thumb/fb2269-106-giay-jordan-stadium-90-gia-tot-den-king-shoes-store-12jpeg/500_fb2269-106-giay-jordan-stadium-90-gia-tot-den-king-shoes-store-12.jpeg.webp" alt="JORDAN STADIUM 90">
-                            <a class="ps-shoe__overlay" href="https://kingshoes.vn/jordan-stadium-90-fb2269-106-chinh-hang-gia-tot-den-king-shoes.html"></a>
-                        </div>
-                        <div class="ps-shoe__content">
-                            <div class="ps-shoe__detail">
-                                <a class="ps-shoe__name" href="https://kingshoes.vn/jordan-stadium-90-fb2269-106-chinh-hang-gia-tot-den-king-shoes.html">JORDAN STADIUM 90</a>
-                                <span class="ps-shoe__price">3,900,000 đ</span>
-                            </div>
-                            <div class="ps-shoe__rating">
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">☆</span> <!-- Sao chưa đánh giá -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
-            <div class="text-center mt-4">
-                <a href="/tat-ca-san-pham" class="btn btn-primary">Xem tất cả</a>
+
+            <!-- Sản phẩm 1 -->
+            <div class="col">
+                <div class="card h-100">
+                    <a href="https://kingshoes.vn/air-force-1-cw2288-111.html">
+                        <img src="https://kingshoes.vn/data/upload/thumb/sneaker-315122-111-air-force-1-07-nike-kingshoesvn-tphcm-tanbinh-17-logo-1551924204-jpg/500_SNEAKER-315122-111-AIR-FORCE-1-07-NIKE-KINGSHOES.VN-TPHCM-TANBINH-17-logo-1551924204-.jpg.webp"
+                             class="card-img-top" alt="AIR FORCE 1">
+                    </a>
+                    <div class="card-body">
+                        <a href="https://kingshoes.vn/air-force-1-cw2288-111.html" style="text-decoration:none">
+                            <h5 class="card-title">AIR FORCE 1</h5>
+                        </a>
+                        <div>
+                            <span class="text-warning">★★★★☆</span>
+                        </div>
+                        <p class="text-danger">3,200,000 đ</p>
+
+                    </div>
+                </div>
+            </div><!-- Sản phẩm 1 -->
+            <div class="col">
+                <div class="card h-100">
+                    <a href="https://kingshoes.vn/air-force-1-cw2288-111.html">
+                        <img src="https://kingshoes.vn/data/upload/thumb/sneaker-315122-111-air-force-1-07-nike-kingshoesvn-tphcm-tanbinh-17-logo-1551924204-jpg/500_SNEAKER-315122-111-AIR-FORCE-1-07-NIKE-KINGSHOES.VN-TPHCM-TANBINH-17-logo-1551924204-.jpg.webp"
+                             class="card-img-top" alt="AIR FORCE 1">
+                    </a>
+                    <div class="card-body">
+                        <a href="https://kingshoes.vn/air-force-1-cw2288-111.html" style="text-decoration:none">
+                            <h5 class="card-title">AIR FORCE 1</h5>
+                        </a>
+                        <div>
+                            <span class="text-warning">★★★★☆</span>
+                        </div>
+                        <p class="text-danger">3,200,000 đ</p>
+
+                    </div>
+                </div>
+            </div><!-- Sản phẩm 1 -->
+            <div class="col">
+                <div class="card h-100">
+                    <a href="https://kingshoes.vn/air-force-1-cw2288-111.html">
+                        <img src="https://kingshoes.vn/data/upload/thumb/sneaker-315122-111-air-force-1-07-nike-kingshoesvn-tphcm-tanbinh-17-logo-1551924204-jpg/500_SNEAKER-315122-111-AIR-FORCE-1-07-NIKE-KINGSHOES.VN-TPHCM-TANBINH-17-logo-1551924204-.jpg.webp"
+                             class="card-img-top" alt="AIR FORCE 1">
+                    </a>
+                    <div class="card-body">
+                        <a href="https://kingshoes.vn/air-force-1-cw2288-111.html" style="text-decoration:none">
+                            <h5 class="card-title">AIR FORCE 1</h5>
+                        </a>
+                        <div>
+                            <span class="text-warning">★★★★☆</span>
+                        </div>
+                        <p class="text-danger">3,200,000 đ</p>
+
+                    </div>
+                </div>
             </div>
+            <!-- Thêm các sản phẩm khác tương tự -->
         </div>
     </div>
 </section>
-<!--End Sản phẩm mới -->
-<!-- Sản phẩm nổi bật -->
-<section class="ps-section--features-product ps-section pt-40 pb-40">
+
+
+<!-- Sản phẩm Nổi bật-->
+<section class="pt-4 pb-4">
     <div class="container">
-        <div class="ps-section__header mb-50 clearfix">
-            <h3 class="ps-section__title" data-mask="Product"><a href="san-pham">- Sản phẩm nổi bật</a></h3>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="fw-bold mb-0">Sản phẩm nổi bật</h3>
+            <a href="/tat-ca-san-pham" class="btn btn-outline-primary btn-sm">Xem tất cả</a>
         </div>
-        <div class="ps-products" data-mh="product-listing">
-            <div class="row g-3">
-                <!-- Sản phẩm 1 -->
-                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12 itemPro">
-                    <div class="ps-shoe">
-                        <div class="ps-shoe__thumbnail">
-                            <div class="product-label-group">
-                                <div class="product-label"><span>New</span></div>
-                            </div>
-                            <img class="lazy" src="https://kingshoes.vn/data/upload/thumb/sneaker-315122-111-air-force-1-07-nike-kingshoesvn-tphcm-tanbinh-17-logo-1551924204-jpg/500_SNEAKER-315122-111-AIR-FORCE-1-07-NIKE-KINGSHOES.VN-TPHCM-TANBINH-17-logo-1551924204-.jpg.webp" alt="AIR FORCE 1">
-                            <a class="ps-shoe__overlay" href="https://kingshoes.vn/air-force-1-cw2288-111.html"></a>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+            <!-- Sản phẩm 1 -->
+            <div class="col">
+                <div class="card h-100">
+                    <a href="https://kingshoes.vn/air-force-1-cw2288-111.html">
+                        <img src="https://kingshoes.vn/data/upload/thumb/sneaker-315122-111-air-force-1-07-nike-kingshoesvn-tphcm-tanbinh-17-logo-1551924204-jpg/500_SNEAKER-315122-111-AIR-FORCE-1-07-NIKE-KINGSHOES.VN-TPHCM-TANBINH-17-logo-1551924204-.jpg.webp"
+                             class="card-img-top" alt="AIR FORCE 1">
+                    </a>
+                    <div class="card-body">
+                        <a href="https://kingshoes.vn/air-force-1-cw2288-111.html" style="text-decoration:none">
+                            <h5 class="card-title">AIR FORCE 1</h5>
+                        </a>
+                        <div>
+                            <span class="text-warning">★★★★☆</span>
                         </div>
-                        <div class="ps-shoe__content">
-                            <div class="ps-shoe__detail">
-                                <a class="ps-shoe__name" href="https://kingshoes.vn/air-force-1-cw2288-111.html">AIR FORCE 1</a>
-                                <span class="ps-shoe__price">3,200,000 đ</span>
-                            </div>
-                            <div class="ps-shoe__rating">
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">☆</span> <!-- Sao chưa đánh giá -->
-                            </div>
-                        </div>
+                        <p class="text-danger">3,200,000 đ</p>
+
                     </div>
                 </div>
-
-                <!-- Sản phẩm 2 -->
-                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12 itemPro">
-                    <div class="ps-shoe">
-                        <div class="ps-shoe__thumbnail">
-                            <div class="product-label-group">
-                                <div class="product-label"><span>New</span></div>
-                            </div>
-                            <img class="lazy" src="https://kingshoes.vn/data/upload/thumb/fb7054-105-giay-nike-zoom-vapor-pro-2-hc-prm-gia-tot-den-king-shoes-12jpeg/500_fb7054-105-giay-nike-zoom-vapor-pro-2-hc-prm-gia-tot-den-king-shoes-12.jpeg.webp" alt="NIKECOURT AIR ZOOM VAPOR PRO 2 PREMIUM">
-                            <a class="ps-shoe__overlay" href="https://kingshoes.vn/nikecourt-air-zoom-vapor-pro-2-premium-fb7054-105-chinh-hang-gia-tot-den-king-shoes.html"></a>
-                        </div>
-                        <div class="ps-shoe__content">
-                            <div class="ps-shoe__detail">
-                                <a class="ps-shoe__name" href="https://kingshoes.vn/nikecourt-air-zoom-vapor-pro-2-premium-fb7054-105-chinh-hang-gia-tot-den-king-shoes.html">NIKECOURT AIR ZOOM VAPOR PRO 2 PREMIUM</a>
-                                <span class="ps-shoe__price">3,500,000 đ</span>
-                            </div>
-                            <div class="ps-shoe__rating">
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">☆</span> <!-- Sao chưa đánh giá -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Sản phẩm 3 -->
-                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12 itemPro">
-                    <div class="ps-shoe">
-                        <div class="ps-shoe__thumbnail">
-                            <div class="product-label-group">
-                                <div class="product-label"><span>New</span></div>
-                            </div>
-                            <img class="lazy" src="https://kingshoes.vn/data/upload/thumb/fb2269-106-giay-jordan-stadium-90-gia-tot-den-king-shoes-store-12jpeg/500_fb2269-106-giay-jordan-stadium-90-gia-tot-den-king-shoes-store-12.jpeg.webp" alt="JORDAN STADIUM 90">
-                            <a class="ps-shoe__overlay" href="https://kingshoes.vn/jordan-stadium-90-fb2269-106-chinh-hang-gia-tot-den-king-shoes.html"></a>
-                        </div>
-                        <div class="ps-shoe__content">
-                            <div class="ps-shoe__detail">
-                                <a class="ps-shoe__name" href="https://kingshoes.vn/jordan-stadium-90-fb2269-106-chinh-hang-gia-tot-den-king-shoes.html">JORDAN STADIUM 90</a>
-                                <span class="ps-shoe__price">3,900,000 đ</span>
-                            </div>
-                            <div class="ps-shoe__rating">
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">☆</span> <!-- Sao chưa đánh giá -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Sản phẩm 4 -->
-                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12 itemPro">
-                    <div class="ps-shoe">
-                        <div class="ps-shoe__thumbnail">
-                            <div class="product-label-group">
-                                <div class="product-label"><span>New</span></div>
-                            </div>
-                            <img class="lazy" src="https://kingshoes.vn/data/upload/thumb/fb2269-106-giay-jordan-stadium-90-gia-tot-den-king-shoes-store-12jpeg/500_fb2269-106-giay-jordan-stadium-90-gia-tot-den-king-shoes-store-12.jpeg.webp" alt="JORDAN STADIUM 90">
-                            <a class="ps-shoe__overlay" href="https://kingshoes.vn/jordan-stadium-90-fb2269-106-chinh-hang-gia-tot-den-king-shoes.html"></a>
-                        </div>
-                        <div class="ps-shoe__content">
-                            <div class="ps-shoe__detail">
-                                <a class="ps-shoe__name" href="https://kingshoes.vn/jordan-stadium-90-fb2269-106-chinh-hang-gia-tot-den-king-shoes.html">JORDAN STADIUM 90</a>
-                                <span class="ps-shoe__price">3,900,000 đ</span>
-                            </div>
-                            <div class="ps-shoe__rating">
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">☆</span> <!-- Sao chưa đánh giá -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
-            <div class="text-center mt-4">
-                <a href="/tat-ca-san-pham" class="btn btn-primary">Xem tất cả</a>
+
+            <!-- Sản phẩm 1 -->
+            <div class="col">
+                <div class="card h-100">
+                    <a href="https://kingshoes.vn/air-force-1-cw2288-111.html">
+                        <img src="https://kingshoes.vn/data/upload/thumb/sneaker-315122-111-air-force-1-07-nike-kingshoesvn-tphcm-tanbinh-17-logo-1551924204-jpg/500_SNEAKER-315122-111-AIR-FORCE-1-07-NIKE-KINGSHOES.VN-TPHCM-TANBINH-17-logo-1551924204-.jpg.webp"
+                             class="card-img-top" alt="AIR FORCE 1">
+                    </a>
+                    <div class="card-body">
+                        <a href="https://kingshoes.vn/air-force-1-cw2288-111.html" style="text-decoration:none">
+                            <h5 class="card-title">AIR FORCE 1</h5>
+                        </a>
+                        <div>
+                            <span class="text-warning">★★★★☆</span>
+                        </div>
+                        <p class="text-danger">3,200,000 đ</p>
+
+                    </div>
+                </div>
             </div>
+            <!-- Sản phẩm 1 -->
+            <div class="col">
+                <div class="card h-100">
+                    <a href="https://kingshoes.vn/air-force-1-cw2288-111.html">
+                        <img src="https://kingshoes.vn/data/upload/thumb/sneaker-315122-111-air-force-1-07-nike-kingshoesvn-tphcm-tanbinh-17-logo-1551924204-jpg/500_SNEAKER-315122-111-AIR-FORCE-1-07-NIKE-KINGSHOES.VN-TPHCM-TANBINH-17-logo-1551924204-.jpg.webp"
+                             class="card-img-top" alt="AIR FORCE 1">
+                    </a>
+                    <div class="card-body">
+                        <a href="https://kingshoes.vn/air-force-1-cw2288-111.html" style="text-decoration:none">
+                            <h5 class="card-title">AIR FORCE 1</h5>
+                        </a>
+                        <div>
+                            <span class="text-warning">★★★★☆</span>
+                        </div>
+                        <p class="text-danger">3,200,000 đ</p>
+
+                    </div>
+                </div>
+            </div>
+            <!-- Sản phẩm 1 -->
+            <div class="col">
+                <div class="card h-100">
+                    <a href="https://kingshoes.vn/air-force-1-cw2288-111.html">
+                        <img src="https://kingshoes.vn/data/upload/thumb/sneaker-315122-111-air-force-1-07-nike-kingshoesvn-tphcm-tanbinh-17-logo-1551924204-jpg/500_SNEAKER-315122-111-AIR-FORCE-1-07-NIKE-KINGSHOES.VN-TPHCM-TANBINH-17-logo-1551924204-.jpg.webp"
+                             class="card-img-top" alt="AIR FORCE 1">
+                    </a>
+                    <div class="card-body">
+                        <a href="https://kingshoes.vn/air-force-1-cw2288-111.html" style="text-decoration:none">
+                            <h5 class="card-title">AIR FORCE 1</h5>
+                        </a>
+                        <div>
+                            <span class="text-warning">★★★★☆</span>
+                        </div>
+                        <p class="text-danger">3,200,000 đ</p>
+
+                    </div>
+                </div>
+            </div>
+            <!-- Thêm các sản phẩm khác tương tự -->
         </div>
     </div>
 </section>
-<!--End Sản phẩm nổi bật -->
+
 <!-- Sản phẩm bán chạy -->
-<section class="ps-section--features-product ps-section pt-40 pb-40">
+<section class="pt-4 pb-4">
     <div class="container">
-        <div class="ps-section__header mb-50 clearfix">
-            <h3 class="ps-section__title" data-mask="Product"><a href="san-pham">- Sản phẩm bán chạy</a></h3>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="fw-bold mb-0">Sản phẩm bán chạy</h3>
+            <a href="/tat-ca-san-pham" class="btn btn-outline-primary btn-sm">Xem tất cả</a>
         </div>
-        <div class="ps-products" data-mh="product-listing">
-            <div class="row g-3">
-                <!-- Sản phẩm 1 -->
-                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12 itemPro">
-                    <div class="ps-shoe">
-                        <div class="ps-shoe__thumbnail">
-                            <div class="product-label-group">
-                                <div class="product-label"><span>New</span></div>
-                            </div>
-                            <img class="lazy" src="https://kingshoes.vn/data/upload/thumb/sneaker-315122-111-air-force-1-07-nike-kingshoesvn-tphcm-tanbinh-17-logo-1551924204-jpg/500_SNEAKER-315122-111-AIR-FORCE-1-07-NIKE-KINGSHOES.VN-TPHCM-TANBINH-17-logo-1551924204-.jpg.webp" alt="AIR FORCE 1">
-                            <a class="ps-shoe__overlay" href="https://kingshoes.vn/air-force-1-cw2288-111.html"></a>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+            <!-- Sản phẩm 1 -->
+            <div class="col">
+                <div class="card h-100">
+                    <a href="https://kingshoes.vn/air-force-1-cw2288-111.html">
+                        <img src="https://kingshoes.vn/data/upload/thumb/sneaker-315122-111-air-force-1-07-nike-kingshoesvn-tphcm-tanbinh-17-logo-1551924204-jpg/500_SNEAKER-315122-111-AIR-FORCE-1-07-NIKE-KINGSHOES.VN-TPHCM-TANBINH-17-logo-1551924204-.jpg.webp"
+                             class="card-img-top" alt="AIR FORCE 1">
+                    </a>
+                    <div class="card-body">
+                        <a href="https://kingshoes.vn/air-force-1-cw2288-111.html" style="text-decoration:none">
+                            <h5 class="card-title">AIR FORCE 1</h5>
+                        </a>
+                        <div>
+                            <span class="text-warning">★★★★☆</span>
                         </div>
-                        <div class="ps-shoe__content">
-                            <div class="ps-shoe__detail">
-                                <a class="ps-shoe__name" href="https://kingshoes.vn/air-force-1-cw2288-111.html">AIR FORCE 1</a>
-                                <span class="ps-shoe__price">3,200,000 đ</span>
-                            </div>
-                            <div class="ps-shoe__rating">
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">☆</span> <!-- Sao chưa đánh giá -->
-                            </div>
-                        </div>
+                        <p class="text-danger">3,200,000 đ</p>
+
                     </div>
                 </div>
-
-                <!-- Sản phẩm 2 -->
-                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12 itemPro">
-                    <div class="ps-shoe">
-                        <div class="ps-shoe__thumbnail">
-                            <div class="product-label-group">
-                                <div class="product-label"><span>New</span></div>
-                            </div>
-                            <img class="lazy" src="https://kingshoes.vn/data/upload/thumb/fb7054-105-giay-nike-zoom-vapor-pro-2-hc-prm-gia-tot-den-king-shoes-12jpeg/500_fb7054-105-giay-nike-zoom-vapor-pro-2-hc-prm-gia-tot-den-king-shoes-12.jpeg.webp" alt="NIKECOURT AIR ZOOM VAPOR PRO 2 PREMIUM">
-                            <a class="ps-shoe__overlay" href="https://kingshoes.vn/nikecourt-air-zoom-vapor-pro-2-premium-fb7054-105-chinh-hang-gia-tot-den-king-shoes.html"></a>
-                        </div>
-                        <div class="ps-shoe__content">
-                            <div class="ps-shoe__detail">
-                                <a class="ps-shoe__name" href="https://kingshoes.vn/nikecourt-air-zoom-vapor-pro-2-premium-fb7054-105-chinh-hang-gia-tot-den-king-shoes.html">NIKECOURT AIR ZOOM VAPOR PRO 2 PREMIUM</a>
-                                <span class="ps-shoe__price">3,500,000 đ</span>
-                            </div>
-                            <div class="ps-shoe__rating">
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">☆</span> <!-- Sao chưa đánh giá -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Sản phẩm 3 -->
-                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12 itemPro">
-                    <div class="ps-shoe">
-                        <div class="ps-shoe__thumbnail">
-                            <div class="product-label-group">
-                                <div class="product-label"><span>New</span></div>
-                            </div>
-                            <img class="lazy" src="https://kingshoes.vn/data/upload/thumb/fb2269-106-giay-jordan-stadium-90-gia-tot-den-king-shoes-store-12jpeg/500_fb2269-106-giay-jordan-stadium-90-gia-tot-den-king-shoes-store-12.jpeg.webp" alt="JORDAN STADIUM 90">
-                            <a class="ps-shoe__overlay" href="https://kingshoes.vn/jordan-stadium-90-fb2269-106-chinh-hang-gia-tot-den-king-shoes.html"></a>
-                        </div>
-                        <div class="ps-shoe__content">
-                            <div class="ps-shoe__detail">
-                                <a class="ps-shoe__name" href="https://kingshoes.vn/jordan-stadium-90-fb2269-106-chinh-hang-gia-tot-den-king-shoes.html">JORDAN STADIUM 90</a>
-                                <span class="ps-shoe__price">3,900,000 đ</span>
-                            </div>
-                            <div class="ps-shoe__rating">
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">☆</span> <!-- Sao chưa đánh giá -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Sản phẩm 4 -->
-                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12 itemPro">
-                    <div class="ps-shoe">
-                        <div class="ps-shoe__thumbnail">
-                            <div class="product-label-group">
-                                <div class="product-label"><span>New</span></div>
-                            </div>
-                            <img class="lazy" src="https://kingshoes.vn/data/upload/thumb/fb2269-106-giay-jordan-stadium-90-gia-tot-den-king-shoes-store-12jpeg/500_fb2269-106-giay-jordan-stadium-90-gia-tot-den-king-shoes-store-12.jpeg.webp" alt="JORDAN STADIUM 90">
-                            <a class="ps-shoe__overlay" href="https://kingshoes.vn/jordan-stadium-90-fb2269-106-chinh-hang-gia-tot-den-king-shoes.html"></a>
-                        </div>
-                        <div class="ps-shoe__content">
-                            <div class="ps-shoe__detail">
-                                <a class="ps-shoe__name" href="https://kingshoes.vn/jordan-stadium-90-fb2269-106-chinh-hang-gia-tot-den-king-shoes.html">JORDAN STADIUM 90</a>
-                                <span class="ps-shoe__price">3,900,000 đ</span>
-                            </div>
-                            <div class="ps-shoe__rating">
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">☆</span> <!-- Sao chưa đánh giá -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
-            <div class="text-center mt-4">
-                <a href="/tat-ca-san-pham" class="btn btn-primary">Xem tất cả</a>
+
+            <!-- Sản phẩm 1 -->
+            <div class="col">
+                <div class="card h-100">
+                    <a href="https://kingshoes.vn/air-force-1-cw2288-111.html">
+                        <img src="https://kingshoes.vn/data/upload/thumb/sneaker-315122-111-air-force-1-07-nike-kingshoesvn-tphcm-tanbinh-17-logo-1551924204-jpg/500_SNEAKER-315122-111-AIR-FORCE-1-07-NIKE-KINGSHOES.VN-TPHCM-TANBINH-17-logo-1551924204-.jpg.webp"
+                             class="card-img-top" alt="AIR FORCE 1">
+                    </a>
+                    <div class="card-body">
+                        <a href="https://kingshoes.vn/air-force-1-cw2288-111.html" style="text-decoration:none">
+                            <h5 class="card-title">AIR FORCE 1</h5>
+                        </a>
+                        <div>
+                            <span class="text-warning">★★★★☆</span>
+                        </div>
+                        <p class="text-danger">3,200,000 đ</p>
+
+                    </div>
+                </div>
+            </div><!-- Sản phẩm 1 -->
+            <div class="col">
+                <div class="card h-100">
+                    <a href="https://kingshoes.vn/air-force-1-cw2288-111.html">
+                        <img src="https://kingshoes.vn/data/upload/thumb/sneaker-315122-111-air-force-1-07-nike-kingshoesvn-tphcm-tanbinh-17-logo-1551924204-jpg/500_SNEAKER-315122-111-AIR-FORCE-1-07-NIKE-KINGSHOES.VN-TPHCM-TANBINH-17-logo-1551924204-.jpg.webp"
+                             class="card-img-top" alt="AIR FORCE 1">
+                    </a>
+                    <div class="card-body">
+                        <a href="https://kingshoes.vn/air-force-1-cw2288-111.html" style="text-decoration:none">
+                            <h5 class="card-title">AIR FORCE 1</h5>
+                        </a>
+                        <div>
+                            <span class="text-warning">★★★★☆</span>
+                        </div>
+                        <p class="text-danger">3,200,000 đ</p>
+
+                    </div>
+                </div>
+            </div><!-- Sản phẩm 1 -->
+            <div class="col">
+                <div class="card h-100">
+                    <a href="https://kingshoes.vn/air-force-1-cw2288-111.html">
+                        <img src="https://kingshoes.vn/data/upload/thumb/sneaker-315122-111-air-force-1-07-nike-kingshoesvn-tphcm-tanbinh-17-logo-1551924204-jpg/500_SNEAKER-315122-111-AIR-FORCE-1-07-NIKE-KINGSHOES.VN-TPHCM-TANBINH-17-logo-1551924204-.jpg.webp"
+                             class="card-img-top" alt="AIR FORCE 1">
+                    </a>
+                    <div class="card-body">
+                        <a href="https://kingshoes.vn/air-force-1-cw2288-111.html" style="text-decoration:none">
+                            <h5 class="card-title">AIR FORCE 1</h5>
+                        </a>
+                        <div>
+                            <span class="text-warning">★★★★☆</span>
+                        </div>
+                        <p class="text-danger">3,200,000 đ</p>
+
+                    </div>
+                </div>
             </div>
+            <!-- Thêm các sản phẩm khác tương tự -->
         </div>
     </div>
 </section>
-<!--End Sản phẩm bán chạy -->
+<script>
+    let slideIndex = 0; // Current slide index
 
-<script type="text/javascript">
-    document.addEventListener('DOMContentLoaded', function () {
-        // Khởi tạo Splide cho slideshow
-        var splide = new Splide('#image-slider', {
-            type: 'fade', // Chế độ chuyển slide mờ
-            heightRatio: 0.5, // Tỷ lệ chiều cao của slideshow
-            arrows: true, // Hiển thị nút chuyển slide
-            pagination: false, // Tắt phân trang nếu không cần
-        });
+    // Show the slides
+    function showSlides() {
+        let slides = document.getElementsByClassName("mySlides");
 
-        // Khởi tạo Splide
-        splide.mount();
-    });
+        if (slides.length > 0) {
+            // Hide all slides
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+
+            // Display the current slide
+            slides[slideIndex].style.display = "block";
+        }
+    }
+
+    // Function to navigate between slides
+    function plusSlides(n) {
+        slideIndex += n;
+
+        let slides = document.getElementsByClassName("mySlides");
+
+        // Loop through the slides
+        if (slideIndex >= slides.length) {
+            slideIndex = 0; // Go back to the first slide
+        }
+        if (slideIndex < 0) {
+            slideIndex = slides.length - 1; // Go to the last slide
+        }
+
+        showSlides(); // Show the updated slide
+    }
+
+    // Display the first slide when the page loads
+    window.onload = function () {
+        showSlides();
+    }
+
 </script>

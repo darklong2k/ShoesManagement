@@ -1,0 +1,33 @@
+﻿#mainImage {
+    max-width: 100%;
+    max-height: 400px; /* Giới hạn chiều cao ảnh chính */
+    object-fit: cover;
+    margin-bottom: 20px;
+}
+
+.product-info h4 {
+    font-size: 1.5rem;
+}
+
+.review {
+    margin-bottom: 15px;
+}
+
+    .review p {
+        font-size: 0.9rem;
+        color: #555;
+    }
+
+.btn-wishlist {
+    border-color: #ff4d4f;
+    color: #ff4d4f;
+}
+
+    .btn-wishlist:hover {
+        background-color: #ff4d4f;
+        color: white;
+    }
+
+.product-info select {
+    margin-bottom: 15px;
+}

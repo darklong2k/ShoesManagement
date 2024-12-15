@@ -21,30 +21,17 @@ namespace Shoes_Management.Controllers
         {
             return View();
         }
-        public IActionResult ThongTinGiaoHang()
+        public IActionResult TrangThongTinGiaoHang()
         {
             return View();
         }
-        public IActionResult DangNhapOrDangKi()
+        public IActionResult TrangThanhToan()
         {
             return View();
         }
-        public IActionResult HoSoCaNhan()
-        {
-            return View();
-        }
-        public IActionResult QuenMatKhau()
-        {
-            return View();
-        }
-        public IActionResult DonHang()
-        {
-            return View();
-        }
-        public IActionResult SanPhamYeuThich()
-        {
-            return View();
-        }
+        
+     
+      
 
 
         public IActionResult Privacy()
@@ -57,12 +44,15 @@ namespace Shoes_Management.Controllers
 			return View();
 		}
 
-		public IActionResult TrangTimKiem()
+		public IActionResult TrangSanPham()
 		{
 			return View();
 		}
-
-		public IActionResult TrangGioiThieu()
+        public IActionResult TrangMoMo()
+        {
+            return View();
+        }
+        public IActionResult TrangGioiThieu()
 		{
 			return View();
 		}
@@ -82,17 +72,17 @@ namespace Shoes_Management.Controllers
 			return View();
 		}
 
-		public IActionResult DangkyTaiKhoan()
+		public IActionResult TrangCaNhan()
 		{
 			return View();
 		}
+        public IActionResult TrangBlog()
+        {
+            return View();
+        }
 
-		public IActionResult Register()
-		{
-			return View();
-		}
 
-		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
 		public IActionResult Error()
 		{
 			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });

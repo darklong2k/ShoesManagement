@@ -1,0 +1,60 @@
+﻿<link href="~/css/TrangThanhToan.css" rel="stylesheet" />
+
+<div class="container">
+    <!-- Hiển thị thông tin đã nhập để kiểm tra -->
+    <div class="mb-4 p-3 border rounded">
+        <h5 class="text-primary">Vui lòng kiểm tra lại thông tin giao hàng:</h5>
+        <p><strong>Họ và tên:</strong> <span id="display-full-name">Nguyễn Văn A</span></p>
+        <p><strong>Số điện thoại:</strong> <span id="display-phone">0123456789</span></p>
+        <p><strong>Địa chỉ:</strong> <span id="display-address">123 Đường ABC, Quận XYZ</span></p>
+        <p><strong>Email:</strong> <span id="display-email">example@domain.com</span></p>
+        <p><strong>Ghi chú:</strong> <span id="display-note">Không có ghi chú</span></p>
+        <p class="text-danger">Lưu ý: Hãy đảm bảo thông tin chính xác để tránh nhầm lẫn trong quá trình giao hàng.</p>
+    </div>
+</div>
+
+<div class="container my-4">
+    <div class="mb-4">
+        <h2 class="h4">Chọn phương thức thanh toán</h2>
+    </div>
+    <div>
+        <form id="payment-form">
+            <!-- Phương thức thanh toán (Radio buttons) -->
+            <div class="mb-3">
+                <label class="form-label">Chọn phương thức thanh toán</label><br>
+                <input type="radio" id="payment-method-cod" name="payment_method" value="cod" class="form-check-input" required>
+                <label for="payment-method-cod" class="form-check-label">Thanh toán khi nhận hàng (COD)</label><br>
+                <input type="radio" id="payment-method-momo" name="payment_method" value="momo" class="form-check-input">
+                <label for="payment-method-momo" class="form-check-label">Thanh toán qua MoMo</label>
+            </div>
+
+            <!-- Nút thanh toán -->
+            <div class="mb-3 d-flex justify-content-end">
+                <button type="submit" class="btn btn-success btn-lg" id="payment-button">Thanh toán</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<!-- Thông báo thanh toán thành công -->
+<div id="payment-success" class="alert alert-success mt-4" style="display: none;">
+    <strong>Thanh toán thành công!</strong> Cảm ơn bạn đã mua hàng.
+</div>
+
+<script>
+    document.getElementById('payment-form').addEventListener('submit', function (event) {
+        event.preventDefault();
+        const codRadio = document.getElementById('payment-method-cod');
+        const momoRadio = document.getElementById('payment-method-momo');
+
+        if (momoRadio.checked) {
+            window.location.href = 'https://momo.vn'; // Chuyển đến trang thanh toán MoMo
+        } else if (codRadio.checked) {
+            document.getElementById('payment-success').style.display = 'block';
+        } else {
+            alert('Vui lòng chọn phương thức thanh toán.');
+        }
+    });
+</script>
+

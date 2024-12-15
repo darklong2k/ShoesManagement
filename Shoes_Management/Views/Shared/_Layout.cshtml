@@ -5,149 +5,298 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>King shoes - Cửa hàng giày chất nhất việt nam</title>
+    <title>@ViewData["Title"] - T1 Shoes</title>
 
-    <!-- Thêm các tệp CSS từ kingshoes.vn -->
-    <link rel="stylesheet" href="https://kingshoes.vn/template/Default/css/plugins/pro6.min.css?v=211020241649">
-    <link rel="stylesheet" href="https://kingshoes.vn/template/Default/css/bootstrap.min.css?v=211020241649">
-    <link rel="stylesheet"
-          href="https://kingshoes.vn/template/Default/js/plugins/slider/splide/css/splide.min.css?v=211020241649">
-    <link rel="stylesheet" href="https://kingshoes.vn/template/Default/css/all.min.css?v=211020241649">
+    <!-- Thêm Bootstrap 5 CSS cho giao diện đẹp, responsive -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Thêm FontAwesome cho biểu tượng (nếu cần) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Thêm font chữ Raleway -->
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Liên kết tới tệp CSS tùy chỉnh của bạn -->
+
+    <style>
+        /* Cài đặt font chữ chung cho toàn bộ trang */
+        body {
+            font-family: 'Raleway', sans-serif;
+        }
+
+        /* Cố định header */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width: 100%;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Để dropdown menu xuất hiện khi hover lên item */
+        .nav-item.dropdown:hover .dropdown-menu {
+            display: block; /* Hiển thị dropdown khi hover */
+        }
+
+        .nav-item.dropdown .dropdown-menu {
+            display: none; /* Ẩn dropdown menu mặc định */
+        }
+
+        /* Điều chỉnh để dropdown menu trượt xuống khi mở */
+        .dropdown-menu {
+            left: 0;
+            right: 0;
+        }
+
+        /* Thiết lập kiểu dáng cho logo và footer */
+        .logo, .footer {
+            background-color: white; /* Màu nền trắng */
+            border-radius: 20px; /* Bo tròn các góc */
+        }
+
+        /* Tăng kích thước cho biểu tượng người dùng và giỏ hàng */
+        .fa-user, .fa-shopping-cart {
+            font-size: 1.5rem; /* Tăng kích thước biểu tượng */
+        }
+
+        /* Thêm hiệu ứng màu sắc cho các liên kết navbar khi hover */
+        .navbar .nav-link:hover {
+            color: #d9534f; /* Màu đỏ cho liên kết khi hover */
+        }
+
+        /* Khung chat popup (ẩn ban đầu, xuất hiện khi active) */
+        #chat-popup {
+            position: fixed; /* Vị trí cố định, luôn hiển thị trên màn hình */
+            bottom: 20px; /* Cách đáy 20px */
+            right: 20px; /* Cách phải 20px */
+            width: 300px; /* Chiều rộng của khung chat */
+            max-height: 400px; /* Chiều cao tối đa của khung chat */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Tạo bóng đổ cho khung chat */
+            display: flex; /* Đặt chế độ flexbox để dễ dàng quản lý layout */
+            flex-direction: column; /* Các phần tử con xếp theo chiều dọc */
+            border-radius: 8px; /* Bo tròn các góc */
+            overflow: hidden; /* Ẩn phần vượt quá chiều cao */
+            z-index: 1000; /* Đặt độ ưu tiên của khung chat để nó luôn ở trên */
+            visibility: hidden; /* Ẩn khung chat ban đầu */
+            opacity: 0; /* Đặt độ mờ là 0 khi ẩn */
+            transition: visibility 0s, opacity 0.3s ease; /* Thêm hiệu ứng mượt mà khi thay đổi trạng thái */
+        }
+
+            /* Khi khung chat có lớp .active, nó sẽ hiển thị */
+            #chat-popup.active {
+                visibility: visible; /* Hiển thị khung chat */
+                opacity: 1; /* Đặt độ mờ là 1 (hoàn toàn hiển thị) */
+            }
+
+            /* Header của khung chat */
+            #chat-popup .chat-header {
+                background-color: #007bff; /* Màu nền xanh dương */
+                color: #fff; /* Màu chữ trắng */
+                padding: 10px; /* Khoảng cách trong khung */
+                display: flex; /* Sử dụng flexbox để căn chỉnh */
+                align-items: center; /* Căn giữa theo chiều dọc */
+                justify-content: space-between; /* Căn chỉnh các phần tử con thành hai bên */
+            }
+
+                /* Định dạng nút đóng của header trong khung chat */
+                #chat-popup .chat-header .close-btn {
+                    color: #fff; /* Màu chữ trắng cho nút đóng */
+                    cursor: pointer; /* Con trỏ chuột dạng pointer khi hover */
+                }
+
+            /* Nội dung của chat (phần tin nhắn) */
+            #chat-popup .chat-body {
+                flex: 1; /* Chiếm phần không gian còn lại */
+                background-color: #f9f9f9; /* Màu nền sáng cho nội dung */
+                padding: 10px; /* Khoảng cách trong khung */
+                overflow-y: auto; /* Cho phép cuộn khi nội dung quá dài */
+            }
+
+            /* Footer của khung chat (phần nhập tin nhắn) */
+            #chat-popup .chat-footer {
+                padding: 10px; /* Khoảng cách trong khung */
+                background-color: #fff; /* Màu nền trắng */
+                border-top: 1px solid #ddd; /* Đường viền trên với màu xám */
+            }
+
+        /* Nút mở khung chat (icon chat) */
+        #chat-button {
+            position: fixed; /* Đặt vị trí cố định cho nút mở chat */
+            bottom: 20px; /* Cách đáy 20px */
+            right: 20px; /* Cách phải 20px */
+            background-color: #007bff; /* Màu nền xanh dương cho nút */
+            color: #fff; /* Màu chữ trắng cho biểu tượng */
+            border-radius: 50%; /* Bo tròn nút thành hình tròn */
+            width: 60px; /* Kích thước nút */
+            height: 60px; /* Kích thước nút */
+            display: flex; /* Sử dụng flexbox để căn chỉnh */
+            align-items: center; /* Căn giữa theo chiều dọc */
+            justify-content: center; /* Căn giữa theo chiều ngang */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Tạo bóng đổ cho nút */
+            cursor: pointer; /* Con trỏ chuột dạng pointer khi hover */
+            z-index: 1000; /* Đặt độ ưu tiên của nút để nó luôn ở trên */
+        }
+
+        #cart-item-count {
+            font-size: 10px; /* Giảm kích thước số */
+            padding: 0.2em 0.4em; /* Giảm khoảng cách */
+            background-color: #e74c3c; /* Màu đỏ */
+            color: white;
+            font-weight: bold;
+            border-radius: 50%;
+        }
+
+    </style>
 </head>
 
-<body class="ohide">
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-        <div class="header__top">
+<body>
+    <!-- Header với thanh điều hướng -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-white">
             <div class="container-fluid">
-                <div class="row">
-                    <div class="col-12 text-end">
-                        <p class="hotline-top d-inline">
-                            <i class="fa-solid fa-phone-volume fa-fw"></i> <span class="d-none d-lg-inline-block">Hotline:</span> <a href="tel:0909300746">0909300746</a>
-                            <i class="fa-solid fa-user fa-fw"></i>  <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Đăng nhập</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <nav class="navigation">
-            <div class="container-fluid">
-                <div class="navigation__column left">
-                    <div class="header__logo">
-                        <a class="ps-logo" href=".">
-                            <img src="~/images/T1.png" alt="" style="width: 100px; height: 50;">
-                        </a>
-                    </div>
-                </div>
-                <div class="navigation__column center d-none d-xl-block">
-                    <ul class="main-menu menu">
+                <!-- Logo -->
+                <a class="navbar-brand" style="font-weight: bold; color: black; font-style: italic" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="~/images/T1.svg" alt="Logo" class="logo" style="width: 80px; height: 80px;"> Shop Giày T1
+                </a>
 
-                        <li class=""><a href="">Trang chủ</a></li>
-                        <li class=""><a href="">Giới thiệu</a></li>
-                        <li class=" menu-item menu-item-has-children dropdown 1 menu77 ">
-                            <a href="">Nike</a>
-                            <ul class="sub-menu">
-                                <li class="menu-item"><a href="">Nam</a></li>
-                                <li class="menu-item"><a href="">Nữ</a></li>
-                            </ul>
-                        </li>
-                        <li class=" menu-item menu-item-has-children dropdown 2 menu76 ">
-                            <a href="">Adidas</a>
-                            <ul class="sub-menu">
-                                <li class="menu-item"><a href="nam">Nam</a></li>
-                                <li class="menu-item"><a href="nu">Nữ</a></li>
-                            </ul>
-                        </li>
-                        <li class=" menu-item menu-item-has-children dropdown 3 menu79 ">
-                            <a href="">MLB</a>
-                            <ul class="sub-menu">
-                                <li class="menu-item"><a href="">Chunky</a></li>
-                            </ul>
-                        </li>
+                <!-- Nút hamburger (cho thiết bị di động) -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-                        <li class="  9 menu83 " id=""><a asp-controller="home" asp-action="contact">Liên hệ</a></li>
+                <!-- Các mục menu điều hướng -->
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav mx-auto">
+                        <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="TrangSanPham">Sản phẩm</a></li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false">
+                                Giày nam
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="#">Adidas</a></li>
+                                <li><a class="dropdown-item" href="#">Nike</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false">
+                                Giày nữ
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="#">Adidas</a></li>
+                                <li><a class="dropdown-item" href="#">Nike</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="TrangLienHe">Liên hệ</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="TrangGioiThieu">Giới thiệu</a></li>
+
+                    </ul>
+
+                    <!-- Form tìm kiếm -->
+                    <form class="d-flex ms-3">
+                        <div class="input-group">
+                            <input class="form-control" type="search" placeholder="Tìm kiếm" aria-label="Search">
+                            <button class="btn btn-outline-secondary" type="submit">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Các mục biểu tượng user và giỏ hàng -->
+                    <ul class="navbar-nav ms-3">
+                        <li class="nav-item">
+                            <!-- Biểu tượng user mở popup đăng nhập -->
+                            <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">
+                                <i class="fa-regular fa-user"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <!-- Biểu tượng giỏ hàng -->
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="TrangGioHang">
+                                <i class="fas fa-shopping-cart position-relative">
+                                    <!-- Hiển thị số lượng sản phẩm trong giỏ -->
+                                    <span id="cart-item-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                        0
+                                    </span>
+                                </i>
+                            </a>
+                        </li>
                     </ul>
                 </div>
-                <div class="navigation__column right">
-                    <form class="ps-search--header searchform" id="searchform" method="get" action="">
-                        <input class="form-control inputString" autocomplete="off" name="search" id="inputString" placeholder="Nhập từ cần tìm" />
-                        <button type="submit"><i class="ps-icon-search"></i></button>
-                        <button id="btnsearch" type="button"><i class="ps-icon-search"></i></button>
-                        <div class="suggestions" id="suggestions"></div>
-                    </form>
-                    <!-- Giỏ hàng -->
-                    <div class="ps-cart" id="reloaddiv">
-                        <a class="ps-cart__toggle" rel="noindex nofollow" href="gio-hang">
-                            <i class="ps-icon-shopping-cart"></i>
-                        </a>
-                    </div>
-                    <!-- End giỏ hàng -->
-                   
-                </div>
-
             </div>
         </nav>
     </header>
 
+    <!-- Nút mở khung chat -->
+    <div id="chat-button">
+        <i class="bi bi-chat-dots-fill"></i>
+    </div>
 
-    @RenderBody()
+    <!-- Khung chat popup -->
+    <div id="chat-popup" class="d-flex flex-column">
+        <div class="chat-header">
+            <span>Hỗ trợ khách hàng</span>
+            <span class="close-btn" id="close-chat">&times;</span>
+        </div>
+        <div class="chat-body">
+            <p><strong>Hỗ trợ viên:</strong> Xin chào! Tôi có thể giúp gì cho bạn?</p>
+            <!-- Tin nhắn mẫu -->
+            <div id="chat-messages"></div>
+        </div>
+        <div class="chat-footer d-flex">
+            <input type="text" id="chat-input" class="form-control me-2" placeholder="Nhập tin nhắn...">
+            <button id="send-btn" class="btn btn-primary">Gửi</button>
+        </div>
+    </div>
 
+    <!-- Nội dung chính của trang -->
+    <main>
+        @RenderBody()  <!-- Đây là nơi nội dung của các view con sẽ được chèn vào -->
+    </main>
 
-    <footer class="bg-dark text-white py-4">
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4" style="margin-top:15px">
         <div class="container">
             <div class="row">
-                <!-- Cột 1: Logo -->
-                <div class="col-lg-3">
-                    <aside>
-                        <a class="d-block mb-3" href=".">
-                            <img src="~/images/T1.png" alt="Logo" style="max-width: 150px;">
-                        </a>
-                    </aside>
+                <div class="col-lg-3 mb-4">
+                    <a href="."><img src="~/images/T1.svg" alt="Logo" class="logo footer img-fluid"></a>
                 </div>
 
-                <!-- Cột 2: Menu dọc -->
-                <div class="col-lg-3">
-                    <aside>
-                        <ul class="list-unstyled">
-                            <li><a href="" target="_blank" class="text-white">Nike</a></li>
-                            <li><a href="" target="_blank" class="text-white">Adidas</a></li>
-                            <li><a href="" target="_blank" class="text-white">MLB</a></li>
-                            <li><a href="" target="_blank" class="text-white">Jordan</a></li>
-                            <li><a href="" target="_blank" class="text-white">Yeezy</a></li>
-                        </ul>
-                    </aside>
+                <div class="col-lg-2 mb-2">
+                    <p><a href="#">Adidas</a></p>
+                    <p><a href="#">Nike</a></p>
+                    <p><a href="#">Puma</a></p>
+
+
                 </div>
 
-                <!-- Cột 3: Thông tin liên hệ -->
-                <div class="col-lg-3">
+                <div class="col-lg-5 mb-5">
                     <p><strong>KINGSHOES.VN Trang Thông Tin Chính Thức.</strong></p>
-                    <p>⛪ <strong>Địa chỉ: 192/2 Nguyễn Thái Bình, Phường 12, Quận Tân Bình, Thành phố Hồ Chí Minh</strong></p>
-                    <p><strong>Email: cskh.kingshoes.vn@gmail.com</strong></p>
-                    <p>☎️ <strong>Hotline Bán Hàng: 0909.300.746 - 0909.45.0001</strong></p>
-                    <p>☎️ <strong>Hotline CSKH: 0902.368.001</strong></p>
+                    <p><strong>Địa chỉ:</strong> 192/2 Nguyễn Thái Bình, Phường 12, Quận Tân Bình, Thành phố Hồ Chí Minh</p>
+                    <p><strong>Email:</strong> cskh.kingshoes.vn@gmail.com</p>
+                    <p><strong>Hotline:</strong> 0909.300.746 - 0909.45.0001</p>
                 </div>
-
-                <!-- Cột 4: Liên kết mạng xã hội -->
-                <div class="col-lg-3">
-                    <p><a href="https://kingshoes.vn/" target="_blank"><strong>Website chính thức</strong></a></p>
-                    <p><a href="https://twitter.com/kingshoes_vn" target="_blank"><strong>Twitter</strong></a></p>
-                    <p><a href="https://instagram.com/kingshoes.vn" target="_blank"><strong>Instagram</strong></a></p>
-                    <p><a href="https://www.facebook.com/Kingshoes.vnn/" target="_blank"><strong>Facebook</strong></a></p>
-                    <p><a href="https://www.youtube.com/c/KingShoesvn" target="_blank"><strong>YouTube</strong></a></p>
-                    <p><a href="http://bit.ly/KINGSHOES_map" target="_blank"><strong>Bản đồ</strong></a></p>
-                    <p><a href="https://www.tiktok.com/kingshoes_sneaker" target="_blank"><strong>TikTok</strong></a></p>
+                <div class="col-lg-2 mb-2">
+                    <!-- Các liên kết mạng xã hội -->
+                    <p><a href="https://kingshoes.vn/" target="_blank" class="text-white"><strong>Website chính thức</strong></a></p>
+                    <p><a href="https://twitter.com/kingshoes_vn" target="_blank" class="text-white"><strong>Twitter</strong></a></p>
+                    <p><a href="https://instagram.com/kingshoes.vn" target="_blank" class="text-white"><strong>Instagram</strong></a></p>
+                    <p><a href="https://www.facebook.com/Kingshoes.vnn/" target="_blank" class="text-white"><strong>Facebook</strong></a></p>
+                    <p><a href="https://www.youtube.com/c/KingShoesvn" target="_blank" class="text-white"><strong>YouTube</strong></a></p>
+                    <p><a href="http://bit.ly/KINGSHOES_map" target="_blank" class="text-white"><strong>Bản đồ</strong></a></p>
+                    <p><a href="https://www.tiktok.com/kingshoes_sneaker" target="_blank" class="text-white"><strong>TikTok</strong></a></p>
                 </div>
             </div>
         </div>
     </footer>
-    <!-- Thêm các tệp JavaScript từ kingshoes.vn -->
-    <script type="text/javascript" src="https://kingshoes.vn/template/Default/js/jquery.min.js"></script>
-    <script type="text/javascript" src="https://kingshoes.vn/template/Default/js/jquery.barrating.min.js"></script>
-    <script type="text/javascript"
-            src="https://kingshoes.vn/template/Default/js/plugins/slider/splide/js/splide.min.js"></script>
-    @RenderSection("Scripts",required:false)
-    <!-- Kiểm tra các tệp JS -->
 
-    <!-- Modal Đăng nhập -->
+    <!-- Modal Đăng nhập / Đăng ký -->
     <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -156,56 +305,115 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="login-action" method="post">
-                     
-                        <div class="mb-3">
-                            <label for="username" class="form-label">Tên đăng nhập</label>
-                            <input type="text" class="form-control" id="username" name="username" required>
-                        </div>
-
-                     
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Mật khẩu</label>
-                            <div class="input-group">
-                                <input type="password" class="form-control" id="password" name="password" required>
-                                <button type="button" class="btn btn-outline-secondary" id="togglePassword">👁️</button>
+                    <!-- Form đăng nhập -->
+                    <div id="loginForm">
+                        <form>
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Tên đăng nhập</label>
+                                <input type="text" class="form-control" id="username" placeholder="Tên đăng nhập">
                             </div>
+                            <div class="mb-3 position-relative">
+                                <label for="password" class="form-label">Mật khẩu</label>
+                                <input type="password" class="form-control" id="password" placeholder="Mật khẩu">
+                            </div>
+                            <button type="submit" asp-area="" asp-controller="Home" asp-action="TrangCaNhan" class="btn btn-primary w-100">Đăng nhập</button>
+                        </form>
+                        <p class="mt-3 text-center">Chưa có tài khoản? <a href="#" id="showSignup">Đăng ký</a></p>
+                        <!-- Đăng nhập bằng Google -->
+                        <div class="d-flex justify-content-center mt-3">
+                            <button class="btn btn-danger w-100">
+                                <i class="fab fa-google"></i> Đăng nhập bằng Google
+                            </button>
                         </div>
-                        <div class="d-flex justify-content-center">
-                            <button type="submit" class="btn btn-primary w-50 mb-2">Đăng nhập</button>
-                        </div>
-                        <div class="d-flex justify-content-center align-items-center mb-2">
-                            <hr class="flex-grow-1 me-3">
-                            <span>Hoặc</span>
-                            <hr class="flex-grow-1 ms-3">
-                        </div>
+                    </div>
 
-                        <div class="d-flex justify-content-center">
-                            <a asp-controller="Home" asp-action="DangkyTaiKhoan" class="btn btn-secondary w-50">Đăng ký</a>
-                        </div>
-                    </form>
+                    <!-- Form đăng ký (ẩn mặc định) -->
+                    <div id="signupForm" style="display: none;">
+                        <form>
+                            <div class="mb-3">
+                                <label for="usernameSignup" class="form-label">Tên đăng nhập</label>
+                                <input type="text" class="form-control" id="usernameSignup" placeholder="Tên đăng nhập">
+                            </div>
+                            <div class="mb-3">
+                                <label for="emailSignup" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="emailSignup" placeholder="Email">
+                            </div>
+                            <div class="mb-3">
+                                <label for="passwordSignup" class="form-label">Mật khẩu</label>
+                                <input type="password" class="form-control" id="passwordSignup" placeholder="Mật khẩu">
+                            </div>
+                            <div class="mb-3">
+                                <label for="confirmPassword" class="form-label">Nhập lại mật khẩu</label>
+                                <input type="password" class="form-control" id="confirmPassword" placeholder="Nhập lại mật khẩu">
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Đăng ký</button>
+                        </form>
+                        <p class="mt-3 text-center">Đã có tài khoản? <a href="#" id="showLogin">Đăng nhập</a></p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-
-    <!-- Thêm các script cần thiết cho modal -->
+    <!-- Thêm Bootstrap 5 JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- JavaScript để chuyển đổi giữa đăng nhập và đăng ký -->
+    <script>
+        // Chuyển đổi giữa đăng nhập và đăng ký
+        // Khi nhấn vào "showSignup", ẩn form đăng nhập và hiển thị form đăng ký
+        document.getElementById('showSignup').addEventListener('click', function () {
+            document.getElementById('loginForm').style.display = 'none'; // Ẩn form đăng nhập
+            document.getElementById('signupForm').style.display = 'block'; // Hiển thị form đăng ký
+            document.getElementById('loginModalLabel').textContent = 'Đăng ký'; // Thay đổi tiêu đề modal
+        });
+
+        // Khi nhấn vào "showLogin", ẩn form đăng ký và hiển thị form đăng nhập
+        document.getElementById('showLogin').addEventListener('click', function () {
+            document.getElementById('signupForm').style.display = 'none'; // Ẩn form đăng ký
+            document.getElementById('loginForm').style.display = 'block'; // Hiển thị form đăng nhập
+            document.getElementById('loginModalLabel').textContent = 'Đăng nhập'; // Thay đổi tiêu đề modal
+        });
+
+        // Các phần tử DOM
+        const chatButton = document.getElementById('chat-button'); // Nút mở chat
+        const chatPopup = document.getElementById('chat-popup'); // Khung chat
+        const closeChat = document.getElementById('close-chat'); // Nút đóng chat
+        const sendButton = document.getElementById('send-btn'); // Nút gửi tin nhắn
+        const chatInput = document.getElementById('chat-input'); // Ô nhập tin nhắn
+        const chatMessages = document.getElementById('chat-messages'); // Phần hiển thị tin nhắn trong chat
+
+        // Hiển thị khung chat khi nhấn nút chat
+        chatButton.addEventListener('click', () => {
+            chatPopup.classList.add('active'); // Thêm lớp 'active' để hiển thị khung chat
+            chatButton.style.display = 'none'; // Ẩn nút chat khi mở chat
+        });
+
+        // Ẩn khung chat khi nhấn nút đóng
+        closeChat.addEventListener('click', () => {
+            chatPopup.classList.remove('active'); // Xóa lớp 'active' để ẩn khung chat
+            chatButton.style.display = 'flex'; // Hiển thị lại nút chat khi đóng chat
+        });
+
+        // Gửi tin nhắn khi nhấn nút gửi
+        sendButton.addEventListener('click', () => {
+            const message = chatInput.value.trim(); // Lấy nội dung tin nhắn và loại bỏ khoảng trắng thừa
+            if (message) { // Nếu có tin nhắn
+                // Tạo một phần tử <p> mới để hiển thị tin nhắn của người dùng
+                const userMessage = document.createElement('p');
+                userMessage.innerHTML = `<strong>Bạn:</strong> ${message}`; // Thêm nội dung tin nhắn vào phần tử <p>
+                chatMessages.appendChild(userMessage); // Thêm tin nhắn vào danh sách tin nhắn
+
+                // Xóa nội dung trong ô nhập tin nhắn sau khi gửi
+                chatInput.value = '';
+
+                // Tự động cuộn xuống cuối danh sách tin nhắn khi có tin nhắn mới
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        });
+
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 
 </html>
-
-<script>
-    const togglePassword = document.getElementById('togglePassword');
-    const passwordInput = document.getElementById('password');
-
-    togglePassword.addEventListener('click', function () {
-        // Toggle giữa type "password" và "text"
-        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-        passwordInput.setAttribute('type', type);
-
-        // Thay đổi biểu tượng (tuỳ chọn)
-        this.textContent = type === 'password' ? '👁️' : '🙈';
-    });
-</script>

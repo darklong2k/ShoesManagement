@@ -6,9 +6,6 @@
         <li class="breadcrumb-item active" aria-current="page">
             Thông tin giao hàng
         </li>
-        <li class="breadcrumb-item">
-            Phương thức thanh toán
-        </li>
     </ul>
     <div class="mb-4">
         <h2 class="h4">Thông tin giao hàng</h2>
@@ -30,26 +27,6 @@
             <div class="mb-3">
                 <input type="text" id="billing_address_address" name="billing_address_address" class="form-control text-capitalize" placeholder="Địa chỉ" required style="font-size: 14px; padding: 0.5rem;">
             </div>
-            <div class="mb-3 row">
-                <div class="col-md-4">
-                    <select id="billing_shipping_province" name="billing_shipping_province" class="form-control" required style="font-size: 14px; padding: 0.5rem;">
-                        <option value="" disabled selected>Chọn Tỉnh/Thành</option>
-                        <option value="10">Bà Rịa Vũng Tàu</option>
-                    </select>
-                </div>
-                <div class="col-md-4">
-                    <select id="billing_shipping_district" name="billing_shipping_district" class="form-control" required style="font-size: 14px; padding: 0.5rem;">
-                        <option value="" disabled selected>Chọn Quận/Huyện</option>
-                        <option value="3139">Thị xã Bà Rịa</option>
-                    </select>
-                </div>
-                <div class="col-md-4">
-                    <select id="billing_shipping_ward" name="billing_shipping_ward" class="form-control" required style="font-size: 14px; padding: 0.5rem;">
-                        <option value="" disabled selected>Chọn Phường/Xã</option>
-                        <option value="22053">Xã Hòa Long</option>
-                    </select>
-                </div>
-            </div>
 
             <!-- Email -->
             <div class="mb-3">
@@ -65,7 +42,7 @@
                     <i class="fas fa-arrow-left"></i> Quay lại giỏ hàng
                 </a>
                 <!-- Nút tiếp tục đến phương thức thanh toán -->
-                <a href="phuong-thuc-thanh-toan" class="btn btn-primary" style="font-size: 14px;">
+                <a asp-area="" asp-controller="Home" asp-action="TrangThanhToan" class="btn btn-primary" style="font-size: 14px;">
                     Tiếp tục đến phương thức thanh toán <i class="fas fa-arrow-right"></i>
                 </a>
             </div>
