@@ -1,0 +1,101 @@
+﻿
+<link rel="stylesheet" href="~/css/Style_Contact_page.css" />
+    <div class="container">
+        <div class="header">
+            <h1>Quản lý Liên hệ</h1>
+        </div>
+        <div class="search">
+            <input type="text" id="searchInput" placeholder="Tìm kiếm liên hệ...">
+            <button onclick="searchContact()">Tìm kiếm</button>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tên</th>
+                    <th>Nội dung</th>
+                    <th>Số điện thoại</th>
+                    <th>Email</th>
+                    <th>Trạng thái</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody id="contactTableBody">
+                <tr>
+                    <td>1</td>
+                    <td>Nguyễn Văn A</td>
+                    <td>Xin tư vấn sản phẩm.</td>
+                    <td>0123456789</td>
+                    <td>a.nguyen@example.com</td>
+                    <td class="status-pending">Chưa phản hồi</td>
+                    <td class="actions">
+                        <button class="btn-update" onclick="toggleStatusOptions(this)">Cập nhật</button>
+                        <div class="status-options">
+                            <button class="btn-replied" onclick="updateStatus(this, 'Đã phản hồi', 'status-replied')">Phản hồi</button>
+                            <button class="btn-pending" onclick="updateStatus(this, 'Chưa phản hồi', 'status-pending')">Thu hồi</button>
+                        </div>
+                        <button class="btn-delete" onclick="deleteContact(1)">Xoá</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Trần Thị B</td>
+                    <td>Cần hỗ trợ bảo hành nskjd anjfnsdjf dfs fsdf fsd fs df sf sd fsd fs fsd fjsdf .</td>
+                    <td>0987654321</td>
+                    <td>b.tran@example.com</td>
+                    <td class="status-replied">Đã phản hồi</td>
+                    <td class="actions">
+                        <button class="btn-update" onclick="toggleStatusOptions(this)">Cập nhật</button>
+                        <div class="status-options">
+                            <button class="btn-replied" onclick="updateStatus(this, 'Đã phản hồi', 'status-replied')">Phản hồi</button>
+                            <button class="btn-pending" onclick="updateStatus(this, 'Chưa phản hồi', 'status-pending')">Thu hồi</button>
+                        </div>
+                        <button class="btn-delete" onclick="deleteContact(2)">Xoá</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    @section scripts{
+    <script>
+        function toggleStatusOptions(button) {
+            const options = button.nextElementSibling; // Tìm div chứa các nút trạng thái
+            const isVisible = options.style.display === 'block';
+
+            // Ẩn tất cả các div status-options khác
+            document.querySelectorAll('.status-options').forEach((el) => {
+                el.style.display = 'none';
+                el.previousElementSibling.style.display = 'inline-block'; // Hiển thị lại nút "Cập nhật"
+            });
+
+            if (!isVisible) {
+                // Ẩn nút "Cập nhật" và hiển thị các tùy chọn trạng thái
+                button.style.display = 'none';
+                options.style.display = 'block';
+            }
+        }
+
+
+        function updateStatus(button, statusText, statusClass) {
+            const row = button.closest('tr');
+            const statusCell = row.querySelector('td:nth-child(6)');
+            statusCell.textContent = statusText;
+            statusCell.className = '';
+            statusCell.classList.add(statusClass);
+            button.parentElement.style.display = 'none';
+        }
+
+        function deleteContact(id) {
+            if (confirm('Bạn có chắc chắn muốn xóa liên hệ này?')) {
+                alert(`Xóa liên hệ có ID: ${id}`);
+                // Logic xóa liên hệ
+            }
+        }
+
+        function searchContact() {
+            const searchInput = document.getElementById('searchInput').value;
+            alert(`Tìm kiếm liên hệ với từ khóa: ${searchInput}`);
+            // Logic tìm kiếm liên hệ
+        }
+    </script>
+    }
