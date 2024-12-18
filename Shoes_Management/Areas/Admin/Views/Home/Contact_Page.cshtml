@@ -1,77 +1,128 @@
 ﻿<div class="container mt-3">
     <h2 class="mb-4">Quản Lý Liên Hệ</h2>
-    <!-- Nút Hiện Tất Cả Liên Hệ -->
-    <!--Mặc định hiện tất cả các liên hệ chưa phản hồi -->
-    <!--Khi nhấn Nút hiện tất cả các liên hệ bao gồm đã phản hồi và chưa phản hồi-->
-    <div class="d-flex justify-content-between mb-3">
-        <button class="btn btn-primary" data-toggle="modal" data-target="#addProductModal">
-            <i class="fas fa-plus"></i> Hiện tất cả liên hệ
-        </button>
-    </div>
-    <!-- Ô Tìm Kiếm -->
-    <div class="mb-3">
-        <input type="text"
-               id="searchInput"
-               class="form-control"
-               placeholder="Tìm kiếm sản phẩm..." />
-    </div>
-    <!-- Bảng Liên Hệ -->
-    <div class="card shadow-sm">
-        <div class="card-body">
-            <table id="productTable" class="table table-striped table-hover">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>#</th>
-                        <th>Tên người dùng</th>
-                        <th>Nội dung</th>
-                        <th>Số điện thoại</th>
-                        <th>Email </th>
-                        <th>Trạng thái</th>
-                        <th>Hành động</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Các liên hệ được thêm từ backend -->
-                    <tr>
-                        <td>1</td>
-                        <td>Nguyễn Văn A</td>
-                        <td>Chúng tôi cần hỗ trợ về kỹ thuật</td>
-                        <td>0369852147</td>
-                        <td>toi@gmail.com</td>
-                        <td>
-                            <span class="badge badge-success" style="color:black">Chưa phản hồi</span>
-                        </td>
-                        <td>
-                            
-                            <button class="btn btn-danger btn-sm">
-                                <i class="fas fa-trash"></i> Xóa
-                            </button>
-                            <button class="btn btn-info btn-sm btn-update-status">
-                                <i class="fas fa-sync-alt"></i> Cập nhật trạng thái
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Trần Thị B</td>
-                        <td>Cần thêm thông tin về sản phẩm</td>
-                        <td>0345678921</td>
-                        <td>tranb@gmail.com</td>
-                        <td >
-                            <span class="badge badge-secondary" style="color:black">Chưa phản hồi</span>
-                        </td>
-                        <td>
-                           
-                            <button class="btn btn-danger btn-sm">
-                                <i class="fas fa-trash"></i> Xóa
-                            </button>
-                            <button class="btn btn-info btn-sm btn-update-status">
-                                <i class="fas fa-sync-alt"></i> Cập nhật trạng thái
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+
+    <!-- Tab Control -->
+    <ul class="nav nav-tabs" id="contactTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="unresponded-tab" data-bs-toggle="tab" data-bs-target="#unresponded" type="button" role="tab" aria-controls="unresponded" aria-selected="true">
+                Liên hệ chưa phản hồi (<span id="unrespondedCount">2</span>)
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="responded-tab" data-bs-toggle="tab" data-bs-target="#responded" type="button" role="tab" aria-controls="responded" aria-selected="false">
+                Liên hệ đã phản hồi
+            </button>
+        </li>
+    </ul>
+
+    <!-- Tab Content -->
+    <div class="tab-content mt-3" id="contactTabsContent">
+        <!-- Unresponded Contacts -->
+        <div class="tab-pane fade show active" id="unresponded" role="tabpanel" aria-labelledby="unresponded-tab">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <table id="unrespondedTable" class="table table-striped table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>#</th>
+                                <th>Tên người dùng</th>
+                                <th>Nội dung</th>
+                                <th>Số điện thoại</th>
+                                <th>Email</th>
+                                <th>Trạng thái</th>
+                                <th>Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Nguyễn Văn A</td>
+                                <td>Chúng tôi cần hỗ trợ về kỹ thuật</td>
+                                <td>0369852147</td>
+                                <td>toi@gmail.com</td>
+                                <td><span class="badge bg-warning text-dark">Chưa phản hồi</span></td>
+                                <td>
+                                    <button class="btn btn-success btn-sm btn-confirm-response">
+                                        <i class="fas fa-check"></i> Xác nhận phản hồi
+                                    </button>
+                                    <button class="btn btn-danger btn-sm">
+                                        <i class="fas fa-trash"></i> Xóa
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Trần Thị B</td>
+                                <td>Cần thêm thông tin về sản phẩm</td>
+                                <td>0345678921</td>
+                                <td>tranb@gmail.com</td>
+                                <td><span class="badge bg-warning text-dark">Chưa phản hồi</span></td>
+                                <td>
+                                    <button class="btn btn-success btn-sm btn-confirm-response">
+                                        <i class="fas fa-check"></i> Xác nhận phản hồi
+                                    </button>
+                                    <button class="btn btn-danger btn-sm">
+                                        <i class="fas fa-trash"></i> Xóa
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Responded Contacts -->
+        <div class="tab-pane fade" id="responded" role="tabpanel" aria-labelledby="responded-tab">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <table id="respondedTable" class="table table-striped table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>#</th>
+                                <th>Tên người dùng</th>
+                                <th>Nội dung</th>
+                                <th>Số điện thoại</th>
+                                <th>Email</th>
+                                <th>Trạng thái</th>
+                                <th>Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Các liên hệ đã phản hồi sẽ được thêm vào đây -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Xử lý sự kiện nút "Xác nhận phản hồi"
+        const unrespondedTable = document.getElementById('unrespondedTable');
+        const respondedTable = document.getElementById('respondedTable').querySelector('tbody');
+        const unrespondedCount = document.getElementById('unrespondedCount');
+
+        unrespondedTable.addEventListener('click', function (e) {
+            if (e.target.classList.contains('btn-confirm-response')) {
+                const row = e.target.closest('tr');
+                const cloneRow = row.cloneNode(true);
+
+                // Chuyển trạng thái sang "Đã phản hồi"
+                cloneRow.querySelector('td:nth-child(6)').innerHTML = '<span class="badge bg-success text-light">Đã phản hồi</span>';
+                cloneRow.querySelector('.btn-confirm-response')?.remove(); // Xóa nút "Xác nhận phản hồi"
+
+                // Thêm vào bảng "Đã phản hồi"
+                respondedTable.appendChild(cloneRow);
+
+                // Xóa khỏi bảng "Chưa phản hồi"
+                row.remove();
+
+                // Cập nhật số lượng liên hệ chưa phản hồi
+                unrespondedCount.textContent = unrespondedTable.querySelectorAll('tbody tr').length;
+            }
+        });
+    });
+</script>
