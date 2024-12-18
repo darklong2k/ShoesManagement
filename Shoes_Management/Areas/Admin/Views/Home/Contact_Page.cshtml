@@ -1,101 +1,77 @@
-﻿
-<link rel="stylesheet" href="~/css/Style_Contact_page.css" />
-    <div class="container">
-        <div class="header">
-            <h1>Quản lý Liên hệ</h1>
-        </div>
-        <div class="search">
-            <input type="text" id="searchInput" placeholder="Tìm kiếm liên hệ...">
-            <button onclick="searchContact()">Tìm kiếm</button>
-        </div>
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Tên</th>
-                    <th>Nội dung</th>
-                    <th>Số điện thoại</th>
-                    <th>Email</th>
-                    <th>Trạng thái</th>
-                    <th>Hành động</th>
-                </tr>
-            </thead>
-            <tbody id="contactTableBody">
-                <tr>
-                    <td>1</td>
-                    <td>Nguyễn Văn A</td>
-                    <td>Xin tư vấn sản phẩm.</td>
-                    <td>0123456789</td>
-                    <td>a.nguyen@example.com</td>
-                    <td class="status-pending">Chưa phản hồi</td>
-                    <td class="actions">
-                        <button class="btn-update" onclick="toggleStatusOptions(this)">Cập nhật</button>
-                        <div class="status-options">
-                            <button class="btn-replied" onclick="updateStatus(this, 'Đã phản hồi', 'status-replied')">Phản hồi</button>
-                            <button class="btn-pending" onclick="updateStatus(this, 'Chưa phản hồi', 'status-pending')">Thu hồi</button>
-                        </div>
-                        <button class="btn-delete" onclick="deleteContact(1)">Xoá</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Trần Thị B</td>
-                    <td>Cần hỗ trợ bảo hành nskjd anjfnsdjf dfs fsdf fsd fs df sf sd fsd fs fsd fjsdf .</td>
-                    <td>0987654321</td>
-                    <td>b.tran@example.com</td>
-                    <td class="status-replied">Đã phản hồi</td>
-                    <td class="actions">
-                        <button class="btn-update" onclick="toggleStatusOptions(this)">Cập nhật</button>
-                        <div class="status-options">
-                            <button class="btn-replied" onclick="updateStatus(this, 'Đã phản hồi', 'status-replied')">Phản hồi</button>
-                            <button class="btn-pending" onclick="updateStatus(this, 'Chưa phản hồi', 'status-pending')">Thu hồi</button>
-                        </div>
-                        <button class="btn-delete" onclick="deleteContact(2)">Xoá</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+﻿<div class="container mt-3">
+    <h2 class="mb-4">Quản Lý Liên Hệ</h2>
+    <!-- Nút Hiện Tất Cả Liên Hệ -->
+    <!--Mặc định hiện tất cả các liên hệ chưa phản hồi -->
+    <!--Khi nhấn Nút hiện tất cả các liên hệ bao gồm đã phản hồi và chưa phản hồi-->
+    <div class="d-flex justify-content-between mb-3">
+        <button class="btn btn-primary" data-toggle="modal" data-target="#addProductModal">
+            <i class="fas fa-plus"></i> Hiện tất cả liên hệ
+        </button>
     </div>
-    @section scripts{
-    <script>
-        function toggleStatusOptions(button) {
-            const options = button.nextElementSibling; // Tìm div chứa các nút trạng thái
-            const isVisible = options.style.display === 'block';
-
-            // Ẩn tất cả các div status-options khác
-            document.querySelectorAll('.status-options').forEach((el) => {
-                el.style.display = 'none';
-                el.previousElementSibling.style.display = 'inline-block'; // Hiển thị lại nút "Cập nhật"
-            });
-
-            if (!isVisible) {
-                // Ẩn nút "Cập nhật" và hiển thị các tùy chọn trạng thái
-                button.style.display = 'none';
-                options.style.display = 'block';
-            }
-        }
-
-
-        function updateStatus(button, statusText, statusClass) {
-            const row = button.closest('tr');
-            const statusCell = row.querySelector('td:nth-child(6)');
-            statusCell.textContent = statusText;
-            statusCell.className = '';
-            statusCell.classList.add(statusClass);
-            button.parentElement.style.display = 'none';
-        }
-
-        function deleteContact(id) {
-            if (confirm('Bạn có chắc chắn muốn xóa liên hệ này?')) {
-                alert(`Xóa liên hệ có ID: ${id}`);
-                // Logic xóa liên hệ
-            }
-        }
-
-        function searchContact() {
-            const searchInput = document.getElementById('searchInput').value;
-            alert(`Tìm kiếm liên hệ với từ khóa: ${searchInput}`);
-            // Logic tìm kiếm liên hệ
-        }
-    </script>
-    }
+    <!-- Ô Tìm Kiếm -->
+    <div class="mb-3">
+        <input type="text"
+               id="searchInput"
+               class="form-control"
+               placeholder="Tìm kiếm sản phẩm..." />
+    </div>
+    <!-- Bảng Liên Hệ -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <table id="productTable" class="table table-striped table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>#</th>
+                        <th>Tên người dùng</th>
+                        <th>Nội dung</th>
+                        <th>Số điện thoại</th>
+                        <th>Email </th>
+                        <th>Trạng thái</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Các liên hệ được thêm từ backend -->
+                    <tr>
+                        <td>1</td>
+                        <td>Nguyễn Văn A</td>
+                        <td>Chúng tôi cần hỗ trợ về kỹ thuật</td>
+                        <td>0369852147</td>
+                        <td>toi@gmail.com</td>
+                        <td>
+                            <span class="badge badge-success" style="color:black">Chưa phản hồi</span>
+                        </td>
+                        <td>
+                            
+                            <button class="btn btn-danger btn-sm">
+                                <i class="fas fa-trash"></i> Xóa
+                            </button>
+                            <button class="btn btn-info btn-sm btn-update-status">
+                                <i class="fas fa-sync-alt"></i> Cập nhật trạng thái
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Trần Thị B</td>
+                        <td>Cần thêm thông tin về sản phẩm</td>
+                        <td>0345678921</td>
+                        <td>tranb@gmail.com</td>
+                        <td >
+                            <span class="badge badge-secondary" style="color:black">Chưa phản hồi</span>
+                        </td>
+                        <td>
+                           
+                            <button class="btn btn-danger btn-sm">
+                                <i class="fas fa-trash"></i> Xóa
+                            </button>
+                            <button class="btn btn-info btn-sm btn-update-status">
+                                <i class="fas fa-sync-alt"></i> Cập nhật trạng thái
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
