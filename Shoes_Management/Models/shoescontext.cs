@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Shoes_Management.Models;
 
-public partial class shoescontext : DbContext
+public partial class Shoescontext : DbContext
 {
-    public shoescontext()
+    public Shoescontext()
     {
     }
 
-    public shoescontext(DbContextOptions<shoescontext> options)
+    public Shoescontext(DbContextOptions<Shoescontext> options)
         : base(options)
     {
     }
