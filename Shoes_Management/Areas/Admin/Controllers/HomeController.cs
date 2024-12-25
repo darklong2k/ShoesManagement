@@ -57,7 +57,6 @@ namespace Shoes_Management.Areas.Admin.Controllers
 		public IActionResult Statistics()
 		{ 
 			return View(); 
-
 		}
 		public IActionResult Add_Product_Page()
 		{
