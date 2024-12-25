@@ -1,4 +1,11 @@
+using Microsoft.EntityFrameworkCore;
+using Shoes_Management.Models;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<shoescontext>(opts =>
+	opts.UseSqlServer(builder.Configuration.GetConnectionString("Connection"))
+);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
