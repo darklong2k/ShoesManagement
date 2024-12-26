@@ -169,30 +169,12 @@
 
                 <!-- Các mục menu điều hướng -->
                 <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav mx-auto">
-                        <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+                    <ul class="navbar-nav mx-auto" id="menuNavbar">
+                        <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="TrangChu">Trang chủ</a></li>
                         <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="TrangSanPham">Sản phẩm</a></li>
 
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                               data-bs-toggle="dropdown" aria-expanded="false">
-                                Giày nam
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">Adidas</a></li>
-                                <li><a class="dropdown-item" href="#">Nike</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                               data-bs-toggle="dropdown" aria-expanded="false">
-                                Giày nữ
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">Adidas</a></li>
-                                <li><a class="dropdown-item" href="#">Nike</a></li>
-                            </ul>
-                        </li>
+                        
+   
                         <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="TrangLienHe">Liên hệ</a></li>
                         <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="TrangGioiThieu">Giới thiệu</a></li>
 
@@ -268,30 +250,16 @@
                     <a href="."><img src="~/images/T1.svg" alt="Logo" class="logo footer img-fluid"></a>
                 </div>
 
-                <div class="col-lg-2 mb-2">
-                    <p><a href="#">Adidas</a></p>
-                    <p><a href="#">Nike</a></p>
-                    <p><a href="#">Puma</a></p>
-
-
+                <div class="col-lg-2 mb-2" id="menuFooter">
+                    
                 </div>
 
-                <div class="col-lg-5 mb-5">
-                    <p><strong>KINGSHOES.VN Trang Thông Tin Chính Thức.</strong></p>
-                    <p><strong>Địa chỉ:</strong> 192/2 Nguyễn Thái Bình, Phường 12, Quận Tân Bình, Thành phố Hồ Chí Minh</p>
-                    <p><strong>Email:</strong> cskh.kingshoes.vn@gmail.com</p>
-                    <p><strong>Hotline:</strong> 0909.300.746 - 0909.45.0001</p>
+                <div class="col-lg-5 mb-5" id="websiteINFO">
+                    
                 </div>
-                <div class="col-lg-2 mb-2">
+                <div class="col-lg-2 mb-2" id="SocialINFO">
                     <!-- Các liên kết mạng xã hội -->
-                    <p><a href="https://kingshoes.vn/" target="_blank" class="text-white"><strong>Website chính thức</strong></a></p>
-                    <p><a href="https://twitter.com/kingshoes_vn" target="_blank" class="text-white"><strong>Twitter</strong></a></p>
-                    <p><a href="https://instagram.com/kingshoes.vn" target="_blank" class="text-white"><strong>Instagram</strong></a></p>
-                    <p><a href="https://www.facebook.com/Kingshoes.vnn/" target="_blank" class="text-white"><strong>Facebook</strong></a></p>
-                    <p><a href="https://www.youtube.com/c/KingShoesvn" target="_blank" class="text-white"><strong>YouTube</strong></a></p>
-                    <p><a href="http://bit.ly/KINGSHOES_map" target="_blank" class="text-white"><strong>Bản đồ</strong></a></p>
-                    <p><a href="https://www.tiktok.com/kingshoes_sneaker" target="_blank" class="text-white"><strong>TikTok</strong></a></p>
-                </div>
+                   
             </div>
         </div>
     </footer>
@@ -417,3 +385,56 @@
 </body>
 
 </html>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function (){
+        $.ajax({
+            url: 'https://localhost:7103/api/homeapi/LayOut',
+            typeof:'GET',
+            success:function(res){
+                var menuHtml = '';
+                var brandFooter = '';
+                //Lấy danh mục
+                res.cate.forEach(function(category){
+                    var brandHtml = '';
+                    res.brand.forEach(function(brand){
+                        brandHtml += `<li><a class="dropdown-item" href="#">${brand.brandName}</a></li>`;
+                    });
+                    menuHtml += `
+                            <li class="nav-item dropdown" id="ListNav">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                   data-bs-toggle="dropdown" aria-expanded="false">
+                                    ${category.name}
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    ${brandHtml}
+                                </ul>
+                            </li>
+                    `;
+                });
+                $('#menuNavbar > li:nth-child(2)').after(menuHtml);
+                //Lấy menu dọc
+                res.brand.forEach(function (brand) {
+                    brandFooter += `<p><a href="#">${brand.brandName}</a></p>`;
+                });$('#menuFooter').append(brandFooter);
+
+                //Lấy dữ liệu website
+                if (res.website)
+                {
+                    var websiteInfo = `
+                                        <p><strong>${res.website.websiteName} Trang Thông Tin Chính Thức.</strong></p>
+                                <p><strong>Địa chỉ:</strong> ${res.website.websiteAddress}</p>
+                                <p><strong>Email:</strong>${res.website.websiteEmail}</p>
+                                <p><strong>Hotline:</strong>${res.website.websitePhone}</p>
+                    `;
+                    $('#websiteINFO').html(websiteInfo);
+                    var SocialInfo = `
+                                <p><a href="${res.website.websiteLinkFb}" target="_blank" class="text-white"><strong>Facebook</strong>${res.website.websiteLinkFb}</a></p>
+                    `;
+                    $('#SocialINFO').html(SocialInfo);
+                }
+
+            }
+        });
+    });
+</script>
