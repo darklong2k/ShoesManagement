@@ -3,7 +3,7 @@ using Shoes_Management.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<shoescontext>(opts =>
+builder.Services.AddDbContext<Shoescontext>(opts =>
 	opts.UseSqlServer(builder.Configuration.GetConnectionString("Connection"))
 );
 
