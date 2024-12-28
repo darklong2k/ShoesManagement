@@ -1,8 +1,18 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using Shoes_Management;
 using Shoes_Management.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+	options.IdleTimeout = TimeSpan.FromMinutes(30);
+	options.Cookie.HttpOnly = true;
+	options.Cookie.IsEssential = true;
+});
+builder.Services.AddScoped<AdminAuthorizationFilter>();
 builder.Services.AddDbContext<Shoescontext>(opts =>
 	opts.UseSqlServer(builder.Configuration.GetConnectionString("Connection"))
 );
@@ -24,8 +34,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
-	app.UseAuthorization();
+app.UseSession();
+app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>
 {
@@ -38,7 +48,5 @@ app.UseEndpoints(endpoints =>
 	name: "default",
 	pattern: "{controller=Home}/{action=Index}/{id?}");
 });
-
-
 
 app.Run();
