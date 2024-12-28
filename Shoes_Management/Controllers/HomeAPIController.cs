@@ -108,6 +108,22 @@ namespace Shoes_Management.Controllers
             return Ok(new { products, bestSeller });
         }
 
+        //Lấy categories cho trang chủ
+        [HttpGet("GetCategories")]
+        public IActionResult GetCategories()
+        {
+            var categories = _context.Categories.Skip(2);
+            return Ok(categories);
+        }
+
+        //Lấy sản phẩm từ category
+        [HttpGet("GetProductsByCategory/{categoryId}")]
+        public IActionResult GetProductsByCategory(int categoryId)
+        { 
+            var product = _context.Products.Where(p => p.CategoryId == categoryId);
+            return Ok(product);
+        }
+
 
         //TrangSanPham
         [HttpGet("Products_Page")]
