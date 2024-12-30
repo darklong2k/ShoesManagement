@@ -169,12 +169,32 @@ namespace Shoes_Management.Controllers
             return Ok(new { currentPage = page, totalPage, pageSize, products });
         }
 
+        //Hiện lên bộ lọc
         [HttpGet("TrangSanPham")]
         public IActionResult TrangSanPham()
         {
             var category = _context.Categories.Take(2);
             var brands = _context.Brands;
             return Ok(new { category = category, brands = brands });
+        }
+
+        //Lấy dsach cac bai blog
+        [HttpGet("GetBlogs")]
+        public IActionResult GetBlogs(int page=1)
+        {
+            int pagesize = 2;
+            var blogs = _context.Blogs.Skip((page - 1)*pagesize).Take(pagesize);
+            var totalBlogs = _context.Blogs.Count();
+            int totalPage = (int)Math.Ceiling((double)totalBlogs / pagesize);
+            return Ok(new { blogs = blogs, currentPage = page,totalPage,pagesize });
+        }
+
+        //Hiện trang blog theo id
+        [HttpGet("BlogId")]
+        public IActionResult BlogId(int blogid)
+        {
+            var blog = _context.Blogs.Find(blogid);
+            return Ok(new { blog = blog });
         }
     }
 }
