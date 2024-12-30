@@ -203,9 +203,9 @@
                     </ul>
 
                     <!-- Form tìm kiếm -->
-                    <form class="d-flex ms-3">
+                    <form class="d-flex ms-3" id="formSearch">
                         <div class="input-group">
-                            <input class="form-control" type="search" placeholder="Tìm kiếm" aria-label="Search">
+                            <input class="form-control" type="search" placeholder="Tìm kiếm" id="search" aria-label="Search">
                             <button class="btn btn-outline-secondary" type="submit">
                                 <i class="fas fa-search"></i>
                             </button>
@@ -431,7 +431,7 @@
         //Tren navbar
         $.ajax({
             url: 'https://localhost:7103/api/homeapi/LayOut',
-            typeof:'GET',
+            type:'GET',
             success:function(res){
                 var menuHtml = '';
                 var brandFooter = '';
@@ -439,12 +439,12 @@
                 res.cate.forEach(function(category){
                     var brandHtml = '';
                     res.brand.forEach(function(brand){
-                        brandHtml += `<li><a class="dropdown-item" href="#">${brand.brandName}</a></li>`;
+                        brandHtml += `<li><a class="dropdown-item" href="/Home/TrangSanPham?categoryId=${category.categoryId}&brandId=${brand.brandId}">${brand.brandName}</a></li>`;
                     });
                     menuHtml += `
                             <li class="nav-item dropdown" id="ListNav">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                   data-bs-toggle="dropdown" aria-expanded="false">
+                                                <a class="nav-link dropdown-toggle" href="/Home/TrangSanPham?categoryId=${category.categoryId}" id="navbarDropdown" role="button"
+                                    aria-expanded="false">
                                     ${category.name}
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -454,6 +454,8 @@
                     `;
                 });
                 $('#menuNavbar > li:nth-child(2)').after(menuHtml);
+
+
                 //Lấy menu dọc
                 res.brand.forEach(function (brand) {
                     brandFooter += `<p><a href="#">${brand.brandName}</a></p>`;
@@ -497,7 +499,7 @@
                 }
             });
         });
-        
+
         //DangNhap
         $('#FormDN').on('submit', function (e) {
             e.preventDefault();
@@ -520,6 +522,12 @@
                     }
                 }
             });
+        });
+
+        $('#formSearch').on('submit',function(e){
+            e.preventDefault();
+            var search = $('#search').val();
+            window.location.href = `/Home/TrangSanpham?search=${search}`;
         });
     });
 </script>

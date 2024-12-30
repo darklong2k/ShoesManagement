@@ -31,10 +31,6 @@ namespace Shoes_Management.Controllers
         {
             return View();
         }
-        
-     
-      
-
 
         public IActionResult Privacy()
 		{
