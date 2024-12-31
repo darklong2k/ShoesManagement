@@ -203,17 +203,17 @@
                 if (res.success) {
                     html = `
                              <div class="d-flex align-items-center mb-4">
-                                <h4 class="mb-0">${res.custumerInFo.name}</h4>
+                                    <h4 class="mb-0">${res.custumerInFo.username}</h4>
                     </div>
                     <div class="card shadow-sm">
                         <div class="card-body">
                             <table class="table table-bordered">
                                 <tbody>
-                                        <tr><th>Tên:</th><td>${res.custumerInFo.name}</td></tr>
-                                        <tr><th>Địa chỉ email:</th><td>${res.custumerInFo.email}</td></tr>
-                                        <tr><th>Số điện thoại:</th><td>${res.custumerInFo.phone}</td></tr>
-                                        <tr><th>Địa chỉ:</th><td>${res.custumerInFo.address}</td></tr>
-                                        <tr><th>Giới tính:</th><td>${res.custumerInFo.sex}</td></tr>
+                                            <tr><th>Tên:</th><td>${res.custumerInFo.name}</td></tr>
+                                            <tr><th>Địa chỉ email:</th><td>${res.custumerInFo.email}</td></tr>
+                                            <tr><th>Số điện thoại:</th><td>${res.custumerInFo.phone}</td></tr>
+                                            <tr><th>Địa chỉ:</th><td>${res.custumerInFo.address}</td></tr>
+                                            <tr><th>Giới tính:</th><td>${res.custumerInFo.sex === 1 ? "Nam" : "Nữ"}</td></tr>
                                 </tbody>
                             </table>
                             <button class="btn btn-primary"><i class="fas fa-edit"></i> Chỉnh sửa thông tin</button>

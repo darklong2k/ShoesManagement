@@ -1,92 +1,120 @@
-﻿
+﻿@{
+    ViewData["Title"]="";
+}
+<style>
+    .sidebarblog-title h2 {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
 
+    .news-latest ul li {
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 10px;
+    }
 
+        .news-latest ul li:last-child {
+            border-bottom: none;
+        }
 
-<section class="pt-4 pb-4">
-    <div class="container">
-        <!-- Phần Giới Thiệu Công Ty -->
-        <div class="row">
-            <div class="col-12" id="Blog">
-                <h1 class="text-center mb-4">Giới Thiệu Công Ty</h1>
-                <p class="lead">Chúng tôi là công ty chuyên cung cấp sản phẩm chất lượng cao trong lĩnh vực ...</p>
+        .news-latest ul li img {
+            border-radius: 4px;
+            object-fit: cover;
+        }
+
+        .news-latest ul li span {
+            font-size: 14px;
+            line-height: 1.5;
+            font-weight: 500;
+        }
+
+</style>
+<div class="container">
+    <div class="row">
+        <!-- Nội dung chính -->
+        <div class="col-md-9 col-sm-12 col-xs-12">
+            <div class="content-page">
+                <div class="article-content" id="Blog">
+                    
+                </div>
             </div>
         </div>
 
-        <!-- Phần Danh Sách Bài Viết Blog -->
-        <div class="row mt-5">
-            <div class="col-12">
-                <h1 class="text-center mb-4">Danh Sách Bài Viết Blog</h1>
-
-                <div class="list-group" id="ListBlogs">
-                   
-                    
-                    <!-- Thêm các bài viết khác ở đây -->
-                </div>
-
-                <!-- Phân trang -->
-                <!-- Phân trang -->
-                <nav class="mt-4">
-                    <ul class="pagination justify-content-center" id="PhanTrang">
+        <!-- Bài viết khác -->
+        <div class="col-md-3 col-sm-12 col-xs-12">
+            <div class="sidebar-blog">
+                <div class="news-latest clearfix">
+                    <!-- Tiêu đề -->
+                    <div class="sidebarblog-title title_block mb-3">
+                        <h2 class="text-center mt-3">BÀI VIẾT KHÁC</h2>
+                        <hr class="mx-auto" style="width: 50%; border: 1px solid black;">
+                    </div>
+                    <!-- Danh sách bài viết -->
+                    <ul class="list-unstyled" id="Sidebar">
+                        <!-- Bài viết 1 -->
+                        
                         
                     </ul>
-                </nav>
+                </div>
             </div>
         </div>
+
+
     </div>
-</section>
+</div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    function truncateContent(content)
-    {
-        if(content.length > 100)
-        {
-            return content.substring(0, 100) + '...';
+    $(document).ready(function(){
+        function getQueryParam(param){
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('blogid');
         }
-        return content;
-    }
-    $(document).ready(function () {
-        let page = 1;
-        function loadBlogs(page){
-            $.ajax({
-                url: `https://localhost:7103/api/homeapi/GetBlogs?page=${page}`,
-                type: 'GET',
-                success: function (res) {
-                    var html = '';
-                    res.blogs.forEach(function (blo) {
-                        html += `
-                                 <a href="" class="list-group-item list-group-item-action">
-                                    <h5 class="mb-1">${blo.blogTitle}</h5>
-                                        <p class="mb-1">${truncateContent(blo.blogContent)}</p >
-                                    <small class="text-muted">Ngày đăng: ${blo.createdDate}</small>
-                            </a>
-                        `;
-                    });
-                    $('#ListBlogs').html(html);
 
-                    $('#PhanTrang').empty();
-                    for (let i = 1; i <= res.totalPage; i++) {
-                        const activeClass = i == page ? 'active' : '';
-                        $('#PhanTrang').append(`
-                                    <li class="page-item ${activeClass}">
-                                        <a class ="page-link" href="#" data-page="${i}">${i}</a>
-                                    </li>
-                                `);
-                    }
+        const blogid=getQueryParam('blogid');
 
-                    $(document).on('click', '.page-link', function (e) {
-                        e.preventDefault();
-                        const page = $(this).data('page');
-                        if (page) {
-                            currentPage = page;
-                            loadBlogs(currentPage);
-                        }
-                    });
+        $.ajax({
+            url:`https://localhost:7103/api/homeapi/BlogId?blogid=${blogid}`,
+            type:'GET',
+            success:function(res){
+                var html='';
+                var sidebar='';
+                var contentWithImage = res.blog.blogContent;
+                if (res.blog.blogImages) { 
+                    contentWithImage = `
+                        <div style="text-align:center;" >
+                        <img src="/images/${res.blog.blogImages}" alt="Blog Image" class="img-fluid mb-3"  style="width: 300px; height: 300px;"/>
+                    </div>
+                    ` + contentWithImage;
                 }
-            });
-        }
-        loadBlogs(page);        
+                
+                    $('title').text(res.blog.blogTitle);
+                    html = `
+                        <div class="box-article-heading clearfix">
+                        <h1 class="sb-title-article mt-3">${res.blog.blogTitle}</h1>
+                    </div>
+                    <div class="article-pages">
+                        <p>
+                             ${contentWithImage}
+                        </p>
+                    </div>
+                    `;
+                    $('#Blog').html(html);
+                
+                res.sidebarBlog.forEach(function(blog){
+                    sidebar += `
+                        <li class="d-flex align-items-center mb-3">
+                            <a href="/Home/TrangBlog?blogid=${blog.blogId}" class="thumbnail mr-2">
+                                    <img src="/images/${blog.blogImage}" alt="Blog Image" class="img-fluid mb-3"  style="width: 70px; height: 70px;"/>
+                            </a>
+                            <a href="/Home/TrangBlog?blogid=${blog.blogId}" class="text-decoration-none text-dark ms-lg-2">
+                                <span>${blog.blogTitle}</span>
+                            </a>
+                        </li>
+                    `;
+                });
+                $('#Sidebar').html(sidebar);
+            }
+        });
     });
 </script>
-
-

@@ -85,7 +85,7 @@
             $('#listProd').empty();
             $('#PhanTrang').empty();
             $.ajax({
-                url: `https://localhost:7103/api/homeapi/products_Page?page=${page}&search=${searchQuery}&categoryId=${categoryId}&brandId=${brandId}`,
+                url: `https://localhost:7103/api/homeapi/products_Page?page=${page}&search=${searchQuery}&brandId=${brandId}&categoryId=${categoryId}`,
             type:'GET',
             success:function(res){
                 var html;
@@ -168,13 +168,14 @@
         //Gửi bộ lọc
         $('#FormFilter').on('submit', function (e) { 
             e.preventDefault();
-            var brandId = $('#ListCate').val() || 0;
-            var categoryId = $('input[name="brand"]:checked').val()||0;
+            var categoryId = $('#ListCate').val() || 0;
+            console.log(brandId);
+            var brandId  = $('input[name="brand"]:checked').val() || 0;
             var priceId = $('#SelectPrice').val() || 0;
             $.ajax({
                 url: 'https://localhost:7103/api/homeapi/products_Page',
                 type:'GET',
-                data: { page: 1, search: '', categoryId: categoryId, brandId: brandId, priceId: priceId },
+                data: { page: 1, search: '', brandId: brandId, categoryId: categoryId, priceId: priceId },
                 success:function(res)
                 {
                     $('#listProd').empty();

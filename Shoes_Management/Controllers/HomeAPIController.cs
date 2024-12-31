@@ -67,7 +67,16 @@ namespace Shoes_Management.Controllers
         public IActionResult TrangCaNhan()
         {
             var acc_id = HttpContext.Session.GetString("acc_id");
-            var custumerInFo = _context.Customers.FirstOrDefault(c => c.AccountId.ToString() == acc_id);
+            var custumerInFo = _context.Customers.Include(c => c.Account)
+                .Where(c => c.AccountId.ToString() == acc_id).Select(c => new
+            {
+                c.Name,
+                c.Email,
+                c.Phone,
+                c.Address,
+                c.Sex,
+                c.Account.Username
+            }).FirstOrDefault();
             return Ok(new { success = true, custumerInFo });
         }
 
@@ -127,7 +136,7 @@ namespace Shoes_Management.Controllers
 
         //TrangSanPham
         [HttpGet("Products_Page")]
-        public IActionResult Products_Page(int page = 1, string search = null, int categoryId = 0, int brandId = 0,int priceId = 0)
+        public IActionResult Products_Page(int page = 1, string search = null, int brandId = 0, int categoryId = 0,int priceId = 0)
         {
             int pageSize = 3;
 
@@ -159,7 +168,7 @@ namespace Shoes_Management.Controllers
                         query = query.Where(p => p.Price >= 3000000 && p.Price < 4000000);
                         break;
                     case 4:
-                        query = query.Where(p => p.Price >= 2000000);
+                        query = query.Where(p => p.Price >= 4000000);
                         break;
                 }
             }
@@ -193,8 +202,25 @@ namespace Shoes_Management.Controllers
         [HttpGet("BlogId")]
         public IActionResult BlogId(int blogid)
         {
-            var blog = _context.Blogs.Find(blogid);
-            return Ok(new { blog = blog });
+            var sidebarBlog = _context.Blogs.Include(b => b.BlogImages).Select(b => new
+            {
+                b.BlogId,
+                b.BlogTitle,
+                BlogImage = b.BlogImages.Select(img => img.ImageUrl)
+            });
+            var blog = _context.Blogs
+                .Include(b => b.BlogImages)
+                .Where(b => b.BlogId == blogid)
+                .Select(b => new
+                {
+                    b.BlogId,
+                    b.BlogTitle,
+                    b.BlogContent,
+                    BlogImages = b.BlogImages.Select(img => img.ImageUrl).ToList()
+                })
+                .FirstOrDefault(b => b.BlogId == blogid);
+
+            return Ok(new { blog = blog, sidebarBlog });
         }
     }
 }

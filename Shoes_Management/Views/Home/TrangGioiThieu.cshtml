@@ -1,5 +1,6 @@
-﻿
-
+﻿@{
+    ViewData["Title"] = "Trang giới thiệu";
+}
 
 
 <section class="pt-4 pb-4">
@@ -64,10 +65,10 @@
                     var html = '';
                     res.blogs.forEach(function (blo) {
                         html += `
-                                     <a href="" class="list-group-item list-group-item-action" data-id=${blo.blogId}>
-                                    <h5 class="mb-1">${blo.blogTitle}</h5>
-                                        <p class="mb-1">${truncateContent(blo.blogContent)}</p >
-                                    <small class="text-muted">Ngày đăng: ${blo.createdDate}</small>
+                                 <a href="/Home/TrangBlog?blogid=${blo.blogId}" class="list-group-item list-group-item-action" data-id=${blo.blogId}>
+                                 <h5 class="mb-1">${blo.blogTitle}</h5>
+                                 <p class="mb-1">${truncateContent(blo.blogContent)}</p >
+                                 <small class="text-muted">Ngày đăng: ${new Date(blo.createdDate).toLocaleDateString()}</small>
                             </a>
                         `;
                     });
@@ -83,15 +84,6 @@
                                 `);
                     }
 
-                    $(document).on('click', '.page-link', function (e) {
-                        e.preventDefault();
-                        const page = $(this).data('page');
-                        if (page) {
-                            currentPage = page;
-                            loadBlogs(currentPage);
-                        }
-                    });
-
                     $(document).on('click', '.list-group-item', function () {
                         const blogId = $(this).data('id');
                         RedirectBlogDetail(blogId);
@@ -101,15 +93,24 @@
         }
         loadBlogs(page);
         
-        function RedirectBlogDetail(id) { 
-            $.ajax({
-                url: `https://localhost:7103/api/homeapi/BlogId?blogid=${id}`,
-                type:'GET',
-                success:function(res){
-                    window.location.href = '/Home/TrangBlog';
-                }
-            });
-        }
+        // function RedirectBlogDetail(id) { 
+        //     $.ajax({
+        //         url: `https://localhost:7103/api/homeapi/BlogId?blogid=${id}`,
+        //         type:'GET',
+        //         success:function(res){
+        //             window.location.href = `/Home/TrangBlog?blogid=${id}`;
+        //         }
+        //     });
+        // }
+
+        $(document).on('click', '.page-link', function (e) {
+            e.preventDefault();
+            const page = $(this).data('page');
+            if (page) {
+                currentPage = page;
+                loadBlogs(currentPage);
+            }
+        });
     });
 </script>
 
