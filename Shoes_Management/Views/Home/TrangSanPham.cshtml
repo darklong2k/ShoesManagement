@@ -10,138 +10,54 @@
     <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h3 class="fw-bold mb-0">Sản phẩm</h3>
-            <span class="text-muted">Tổng số sản phẩm: <strong>100</strong></span>
+            @* <span class="text-muted">Tổng số sản phẩm: <strong>100</strong></span> *@
         </div>
         <div class="row">
             <div class="col-lg-3 col-md-4">
                 <div class="border rounded p-3 mb-3">
-                    <h5 class="fw-bold mb-3">Bộ lọc</h5>
-                    <!-- Bộ lọc danh mục -->
-                    <div class="mb-3">
-                        <h6 class="fw-bold">Danh mục</h6>
-                        <select class="form-select">
-                            <option selected>Tất cả</option>
-                            <option>Giày nam</option>
-                            <option>Giày nữ</option>
-                            <option>Phụ kiện</option>
-                        </select>
-                    </div>
-                    <!-- Bộ lọc giá -->
-                    <div class="mb-3">
-                        <h6 class="fw-bold">Khoảng giá</h6>
-                        <div class="d-flex">
-                            <input type="number" class="form-control me-2" placeholder="Từ" />
-                            <input type="number" class="form-control" placeholder="Đến" />
+                    <form id="FormFilter">
+                        <h5 class="fw-bold mb-3">Bộ lọc</h5>
+                        <!-- Bộ lọc danh mục -->
+                        <div class="mb-3">
+                            <h6 class="fw-bold">Danh mục</h6>
+                            <select class="form-select" id="ListCate">
+                                <option selected>Tất cả</option>
+
+                            </select>
                         </div>
-                    </div>
-                    <!-- Bộ lọc thương hiệu -->
-                    <div class="mb-3">
-                        <h6 class="fw-bold">Thương hiệu</h6>
-                        <div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="brand1" />
-                                <label class="form-check-label" for="brand1">Nike</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="brand2" />
-                                <label class="form-check-label" for="brand2">Adidas</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="brand3" />
-                                <label class="form-check-label" for="brand3">Puma</label>
+                        <!-- Bộ lọc giá -->
+                        <div class="mb-3">
+                            <h6 class="fw-bold">Khoảng giá</h6>
+                            <select class="form-select" id="SelectPrice">
+                                <option value="1">Dưới 2 triệu</option>
+                                <option value="2">Từ 2 đến 3 triệu </option>
+                                <option value="3">Từ 3 đến 4 triệu</option>
+                                <option value="4">Trên 4 triệu</option>
+                            </select>
+                        </div>
+                        <!-- Bộ lọc thương hiệu -->
+                        <div class="mb-3">
+                            <h6 class="fw-bold">Thương hiệu</h6>
+                            <div id="ListBrand">
                             </div>
                         </div>
-                    </div>
-                    <!-- Nút áp dụng -->
-                    <button class="btn btn-primary w-100">Áp dụng</button>
+                        <!-- Nút áp dụng -->
+                        <button class="btn btn-primary w-100">Áp dụng</button>
+                    </form>
                 </div>
             </div>
             <div class="col-lg-9 col-md-8">
-                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="listProd">
                     <!-- Vòng lặp danh sách sản phẩm -->
-                    <div class="col">
-                        <div class="card h-100">
-                            <a href="#">
-                                <img src="https://kingshoes.vn/data/upload/thumb/sneaker-315122-111-air-force-1-07-nike-kingshoesvn-tphcm-tanbinh-17-logo-1551924204-jpg/500_SNEAKER-315122-111-AIR-FORCE-1-07-NIKE-KINGSHOES.VN-TPHCM-TANBINH-17-logo-1551924204-.jpg.webp" class="card-img-top" alt="Sản phẩm">
-                            </a>
-                            <div class="card-body">
-                                <h5 class="card-title">Sản phẩm 1</h5>
-                                <p class="text-warning">★★★★★</p>
-                                <p class="text-danger fw-bold">2,000,000 đ</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card h-100">
-                            <a href="#">
-                                <img src="https://kingshoes.vn/data/upload/thumb/sneaker-315122-111-air-force-1-07-nike-kingshoesvn-tphcm-tanbinh-17-logo-1551924204-jpg/500_SNEAKER-315122-111-AIR-FORCE-1-07-NIKE-KINGSHOES.VN-TPHCM-TANBINH-17-logo-1551924204-.jpg.webp" class="card-img-top" alt="Sản phẩm">
-                            </a>
-                            <div class="card-body">
-                                <h5 class="card-title">Sản phẩm 1</h5>
-                                <p class="text-warning">★★★★★</p>
-                                <p class="text-danger fw-bold">2,000,000 đ</p>
-                            </div>
-                        </div>
-                    </div><div class="col">
-                        <div class="card h-100">
-                            <a href="#">
-                                <img src="https://kingshoes.vn/data/upload/thumb/sneaker-315122-111-air-force-1-07-nike-kingshoesvn-tphcm-tanbinh-17-logo-1551924204-jpg/500_SNEAKER-315122-111-AIR-FORCE-1-07-NIKE-KINGSHOES.VN-TPHCM-TANBINH-17-logo-1551924204-.jpg.webp" class="card-img-top" alt="Sản phẩm">
-                            </a>
-                            <div class="card-body">
-                                <h5 class="card-title">Sản phẩm 1</h5>
-                                <p class="text-warning">★★★★★</p>
-                                <p class="text-danger fw-bold">2,000,000 đ</p>
-                            </div>
-                        </div>
-                    </div><div class="col">
-                        <div class="card h-100">
-                            <a href="#">
-                                <img src="https://kingshoes.vn/data/upload/thumb/sneaker-315122-111-air-force-1-07-nike-kingshoesvn-tphcm-tanbinh-17-logo-1551924204-jpg/500_SNEAKER-315122-111-AIR-FORCE-1-07-NIKE-KINGSHOES.VN-TPHCM-TANBINH-17-logo-1551924204-.jpg.webp" class="card-img-top" alt="Sản phẩm">
-                            </a>
-                            <div class="card-body">
-                                <h5 class="card-title">Sản phẩm 1</h5>
-                                <p class="text-warning">★★★★★</p>
-                                <p class="text-danger fw-bold">2,000,000 đ</p>
-                            </div>
-                        </div>
-                    </div><div class="col">
-                        <div class="card h-100">
-                            <a href="#">
-                                <img src="https://kingshoes.vn/data/upload/thumb/sneaker-315122-111-air-force-1-07-nike-kingshoesvn-tphcm-tanbinh-17-logo-1551924204-jpg/500_SNEAKER-315122-111-AIR-FORCE-1-07-NIKE-KINGSHOES.VN-TPHCM-TANBINH-17-logo-1551924204-.jpg.webp" class="card-img-top" alt="Sản phẩm">
-                            </a>
-                            <div class="card-body">
-                                <h5 class="card-title">Sản phẩm 1</h5>
-                                <p class="text-warning">★★★★★</p>
-                                <p class="text-danger fw-bold">2,000,000 đ</p>
-                            </div>
-                        </div>
-                    </div><div class="col">
-                        <div class="card h-100">
-                            <a href="#">
-                                <img src="https://kingshoes.vn/data/upload/thumb/sneaker-315122-111-air-force-1-07-nike-kingshoesvn-tphcm-tanbinh-17-logo-1551924204-jpg/500_SNEAKER-315122-111-AIR-FORCE-1-07-NIKE-KINGSHOES.VN-TPHCM-TANBINH-17-logo-1551924204-.jpg.webp" class="card-img-top" alt="Sản phẩm">
-                            </a>
-                            <div class="card-body">
-                                <h5 class="card-title">Sản phẩm 1</h5>
-                                <p class="text-warning">★★★★★</p>
-                                <p class="text-danger fw-bold">2,000,000 đ</p>
-                            </div>
-                        </div>
-                    </div>
+                    
 
                     <!-- Thêm sản phẩm khác -->
                 </div>
 
                 <!-- Phân trang -->
                 <nav class="mt-4">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Trước</a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">Tiếp</a>
+                    <ul class="pagination justify-content-center" id="PhanTrang">
+                        
                         </li>
                     </ul>
                 </nav>
@@ -149,3 +65,152 @@
         </div>
     </div>
 </section>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function(){
+        let currentPage=1;
+
+        function getQueryParam(param){
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        const searchQuery = getQueryParam('search') || '';
+        const categoryId = getQueryParam('categoryId') || 0;
+        const brandId = getQueryParam('brandId') || 0;
+        
+        function loadProduct(page,search='')
+        {
+            $('#listProd').empty();
+            $('#PhanTrang').empty();
+            $.ajax({
+                url: `https://localhost:7103/api/homeapi/products_Page?page=${page}&search=${searchQuery}&categoryId=${categoryId}&brandId=${brandId}`,
+            type:'GET',
+            success:function(res){
+                var html;
+                if(res.products.length === 0)
+                {
+                    $('#listProd').html(`<p class="text-center">Không tìm thấy sản phẩm nào.</p>`);
+                    return;
+                }
+                res.products.forEach(function(product){
+                    var rating = '★'.repeat(Math.floor(product.ratingAvg))+'☆'.repeat(5 - (Math.floor(product.ratingAvg)));
+                    html = `
+                        <div class="col">
+                        <div class="card h-100">
+                            <a href="#">
+                                <img src="https://kingshoes.vn/data/upload/thumb/sneaker-315122-111-air-force-1-07-nike-kingshoesvn-tphcm-tanbinh-17-logo-1551924204-jpg/500_SNEAKER-315122-111-AIR-FORCE-1-07-NIKE-KINGSHOES.VN-TPHCM-TANBINH-17-logo-1551924204-.jpg.webp" class="card-img-top" alt="Sản phẩm">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">${product.name}</h5>
+                                <p class="text-warning">${rating}</p>
+                                <p class="text-danger fw-bold">${product.price.toLocaleString()}đ</p>
+                            </div>
+                        </div>
+                    </div>
+                    `;
+                    $('#listProd').append(html);
+                });
+                for(let i = 1; i <= res.totalPage;i++){
+                    const activeClass = i == page ? 'active' : '';
+                    $('#PhanTrang').append(`
+                        <li class="page-item ${activeClass}">
+                            <a class ="page-link" href="#" data-page="${i}">${i}</a>
+                        </li>
+                    `);
+                }
+            }
+        });
+        }
+        $(document).on('click','.page-link',function(e){
+            e.preventDefault();
+            const page = $(this).data('page');
+            if(page){
+                currentPage=page;
+                loadProduct(currentPage);
+            }
+        });
+
+        //Chọn tự động bộ lọc
+        $.ajax({
+            url: 'https://localhost:7103/api/homeapi/TrangSanPham',
+            type: 'GET',
+            success: function (res) {
+                var htmlcate = '';
+                var htmlbrand = '';
+                res.category.forEach(function (category) {
+                    htmlcate += `
+                                <option value="${category.categoryId}">${category.name}</option>
+                        `; 
+                });
+                $('#ListCate').html(htmlcate);
+                res.brands.forEach(function (brand) {
+                    htmlbrand += `
+                                <div class="form-check">
+                                             <input class="form-check-input" type="radio" name="brand" value="${brand.brandId}" id="brand${brand.brandId}" />
+                                            <label class="form-check-label" for="${brand.brandId}">${brand.brandName}</label>
+                                    </div>
+                        `;
+                });
+                $('#ListBrand').html(htmlbrand);
+                if (categoryId) {
+                    $(`#ListCate option[value="${categoryId}"]`).prop('selected', true);
+                }
+                if (brandId) {
+                    $(`#ListBrand input[type="radio"][value="${brandId}"]`).prop('checked', true);
+                }
+                loadProduct(currentPage);
+            }
+
+        });
+
+        //Gửi bộ lọc
+        $('#FormFilter').on('submit', function (e) { 
+            e.preventDefault();
+            var brandId = $('#ListCate').val() || 0;
+            var categoryId = $('input[name="brand"]:checked').val()||0;
+            var priceId = $('#SelectPrice').val() || 0;
+            $.ajax({
+                url: 'https://localhost:7103/api/homeapi/products_Page',
+                type:'GET',
+                data: { page: 1, search: '', categoryId: categoryId, brandId: brandId, priceId: priceId },
+                success:function(res)
+                {
+                    $('#listProd').empty();
+                    $('#PhanTrang').empty();
+                    if (res.products.length === 0) {
+                        $('#listProd').html(`<p class="text-center">Không tìm thấy sản phẩm nào.</p>`);
+                        return;
+                    }
+                    res.products.forEach(function (product) {
+                        var rating = '★'.repeat(Math.floor(product.ratingAvg)) + '☆'.repeat(5 - (Math.floor(product.ratingAvg)));
+                        html = `
+                            <div class="col">
+                            <div class="card h-100">
+                                <a href="#">
+                                    <img src="https://kingshoes.vn/data/upload/thumb/sneaker-315122-111-air-force-1-07-nike-kingshoesvn-tphcm-tanbinh-17-logo-1551924204-jpg/500_SNEAKER-315122-111-AIR-FORCE-1-07-NIKE-KINGSHOES.VN-TPHCM-TANBINH-17-logo-1551924204-.jpg.webp" class="card-img-top" alt="Sản phẩm">
+                                </a>
+                                <div class="card-body">
+                                    <h5 class="card-title">${product.name}</h5>
+                                    <p class="text-warning">${rating}</p>
+                                    <p class="text-danger fw-bold">${product.price.toLocaleString()}đ</p>
+                                </div>
+                            </div>
+                        </div>
+                        `;
+                        $('#listProd').append(html);
+                    });
+                    for (let i = 1; i <= res.totalPage; i++) {
+                        const activeClass = i == page ? 'active' : '';
+                        $('#PhanTrang').append(`
+                            <li class="page-item ${activeClass}">
+                                <a class ="page-link" href="#" data-page="${i}">${i}</a>
+                            </li>
+                        `);
+                    }
+                }
+            });
+        });
+    });
+</script>

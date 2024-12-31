@@ -16,6 +16,8 @@
 
     <!-- Thêm font chữ Raleway -->
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600&display=swap" rel="stylesheet">
+    @* Font awesome *@
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
     <!-- Liên kết tới tệp CSS tùy chỉnh của bạn -->
 
@@ -148,6 +150,26 @@
             border-radius: 50%;
         }
 
+        #errorModal .modal-header {
+            background-color: #ff4f4f; /* Màu đỏ tươi */
+            color: white;
+            font-weight: bold;
+        }
+
+        #errorModal .modal-body {
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        #errorModal .modal-footer {
+            justify-content: flex-start;
+        }
+
+        #errorModal .fas.fa-times-circle {
+            color: #ff4f4f; /* Màu đỏ cho icon */
+        }
+
+
     </style>
 </head>
 
@@ -169,39 +191,21 @@
 
                 <!-- Các mục menu điều hướng -->
                 <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav mx-auto">
-                        <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+                    <ul class="navbar-nav mx-auto" id="menuNavbar">
+                        <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="TrangChu">Trang chủ</a></li>
                         <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="TrangSanPham">Sản phẩm</a></li>
 
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                               data-bs-toggle="dropdown" aria-expanded="false">
-                                Giày nam
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">Adidas</a></li>
-                                <li><a class="dropdown-item" href="#">Nike</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                               data-bs-toggle="dropdown" aria-expanded="false">
-                                Giày nữ
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">Adidas</a></li>
-                                <li><a class="dropdown-item" href="#">Nike</a></li>
-                            </ul>
-                        </li>
+                        
+   
                         <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="TrangLienHe">Liên hệ</a></li>
                         <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="TrangGioiThieu">Giới thiệu</a></li>
 
                     </ul>
 
                     <!-- Form tìm kiếm -->
-                    <form class="d-flex ms-3">
+                    <form class="d-flex ms-3" id="formSearch">
                         <div class="input-group">
-                            <input class="form-control" type="search" placeholder="Tìm kiếm" aria-label="Search">
+                            <input class="form-control" type="search" placeholder="Tìm kiếm" id="search" aria-label="Search">
                             <button class="btn btn-outline-secondary" type="submit">
                                 <i class="fas fa-search"></i>
                             </button>
@@ -212,7 +216,7 @@
                     <ul class="navbar-nav ms-3">
                         <li class="nav-item">
                             <!-- Biểu tượng user mở popup đăng nhập -->
-                            <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">
+                            <a class="nav-link" href="#" id="UserICON" data-bs-toggle="modal" data-bs-target="#loginModal">
                                 <i class="fa-regular fa-user"></i>
                             </a>
                         </li>
@@ -268,30 +272,16 @@
                     <a href="."><img src="~/images/T1.svg" alt="Logo" class="logo footer img-fluid"></a>
                 </div>
 
-                <div class="col-lg-2 mb-2">
-                    <p><a href="#">Adidas</a></p>
-                    <p><a href="#">Nike</a></p>
-                    <p><a href="#">Puma</a></p>
-
-
+                <div class="col-lg-2 mb-2" id="menuFooter">
+                    
                 </div>
 
-                <div class="col-lg-5 mb-5">
-                    <p><strong>KINGSHOES.VN Trang Thông Tin Chính Thức.</strong></p>
-                    <p><strong>Địa chỉ:</strong> 192/2 Nguyễn Thái Bình, Phường 12, Quận Tân Bình, Thành phố Hồ Chí Minh</p>
-                    <p><strong>Email:</strong> cskh.kingshoes.vn@gmail.com</p>
-                    <p><strong>Hotline:</strong> 0909.300.746 - 0909.45.0001</p>
+                <div class="col-lg-5 mb-5" id="websiteINFO">
+                    
                 </div>
-                <div class="col-lg-2 mb-2">
+                <div class="col-lg-2 mb-2" id="SocialINFO">
                     <!-- Các liên kết mạng xã hội -->
-                    <p><a href="https://kingshoes.vn/" target="_blank" class="text-white"><strong>Website chính thức</strong></a></p>
-                    <p><a href="https://twitter.com/kingshoes_vn" target="_blank" class="text-white"><strong>Twitter</strong></a></p>
-                    <p><a href="https://instagram.com/kingshoes.vn" target="_blank" class="text-white"><strong>Instagram</strong></a></p>
-                    <p><a href="https://www.facebook.com/Kingshoes.vnn/" target="_blank" class="text-white"><strong>Facebook</strong></a></p>
-                    <p><a href="https://www.youtube.com/c/KingShoesvn" target="_blank" class="text-white"><strong>YouTube</strong></a></p>
-                    <p><a href="http://bit.ly/KINGSHOES_map" target="_blank" class="text-white"><strong>Bản đồ</strong></a></p>
-                    <p><a href="https://www.tiktok.com/kingshoes_sneaker" target="_blank" class="text-white"><strong>TikTok</strong></a></p>
-                </div>
+                   
             </div>
         </div>
     </footer>
@@ -307,24 +297,18 @@
                 <div class="modal-body">
                     <!-- Form đăng nhập -->
                     <div id="loginForm">
-                        <form>
+                        <form id="FormDN">
                             <div class="mb-3">
                                 <label for="username" class="form-label">Tên đăng nhập</label>
-                                <input type="text" class="form-control" id="username" placeholder="Tên đăng nhập">
+                                <input type="text" class="form-control" id="username" placeholder="Tên đăng nhập" required>
                             </div>
                             <div class="mb-3 position-relative">
                                 <label for="password" class="form-label">Mật khẩu</label>
-                                <input type="password" class="form-control" id="password" placeholder="Mật khẩu">
+                                <input type="password" class="form-control" id="password" placeholder="Mật khẩu" required>
                             </div>
                             <button type="submit" asp-area="" asp-controller="Home" asp-action="TrangCaNhan" class="btn btn-primary w-100">Đăng nhập</button>
                         </form>
                         <p class="mt-3 text-center">Chưa có tài khoản? <a href="#" id="showSignup">Đăng ký</a></p>
-                        <!-- Đăng nhập bằng Google -->
-                        <div class="d-flex justify-content-center mt-3">
-                            <button class="btn btn-danger w-100">
-                                <i class="fab fa-google"></i> Đăng nhập bằng Google
-                            </button>
-                        </div>
                     </div>
 
                     <!-- Form đăng ký (ẩn mặc định) -->
@@ -354,6 +338,30 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal lỗi -->
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <!-- Icon thất bại -->
+                    <h5 class="modal-title" id="errorModalLabel">Lỗi đăng nhập</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="errorMessage">
+                    <!-- Thông báo lỗi sẽ được hiển thị ở đây -->
+                    <i class="fas fa-times-circle me-2" style="font-size: 24px;"></i>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Thử lại</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
 
     <!-- Thêm Bootstrap 5 JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
@@ -417,3 +425,109 @@
 </body>
 
 </html>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function (){
+        //Tren navbar
+        $.ajax({
+            url: 'https://localhost:7103/api/homeapi/LayOut',
+            type:'GET',
+            success:function(res){
+                var menuHtml = '';
+                var brandFooter = '';
+                //Lấy danh mục
+                res.cate.forEach(function(category){
+                    var brandHtml = '';
+                    res.brand.forEach(function(brand){
+                        brandHtml += `<li><a class="dropdown-item" href="/Home/TrangSanPham?categoryId=${category.categoryId}&brandId=${brand.brandId}">${brand.brandName}</a></li>`;
+                    });
+                    menuHtml += `
+                            <li class="nav-item dropdown" id="ListNav">
+                                                <a class="nav-link dropdown-toggle" href="/Home/TrangSanPham?categoryId=${category.categoryId}" id="navbarDropdown" role="button"
+                                    aria-expanded="false">
+                                    ${category.name}
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    ${brandHtml}
+                                </ul>
+                            </li>
+                    `;
+                });
+                $('#menuNavbar > li:nth-child(2)').after(menuHtml);
+
+
+                //Lấy menu dọc
+                res.brand.forEach(function (brand) {
+                    brandFooter += `<p><a href="#">${brand.brandName}</a></p>`;
+                });$('#menuFooter').append(brandFooter);
+
+                //Lấy dữ liệu website
+                if (res.website)
+                {
+                    var websiteInfo = `
+                                        <p><strong>${res.website.websiteName} Trang Thông Tin Chính Thức.</strong></p>
+                                <p><strong>Địa chỉ:</strong> ${res.website.websiteAddress}</p>
+                                <p><strong>Email:</strong>${res.website.websiteEmail}</p>
+                                <p><strong>Hotline:</strong>${res.website.websitePhone}</p>
+                    `;
+                    $('#websiteINFO').html(websiteInfo);
+                    var SocialInfo = `
+                                <p><a href="${res.website.websiteLinkFb}" target="_blank" class="text-white"><strong>Facebook</strong>${res.website.websiteLinkFb}</a></p>
+                    `;
+                    $('#SocialINFO').html(SocialInfo);
+                }
+
+            }
+        });
+
+        //kiemtradangnhap
+        $('#UserICON').on('click', function () {
+            $.ajax({
+                url: 'https://localhost:7103/api/homeapi/DangNhap',
+                type: 'GET',
+                success: function (res) {
+                    if (res.success) {
+                        $('#loginModal').modal('hide');
+                        window.location.href = res.url;
+                    }
+                    if (res.isAdmin) {
+                        window.location.href = res.url;
+                    }
+                    else {
+                        $('#loginModal').modal('show');
+                    }
+                }
+            });
+        });
+
+        //DangNhap
+        $('#FormDN').on('submit', function (e) {
+            e.preventDefault();
+            var username = $('#username').val();
+            var password = $('#password').val();
+            $.ajax({
+                url: 'https://localhost:7103/api/homeapi/DangNhap',
+                type:'POST',
+                data: { username: username, password: password },
+                success: function (res) {
+                    if (res.success) {
+                        window.location.href = res.url;
+                    }
+                    if(res.admin){
+                        window.location.href = res.url;
+                    }
+                    else{
+                        $('#errorModal').modal('show');
+                        $('#errorMessage').append(res.message);
+                    }
+                }
+            });
+        });
+
+        $('#formSearch').on('submit',function(e){
+            e.preventDefault();
+            var search = $('#search').val();
+            window.location.href = `/Home/TrangSanpham?search=${search}`;
+        });
+    });
+</script>
