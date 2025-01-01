@@ -328,7 +328,7 @@
                             <div class="col">
                     <div class="card h-100">
                         <a href="https://kingshoes.vn/air-force-1-cw2288-111.html">
-                            <img src="https://kingshoes.vn/data/upload/thumb/sneaker-315122-111-air-force-1-07-nike-kingshoesvn-tphcm-tanbinh-17-logo-1551924204-jpg/500_SNEAKER-315122-111-AIR-FORCE-1-07-NIKE-KINGSHOES.VN-TPHCM-TANBINH-17-logo-1551924204-.jpg.webp"
+                            <img src="/images/${product.image}"
                                  class="card-img-top" alt="AIR FORCE 1">
                         </a>
                         <div class="card-body">
@@ -355,23 +355,23 @@
             type: 'GET',
             success: function (res) {
                 var contain = $('#ContainSPBC');
-                res.bestSeller.forEach(function (product) {
-                    var rating = '★'.repeat(Math.floor(product.products.ratingAvg)) + '☆'.repeat(5 - Math.floor((product.products.ratingAvg)));
+                res.bestSeller.forEach(function (prod) {
+                    var rating = '★'.repeat(Math.floor(prod.product.ratingAvg)) + '☆'.repeat(5 - Math.floor((prod.product.ratingAvg)));
                     var html = `
                                 <div class="col">
                         <div class="card h-100">
                             <a href="https://kingshoes.vn/air-force-1-cw2288-111.html">
-                                <img src="https://kingshoes.vn/data/upload/thumb/sneaker-315122-111-air-force-1-07-nike-kingshoesvn-tphcm-tanbinh-17-logo-1551924204-jpg/500_SNEAKER-315122-111-AIR-FORCE-1-07-NIKE-KINGSHOES.VN-TPHCM-TANBINH-17-logo-1551924204-.jpg.webp"
+                                    <img src="/images/${prod.product.image}"
                                      class="card-img-top" alt="AIR FORCE 1">
                             </a>
                             <div class="card-body">
-                                    <a href="https://kingshoes.vn/${product.products.slug}" style="text-decoration:none">
-                                    <h5 class="card-title">${product.products.name}</h5>
+                                    <a href="https://kingshoes.vn/${prod.product.slug}" style="text-decoration:none">
+                                    <h5 class="card-title">${prod.product.name}</h5>
                                 </a>
                                 <div>
                                     <span class="text-warning">${rating}</span>
                                 </div>
-                                        <p class="text-danger">${product.products.price.toLocaleString()}đ</p>
+                                        <p class="text-danger">${prod.product.price.toLocaleString()}đ</p>
 
                             </div>
                         </div>
@@ -424,7 +424,7 @@
                                      <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
                             <div class="card h-100 shadow-sm border-light">
                                 <a href="https://kingshoes.vn/air-force-1-cw2288-111.html">
-                                    <img src="https://kingshoes.vn/data/upload/thumb/sneaker-315122-111-air-force-1-07-nike-kingshoesvn-tphcm-tanbinh-17-logo-1551924204-jpg/500_SNEAKER-315122-111-AIR-FORCE-1-07-NIKE-KINGSHOES.VN-TPHCM-TANBINH-17-logo-1551924204-.jpg.webp"
+                                        <img src="/images/${prod.image}"
                                          class="card-img-top" alt="${prod.name}">
                                 </a>
                                 <div class="card-body">

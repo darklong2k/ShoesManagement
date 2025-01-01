@@ -79,16 +79,23 @@
             success:function(res){
                 var html='';
                 var sidebar='';
-                var contentWithImage = res.blog.blogContent;
+                var Image='';
+                var contentParts = res.blog.blogContent.split('\n');
                 if (res.blog.blogImages) { 
-                    contentWithImage = `
+                    Image = `
                         <div style="text-align:center;" >
-                        <img src="/images/${res.blog.blogImages}" alt="Blog Image" class="img-fluid mb-3"  style="width: 300px; height: 300px;"/>
+                        <img src="/images/${res.blog.blogImages}" alt="Blog Image" class="img-fluid mb-3"  style="width: 600px; height: 600px;"/>
                     </div>
-                    ` + contentWithImage;
+                    ` ;
                 }
                 
+                //Tạo hình ảnh ở giữa
                     $('title').text(res.blog.blogTitle);
+                var middleContent = Math.floor(contentParts.length/2);
+                contentWithImage = contentParts.slice(0, middleContent)
+                    + Image
+                    + contentParts.slice(middleContent);
+
                     html = `
                         <div class="box-article-heading clearfix">
                         <h1 class="sb-title-article mt-3">${res.blog.blogTitle}</h1>

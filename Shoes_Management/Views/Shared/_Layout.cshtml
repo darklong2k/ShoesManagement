@@ -217,7 +217,8 @@
                         <li class="nav-item">
                             <!-- Biểu tượng user mở popup đăng nhập -->
                             <a class="nav-link" href="#" id="UserICON" data-bs-toggle="modal" data-bs-target="#loginModal">
-                                <i class="fa-regular fa-user"></i>
+                                <i class="fa-regular fa-user" id="USER"></i>
+                                <p id="Name"></p>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -451,6 +452,14 @@
                 });
                 $('#menuNavbar > li:nth-child(2)').after(menuHtml);
 
+                if (res.accName != null)
+                {
+                    $('#USER').hide();
+                    $('#Name').text(res.accName);
+                }
+                else{
+                    $('#USER').show();
+                }
 
                 //Lấy menu dọc
                 res.brand.forEach(function (brand) {

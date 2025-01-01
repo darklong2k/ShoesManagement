@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
 
 namespace Shoes_Management.Controllers
 {
@@ -96,10 +97,11 @@ namespace Shoes_Management.Controllers
         [HttpGet("LayOut")]
         public IActionResult LayOut()
         {
+            var accName = HttpContext.Session.GetString("username");
             var cate = _context.Categories.Take(2);
             var brand = _context.Brands;
             var website = _context.Websites.First();
-            return Ok(new { cate, brand, website });
+            return Ok(new { cate, brand, website,accName });
         }
 
         //Trang chủ
@@ -109,17 +111,16 @@ namespace Shoes_Management.Controllers
             //PRoduct new
             var products = _context.Products.Take(4).OrderByDescending(p => p.CreatedAt);
             //Product Best seller
-            var bestSeller = (from pd in _context.ProductDetails
-                              join od in _context.OrderDetails on pd.ProductDetailId equals od.ProductDetailId
-                              join p in _context.Products on pd.ProductId equals p.ProductId
-                              join o in _context.Orders on od.OrderId equals o.OrderId
-                              where o.Status == "Delivered"
-                              group od by p into grouped
-                              select new
-                              {
-                                  Products = grouped.Key,
-                                  ToatalQuanTiTY = grouped.Sum(od => od.Quantity)
-                              }).OrderByDescending(x => x.ToatalQuanTiTY).Take(4);
+            var bestSeller = _context.OrderDetails
+                .Where(od => od.Order.Status == "Delivered")
+                .GroupBy(od => od.ProductDetail.Product)
+                .Select(grouped => new
+                {
+                    Product = grouped.Key,
+                    TotalQuantity = grouped.Sum(od => od.Quantity)
+                })
+                .OrderByDescending(od => od.TotalQuantity)
+                .Take(4);
             return Ok(new { products, bestSeller });
         }
 
