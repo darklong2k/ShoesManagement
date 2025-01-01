@@ -7,18 +7,8 @@
     <div class="container">
         <!-- Phần Giới Thiệu Công Ty -->
         <div class="row">
-            <div class="col-12">
-                <h1 class="text-center mb-4">Giới Thiệu Công Ty</h1>
-                <p class="lead">Chúng tôi là công ty chuyên cung cấp sản phẩm chất lượng cao trong lĩnh vực ...</p>
-                <h3>Thông Tin Công Ty</h3>
-                <ul>
-                    <li><strong>Tên Công Ty:</strong> Công ty XYZ</li>
-                    <li><strong>Địa Chỉ:</strong> 123 Đường ABC, Quận 1, TP. HCM</li>
-                    <li><strong>Lĩnh Vực Kinh Doanh:</strong> Thương mại điện tử, Giày dép, Quần áo</li>
-                    <li><strong>Các Chính Sách:</strong> Bảo hành, Đổi trả, Vận chuyển miễn phí...</li>
-                </ul>
-                <h3>Chính Sách Bảo Hành</h3>
-                <p>Công ty XYZ cam kết bảo hành sản phẩm trong 12 tháng. Đổi trả hàng trong vòng 30 ngày nếu có lỗi sản phẩm...</p>
+            <div class="col-12" id="Introduce">
+                
             </div>
         </div>
 
@@ -73,6 +63,22 @@
                         `;
                     });
                     $('#ListBlogs').html(html);
+
+                    $('#Introduce').html(
+                        `
+                                <h1 class="text-center mb-4">Giới Thiệu Công Ty</h1>
+                    <p class="lead">Chúng tôi là công ty chuyên cung cấp sản phẩm chất lượng cao trong lĩnh vực ...</p>
+                    <h3>Thông Tin Công Ty</h3>
+                    <ul>
+                        <li><strong>Tên Công Ty:</strong></li>
+                        <li><strong>Địa Chỉ:</strong> 123 Đường ABC, Quận 1, TP. HCM</li>
+                        <li><strong>Lĩnh Vực Kinh Doanh:</strong> Thương mại điện tử, Giày dép, Quần áo</li>
+                        <li><strong>Các Chính Sách:</strong> Bảo hành, Đổi trả, Vận chuyển miễn phí...</li>
+                    </ul>
+                    <h3>Chính Sách Bảo Hành</h3>
+                    <p>Công ty XYZ cam kết bảo hành sản phẩm trong 12 tháng. Đổi trả hàng trong vòng 30 ngày nếu có lỗi sản phẩm...</p>
+                        `
+                    );
 
                     $('#PhanTrang').empty();
                     for (let i = 1; i <= res.totalPage; i++) {

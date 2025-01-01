@@ -313,14 +313,10 @@
 
                     <!-- Form đăng ký (ẩn mặc định) -->
                     <div id="signupForm" style="display: none;">
-                        <form>
+                        <form id="DangKyForm">
                             <div class="mb-3">
                                 <label for="usernameSignup" class="form-label">Tên đăng nhập</label>
                                 <input type="text" class="form-control" id="usernameSignup" placeholder="Tên đăng nhập">
-                            </div>
-                            <div class="mb-3">
-                                <label for="emailSignup" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="emailSignup" placeholder="Email">
                             </div>
                             <div class="mb-3">
                                 <label for="passwordSignup" class="form-label">Mật khẩu</label>
@@ -528,6 +524,28 @@
             e.preventDefault();
             var search = $('#search').val();
             window.location.href = `/Home/TrangSanpham?search=${search}`;
+        });
+
+        $('#DangKyForm').on('submit', function (e) {
+            e.preventDefault();
+            var username = $('#usernameSignup').val();
+            var password = $('#passwordSignup').val();
+            var passwordConfirm = $('#confirmPassword').val();
+            $.ajax({
+                url: 'https://localhost:7103/api/homeapi/DangKy',
+                type:'POST',
+                data: { username: username, password: password, passwordConfirm: passwordConfirm },
+                success:function(res){
+                    if (res.success) {
+                        $('#signupForm').hide();
+                        $('#loginForm').show();
+                    }
+                    else{
+                        $('#errorModal').modal('show');
+                        $('#errorMessage').text(res.message);
+                    }
+                }
+            });
         });
     });
 </script>
