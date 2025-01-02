@@ -2,8 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Shoes_Management.Models;
+using System.Security.Cryptography;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
 
 namespace Shoes_Management.Controllers
 {
@@ -13,11 +16,18 @@ namespace Shoes_Management.Controllers
     {
         private readonly Shoescontext _context;
 
+        public string HashPassWord(string password)
+        {
+            SHA256 sha256 = SHA256.Create();
+            byte[] bytes = Encoding.UTF8.GetBytes(password);
+            byte[] hash = sha256.ComputeHash(bytes);
+            return Convert.ToHexString(hash);
+        }
+
         public HomeAPIController(Shoescontext context)
         {
             _context = context;
         }
-
 
         [HttpGet("DangNhap")]
         public IActionResult DangNhap()
@@ -28,7 +38,7 @@ namespace Shoes_Management.Controllers
             {
                 return Ok(new { success = false });
             }
-            if (!string.IsNullOrEmpty(isAdmin))
+            if (isAdmin != null)
             {
                 return Ok(new { isAdmin, url = "/Admin/Home/Dashboard" });
             }
@@ -39,27 +49,32 @@ namespace Shoes_Management.Controllers
         }
 
         [HttpPost("DangNhap")]
-        public IActionResult DangNhap([FromForm] string username, [FromForm] string password)
+        public IActionResult DangNhap([FromForm] string username, [FromForm] string password)//PhucNguyen2004
         {
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
-                return Ok(new { success = false });
+                return Ok(new { success = false, message = "Mật khẩu và xác nhận mật khẩu không khớp"});
             }
             else
             {
-                var acc = _context.Accounts.FirstOrDefault(a => a.Username == username && a.Password == password);
-                HttpContext.Session.SetString("username", acc.Username);
+                var acc = _context.Accounts.FirstOrDefault(a => a.Username == username && a.Password == HashPassWord(password));
+                
                 if (acc == null)
                 {
                     return Ok(new { success = false, message = "Tài khoản và mật khẩu không hợp lệ" });
                 }
-                if (acc.IsAdmin == true)
+                else
                 {
-                    HttpContext.Session.SetString("is_admin", acc.IsAdmin.ToString());
-                    return Ok(new { admin = true, url = "/Admin/Home/Dashboard" });
+                    HttpContext.Session.SetString("username", acc.Username);
+                    if (acc.IsAdmin == true)
+                    {
+                        HttpContext.Session.SetString("is_admin", acc.IsAdmin.ToString());
+                        return Ok(new { admin = true, url = "/Admin/Home/Dashboard" });
+                    }
+                    HttpContext.Session.SetString("acc_id", acc.AccountId.ToString());
+                    return Ok(new { success = true, url = "/home/trangcanhan" });
                 }
-                HttpContext.Session.SetString("acc_id", acc.AccountId.ToString());
-                return Ok(new { success = true, url = "/home/trangcanhan" });
+                
             }
         }
 
@@ -67,8 +82,9 @@ namespace Shoes_Management.Controllers
         public IActionResult TrangCaNhan()
         {
             var acc_id = HttpContext.Session.GetString("acc_id");
+            var username = HttpContext.Session.GetString("username");
             var custumerInFo = _context.Customers.FirstOrDefault(c => c.AccountId.ToString() == acc_id);
-            return Ok(new { success = true, custumerInFo });
+            return Ok(new { success = true, custumerInFo,username });
         }
 
         [HttpGet("DangXuat")]
@@ -81,12 +97,12 @@ namespace Shoes_Management.Controllers
         [HttpGet("LayOut")]
         public IActionResult LayOut()
         {
+            var accName = HttpContext.Session.GetString("username");
             var cate = _context.Categories.Take(2);
             var brand = _context.Brands;
             var website = _context.Websites.First();
-            return Ok(new { cate, brand, website });
+            return Ok(new { cate, brand, website,accName });
         }
-
 
         //Trang chủ
         [HttpGet("GetProducts")]
@@ -95,17 +111,16 @@ namespace Shoes_Management.Controllers
             //PRoduct new
             var products = _context.Products.Take(4).OrderByDescending(p => p.CreatedAt);
             //Product Best seller
-            var bestSeller = (from pd in _context.ProductDetails
-                              join od in _context.OrderDetails on pd.ProductDetailId equals od.ProductDetailId
-                              join p in _context.Products on pd.ProductId equals p.ProductId
-                              join o in _context.Orders on od.OrderId equals o.OrderId
-                              where o.Status == "Delivered"
-                              group od by p into grouped
-                              select new
-                              {
-                                  Products = grouped.Key,
-                                  ToatalQuanTiTY = grouped.Sum(od => od.Quantity)
-                              }).OrderByDescending(x => x.ToatalQuanTiTY).Take(4);
+            var bestSeller = _context.OrderDetails
+                .Where(od => od.Order.Status == "Delivered")
+                .GroupBy(od => od.ProductDetail.Product)
+                .Select(grouped => new
+                {
+                    Product = grouped.Key,
+                    TotalQuantity = grouped.Sum(od => od.Quantity)
+                })
+                .OrderByDescending(od => od.TotalQuantity)
+                .Take(4);
             return Ok(new { products, bestSeller });
         }
 
@@ -127,7 +142,7 @@ namespace Shoes_Management.Controllers
 
         //TrangSanPham
         [HttpGet("Products_Page")]
-        public IActionResult Products_Page(int page = 1, string search = null, int categoryId = 0, int brandId = 0,int priceId = 0)
+        public IActionResult Products_Page(int page = 1, string search = null, int brandId = 0, int categoryId = 0,int priceId = 0)
         {
             int pageSize = 3;
 
@@ -159,7 +174,7 @@ namespace Shoes_Management.Controllers
                         query = query.Where(p => p.Price >= 3000000 && p.Price < 4000000);
                         break;
                     case 4:
-                        query = query.Where(p => p.Price >= 2000000);
+                        query = query.Where(p => p.Price >= 4000000);
                         break;
                 }
             }
@@ -178,7 +193,7 @@ namespace Shoes_Management.Controllers
             return Ok(new { category = category, brands = brands });
         }
 
-        //Lấy dsach cac bai blog
+        //Lấy dsach cac bai blog và hiển thị giới thiệu shop
         [HttpGet("GetBlogs")]
         public IActionResult GetBlogs(int page=1)
         {
@@ -186,15 +201,63 @@ namespace Shoes_Management.Controllers
             var blogs = _context.Blogs.Skip((page - 1)*pagesize).Take(pagesize);
             var totalBlogs = _context.Blogs.Count();
             int totalPage = (int)Math.Ceiling((double)totalBlogs / pagesize);
-            return Ok(new { blogs = blogs, currentPage = page,totalPage,pagesize });
+            var website = _context.Websites.First();
+            return Ok(new { blogs = blogs, currentPage = page,totalPage,pagesize,website });
         }
 
         //Hiện trang blog theo id
         [HttpGet("BlogId")]
         public IActionResult BlogId(int blogid)
         {
-            var blog = _context.Blogs.Find(blogid);
-            return Ok(new { blog = blog });
+            var sidebarBlog = _context.Blogs.Include(b => b.BlogImages).Select(b => new
+            {
+                b.BlogId,
+                b.BlogTitle,
+                BlogImage = b.BlogImages.Select(img => img.ImageUrl)
+            }).Where(b => b.BlogId != blogid);
+            var blog = _context.Blogs
+                .Include(b => b.BlogImages)
+                .Where(b => b.BlogId == blogid)
+                .Select(b => new
+                {
+                    b.BlogId,
+                    b.BlogTitle,
+                    b.BlogContent,
+                    BlogImages = b.BlogImages.Select(img => img.ImageUrl).ToList()
+                })
+                .FirstOrDefault(b => b.BlogId == blogid);
+
+            return Ok(new { blog = blog, sidebarBlog });
+        }
+
+        [HttpPost("DangKy")]
+        public IActionResult DangKy([FromForm]string username, [FromForm] string password, [FromForm]string passwordConfirm)
+        {
+            if (password != passwordConfirm)
+            {
+                return Ok(new { success = false, message = "Mật khẩu và xác nhận mật khẩu không khớp" });
+            }
+            if (_context.Accounts.Any(a => a.Username == username))
+            {
+                return Ok(new {success=false,message = "Tài khoản đã tồn tại"});
+            }
+            var acc = new Account();
+            acc.Username = username;
+            acc.Password = HashPassWord(passwordConfirm);
+            acc.IsAdmin = false;
+            acc.Status = "Active";
+            acc.CreatedAt = DateTime.UtcNow;
+            acc.UpdatedAt = DateTime.UtcNow;
+            _context.Accounts.Add(acc);
+            _context.SaveChanges();
+            return Ok(new {success=true});
+        }
+        
+        [HttpGet("Admin")]
+        public IActionResult Admin()
+        {
+            var nameAdmin = HttpContext.Session.GetString("username");
+            return Ok(nameAdmin);
         }
     }
 }

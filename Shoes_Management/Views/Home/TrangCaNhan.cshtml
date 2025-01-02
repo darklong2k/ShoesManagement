@@ -26,7 +26,23 @@
 
         <div class="col-lg-9">
             <div id="personal-info" class="section-content mb-4">
-               
+                <div class="d-flex align-items-center mb-4">
+                    <h4 class="mb-0" id="ACCNAME"></h4>
+                </div>
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <table class="table table-bordered">
+                            <tbody>
+                                <tr><th>Tên:</th><td id="CUS_NAME"></td></tr>
+                                <tr><th>Địa chỉ email:</th><td id="CUS_EMAIL"></td></tr>
+                                <tr><th>Số điện thoại:</th><td id="CUS_PHONE"></td></tr>
+                                <tr><th>Địa chỉ:</th><td id="CUS_ADDRESS"></td></tr>
+                                <tr><th>Giới tính:</th><td id="CUS_SEX"></td></tr>
+                            </tbody>
+                        </table>
+                        <button class="btn btn-primary"><i class="fas fa-edit"></i> Chỉnh sửa thông tin</button>
+                    </div>
+                </div>
             </div>
 
             <div id="order-list" class="section-content mb-4" style="display: none;">
@@ -180,6 +196,8 @@
     </div>
 </div>
 
+
+
 @section Scripts {
     <script>
         function showSection(sectionId) {
@@ -199,29 +217,12 @@
             url: 'https://localhost:7103/api/homeapi/TrangCaNhan',
             type:'GET',
             success:function(res){
-                var html;
-                if (res.success) {
-                    html = `
-                             <div class="d-flex align-items-center mb-4">
-                                <h4 class="mb-0">${res.custumerInFo.name}</h4>
-                    </div>
-                    <div class="card shadow-sm">
-                        <div class="card-body">
-                            <table class="table table-bordered">
-                                <tbody>
-                                        <tr><th>Tên:</th><td>${res.custumerInFo.name}</td></tr>
-                                        <tr><th>Địa chỉ email:</th><td>${res.custumerInFo.email}</td></tr>
-                                        <tr><th>Số điện thoại:</th><td>${res.custumerInFo.phone}</td></tr>
-                                        <tr><th>Địa chỉ:</th><td>${res.custumerInFo.address}</td></tr>
-                                        <tr><th>Giới tính:</th><td>${res.custumerInFo.sex}</td></tr>
-                                </tbody>
-                            </table>
-                            <button class="btn btn-primary"><i class="fas fa-edit"></i> Chỉnh sửa thông tin</button>
-                        </div>
-                    </div>
-                    `;
-                    $('#personal-info').html(html);
-                }
+                $('#ACCNAME').text(res.username);
+                $('#CUS_NAME').text(res.custumerInFo.name);
+                $('#CUS_EMAIL').text(res.custumerInFo.email);
+                $('#CUS_PHONE').text(res.custumerInFo.phone);
+                $('#CUS_ADDRESS').text(res.custumerInFo.address);
+                $('#CUS_SEX').text(res.custumerInFo.sex === 1 ? 'Nam' : 'Nữ');
             }
         });
 

@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Sản phẩm";
+    ViewData["Title"] = "Trang Sản phẩm";
 }
 
 <link href="css/product.css" rel="stylesheet" />
@@ -85,10 +85,10 @@
             $('#listProd').empty();
             $('#PhanTrang').empty();
             $.ajax({
-                url: `https://localhost:7103/api/homeapi/products_Page?page=${page}&search=${searchQuery}&categoryId=${categoryId}&brandId=${brandId}`,
+                url: `https://localhost:7103/api/homeapi/products_Page?page=${page}&search=${searchQuery}&brandId=${brandId}&categoryId=${categoryId}`,
             type:'GET',
             success:function(res){
-                var html;
+                var html='';
                 if(res.products.length === 0)
                 {
                     $('#listProd').html(`<p class="text-center">Không tìm thấy sản phẩm nào.</p>`);
@@ -96,11 +96,11 @@
                 }
                 res.products.forEach(function(product){
                     var rating = '★'.repeat(Math.floor(product.ratingAvg))+'☆'.repeat(5 - (Math.floor(product.ratingAvg)));
-                    html = `
+                    html += `
                         <div class="col">
                         <div class="card h-100">
                             <a href="#">
-                                <img src="https://kingshoes.vn/data/upload/thumb/sneaker-315122-111-air-force-1-07-nike-kingshoesvn-tphcm-tanbinh-17-logo-1551924204-jpg/500_SNEAKER-315122-111-AIR-FORCE-1-07-NIKE-KINGSHOES.VN-TPHCM-TANBINH-17-logo-1551924204-.jpg.webp" class="card-img-top" alt="Sản phẩm">
+                                    <img src="/images/${product.image}" class="card-img-top" alt="Sản phẩm">
                             </a>
                             <div class="card-body">
                                 <h5 class="card-title">${product.name}</h5>
@@ -109,9 +109,9 @@
                             </div>
                         </div>
                     </div>
-                    `;
-                    $('#listProd').append(html);
+                    `;               
                 });
+                $('#listProd').html(html);
                 for(let i = 1; i <= res.totalPage;i++){
                     const activeClass = i == page ? 'active' : '';
                     $('#PhanTrang').append(`
@@ -168,13 +168,14 @@
         //Gửi bộ lọc
         $('#FormFilter').on('submit', function (e) { 
             e.preventDefault();
-            var brandId = $('#ListCate').val() || 0;
-            var categoryId = $('input[name="brand"]:checked').val()||0;
+            var categoryId = $('#ListCate').val() || 0;
+            console.log(brandId);
+            var brandId  = $('input[name="brand"]:checked').val() || 0;
             var priceId = $('#SelectPrice').val() || 0;
             $.ajax({
                 url: 'https://localhost:7103/api/homeapi/products_Page',
                 type:'GET',
-                data: { page: 1, search: '', categoryId: categoryId, brandId: brandId, priceId: priceId },
+                data: { page: 1, search: '', brandId: brandId, categoryId: categoryId, priceId: priceId },
                 success:function(res)
                 {
                     $('#listProd').empty();
@@ -189,7 +190,7 @@
                             <div class="col">
                             <div class="card h-100">
                                 <a href="#">
-                                    <img src="https://kingshoes.vn/data/upload/thumb/sneaker-315122-111-air-force-1-07-nike-kingshoesvn-tphcm-tanbinh-17-logo-1551924204-jpg/500_SNEAKER-315122-111-AIR-FORCE-1-07-NIKE-KINGSHOES.VN-TPHCM-TANBINH-17-logo-1551924204-.jpg.webp" class="card-img-top" alt="Sản phẩm">
+                                        <img src="/images/${product.image}" class="card-img-top" alt="Sản phẩm">
                                 </a>
                                 <div class="card-body">
                                     <h5 class="card-title">${product.name}</h5>
@@ -201,6 +202,7 @@
                         `;
                         $('#listProd').append(html);
                     });
+
                     for (let i = 1; i <= res.totalPage; i++) {
                         const activeClass = i == page ? 'active' : '';
                         $('#PhanTrang').append(`
