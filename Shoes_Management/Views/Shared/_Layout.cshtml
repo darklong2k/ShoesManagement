@@ -179,8 +179,8 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-white">
             <div class="container-fluid">
                 <!-- Logo -->
-                <a class="navbar-brand" style="font-weight: bold; color: black; font-style: italic" asp-area="" asp-controller="Home" asp-action="Index">
-                    <img src="~/images/T1.svg" alt="Logo" class="logo" style="width: 80px; height: 80px;"> Shop Giày T1
+                <a class="navbar-brand" style="font-weight: bold; color: black; font-style: italic" asp-area="" asp-controller="Home" asp-action="TrangChu" id="LOGOANDNAME">
+                    
                 </a>
 
                 <!-- Nút hamburger (cho thiết bị di động) -->
@@ -269,8 +269,8 @@
     <footer class="bg-dark text-white py-4" style="margin-top:15px">
         <div class="container">
             <div class="row">
-                <div class="col-lg-3 mb-4">
-                    <a href="."><img src="~/images/T1.svg" alt="Logo" class="logo footer img-fluid"></a>
+                <div class="col-lg-3 mb-4" id="IMAGEFOOTER">
+                    
                 </div>
 
                 <div class="col-lg-2 mb-2" id="menuFooter">
@@ -463,7 +463,7 @@
 
                 //Lấy menu dọc
                 res.brand.forEach(function (brand) {
-                    brandFooter += `<p><a href="#">${brand.brandName}</a></p>`;
+                    brandFooter += `<p><a href="/Home/TrangSanPham?brandId=${brand.brandId}">${brand.brandName}</a></p>`;
                 });$('#menuFooter').append(brandFooter);
 
                 //Lấy dữ liệu website
@@ -477,9 +477,15 @@
                     `;
                     $('#websiteINFO').html(websiteInfo);
                     var SocialInfo = `
-                                <p><a href="${res.website.websiteLinkFb}" target="_blank" class="text-white"><strong>Facebook</strong>${res.website.websiteLinkFb}</a></p>
+                                <p><a href="${res.website.websiteLinkFb}" target="_blank" class="text-white"><strong>Facebook: </strong>${res.website.websiteLinkFb}</a></p>
                     `;
                     $('#SocialINFO').html(SocialInfo);
+                    $('#LOGOANDNAME').html(`
+                             <img src="/images/${res.website.websiteImage}" alt="Logo" class="logo" style="width: 80px; height: 80px;"> ${res.website.websiteName}
+                    `);
+                    $('#IMAGEFOOTER').html(`
+                                <a href="/Home/TrangChu"><img src="/images/${res.website.websiteImage}" alt="Logo" class="logo footer img-fluid"></a>
+                    `);
                 }
 
             }

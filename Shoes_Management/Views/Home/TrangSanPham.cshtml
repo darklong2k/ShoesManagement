@@ -88,7 +88,7 @@
                 url: `https://localhost:7103/api/homeapi/products_Page?page=${page}&search=${searchQuery}&brandId=${brandId}&categoryId=${categoryId}`,
             type:'GET',
             success:function(res){
-                var html;
+                var html='';
                 if(res.products.length === 0)
                 {
                     $('#listProd').html(`<p class="text-center">Không tìm thấy sản phẩm nào.</p>`);
@@ -96,7 +96,7 @@
                 }
                 res.products.forEach(function(product){
                     var rating = '★'.repeat(Math.floor(product.ratingAvg))+'☆'.repeat(5 - (Math.floor(product.ratingAvg)));
-                    html = `
+                    html += `
                         <div class="col">
                         <div class="card h-100">
                             <a href="#">
@@ -109,9 +109,9 @@
                             </div>
                         </div>
                     </div>
-                    `;
-                    $('#listProd').append(html);
+                    `;               
                 });
+                $('#listProd').html(html);
                 for(let i = 1; i <= res.totalPage;i++){
                     const activeClass = i == page ? 'active' : '';
                     $('#PhanTrang').append(`
@@ -202,6 +202,7 @@
                         `;
                         $('#listProd').append(html);
                     });
+
                     for (let i = 1; i <= res.totalPage; i++) {
                         const activeClass = i == page ? 'active' : '';
                         $('#PhanTrang').append(`
