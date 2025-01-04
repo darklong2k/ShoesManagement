@@ -159,6 +159,7 @@
 
         }
 
+        // API lấy danh sách supplier
         $.ajax({
             url: '/api/suppliers',
             method: 'GET',
@@ -179,6 +180,7 @@
             var address = $(`#address-${supplierId}`).val();
             var status = $(`#status-${supplierId}`).val() === "true";
 
+            // Chỉnh sửa supplier
             $.ajax({
                 url: `/api/suppliers/${supplierId}`,
                 method: 'PUT',
@@ -203,24 +205,25 @@
             });
         });
 
-    // Handle delete supplier
-    $(document).on("click", ".btn-danger", function () {
-        var supplierId = $(this).data("supplier-id");
+        // API xóa supplier
+        $(document).on("click", ".btn-danger", function () {
+            var supplierId = $(this).data("supplier-id");
 
-        $.ajax({
-            url: `/api/suppliers/${supplierId}`,
-            method: 'DELETE',
-            success: function() {
-                alert("Xóa thành công!");
-                displaySupplier(suppliers);
-            },
-            error: function(xhr, status, error) {
-                console.error("Error deleting supplier:", error);
-                alert("Xóa thất bại.");
-            }
+            $.ajax({
+                url: `/api/suppliers/${supplierId}`,
+                method: 'DELETE',
+                success: function() {
+                    alert("Xóa thành công!");
+                    displaySupplier(suppliers);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error deleting supplier:", error);
+                    alert("Xóa thất bại.");
+                }
+            });
         });
-    });
 
+        // API thêm supplier
         $("#btnSupplier").click(function(e) {
             const supplierData = {
                 SupplierName: $("#supplier_name").val(),
@@ -246,6 +249,7 @@
             });
         })
 
+        // Tìm kiếm supplier
         $("#search-input").on("keyup", function() {
             var searchTerm = $(this).val().toLowerCase();
 
