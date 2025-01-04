@@ -57,7 +57,7 @@ namespace Shoes_Management.Controllers
             }
             else
             {
-                var acc = _context.Accounts.FirstOrDefault(a => a.Username == username && a.Password == HashPassWord(password));
+                var acc = _context.Accounts.Where(a => a.Status == "Active").FirstOrDefault(a => a.Username == username && a.Password == HashPassWord(password));
                 
                 if (acc == null)
                 {
@@ -109,7 +109,7 @@ namespace Shoes_Management.Controllers
         public IActionResult GetProducts()
         {
             //PRoduct new
-            var products = _context.Products.Take(4).OrderByDescending(p => p.CreatedAt);
+            var products = _context.Products.Take(4).OrderByDescending(p => p.CreatedAt).Where(p => p.Status == "Active");
             //Product Best seller
             var bestSeller = _context.OrderDetails
                 .Where(od => od.Order.Status == "Delivered")
@@ -120,7 +120,8 @@ namespace Shoes_Management.Controllers
                     TotalQuantity = grouped.Sum(od => od.Quantity)
                 })
                 .OrderByDescending(od => od.TotalQuantity)
-                .Take(4);
+                .Take(4)
+                .Where(p => p.Product.Status == "Active");
             return Ok(new { products, bestSeller });
         }
 
@@ -128,7 +129,7 @@ namespace Shoes_Management.Controllers
         [HttpGet("GetCategories")]
         public IActionResult GetCategories()
         {
-            var categories = _context.Categories.Skip(2);
+            var categories = _context.Categories.Skip(2).Where(c => c.Status == true);
             return Ok(categories);
         }
 
@@ -136,7 +137,7 @@ namespace Shoes_Management.Controllers
         [HttpGet("GetProductsByCategory/{categoryId}")]
         public IActionResult GetProductsByCategory(int categoryId)
         {
-            var product = _context.Products.Where(p => p.CategoryId == categoryId);
+            var product = _context.Products.Where(p => p.CategoryId == categoryId && p.Status == "Active");
             return Ok(product);
         }
 
@@ -146,7 +147,7 @@ namespace Shoes_Management.Controllers
         {
             int pageSize = 3;
 
-            var query = _context.Products.AsQueryable();
+            var query = _context.Products.Where(p => p.Status == "Active").AsQueryable();
             if (!string.IsNullOrEmpty(search))
             {
                 query = query.Where(p => p.Name.Contains(search));
