@@ -1,0 +1,78 @@
+﻿<div class="container mt-3">
+    <h2 class="mb-4">Quản Lý Khách Hàng</h2>
+    <!-- Ô Tìm Kiếm -->
+    <div class="mb-3">
+        <input type="text"
+               id="searchInput"
+               class="form-control"
+               placeholder="Tìm kiếm khách hàng..." />
+    </div>
+    <!-- Bảng Khách hàng -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <table id="customerTable" class="table table-striped table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Mã khách hàng</th>
+                        <th>Tên khách hàng</th>
+                        <th>Giới tính</th>
+                        <th>Email</th>
+                        <th>SĐT</th>
+                        <th>Địa chỉ</th>
+                        <th>Mã tài khoản</th>
+                        <th>Tên tài khoản</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer">
+</script>
+
+<script>
+    var customers = [];
+
+    function displayCustomer(customers) {
+        $('#customerTable tbody').empty();
+        $.each(customers, function(index, customer) {
+            var row = `
+             <tr>
+                <td> ${customer.customerId} </td>
+                <td> ${customer.name}</td>
+                <td> 
+                    ${customer.sex === 1 ? "Nam" : "Nữ"}
+                </td>
+                <td> ${customer.email}</td>
+                <td> ${customer.phone}</td>
+                <td> ${customer.address}</td>
+            </tr>
+            `
+        $('#customerTable tbody').append(row);
+
+        })
+    }
+    $(document).ready(function() {
+        // API lấy danh sách khách hàng
+        $.ajax({
+            url:'/api/customers',
+            method: 'GET',
+            success: function(res) {
+                customers = res;
+                console.log(res);
+                displayCustomer(customers);
+            },
+            error: function(xhr, status, error) {
+                console.error("Error: " + status + " " + error);
+            }
+        });
+    })
+</script>
+
+
