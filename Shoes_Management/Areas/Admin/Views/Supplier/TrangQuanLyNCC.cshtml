@@ -52,7 +52,6 @@
         </div>
     </div>
 
-
     <div class="input-group rounded">
         <input type="search" class="form-control rounded" id="search-input" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
         <span class="input-group-text border-0" id="search-addon">
@@ -76,6 +75,7 @@
         </tbody>
     </table>
 </div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
         integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
         crossorigin="anonymous"
@@ -127,7 +127,6 @@
                                     <label for="email-${supplier.supplierId}" class="form-label">Email người liên hệ</label>
                                     <input type="text" class="form-control" id="email-${supplier.supplierId}" name="email" value="${supplier.email}" required />
                                 </div>
-                            
                             </div>
 
                             <div class="row">
@@ -151,11 +150,13 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                            <button type="button" class="btn btn-primary" id="save-change-${supplier.supplierId}">Lưu thay đổi</button>
+                            <button type="button" class="btn btn-primary save-changes" id="save-change-${supplier.supplierId}"  data-supplier-id="${supplier.supplierId}">Lưu thay đổi</button>
                         </div>
                     </div>
                 </div>
             </div>`;
+
+
         }
 
         $.ajax({
@@ -164,64 +165,61 @@
             success: function(res) {
                 suppliers = res.data;
                 displaySupplier(suppliers);
-                
-
-                    $(`#save-change-${supplier.supplierId}`).click(function() {
-                        var supplierId = supplier.supplierId;
-                        var supplierName = $(`#supplier_name-${supplierId}`).val();
-                        var email = $(`#email-${supplierId}`).val();
-                        var phone = $(`#phone-${supplierId}`).val();
-                        var address = $(`#address-${supplierId}`).val();
-                        var status = $(`#status-${supplier.supplierId}`).val() === "true";
-
-                        // Send PUT request to update supplier
-                        $.ajax({
-                            url: '/api/suppliers/' + supplierId,
-                            method: 'PUT',
-                            contentType: 'application/json',
-                            data: JSON.stringify({
-                                SupplierId: supplierId,
-                                SupplierName: supplierName,
-                                Address: address,
-                                Phone: phone,
-                                Email: email,
-                                Status: status
-                            }),
-                            success: function(res) {
-                                alert("Thông tin nhà cung cấp đã được cập nhật!");
-                                $(`#modal-${supplierId}`).modal('hide');
-                                location.reload();  // Optional: reload page to refresh supplier list
-                            },
-                            error: function(xhr, status, error) {
-                                console.error("Error:", error);
-                                alert("Đã xảy ra lỗi khi cập nhật thông tin nhà cung cấp.");
-                            }
-                        });
-                    });
-
-                    $("#delete-" + supplier.supplierId).click(function() {
-                        // Lấy SupplierId từ data attribute
-                        var supplierId = $(this).data("supplier-id");
-                        console.log(supplierId);
-                        // Gửi AJAX request để thực hiện xóa hoặc thay đổi trạng thái
-                        $.ajax({
-                            url: '/api/suppliers/' + supplierId,  // Đảm bảo đường dẫn chính xác
-                            method: 'DELETE',
-                            success: function(res) {
-                                alert("Trạng thái nhà cung cấp đã được thay đổi!");
-                                location.reload();
-                            },
-                            error: function(xhr, status, error) {
-                                console.error("Error: " + status + " " + error);
-                                alert("Đã xảy ra lỗi khi thay đổi trạng thái.");
-                            }
-                        });
-                    });
             },
             error: function(xhr, status, error) {
                 console.error("Error: " + status + " " + error);
             }
         })
+
+         $(document).on("click", ".save-changes", function () {
+            var supplierId = $(this).data("supplier-id");
+            var supplierName = $(`#supplier_name-${supplierId}`).val();
+            var email = $(`#email-${supplierId}`).val();
+            var phone = $(`#phone-${supplierId}`).val();
+            var address = $(`#address-${supplierId}`).val();
+            var status = $(`#status-${supplierId}`).val() === "true";
+
+            $.ajax({
+                url: `/api/suppliers/${supplierId}`,
+                method: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify({ 
+                    SupplierId: supplierId,
+                    SupplierName: supplierName,
+                    Address: address,
+                    Phone: phone,
+                    Email: email,
+                    Status: status 
+                }),
+                success: function() {
+                    alert("Cập nhật thành công!");
+                    displaySupplier(suppliers);
+                    $(`#modal-${supplierId}`).modal('hide');
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error updating supplier:", error);
+                    alert("Cập nhật thất bại.");
+                }
+            });
+        });
+
+    // Handle delete supplier
+    $(document).on("click", ".btn-danger", function () {
+        var supplierId = $(this).data("supplier-id");
+
+        $.ajax({
+            url: `/api/suppliers/${supplierId}`,
+            method: 'DELETE',
+            success: function() {
+                alert("Xóa thành công!");
+                displaySupplier(suppliers);
+            },
+            error: function(xhr, status, error) {
+                console.error("Error deleting supplier:", error);
+                alert("Xóa thất bại.");
+            }
+        });
+    });
 
         $("#btnSupplier").click(function(e) {
             const supplierData = {
