@@ -3,7 +3,7 @@
     <!-- Ô Tìm Kiếm -->
     <div class="mb-3">
         <input type="text"
-               id="searchInput"
+               id="search-input"
                class="form-control"
                placeholder="Tìm kiếm khách hàng..." />
     </div>
@@ -39,6 +39,7 @@
 <script>
     var customers = [];
 
+    @* Hiển thị khách hàng *@
     function displayCustomer(customers) {
         $('#customerTable tbody').empty();
         $.each(customers, function(index, customer) {
@@ -52,6 +53,9 @@
                 <td> ${customer.email}</td>
                 <td> ${customer.phone}</td>
                 <td> ${customer.address}</td>
+                <td> ${customer.accountId} </td>
+                <td> ${customer.username} </td>
+
             </tr>
             `
         $('#customerTable tbody').append(row);
@@ -73,6 +77,23 @@
             }
         });
     })
+
+    // Tìm kiếm customer
+        $("#search-input").on("keyup", function() {
+            var searchTerm = $(this).val().toLowerCase();
+
+            var filteredCustomers = customers.filter(function(customer) {
+            return (
+               normalizeString(customer.name).includes(normalizeString(searchTerm)) ||
+            normalizeString(customer.customerId.toString()).includes(normalizeString(searchTerm))
+                );
+            });
+            displayCustomer(filteredCustomers);
+        })
+
+        function normalizeString(str) {
+            return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+        }
 </script>
 
 
