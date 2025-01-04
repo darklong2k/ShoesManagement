@@ -143,18 +143,19 @@ namespace Shoes_Management.Controllers
 
         //TrangSanPham
         [HttpGet("Products_Page")]
-        public IActionResult Products_Page(int page = 1, string search = null, int brandId = 0, int categoryId = 0,int priceId = 0)
+        public IActionResult Products_Page(int page = 1, string search = null, int brandId = 0, string categorySlug = null,int priceId = 0)
         {
-            int pageSize = 3;
+            int pageSize = 4;
 
             var query = _context.Products.Where(p => p.Status == "Active").AsQueryable();
             if (!string.IsNullOrEmpty(search))
             {
                 query = query.Where(p => p.Name.Contains(search));
             }
-            if (categoryId != 0)
+            if (categorySlug != null)
             {
-                var categoryid = _context.Categories.Where(c => c.ParentId == categoryId).Select(c => c.CategoryId).ToList();
+                var CategorySlug = _context.Categories.FirstOrDefault(c => c.slug == categorySlug);
+                var categoryid = _context.Categories.Where(c => c.ParentId == CategorySlug.CategoryId).Select(c => c.CategoryId).ToList();
                 query = query.Where(p => categoryid.Contains(p.CategoryId ?? 0));
             }
             if (brandId != 0)
@@ -242,6 +243,7 @@ namespace Shoes_Management.Controllers
             {
                 return Ok(new {success=false,message = "Tài khoản đã tồn tại"});
             }
+            
             var acc = new Account();
             acc.Username = username;
             acc.Password = HashPassWord(passwordConfirm);
@@ -250,6 +252,10 @@ namespace Shoes_Management.Controllers
             acc.CreatedAt = DateTime.UtcNow;
             acc.UpdatedAt = DateTime.UtcNow;
             _context.Accounts.Add(acc);
+            _context.SaveChanges();
+            var cus = new Customer();
+            cus.AccountId = acc.AccountId;
+            _context.Customers.Add(cus);
             _context.SaveChanges();
             return Ok(new {success=true});
         }
