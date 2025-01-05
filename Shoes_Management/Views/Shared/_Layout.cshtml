@@ -436,11 +436,11 @@
                 res.cate.forEach(function(category){
                     var brandHtml = '';
                     res.brand.forEach(function(brand){
-                        brandHtml += `<li><a class="dropdown-item" href="/Home/TrangSanPham?categoryId=${category.categoryId}&brandId=${brand.brandId}">${brand.brandName}</a></li>`;
+                        brandHtml += `<li><a class="dropdown-item" href="/Home/TrangSanPham?categorySlug=${category.slug}&brandId=${brand.brandId}">${brand.brandName}</a></li>`;
                     });
                     menuHtml += `
                             <li class="nav-item dropdown" id="ListNav">
-                                                <a class="nav-link dropdown-toggle" href="/Home/TrangSanPham?categoryId=${category.categoryId}" id="navbarDropdown" role="button"
+                                                    <a class="nav-link dropdown-toggle" href="/Home/TrangSanPham?categorySlug=${category.slug}" id="navbarDropdown" role="button"
                                     aria-expanded="false">
                                     ${category.name}
                                 </a>
