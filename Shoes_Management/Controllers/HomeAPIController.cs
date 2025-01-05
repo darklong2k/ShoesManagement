@@ -187,7 +187,7 @@ namespace Shoes_Management.Controllers
             var TotalProducts = query.Count();
             var products = query.Skip((page - 1) * pageSize).Take(pageSize);
             int totalPage = (int)Math.Ceiling((double)TotalProducts / pageSize);
-            return Ok(new { currentPage = page, totalPage, pageSize, products });
+            return Ok(new { currentPage = page, totalPage, pageSize, products,TotalProducts });
         }
 
         //Hiện lên bộ lọc
