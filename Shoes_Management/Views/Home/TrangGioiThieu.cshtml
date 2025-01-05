@@ -1,23 +1,14 @@
-﻿
-
+﻿@{
+    ViewData["Title"] = "Trang giới thiệu";
+}
 
 
 <section class="pt-4 pb-4">
     <div class="container">
         <!-- Phần Giới Thiệu Công Ty -->
         <div class="row">
-            <div class="col-12">
-                <h1 class="text-center mb-4">Giới Thiệu Công Ty</h1>
-                <p class="lead">Chúng tôi là công ty chuyên cung cấp sản phẩm chất lượng cao trong lĩnh vực ...</p>
-                <h3>Thông Tin Công Ty</h3>
-                <ul>
-                    <li><strong>Tên Công Ty:</strong> Công ty XYZ</li>
-                    <li><strong>Địa Chỉ:</strong> 123 Đường ABC, Quận 1, TP. HCM</li>
-                    <li><strong>Lĩnh Vực Kinh Doanh:</strong> Thương mại điện tử, Giày dép, Quần áo</li>
-                    <li><strong>Các Chính Sách:</strong> Bảo hành, Đổi trả, Vận chuyển miễn phí...</li>
-                </ul>
-                <h3>Chính Sách Bảo Hành</h3>
-                <p>Công ty XYZ cam kết bảo hành sản phẩm trong 12 tháng. Đổi trả hàng trong vòng 30 ngày nếu có lỗi sản phẩm...</p>
+            <div class="col-12" id="Introduce">
+                
             </div>
         </div>
 
@@ -26,43 +17,107 @@
             <div class="col-12">
                 <h1 class="text-center mb-4">Danh Sách Bài Viết Blog</h1>
 
-                <div class="list-group">
-                    <a href="/bai-viet/1" class="list-group-item list-group-item-action">
-                        <h5 class="mb-1">Cách chọn giày phù hợp với phong cách</h5>
-                        <p class="mb-1">Hướng dẫn cách chọn giày theo từng loại phong cách thời trang...</p>
-                        <small class="text-muted">Ngày đăng: 12/12/2024</small>
-                    </a>
-                    <a href="/bai-viet/2" class="list-group-item list-group-item-action">
-                        <h5 class="mb-1">Mẹo bảo quản giày da</h5>
-                        <p class="mb-1">Cách giữ gìn giày da luôn bền và đẹp như mới...</p>
-                        <small class="text-muted">Ngày đăng: 10/12/2024</small>
-                    </a>
-                    <a href="/bai-viet/3" class="list-group-item list-group-item-action">
-                        <h5 class="mb-1">Giới thiệu giày thể thao mới nhất từ Nike</h5>
-                        <p class="mb-1">Những mẫu giày thể thao của Nike đáng chú ý trong mùa này...</p>
-                        <small class="text-muted">Ngày đăng: 08/12/2024</small>
-                    </a>
+                <div class="list-group" id="ListBlogs">
+                   
+                    
                     <!-- Thêm các bài viết khác ở đây -->
                 </div>
 
                 <!-- Phân trang -->
                 <!-- Phân trang -->
                 <nav class="mt-4">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Trước</a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">Tiếp</a>
-                        </li>
+                    <ul class="pagination justify-content-center" id="PhanTrang">
+                        
                     </ul>
                 </nav>
             </div>
         </div>
     </div>
 </section>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function truncateContent(content)
+    {
+        if(content.length > 100)
+        {
+            return content.substring(0, 100) + '...';
+        }
+        return content;
+    }
+    $(document).ready(function () {
+        let page = 1;
+        function loadBlogs(page){
+            $.ajax({
+                url: `https://localhost:7103/api/homeapi/GetBlogs?page=${page}`,
+                type: 'GET',
+                success: function (res) {
+                    var html = '';
+                    res.blogs.forEach(function (blo) {
+                        html += `
+                                 <a href="/Home/TrangBlog?blogid=${blo.blogId}" class="list-group-item list-group-item-action" data-id=${blo.blogId}>
+                                 <h5 class="mb-1">${blo.blogTitle}</h5>
+                                 <p class="mb-1">${truncateContent(blo.blogContent)}</p >
+                                 <small class="text-muted">Ngày đăng: ${new Date(blo.createdDate).toLocaleDateString()}</small>
+                            </a>
+                        `;
+                    });
+                    $('#ListBlogs').html(html);
+
+                    $('#Introduce').html(
+                        `
+                                <h1 class="text-center mb-4">Giới Thiệu Công Ty</h1>
+                    <p class="lead">Chúng tôi là công ty chuyên cung cấp sản phẩm chất lượng cao trong lĩnh vực ...</p>
+                    <h3>Thông Tin Công Ty</h3>
+                    <ul>
+                                <li><strong>Tên Công Ty:</strong>${res.website.websiteName}</li>
+                            <li><strong>Địa Chỉ:</strong> ${res.website.websiteAddress}</li>
+                        <li><strong>Lĩnh Vực Kinh Doanh:</strong> Thương mại điện tử, Giày dép, Quần áo</li>
+                        <li><strong>Các Chính Sách:</strong> Bảo hành, Đổi trả, Vận chuyển miễn phí...</li>
+                    </ul>
+                    <h3>Chính Sách Bảo Hành</h3>
+                    <p>Công ty XYZ cam kết bảo hành sản phẩm trong 12 tháng. Đổi trả hàng trong vòng 30 ngày nếu có lỗi sản phẩm...</p>
+                        `
+                    );
+
+                    $('#PhanTrang').empty();
+                    for (let i = 1; i <= res.totalPage; i++) {
+                        const activeClass = i == page ? 'active' : '';
+                        $('#PhanTrang').append(`
+                                    <li class="page-item ${activeClass}">
+                                        <a class ="page-link" href="#" data-page="${i}">${i}</a>
+                                    </li>
+                                `);
+                    }
+
+                    $(document).on('click', '.list-group-item', function () {
+                        const blogId = $(this).data('id');
+                        RedirectBlogDetail(blogId);
+                    });
+                }
+            });
+        }
+        loadBlogs(page);
+        
+        // function RedirectBlogDetail(id) { 
+        //     $.ajax({
+        //         url: `https://localhost:7103/api/homeapi/BlogId?blogid=${id}`,
+        //         type:'GET',
+        //         success:function(res){
+        //             window.location.href = `/Home/TrangBlog?blogid=${id}`;
+        //         }
+        //     });
+        // }
+
+        $(document).on('click', '.page-link', function (e) {
+            e.preventDefault();
+            const page = $(this).data('page');
+            if (page) {
+                currentPage = page;
+                loadBlogs(currentPage);
+            }
+        });
+    });
+</script>
 
 

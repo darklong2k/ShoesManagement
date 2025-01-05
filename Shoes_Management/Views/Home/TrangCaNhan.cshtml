@@ -19,7 +19,7 @@
                         <i class="fas fa-star"></i> Sản Phẩm Đã Chấm Điểm
                     </a>
                     <a href="#" class="nav-link text-dark" data-bs-toggle="modal" data-bs-target="#changePasswordModal"><i class="fas fa-lock"></i> Đổi Mật Khẩu</a>
-                    <a href="#" class="nav-link text-dark"><i class="fas fa-sign-out-alt"></i> Đăng Xuất</a>
+                    <a href="#" id="DangXuat" class="nav-link text-dark"><i class="fas fa-sign-out-alt"></i> Đăng Xuất</a>
                 </div>
             </div>
         </div>
@@ -27,19 +27,17 @@
         <div class="col-lg-9">
             <div id="personal-info" class="section-content mb-4">
                 <div class="d-flex align-items-center mb-4">
-                    <img src="~/images/T1.svg" alt="Avatar" class="rounded-circle me-3" style="width: 100px; height: 100px;">
-                    <h4 class="mb-0">Nguyễn Văn A</h4>
+                    <h4 class="mb-0" id="ACCNAME"></h4>
                 </div>
                 <div class="card shadow-sm">
                     <div class="card-body">
                         <table class="table table-bordered">
                             <tbody>
-                                <tr><th>Tên:</th><td>Nguyễn Văn A</td></tr>
-                                <tr><th>Địa chỉ email:</th><td>nguyen.vana@example.com</td></tr>
-                                <tr><th>Số điện thoại:</th><td>0123456789</td></tr>
-                                <tr><th>Địa chỉ:</th><td>Số 10, Đường ABC, Quận XYZ</td></tr>
-                                <tr><th>Ngày sinh:</th><td>01/01/1990</td></tr>
-                                <tr><th>Giới tính:</th><td>Nam</td></tr>
+                                <tr><th>Tên:</th><td id="CUS_NAME"></td></tr>
+                                <tr><th>Địa chỉ email:</th><td id="CUS_EMAIL"></td></tr>
+                                <tr><th>Số điện thoại:</th><td id="CUS_PHONE"></td></tr>
+                                <tr><th>Địa chỉ:</th><td id="CUS_ADDRESS"></td></tr>
+                                <tr><th>Giới tính:</th><td id="CUS_SEX"></td></tr>
                             </tbody>
                         </table>
                         <button class="btn btn-primary"><i class="fas fa-edit"></i> Chỉnh sửa thông tin</button>
@@ -198,6 +196,8 @@
     </div>
 </div>
 
+
+
 @section Scripts {
     <script>
         function showSection(sectionId) {
@@ -210,3 +210,32 @@
     </script>
 }
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () { 
+        $.ajax({
+            url: 'https://localhost:7103/api/homeapi/TrangCaNhan',
+            type:'GET',
+            success:function(res){
+                $('#ACCNAME').text(res.username);
+                $('#CUS_NAME').text(res.custumerInFo.name);
+                $('#CUS_EMAIL').text(res.custumerInFo.email);
+                $('#CUS_PHONE').text(res.custumerInFo.phone);
+                $('#CUS_ADDRESS').text(res.custumerInFo.address);
+                $('#CUS_SEX').text(res.custumerInFo.sex === 1 ? 'Nam' : 'Nữ');
+            }
+        });
+
+        $('#DangXuat').on('click',function(){
+            $.ajax({
+                url:'https://localhost:7103/api/homeapi/DangXuat',
+                type:'GET',
+                success:function(res){
+                    if(res.success){
+                        window.location.href=res.url;
+                    }
+                }
+            });
+        });
+    });
+</script>

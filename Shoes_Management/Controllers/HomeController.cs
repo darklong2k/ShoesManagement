@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shoes_Management.Models;
 using System.Diagnostics;
 
 namespace Shoes_Management.Controllers
 {
+	
 	public class HomeController : Controller
 	{
 		private readonly ILogger<HomeController> _logger;
@@ -29,10 +31,6 @@ namespace Shoes_Management.Controllers
         {
             return View();
         }
-        
-     
-      
-
 
         public IActionResult Privacy()
 		{
