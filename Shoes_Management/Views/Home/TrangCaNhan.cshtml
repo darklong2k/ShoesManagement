@@ -222,7 +222,7 @@
                 $('#CUS_EMAIL').text(res.custumerInFo.email);
                 $('#CUS_PHONE').text(res.custumerInFo.phone);
                 $('#CUS_ADDRESS').text(res.custumerInFo.address);
-                $('#CUS_SEX').text(res.custumerInFo.sex === 1 ? 'Nam' : 'Nữ');
+                $('#CUS_SEX').text(res.custumerInFo.sex === 1 ? 'Nam' : (res.custumerInFo.sex === 0 ? 'Nữ' : ''));
             }
         });
 
