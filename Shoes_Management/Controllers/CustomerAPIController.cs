@@ -44,9 +44,31 @@ namespace Shoes_Management.Controllers
                                      ProductImage = pd.Image,
                                      ProdcuctId = pd.ProductId
                                  }).ToList();
+            var ratedProducts = (from rv in _context.Reviews
+                                 join ct in _context.Customers on rv.CustomerId equals ct.CustomerId
+                                 join pdd in _context.ProductDetails on rv.ProductDetailId equals pdd.ProductDetailId
+                                 join pd in _context.Products on pdd.ProductId equals pd.ProductId
+                                 where ct.AccountId.ToString() == acc_id
+                                 select new
+                                 {
+                                     ProductName = pd.Name,
+                                     ProductPrice = pd.Price,
+                                     ProductImage = pd.Image,
+                                     Rating = rv.Rating
+                                 }).ToList();
 
-            return Ok(new { success = true, custumerInFo, orderInFo, likedProducts });
+
+            // Trả về dữ liệu
+            return Ok(new
+            {
+                success = true,
+                custumerInFo,
+                orderInFo,
+                likedProducts,
+                ratedProducts
+            });
         }
+
 
 
         [HttpPost("{orderId}")]
@@ -71,12 +93,6 @@ namespace Shoes_Management.Controllers
         [HttpPut("updatePersonalInfo/{id}")]
         public IActionResult UpdatePersonalInfo(int id, [FromBody] Customer updatedInfo)
         {
-            // Kiểm tra xem thông tin khách hàng có hợp lệ không
-            if (updatedInfo == null || updatedInfo.CustomerId <= 0)
-            {
-                return BadRequest(new { success = false, message = "Thông tin không hợp lệ." });
-            }
-
             var customer = _context.Customers.FirstOrDefault(c => c.CustomerId == updatedInfo.CustomerId);
             if (customer == null)
             {
@@ -91,14 +107,6 @@ namespace Shoes_Management.Controllers
                 return BadRequest(new { success = false, message = "Email này đã được sử dụng bởi khách hàng khác." });
             }
 
-            // Kiểm tra xem số điện thoại có bị trùng với số điện thoại của khách hàng khác không
-            var existingPhone = _context.Customers
-                .FirstOrDefault(c => c.Phone == updatedInfo.Phone && c.CustomerId != updatedInfo.CustomerId);
-            if (existingPhone != null)
-            {
-                return BadRequest(new { success = false, message = "Số điện thoại này đã được sử dụng bởi khách hàng khác." });
-            }
-
             // Cập nhật các thông tin
             customer.Name = updatedInfo.Name;
             customer.Email = updatedInfo.Email;
@@ -108,9 +116,9 @@ namespace Shoes_Management.Controllers
 
             // Lưu thay đổi vào cơ sở dữ liệu
             _context.SaveChanges();
-
             return Ok(new { success = true, message = "Thông tin cá nhân đã được cập nhật." });
         }
+       
         [HttpDelete("RemoveFromWishlist/{productId}/{customerId}")]
         public IActionResult RemoveFromWishlist(int productId, int customerId)
         {

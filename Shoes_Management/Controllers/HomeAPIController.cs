@@ -47,7 +47,7 @@ namespace Shoes_Management.Controllers
                 return Ok(new { success = true, url = "/home/trangcanhan" });
             }
         }
-
+        
         [HttpPost("DangNhap")]
         public IActionResult DangNhap([FromForm] string username, [FromForm] string password)//PhucNguyen2004
         {
@@ -84,7 +84,7 @@ namespace Shoes_Management.Controllers
             var acc_id = HttpContext.Session.GetString("acc_id");
             var username = HttpContext.Session.GetString("username");
             var custumerInFo = _context.Customers.FirstOrDefault(c => c.AccountId.ToString() == acc_id);
-            return Ok(new { success = true, custumerInFo,username });
+            return Ok(new { success = true, custumerInFo,username,acc_id });
         }
 
         [HttpGet("DangXuat")]
@@ -228,6 +228,40 @@ namespace Shoes_Management.Controllers
                 .FirstOrDefault(b => b.BlogId == blogid);
 
             return Ok(new { blog = blog, sidebarBlog });
+        }
+        [HttpPost("ChangePassWord/{id}")]
+        public IActionResult ChangePassWord(int id, [FromForm] string username, [FromForm] string password, [FromForm] string passwordConfirm)
+        {
+            // Lấy acc_id từ session
+            var acc_id = HttpContext.Session.GetString("acc_id");
+
+            // Kiểm tra xem tài khoản có tồn tại không
+            var acc = _context.Accounts.FirstOrDefault(a => a.AccountId.ToString() == acc_id);
+            if (acc == null)
+            {
+                return Ok(new { success = false, message = "Tài khoản không tồn tại hoặc không khớp với thông tin đăng nhập" });
+            }
+
+            // Kiểm tra mật khẩu hiện tại
+            if (acc.Password != HashPassWord(password))  // Kiểm tra mật khẩu cũ đã được hash chưa
+            {
+                return Ok(new { success = false, message = "Mật khẩu hiện tại không đúng" });
+            }
+
+            // Kiểm tra mật khẩu mới và xác nhận mật khẩu có khớp không
+            if (password != passwordConfirm)
+            {
+                return Ok(new { success = false, message = "Mật khẩu và xác nhận mật khẩu không khớp" });
+            }
+
+            // Cập nhật mật khẩu mới sau khi đã hash
+            acc.Password = HashPassWord(passwordConfirm);  // Hash mật khẩu mới và lưu vào cơ sở dữ liệu
+            acc.UpdatedAt = DateTime.UtcNow;
+
+            // Lưu thay đổi vào cơ sở dữ liệu
+            _context.SaveChanges();
+
+            return Ok(new { success = true, message = "Mật khẩu đã được thay đổi thành công." });
         }
 
         [HttpPost("DangKy")]
