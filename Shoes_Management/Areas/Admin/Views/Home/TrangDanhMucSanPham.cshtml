@@ -1,4 +1,5 @@
-﻿@*
+﻿
+@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
@@ -31,9 +32,8 @@
                         <div class="mb-3">
                             <label for="parent_id" class="form-label">Danh mục cha</label>
                             <select class="form-control" id="parent_id" name="parent_id">
-                                <option value="1">Nike</option>
-                                <option value="2">Adidas</option>
-                                <option value="3">Puma</option>
+                                <option value="1">Giày Nam</option>
+                                <option value="2">Giày Nữ</option>
                             </select>
                         </div>
                         <!-- Textarea Description -->
@@ -76,7 +76,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
+            @* <tr>
                 <td>1</td>
                 <td>Male Jordan</td>
                 <td>1</td>
@@ -87,80 +87,214 @@
                 <td>
                     <!-- Nút chỉnh sửa danh mục -->
                     <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalChinhSuaDanhMuc">
-                        Chỉnh sửa
+                    Chỉnh sửa
                     </button>
-
-                    <!-- Popup cho chỉnh sửa danh mục -->
-                    <div class="modal fade" id="modalChinhSuaDanhMuc" tabindex="-1" aria-labelledby="modalChinhSuaDanhMuc" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="mb-3">
-                                        <label for="category_id" class="form-label">Mã danh mục</label>
-                                        <input readonly
-                                               type="text"
-                                               class="form-control"
-                                               id="category_id"
-                                               name="category_id"
-                                               value="12345" required />
-                                    </div>
-
-                                    <!-- Input Name -->
-                                    <div class="mb-3">
-                                        <label for="name" class="form-label">Tên danh mục</label>
-                                        <input type="text"
-                                               class="form-control"
-                                               id="name"
-                                               name="name"
-                                               placeholder="Nhập tên danh mục"
-                                               value="Default Name" required />
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="parent_id" class="form-label">Danh mục cha</label>
-                                        <select class="form-control" id="parent_id" name="parent_id">
-                                            <option value="1" selected>Nike</option>
-                                            <option value="2">Adidas</option>
-                                            <option value="3">Puma</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="description" class="form-label">Mô tả</label>
-                                        <textarea class="form-control"
-                                                  id="description"
-                                                  name="description"
-                                                  rows="3"
-                                                  placeholder="Nhập mô tả danh mục">Default Description</textarea> <!-- Thay bằng giá trị động -->
-                                    </div>
-
-                                    <!-- Dropdown Status -->
-                                    <div class="mb-3">
-                                        <label for="status" class="form-label">Trạng thái</label>
-                                        <select class="form-control" id="status" name="status">
-                                            <option value="available" selected>Available</option>
-                                            <option value="out_of_stock">Out of Stock</option>
-                                            <option value="discontinued">Discontinued</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                                    <button type="button" class="btn btn-primary">Lưu thay đổi</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <button type="button" class="btn btn-danger">
                         Xóa
                     </button>
                 </td>
-            </tr>
+            </tr> *@
         </tbody>
     </table>
 </div>
 
+
+<!-- Popup cho chỉnh sửa danh mục -->
+<div class="modal fade" id="modalChinhSuaDanhMuc" tabindex="-1" aria-labelledby="modalChinhSuaDanhMuc" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="category_id" class="form-label">Mã danh mục</label>
+                    <input readonly
+                           type="text"
+                           class="form-control"
+                           id="category_id"
+                           name="category_id"
+                           value="12345" required />
+                </div>
+
+                <!-- Input Name -->
+                <div class="mb-3">
+                    <label for="name" class="form-label">Tên danh mục</label>
+                    <input type="text"
+                           class="form-control"
+                           id="name"
+                           name="name"
+                           placeholder="Nhập tên danh mục"
+                           value="Default Name" required />
+                </div>
+
+                <div class="mb-3">
+                    <label for="parent_id" class="form-label">Danh mục cha</label>
+                    <select class="form-control" id="parent_id" name="parent_id">
+                        <option value="1">Giày Nam</option>
+                        <option value="2">Giày Nữ</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="description" class="form-label">Mô tả</label>
+                    <textarea class="form-control"
+                              id="description"
+                              name="description"
+                              rows="3"
+                              placeholder="Nhập mô tả danh mục">Default Description</textarea> <!-- Thay bằng giá trị động -->
+                </div>
+
+                <!-- Dropdown Status -->
+                <div class="mb-3">
+                    <label for="status" class="form-label">Trạng thái</label>
+                    <select class="form-control" id="status" name="status">
+                        <option value="true" selected>Hoạt động</option>
+                        <option value="false">Không hoạt động</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary">Lưu thay đổi</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Load danh mục khi trang được tải
+            loadCategories();
+        });
+
+        // Hàm load danh mục
+        // Hàm load danh mục
+        function loadCategories() {
+            $.ajax({
+                url: '/api/CategoryAPI/GetAll',
+                type: 'GET',
+                success: function (response) {
+                    if (response.Success) {
+                        // Làm sạch bảng
+                        $('tbody').empty();
+
+                        // Hiển thị danh mục trong bảng
+                        response.Data.forEach(category => {
+                            $('tbody').append(`
+                                <tr>
+                                    <td>${category.id}</td>
+                                    <td>${category.name}</td>
+                                    <td>${category.parentId}</td>
+                                    <td>${category.description}</td>
+                                    <td>${category.status}</td>
+                                    <td>${category.createdAt}</td>
+                                    <td>${category.updatedAt}</td>
+                                    <td>
+                                        <button class="btn btn-warning" onclick="showEditModal(${category.id})">Chỉnh sửa</button>
+                                        <button class="btn btn-danger" onclick="deleteCategory(${category.id})">Xóa</button>
+                                    </td>
+                                </tr>
+                            `);
+                        });
+                    } else {
+                        alert('Không có danh mục sản phẩm.');
+                    }
+                },
+                error: function (xhr) {
+                    alert('Không thể tải danh sách danh mục.');
+                }
+            });
+        }
+
+        // Hiển thị modal chỉnh sửa
+        function showEditModal(id) {
+            $.ajax({
+                url: `/api/Category/Get/${id}`,
+                type: 'GET',
+                success: function (response) {
+                    const category = response.data;
+                    $('#category_id').val(category.id);
+                    $('#name').val(category.name);
+                    $('#parent_id').val(category.parentId);
+                    $('#description').val(category.description);
+                    $('#status').val(category.status);
+
+                    // Hiển thị modal chỉnh sửa
+                    $('#modalChinhSuaDanhMuc').modal('show');
+                },
+                error: function (xhr) {
+                    alert('Không thể lấy dữ liệu danh mục.');
+                }
+            });
+        }
+
+        // Thêm danh mục
+        function addCategory() {
+            const categoryData = {
+                name: $('#name').val(),
+                parentId: $('#parent_id').val(),
+                description: $('#description').val()
+            };
+
+            $.ajax({
+                url: '/api/Category/Create',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(categoryData),
+                success: function (response) {
+                    alert(response.message);
+                    $('#modalThemDanhMuc').modal('hide');
+                    loadCategories();
+                },
+                error: function (xhr) {
+                    alert(xhr.responseJSON.message);
+                }
+            });
+        }
+
+        // Chỉnh sửa danh mục
+        function editCategory() {
+            const categoryData = {
+                id: $('#category_id').val(),
+                name: $('#name').val(),
+                parentId: $('#parent_id').val(),
+                description: $('#description').val(),
+                status: $('#status').val()
+            };
+
+            $.ajax({
+                url: '/api/Category/Edit',
+                type: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify(categoryData),
+                success: function (response) {
+                    alert(response.message);
+                    $('#modalChinhSuaDanhMuc').modal('hide');
+                    loadCategories();
+                },
+                error: function (xhr) {
+                    alert(xhr.responseJSON.message);
+                }
+            });
+        }
+
+        // Xóa danh mục
+        function deleteCategory(id) {
+            if (confirm('Bạn có chắc chắn muốn xóa danh mục này?')) {
+                $.ajax({
+                    url: `/api/Category/Delete/${id}`,
+                    type: 'DELETE',
+                    success: function (response) {
+                        alert(response.message);
+                        loadCategories();
+                    },
+                    error: function (xhr) {
+                        alert(xhr.responseJSON.message);
+                    }
+                });
+            }
+        }
+    </script>
+}
