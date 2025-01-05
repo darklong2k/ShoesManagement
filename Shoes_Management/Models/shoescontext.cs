@@ -55,7 +55,7 @@ public partial class Shoescontext : DbContext
 
     public virtual DbSet<Wishlist> Wishlists { get; set; }
 
-   
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -15,6 +15,8 @@ public partial class Category
 
     public bool? Status { get; set; }
 
+    public string? slug {  get; set; }
+
     public DateTime? CreatedAt { get; set; }
 
     public DateTime? UpdatedAt { get; set; }
