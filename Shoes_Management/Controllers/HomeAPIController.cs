@@ -207,8 +207,8 @@ namespace Shoes_Management.Controllers
             var blogs = _context.Blogs.Skip((page - 1)*pagesize).Take(pagesize);
             var totalBlogs = _context.Blogs.Count();
             int totalPage = (int)Math.Ceiling((double)totalBlogs / pagesize);
-            var website = _context.Websites.First();
-            return Ok(new { blogs = blogs, currentPage = page,totalPage,pagesize,website });
+            var gioithieu = _context.Blogs.Find(4);
+            return Ok(new { blogs = blogs, currentPage = page,totalPage,pagesize,gioithieu });
         }
 
         //Hiện trang blog theo id
@@ -231,7 +231,7 @@ namespace Shoes_Management.Controllers
                     b.BlogContent,
                     BlogImages = b.BlogImages.Select(img => img.ImageUrl).ToList()
                 })
-                .FirstOrDefault(b => b.BlogId == blogid);
+                .First();
 
             return Ok(new { blog = blog, sidebarBlog });
         }

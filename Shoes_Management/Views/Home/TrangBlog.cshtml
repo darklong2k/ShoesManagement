@@ -91,7 +91,7 @@
     $(document).ready(function(){
         function getQueryParam(param){
             const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get('blogid');
+            return urlParams.get(param);
         }
         function truncateContent(content) {
             if (content.length > 100) {
