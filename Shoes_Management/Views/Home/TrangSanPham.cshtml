@@ -77,7 +77,7 @@
         }
 
         const searchQuery = getQueryParam('search') || '';
-        const categoryId = getQueryParam('categoryId') || 0;
+        const categorySlug = getQueryParam('categorySlug') || '';
         const brandId = getQueryParam('brandId') || 0;
         
         function loadProduct(page,search='')
@@ -85,7 +85,7 @@
             $('#listProd').empty();
             $('#PhanTrang').empty();
             $.ajax({
-                url: `https://localhost:7103/api/homeapi/products_Page?page=${page}&search=${searchQuery}&brandId=${brandId}&categoryId=${categoryId}`,
+                url: `https://localhost:7103/api/homeapi/products_Page?page=${page}&search=${searchQuery}&brandId=${brandId}&categorySlug=${categorySlug}`,
             type:'GET',
             success:function(res){
                 var html='';
@@ -141,7 +141,7 @@
                 var htmlbrand = '';
                 res.category.forEach(function (category) {
                     htmlcate += `
-                                <option value="${category.categoryId}">${category.name}</option>
+                                <option value="${category.slug}">${category.name}</option>
                         `; 
                 });
                 $('#ListCate').html(htmlcate);
@@ -154,8 +154,8 @@
                         `;
                 });
                 $('#ListBrand').html(htmlbrand);
-                if (categoryId) {
-                    $(`#ListCate option[value="${categoryId}"]`).prop('selected', true);
+                if (categorySlug) {
+                    $(`#ListCate option[value="${categorySlug}"]`).prop('selected', true);
                 }
                 if (brandId) {
                     $(`#ListBrand input[type="radio"][value="${brandId}"]`).prop('checked', true);
@@ -168,14 +168,14 @@
         //Gửi bộ lọc
         $('#FormFilter').on('submit', function (e) { 
             e.preventDefault();
-            var categoryId = $('#ListCate').val() || 0;
+            var categorySlug = $('#ListCate').val() || '';
             console.log(brandId);
             var brandId  = $('input[name="brand"]:checked').val() || 0;
             var priceId = $('#SelectPrice').val() || 0;
             $.ajax({
                 url: 'https://localhost:7103/api/homeapi/products_Page',
                 type:'GET',
-                data: { page: 1, search: '', brandId: brandId, categoryId: categoryId, priceId: priceId },
+                data: { page: 1, search: '', brandId: brandId, categorySlug: categorySlug, priceId: priceId },
                 success:function(res)
                 {
                     $('#listProd').empty();
