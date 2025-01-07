@@ -169,11 +169,12 @@
             success: function (res) {
                 // Điền thông tin lên giao diện
                 $('#ACCNAME').text(res.username);
+
                 $('#CUS_NAME').text(res.custumerInFo.name || '');
                 $('#CUS_EMAIL').text(res.custumerInFo.email || '');
                 $('#CUS_PHONE').text(res.custumerInFo.phone || '');
                 $('#CUS_ADDRESS').text(res.custumerInFo.address || '');
-                $('#CUS_SEX').text(res.custumerInFo.sex === 1 ? 'Nam' : 'Nữ');
+                $('#CUS_SEX').text(res.custumerInFo.sex === 1 ? 'Nam' : (res.custumerInFo.sex === 0 ? 'Nữ' : ''));
                 $('#customerId').val(res.custumerInFo.customerId);
                 $('#acc_id').val(res.custumerInFo.accountId);
                 console.log(res);
@@ -394,6 +395,7 @@
             },
             error: function (error) {
                 alert('Đã xảy ra lỗi khi tải sản phẩm.');
+
             }
         });
     });

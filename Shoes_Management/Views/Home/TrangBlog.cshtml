@@ -29,6 +29,29 @@
         }
 
 </style>
+<section class="pt-4 pb-4" id="ListBlogs">
+    <div class="container">
+        <!-- Phần Danh Sách Bài Viết Blog -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <h1 class="text-center mb-4" id="Title">Danh Sách Bài Viết Blog</h1>
+
+                <div class="list-group">
+
+
+                    <!-- Thêm các bài viết khác ở đây -->
+                </div>
+
+                <!-- Phân trang -->
+                <!-- Phân trang -->
+                <nav class="mt-4">
+                    <ul class="pagination justify-content-center" id="PhanTrang">
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
 <div class="container">
     <div class="row">
         <!-- Nội dung chính -->
@@ -41,7 +64,7 @@
         </div>
 
         <!-- Bài viết khác -->
-        <div class="col-md-3 col-sm-12 col-xs-12">
+        <div class="col-md-3 col-sm-12 col-xs-12" id="BAIVETKHAC">
             <div class="sidebar-blog">
                 <div class="news-latest clearfix">
                     <!-- Tiêu đề -->
@@ -68,60 +91,116 @@
     $(document).ready(function(){
         function getQueryParam(param){
             const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get('blogid');
+            return urlParams.get(param);
         }
-
+        function truncateContent(content) {
+            if (content.length > 100) {
+                return content.substring(0, 100) + '...';
+            }
+            return content;
+        }
         const blogid=getQueryParam('blogid');
+        
+        if (!blogid) {
+            let page = 1;
+            $('#Title').show();
+            $('#BAIVETKHAC').hide();
+            function loadBlogs(page) {
+                $.ajax({
+                    url: `https://localhost:7103/api/homeapi/GetBlogs?page=${page}`,
+                    type: 'GET',
+                    success: function (res) {
+                        var html = '';
+                        res.blogs.forEach(function (blo) {
+                            html += `
+                                     <a href="/Home/TrangBlog?blogid=${blo.blogId}" class="list-group-item list-group-item-action" data-id=${blo.blogId}>
+                                     <h5 class="mb-1">${blo.blogTitle}</h5>
+                                     <p class="mb-1">${truncateContent(blo.blogContent)}</p >
+                                     <small class="text-muted">Ngày đăng: ${new Date(blo.createdDate).toLocaleDateString()}</small>
+                                </a>
+                            `;
+                        });
+                        $('.list-group').html(html);
 
-        $.ajax({
-            url:`https://localhost:7103/api/homeapi/BlogId?blogid=${blogid}`,
-            type:'GET',
-            success:function(res){
-                var html='';
-                var sidebar='';
-                var Image='';
-                var contentParts = res.blog.blogContent.split('\n');
-                if (res.blog.blogImages) { 
-                    Image = `
-                        <div style="text-align:center;" >
-                        <img src="/images/${res.blog.blogImages}" alt="Blog Image" class="img-fluid mb-3"  style="width: 600px; height: 600px;"/>
-                    </div>
-                    ` ;
+                        $('#PhanTrang').empty();
+                        for (let i = 1; i <= res.totalPage; i++) {
+                            const activeClass = i == page ? 'active' : '';
+                            $('#PhanTrang').append(`
+                                        <li class="page-item ${activeClass}">
+                                            <a class ="page-link" href="#" data-page="${i}">${i}</a>
+                                        </li>
+                                    `);
+                        }
+
+                    }
+                });
+            }
+            loadBlogs(page);
+
+            $(document).on('click', '.page-link', function (e) {
+                e.preventDefault();
+                const page = $(this).data('page');
+                if (page) {
+                    currentPage = page;
+                    loadBlogs(currentPage);
                 }
-                
-                //Tạo hình ảnh ở giữa
+            });
+        }
+        else 
+        {
+            $('#Title').hide();
+            $('#BAIVETKHAC').show();
+            $.ajax({
+                url: `https://localhost:7103/api/homeapi/BlogId?blogid=${blogid}`,
+                type: 'GET',
+                success: function (res) {
+                    var html = '';
+                    var sidebar = '';
+                    var Image = '';
+                    var contentParts = res.blog.blogContent.split('\n');
+                    if (res.blog.blogImages) {
+                        Image = `
+                            <div style="text-align:center;" >
+                            <img src="/images/${res.blog.blogImages}" alt="Blog Image" class="img-fluid mb-3"  style="width: 600px; height: 600px;"/>
+                        </div>
+                        ` ;
+                    }
+
+                    //Tạo hình ảnh ở giữa
                     $('title').text(res.blog.blogTitle);
-                var middleContent = Math.floor(contentParts.length/2);
-                contentWithImage = contentParts.slice(0, middleContent)
-                    + Image
-                    + contentParts.slice(middleContent);
+                    var middleContent = Math.floor(contentParts.length / 2);
+                    contentWithImage = contentParts.slice(0, middleContent)
+                        + Image
+                        + contentParts.slice(middleContent);
 
                     html = `
-                        <div class="box-article-heading clearfix">
-                        <h1 class="sb-title-article mt-3">${res.blog.blogTitle}</h1>
-                    </div>
-                    <div class="article-pages">
-                        <p>
-                             ${contentWithImage}
-                        </p>
-                    </div>
-                    `;
+                            <div class="box-article-heading clearfix">
+                            <h1 class="sb-title-article mt-3">${res.blog.blogTitle}</h1>
+                        </div>
+                        <div class="article-pages">
+                            <p>
+                                 ${contentWithImage}
+                            </p>
+                        </div>
+                        `;
                     $('#Blog').html(html);
-                
-                res.sidebarBlog.forEach(function(blog){
-                    sidebar += `
-                        <li class="d-flex align-items-center mb-3">
-                            <a href="/Home/TrangBlog?blogid=${blog.blogId}" class="thumbnail mr-2">
-                                    <img src="/images/${blog.blogImage}" alt="Blog Image" class="img-fluid mb-3"  style="width: 70px; height: 70px;"/>
-                            </a>
-                            <a href="/Home/TrangBlog?blogid=${blog.blogId}" class="text-decoration-none text-dark ms-lg-2">
-                                <span>${blog.blogTitle}</span>
-                            </a>
-                        </li>
-                    `;
-                });
-                $('#Sidebar').html(sidebar);
-            }
-        });
+
+                    res.sidebarBlog.forEach(function (blog) {
+                        sidebar += `
+                            <li class="d-flex align-items-center mb-3">
+                                <a href="/Home/TrangBlog?blogid=${blog.blogId}" class="thumbnail mr-2">
+                                        <img src="/images/${blog.blogImage}" alt="Blog Image" class="img-fluid mb-3"  style="width: 70px; height: 70px;"/>
+                                </a>
+                                <a href="/Home/TrangBlog?blogid=${blog.blogId}" class="text-decoration-none text-dark ms-lg-2">
+                                    <span>${blog.blogTitle}</span>
+                                </a>
+                            </li>
+                        `;
+                    });
+                    $('#Sidebar').html(sidebar);
+                }
+            });
+        }
+       
     });
 </script>
