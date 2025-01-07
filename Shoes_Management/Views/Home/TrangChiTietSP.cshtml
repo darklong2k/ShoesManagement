@@ -1,5 +1,8 @@
-﻿
+﻿@{
+    ViewData["Title"] = "Chi tiết sản phẩm";
+}
 <link href="~/css/TrangChiTietSP.css" rel="stylesheet" />
+
 <div class="container mt-5">
     <!-- Product Details Section -->
     <div class="row">
@@ -12,31 +15,26 @@
 
         <!-- Product Info -->
         <div class="col-md-6 product-info">
-            <h3 class="fw-bold">Giày Air Max Chạy Bộ</h3>
+            <h3 class="fw-bold" >Đang tải...</h3> <!-- Để mặc định là "Đang tải..." -->
             <div class="d-flex align-items-center">
                 <span class="text-warning me-2">★★★★☆</span>
                 <span>(4.5)</span>
                 <span class="ms-4"><strong>Lượt thích:</strong> 120</span>
                 <span class="ms-4"><strong>Lượt xem:</strong> 300</span>
             </div>
-            <p class="mt-2"><strong>Tổng kho:</strong> <span id="totalStock">120 sản phẩm</span></p>
-            <h4 class="text-danger fw-bold mt-3">3,200,000 đ</h4>
-
+            <p class="mt-2"><strong>Tổng kho:</strong> <span id="totalStock">Đang tải...</span></p>
+            <h4 class="text-danger fw-bold mt-3">Đang tải...</h4> <!-- Hiển thị giá sản phẩm sau khi API trả về -->
             <!-- Color and Size -->
             <div>
                 <label for="colorSelect" class="form-label">Màu sắc</label>
-                <select class="form-select" id="colorSelect" onchange="updateStock()">
-                    <option value="red">Đỏ</option>
-                    <option value="blue">Xanh dương</option>
-                    <option value="black">Đen</option>
+                <select class="form-select" id="colorSelect">
+                    <!-- Các option sẽ được nạp từ API -->
                 </select>
             </div>
             <div>
                 <label for="sizeSelect" class="form-label">Kích thước</label>
-                <select class="form-select" id="sizeSelect" onchange="updateStock()">
-                    <option value="38">38</option>
-                    <option value="40">40</option>
-                    <option value="42">42</option>
+                <select class="form-select" id="sizeSelect">
+                    <!-- Các option sẽ được nạp từ API -->
                 </select>
             </div>
 
@@ -44,10 +42,8 @@
             <div>
                 <label for="quantityInput" class="form-label">Số lượng</label>
                 <input type="number" id="quantityInput" class="form-control w-25" value="1" min="1">
-                <p class="mb-0"><strong>Còn lại:</strong> <span id="stockCount">30</span> sản phẩm</p>
+                <p class="mb-0"><strong>Còn lại:</strong> <span id="stockCount">Đang tải...</span> sản phẩm</p>
             </div>
-
-
 
             <!-- Buttons -->
             <div class="d-flex align-items-center mt-4">
@@ -63,9 +59,7 @@
     <div class="row mt-5">
         <h4>Mô tả</h4>
         <div class="col-md-12">
-            <p>
-                Giày chạy bộ Air Max được thiết kế để mang lại sự thoải mái tối đa và phong cách. Lý tưởng cho chạy bộ, đi bộ, hoặc các hoạt động thường ngày.
-            </p>
+            <p id="productDescription">Đang tải...</p> <!-- Hiển thị mô tả sản phẩm sau khi API trả về -->
         </div>
     </div>
 
@@ -98,7 +92,7 @@
                 <a href="/tat-ca-san-pham" class="btn btn-outline-primary btn-sm">Xem tất cả</a>
             </div>
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
-                <!-- Sản phẩm 1 -->
+                <!-- Sản phẩm liên quan: Giữ nguyên phần này -->
                 <div class="col">
                     <div class="card h-100">
                         <a href="https://kingshoes.vn/air-force-1-cw2288-111.html">
@@ -116,41 +110,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- Sản phẩm 1 -->
-                <div class="col">
-                    <div class="card h-100">
-                        <a href="https://kingshoes.vn/air-force-1-cw2288-111.html">
-                            <img src="https://kingshoes.vn/data/upload/thumb/sneaker-315122-111-air-force-1-07-nike-kingshoesvn-tphcm-tanbinh-17-logo-1551924204-jpg/500_SNEAKER-315122-111-AIR-FORCE-1-07-NIKE-KINGSHOES.VN-TPHCM-TANBINH-17-logo-1551924204-.jpg.webp"
-                                 class="card-img-top" alt="AIR FORCE 1">
-                        </a>
-                        <div class="card-body">
-                            <a href="https://kingshoes.vn/air-force-1-cw2288-111.html" style="text-decoration:none">
-                                <h5 class="card-title">AIR FORCE 1</h5>
-                            </a>
-                            <div>
-                                <span class="text-warning">★★★★☆</span>
-                            </div>
-                            <p class="text-danger">3,200,000 đ</p>
-                        </div>
-                    </div>
-                </div><!-- Sản phẩm 1 -->
-                <div class="col">
-                    <div class="card h-100">
-                        <a href="https://kingshoes.vn/air-force-1-cw2288-111.html">
-                            <img src="https://kingshoes.vn/data/upload/thumb/sneaker-315122-111-air-force-1-07-nike-kingshoesvn-tphcm-tanbinh-17-logo-1551924204-jpg/500_SNEAKER-315122-111-AIR-FORCE-1-07-NIKE-KINGSHOES.VN-TPHCM-TANBINH-17-logo-1551924204-.jpg.webp"
-                                 class="card-img-top" alt="AIR FORCE 1">
-                        </a>
-                        <div class="card-body">
-                            <a href="https://kingshoes.vn/air-force-1-cw2288-111.html" style="text-decoration:none">
-                                <h5 class="card-title">AIR FORCE 1</h5>
-                            </a>
-                            <div>
-                                <span class="text-warning">★★★★☆</span>
-                            </div>
-                            <p class="text-danger">3,200,000 đ</p>
-                        </div>
-                    </div>
-                </div><!-- Sản phẩm 1 -->
+                <!-- Các sản phẩm khác giữ nguyên -->
                 <div class="col">
                     <div class="card h-100">
                         <a href="https://kingshoes.vn/air-force-1-cw2288-111.html">
@@ -168,31 +128,87 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Bạn có thể thêm các sản phẩm khác tương tự -->
             </div>
         </div>
     </section>
 
 </div>
-@section Scripts {
-    <!-- Bootstrap JS -->
-    <script>
-        const stockData = {
-            red: { 38: 10, 40: 5, 42: 3 },
-            blue: { 38: 8, 40: 15, 42: 10 },
-            black: { 38: 12, 40: 7, 42: 5 }
-        };
 
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+
+    $(document).ready(function () {
+        const productId = 1; // Thay bằng ID động nếu cần
+        const apiUrl = `/api/user/ProductDetailsAPI/GetProductDetails/${productId}`;
+
+
+        // Gọi API bằng Ajax
+        $.ajax({
+            url: apiUrl,
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                console.log("Dữ liệu nhận được từ API: ", data);
+                if (data.success) {
+
+                    const product = data.product;
+                    var html = ""
+
+                    // Hiển thị thông tin sản phẩm
+                    $('.product-info h3').text(product.name);
+                    $('.product-info .text-danger').text(new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price));
+                    $('#totalStock').text(`${product.productDetails.reduce((sum, p) => sum + p.stockQuantity, 0)} sản phẩm`);
+                    $('#productDescription').text(product.description);
+
+                   
+
+                    // Đổ dữ liệu vào select màu sắc
+                    const colorSelect = $('#colorSelect');
+                    const colors = [...new Set(product.productDetails.map(pd => pd.color))];
+                    colorSelect.empty(); // Xóa các option cũ
+                    colors.forEach(color => {
+                        colorSelect.append(new Option(color, color));
+                    });
+
+                    // Đổ dữ liệu vào select kích thước
+                    const sizeSelect = $('#sizeSelect');
+                    const sizes = [...new Set(product.poductDetails.map(pd => pd.size))];
+                    sizeSelect.empty(); // Xóa các option cũ
+                    sizes.forEach(size => {
+                        sizeSelect.append(new Option(size, size));
+                    });
+
+                    // Cập nhật tồn kho theo màu sắc và kích thước
+                    window.stockData = product.productDetails.reduce((acc, pd) => {
+                        acc[pd.Color] = acc[pd.Color] || {};
+                        acc[pd.Color][pd.Size] = pd.stockQuantity;
+                        return acc;
+                    }, {});
+
+                    updateStock(); // Cập nhật hiển thị số lượng tồn kho ban đầu
+                } else {
+                    $('.product-info').html('<div class="alert alert-danger">Sản phẩm không tồn tại hoặc đã bị ẩn.</div>');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Lỗi khi gọi API:", xhr.responseText);
+                alert('Lỗi khi tải dữ liệu từ máy chủ.');
+            }
+        });
+
+        // Hàm cập nhật tồn kho dựa trên lựa chọn
         function updateStock() {
-            const color = document.getElementById('colorSelect').value;
-            const size = document.getElementById('sizeSelect').value;
+            const color = $('#colorSelect').val();
+            const size = $('#sizeSelect').val();
 
-            const stock = stockData[color] && stockData[color][size] ? stockData[color][size] : 0;
+            const stock = window.stockData[color] && window.stockData[color][size] ? window.stockData[color][size] : 0;
 
-            document.getElementById('stockCount').innerText = stock;
+            $('#stockCount').text(stock);
         }
-    </script>
-}
 
+        // Gắn sự kiện onchange cho các select
+        $('#colorSelect, #sizeSelect').on('change', updateStock);
+    });
+</script>
 
