@@ -1,4 +1,5 @@
-﻿<link href="~/css/TrangCaNhan.css" rel="stylesheet" />
+﻿﻿
+<link href="~/css/TrangCaNhan.css" rel="stylesheet" />
 
 <div class="container my-4">
     <div class="row">
@@ -31,6 +32,8 @@
                 </div>
                 <div class="card shadow-sm">
                     <div class="card-body">
+                        <input type="hidden" id="customerId"/>
+                        <input type ="hidden" id="acc_id"/>
                         <table class="table table-bordered">
                             <tbody>
                                 <tr><th>Tên:</th><td id="CUS_NAME"></td></tr>
@@ -40,132 +43,78 @@
                                 <tr><th>Giới tính:</th><td id="CUS_SEX"></td></tr>
                             </tbody>
                         </table>
-                        <button class="btn btn-primary"><i class="fas fa-edit"></i> Chỉnh sửa thông tin</button>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editPersonalInfoModal" id="EditInFo">Chỉnh Sửa Thông Tin Cá Nhân</button>
                     </div>
                 </div>
             </div>
 
             <div id="order-list" class="section-content mb-4" style="display: none;">
                 <h4 class="mb-3">Danh Sách Đơn Hàng</h4>
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr><th>Mã đơn hàng</th><th>Ngày đặt</th><th>Trạng thái</th><th>Thao tác</th></tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>#001</td>
-                                    <td>12/11/2024</td>
-                                    <td><span class="badge bg-success"><i class="fas fa-check-circle"></i> Đã giao</span></td>
-                                    <td>
-                                        <button class="btn btn-info btn-sm" onclick="viewDetails(1)">Chi tiết</button>
-                                        <button class="btn btn-danger btn-sm" onclick="cancelOrder(1)">Hủy đơn</button>
-                                        <button class="btn btn-primary btn-sm" onclick="openReviewPopup(1)">Đánh giá</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>#002</td>
-                                    <td>10/11/2024</td>
-                                    <td><span class="badge bg-warning"><i class="fas fa-hourglass-half"></i> Đang xử lý</span></td>
-                                    <td>
-                                        <button class="btn btn-info btn-sm" onclick="viewDetails(2)">Chi tiết</button>
-                                        <button class="btn btn-danger btn-sm" onclick="cancelOrder(2)">Hủy đơn</button>
-                                        <button class="btn btn-primary btn-sm" onclick="openReviewPopup(2)">Đánh giá</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>#003</td>
-                                    <td>08/11/2024</td>
-                                    <td><span class="badge bg-danger"><i class="fas fa-times-circle"></i> Đã hủy</span></td>
-                                    <td>
-                                        <button class="btn btn-info btn-sm" onclick="viewDetails(3)">Chi tiết</button>
-                                        <button class="btn btn-danger btn-sm" disabled>Hủy đơn</button>
-                                        <button class="btn btn-primary btn-sm" onclick="openReviewPopup(3)" disabled>Đánh giá</button>
-                                    </td>
-                                </tr>
-
-
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                
+                
             </div>
 
             <div id="favorite-products" class="section-content mb-4" style="display: none;">
                 <h4 class="mb-3">Sản Phẩm Yêu Thích</h4>
-                <div class="row">
-                    <div class="col-md-4 mb-3">
-                        <div class="card shadow-sm">
-                            <img src="https://via.placeholder.com/150" class="card-img-top" alt="Product Image">
-                            <div class="card-body">
-                                <h5 class="card-title">Sản phẩm 1</h5>
-                                <p class="card-text">Giá: 500,000 VND</p>
-                                <button class="btn btn-danger btn-sm">Bỏ yêu thích</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <div class="card shadow-sm">
-                            <img src="https://via.placeholder.com/150" class="card-img-top" alt="Product Image">
-                            <div class="card-body">
-                                <h5 class="card-title">Sản phẩm 2</h5>
-                                <p class="card-text">Giá: 300,000 VND</p>
-                                <button class="btn btn-danger btn-sm">Bỏ yêu thích</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <div class="card shadow-sm">
-                            <img src="https://via.placeholder.com/150" class="card-img-top" alt="Product Image">
-                            <div class="card-body">
-                                <h5 class="card-title">Sản phẩm 3</h5>
-                                <p class="card-text">Giá: 400,000 VND</p>
-                                <button class="btn btn-danger btn-sm">Bỏ yêu thích</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                
             </div>
 
             <div id="rated-products" class="section-content mb-4" style="display: none;">
                 <h4 class="mb-3">Sản Phẩm Đã Chấm Điểm</h4>
-                <div class="row">
-                    <div class="col-md-4 mb-3">
-                        <div class="card shadow-sm">
-                            <img src="https://via.placeholder.com/150" class="card-img-top" alt="Product Image">
-                            <div class="card-body">
-                                <h5 class="card-title">Sản phẩm 4</h5>
-                                <p class="card-text">Giá: 600,000 VND</p>
-                                <p class="card-text">Đánh giá: 4/5</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <div class="card shadow-sm">
-                            <img src="https://via.placeholder.com/150" class="card-img-top" alt="Product Image">
-                            <div class="card-body">
-                                <h5 class="card-title">Sản phẩm 5</h5>
-                                <p class="card-text">Giá: 350,000 VND</p>
-                                <p class="card-text">Đánh giá: 5/5</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <div class="card shadow-sm">
-                            <img src="https://via.placeholder.com/150" class="card-img-top" alt="Product Image">
-                            <div class="card-body">
-                                <h5 class="card-title">Sản phẩm 6</h5>
-                                <p class="card-text">Giá: 700,000 VND</p>
-                                <p class="card-text">Đánh giá: 3/5</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+          
             </div>
         </div>
     </div>
 </div>
+
+
+<!-- Modal Chỉnh Sửa Thông Tin Cá Nhân -->
+<div class="modal fade" id="editPersonalInfoModal" tabindex="-1" aria-labelledby="editPersonalInfoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editPersonalInfoModalLabel">Chỉnh Sửa Thông Tin Cá Nhân</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editPersonalInfoForm">
+                    <div class="mb-3">
+                        <label for="editName" class="form-label">Tên</label>
+                        <input type="text" class="form-control" id="editName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editEmail" class="form-label">Địa chỉ email</label>
+                        <input type="email" class="form-control" id="editEmail" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editPhone" class="form-label">Số điện thoại</label>
+                        <input type="text" class="form-control" id="editPhone" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editAddress" class="form-label">Địa chỉ</label>
+                        <input type="text" class="form-control" id="editAddress" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editSex" class="form-label">Giới tính</label>
+                        <select class="form-control" id="editSex" required>
+                            <option value="1">Nam</option>
+                            <option value="0">Nữ</option>
+                        </select>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <!-- Nút Hủy -->
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                        <!-- Nút Cập Nhật -->
+                        <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 
 <!-- Modal Đổi Mật Khẩu -->
 <div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
@@ -189,7 +138,7 @@
                         <label for="confirmNewPassword" class="form-label">Xác nhận mật khẩu mới</label>
                         <input type="password" class="form-control" id="confirmNewPassword" placeholder="Xác nhận mật khẩu mới" required>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100">Cập nhật mật khẩu</button>
+                    <button type="submit" id="submitChangePassword" onclick="changepass()" class="btn btn-primary w-100">Cập nhật mật khẩu</button>
                 </form>
             </div>
         </div>
@@ -212,30 +161,380 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    $(document).ready(function () { 
+    $(document).ready(function () {
         $.ajax({
             url: 'https://localhost:7103/api/homeapi/TrangCaNhan',
-            type:'GET',
-            success:function(res){
+            type: 'GET',
+            success: function (res) {
+                // Điền thông tin lên giao diện
                 $('#ACCNAME').text(res.username);
-                $('#CUS_NAME').text(res.custumerInFo.name);
-                $('#CUS_EMAIL').text(res.custumerInFo.email);
-                $('#CUS_PHONE').text(res.custumerInFo.phone);
-                $('#CUS_ADDRESS').text(res.custumerInFo.address);
+
+                $('#CUS_NAME').text(res.custumerInFo.name || '');
+                $('#CUS_EMAIL').text(res.custumerInFo.email || '');
+                $('#CUS_PHONE').text(res.custumerInFo.phone || '');
+                $('#CUS_ADDRESS').text(res.custumerInFo.address || '');
                 $('#CUS_SEX').text(res.custumerInFo.sex === 1 ? 'Nam' : (res.custumerInFo.sex === 0 ? 'Nữ' : ''));
+                $('#customerId').val(res.custumerInFo.customerId);
+
+                // Gán sự kiện khi nhấn nút "Chỉnh Sửa Thông Tin Cá Nhân"
+                $('#EditInFo').click(function () {
+                    // Điền thông tin vào modal
+                    $('#editName').val(res.custumerInFo.name || '');
+                    $('#editEmail').val(res.custumerInFo.email || '');
+                    $('#editPhone').val(res.custumerInFo.phone || '');
+                    $('#editAddress').val(res.custumerInFo.address || '');
+                    $('#editSex').val(res.custumerInFo.sex);
+                });
+            },
+            error: function (err) {
+                console.error('Lỗi khi gọi API:', err);
+                alert('Không thể tải thông tin cá nhân.');
             }
         });
 
-        $('#DangXuat').on('click',function(){
+        $('#DangXuat').on('click', function () {
             $.ajax({
-                url:'https://localhost:7103/api/homeapi/DangXuat',
-                type:'GET',
-                success:function(res){
-                    if(res.success){
-                        window.location.href=res.url;
+                url: 'https://localhost:7103/api/homeapi/DangXuat',
+                type: 'GET',
+                success: function (res) {
+                    if (res.success) {
+                        window.location.href = res.url;
                     }
                 }
             });
         });
     });
+</script>
+@*  // Hiện danh sách đơn hàng *@
+<script>
+
+    $.ajax({
+        url: 'https://localhost:7103/api/Customerapi/PersonalPage',
+        method: 'GET',
+        success: function (res) {
+            if (res.success) {
+                var orders = res.orderInFo || [];
+                var orderRows = '';
+
+                // Hàm ánh xạ trạng thái sang badge
+                function getStatusBadge(status) {
+                    switch (status) {
+                        case 'Cancelled':
+                            return `<span class="badge bg-danger"><i class="fas fa-times-circle"></i> ${status}</span>`;
+                        case 'Pending':
+                            return `<span class="badge bg-warning"><i class="fas fa-hourglass-half"></i> ${status}</span>`;
+                        case 'Packing':
+                            return `<span class="badge bg-info"><i class="fas fa-box"></i> ${status}</span>`;
+                        case 'Shipping':
+                            return `<span class="badge bg-primary"><i class="fas fa-truck"></i> ${status}</span>`;
+                        case 'Delivered':
+                            return `<span class="badge bg-success"><i class="fas fa-check-circle"></i> ${status}</span>`;
+                        default:
+                            return `<span class="badge bg-secondary">${status}</span>`;
+                    }
+                }
+
+                // Tạo các dòng <tr> cho bảng đơn hàng
+                orders.forEach(order => {
+                    var statusBadge = getStatusBadge(order.status);
+                    var orderDate = order.orderDate
+                        ? new Date(order.orderDate).toLocaleDateString('vi-VN')
+                        : 'N/A';
+
+                    // Hiển thị nút "Hủy đơn" nếu trạng thái là Pending confirmation hoặc Packing
+                    var cancelBtn =
+                        order.status === 'Pending' || order.status === 'Packing'
+                            ? `<button class="btn btn-danger btn-sm" onclick="cancelOrder('${order.orderId}')">Hủy đơn</button>`
+                            : '';
+
+                    // Hiển thị nút "Đánh giá" nếu trạng thái là Delivered
+                    var reviewBtn =
+                        order.status === 'Delivered'
+                            ? `<button class="btn btn-primary btn-sm" onclick="openReviewPopup('${order.orderId}')">Đánh giá</button>`
+                            : '';
+
+                    orderRows += `
+                                    <tr>
+                                        <td>${order.orderId || 'N/A'}</td>
+                                        <td>${orderDate}</td>
+                                        <td>${statusBadge}</td>
+                                        <td>
+                                            <button class="btn btn-info btn-sm" onclick="viewDetails('${order.orderId}')">Chi tiết</button>
+                                            ${cancelBtn}
+                                            ${reviewBtn}
+                                        </td>
+                                    </tr>`;
+                });
+
+                // Hiển thị bảng danh sách đơn hàng
+                var orderTable = `
+                                <div class="card shadow-sm">
+                                    <div class="card-body">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Mã đơn hàng</th>
+                                                    <th>Ngày đặt</th>
+                                                    <th>Trạng thái</th>
+                                                    <th>Thao tác</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                ${orderRows}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>`;
+
+                $('#order-list').html(orderTable);
+            } else {
+                console.error("API trả về dữ liệu không hợp lệ:", res);
+            }
+        },
+        error: function (err) {
+            console.error("Lỗi khi gọi API:", err);
+        }
+    });
+    // Hàm gửi yêu cầu hủy đơn
+    function cancelOrder(orderId) {
+        if (confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')) {
+            $.ajax({
+                url: `https://localhost:7103/api/customerapi/${orderId}`,
+                method: 'POST',
+                success: function (res) {
+                    if (res.success) {
+                        alert('Đơn hàng đã được hủy.');
+                        location.reload(); // Tải lại trang để cập nhật danh sách
+                    } else {
+                        alert('Không thể hủy đơn hàng. Vui lòng thử lại.');
+                    }
+                },
+                error: function (err) {
+                    console.error("Lỗi khi hủy đơn:", err);
+                    alert('Đã xảy ra lỗi. Vui lòng thử lại.');
+                }
+            });
+        }
+    }
+</script>
+@* Lưu đổi thông tin cá nhân *@
+<script>
+    $(document).ready(function () {
+        $('#editPersonalInfoForm').on('submit', function (e) {
+            e.preventDefault();
+
+            var customerId = $('#customerId').val(); // Lấy ID của khách hàng từ trường ẩn
+            var updatedInfo = {
+                CustomerId: customerId, // ID khách hàng
+                Name: $('#editName').val(),
+                Email: $('#editEmail').val(),
+                Phone: $('#editPhone').val(),
+                Address: $('#editAddress').val(),
+                Sex: $('#editSex').val()
+            };
+
+            // Gửi yêu cầu PUT với ID khách hàng
+            $.ajax({
+                url: `https://localhost:7103/api/customerapi/updatePersonalInfo/${customerId}`, //truyền customerId vào URL
+                type: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify(updatedInfo),
+                success: function (response) {
+                    if (response.success) {
+                        alert(response.message);
+                        $('#editPersonalInfoModal').modal('hide'); // Đóng modal
+                        location.reload();
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function (error) {
+                    alert("Có lỗi xảy ra. Vui lòng thử lại.");
+                }
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        // Gửi yêu cầu AJAX để lấy danh sách sản phẩm
+        $.ajax({
+            url: 'https://localhost:7103/api/customerapi/PersonalPage',  // URL API trả về danh sách sản phẩm
+            method: 'GET',
+            success: function (res) {
+                if (res.success) {
+                    var wishlist = res.likedProducts || [];
+                    var productsHtml = '';  // Khởi tạo chuỗi HTML rỗng
+
+                    // Duyệt qua danh sách sản phẩm trả về
+                    wishlist.forEach(product => {
+                        productsHtml += `
+                                    <div class="col-md-4 mb-3">
+                                        <div class="card shadow-sm">
+                                                    <img src="${product.productImage}" class="card-img-top" alt="Product Image">
+                                            <div class="card-body">
+                                                        <h5 class="card-title">${product.productName}</h5>
+                                                        <p class="card-text">Giá: ${product.prodcutPrice}</p>
+                                                                 <button class="btn btn-danger btn-sm" data-id="${product.prodcuctId}" onclick="removeFromWishlist(${product.prodcuctId})">Bỏ yêu thích</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `;
+                    });
+                    var table = `<div class="row">
+                            ${productsHtml}
+                            </div>`
+
+                    // Chèn HTML vào phần tử có id là 'favorite-products'
+                    $('#favorite-products').html(productsHtml);
+                }
+            },
+            error: function (error) {
+                alert('Đã xảy ra lỗi khi tải sản phẩm.');
+
+            }
+        });
+    });
+
+    // Hàm xử lý xóa sản phẩm khỏi danh sách yêu thích
+    function removeFromWishlist(productId) {
+        // ID của khách hàng, có thể lấy từ thông tin đăng nhập hoặc session
+        var customerId = $('#customerId').val();
+        // Gửi yêu cầu DELETE để xóa sản phẩm khỏi danh sách yêu thích
+        if (confirm('Bạn có chắc chắn muốn bỏ sản phẩm này?')) {
+            $.ajax({
+
+                url: `https://localhost:7103/api/Customerapi/RemoveFromWishlist/${productId}/${customerId}`,  // Địa chỉ API của bạn
+                method: 'DELETE',
+                success: function (res) {
+                    if (res.success) {
+                        location.reload();
+                        // Nếu xóa thành công, xóa sản phẩm khỏi giao diện
+                        $(`#product-${productId}`).remove();  // Xóa phần tử sản phẩm khỏi trang
+                        alert('Sản phẩm đã được bỏ yêu thích.');
+                    } else {
+                        alert('Đã xảy ra lỗi khi bỏ yêu thích.');
+                    }
+                },
+                error: function (err) {
+                    alert('Đã xảy ra lỗi khi gửi yêu cầu.');
+                }
+            });
+        }
+    }
+
+
+</script>
+<script>
+    $(document).ready(function () {
+        // Gọi API để lấy sản phẩm đã chấm điểm
+        $.ajax({
+            url: 'https://localhost:7103/api/customerapi/PersonalPage', // Thay URL bằng endpoint phù hợp
+            type: 'GET',
+            success: function (res) {
+                if (res.success) {
+                    var ratedProducts = res.ratedProducts || [];  // Lấy danh sách sản phẩm đã chấm điểm
+                    var productsHtml = '';  // Khởi tạo chuỗi HTML rỗng
+
+                    // Bắt đầu thẻ row trước vòng lặp
+                    productsHtml += '<div class="row">';
+
+                    // Lặp qua danh sách sản phẩm và thêm vào DOM
+                    ratedProducts.forEach(product => {
+                        productsHtml += `
+                                <div class="col-md-4 mb-3">
+                                    <div class="card shadow-sm">
+                                        <img src="${product.productImage || 'https://via.placeholder.com/150'}"
+                                             class="card-img-top" alt="Product Image">
+                                        <div class="card-body">
+                                            <h5 class="card-title">${product.productName}</h5>
+                                            <p class="card-text">Giá: ${product.productPrice.toLocaleString()} VND</p>
+                                            <p class="card-text">Đánh giá: ${product.rating}/5</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                    });
+
+                    // Đóng thẻ row sau khi tất cả sản phẩm đã được thêm vào
+                    productsHtml += '</div>';
+
+                    // Hiển thị phần sản phẩm đã chấm điểm
+                    $('#rated-products').html(productsHtml);
+                } else {
+                    alert('Không có sản phẩm đã chấm điểm.');
+                }
+            },
+            error: function (err) {
+                console.error(err);
+                alert('Có lỗi xảy ra khi lấy danh sách sản phẩm.');
+            }
+        });
+    });
+</script>
+<script>
+
+    $(document).ready(function () {
+        // Xử lý sự kiện khi người dùng nhấn nút "Cập nhật mật khẩu"
+        $('#changePasswordForm').on('submit', function (event) {
+            event.preventDefault();  // Ngừng hành động mặc định của form (reload trang)
+
+            // Lấy giá trị từ các trường nhập liệu
+            var currentPassword = $('#currentPassword').val();
+            var newPassword = $('#newPassword').val();
+            var confirmNewPassword = $('#confirmNewPassword').val();
+
+            // Kiểm tra xem mật khẩu mới và xác nhận mật khẩu có khớp không
+            if (newPassword !== confirmNewPassword) {
+                alert("Mật khẩu mới và mật khẩu xác nhận không khớp.");
+                return;
+            }
+
+            // Gửi yêu cầu AJAX tới API
+            $.ajax({
+                url: 'https://localhost:7103/api/homeapi/ChangePassWord/${acc_id}',  // URL đến API đổi mật khẩu
+                type: 'POST',
+                data: {
+                    
+                    password: currentPassword,
+                    passwordConfirm: newPassword
+                },
+                success: function (response) {
+                    if (response.success) {
+                        alert("Mật khẩu đã được thay đổi thành công.");
+                        $('#changePasswordModal').modal('hide');  // Đóng modal nếu thành công
+                    } else {
+                        alert(response.message);  // Hiển thị thông báo lỗi
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert("Có lỗi xảy ra. Vui lòng thử lại.");
+                }
+            });
+        });
+    });
+    // Hàm gửi yêu cầu hủy đơn
+    function changepass() {
+        var acc_id = $('#acc_id').val();
+
+        if (confirm('Bạn có chắc chắn muốn đổi mật khẩu?')) {
+            $.ajax({
+                url: `https://localhost:7103/api/homeapi/ChangePassWord/${acc_id}`,
+                method: 'POST',
+                success: function (res) {
+                    if (res.success) {
+                        alert('Đổi mật khẩu thành công.');
+                        location.reload(); // Tải lại trang để cập nhật danh sách
+                    } else {
+                        alert('Không thể hủy đơn hàng. Vui lòng thử lại.');
+                    }
+                },
+                error: function (err) {
+                    console.error("Lỗi khi hủy đơn:", err);
+                    alert('Đã xảy ra lỗi. Vui lòng thử lại.');
+                }
+            });
+        }
+    }
+
 </script>

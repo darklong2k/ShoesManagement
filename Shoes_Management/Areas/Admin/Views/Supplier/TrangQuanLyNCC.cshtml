@@ -1,0 +1,266 @@
+﻿<div class="mt-3 m-lg-3">
+    <h1>Quản lý nhà cung cấp </h1>
+
+    <!-- Nút thêm nhà cung cấp -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalThemNCC">
+        Thêm nhà cung cấp
+    </button>
+
+    <!-- Popup cho thêm nhà cung cấp -->
+    <div class="modal fade " id="modalThemNCC" tabindex="-1" aria-labelledby="modalThemNCC" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <form class="row g-3">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalThemNCC">Thêm nhà cung cấp</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col">
+                                <label for="supplier_name" class="form-label">Tên nhà cung cấp</label>
+                                <input type="text" class="form-control" id="supplier_name" name="supplier_name" placeholder="Nhập tên nhà cung cấp" required />
+                            </div>
+
+                            <div class="col">
+                                <label for="contact_email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="contact_email" placeholder="Nhập email" required />
+                            </div>
+
+                            <div class="col">
+                                <label for="phone" class="form-label">SĐT</label>
+                                <input type="text" class="form-control" id="phone" name="phone" placeholder="Nhập sđt" required />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <label for="address" class="form-label">Địa chỉ</label>
+                                <input type="text" class="form-control" id="address" name="address" placeholder="Nhập địa chỉ người liên hệ" required />
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                            <button type="submit" class="btn btn-primary" id="btnSupplier">Thêm nhà cung cấp</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="input-group rounded">
+        <input type="search" class="form-control rounded" id="search-input" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+        <span class="input-group-text border-0" id="search-addon">
+            <i class="fas fa-search" style="cursor: pointer"></i>
+        </span>
+    </div>
+
+    <table class="table table-striped" id="supplierTable">
+        <thead>
+            <tr>
+                <th>Supplier ID</th>
+                <th>Supplier Name</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Address</th>
+                <th>Status</th>
+                <th>Functions</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"></script>
+<script>
+    $(document).ready(function () {
+        var suppliers = [];
+
+        function displaySupplier(suppliers) {
+            $('#supplierTable tbody').empty();
+            $.each(suppliers, function(index, supplier) {
+                var row = `
+                    <tr>
+                        <td>${supplier.supplierId}</td>
+                        <td>${supplier.supplierName}</td>
+                        <td>${supplier.phone}</td>
+                        <td>${supplier.email}</td>
+                        <td>${supplier.address}</td>
+                        <td>${supplier.status ? 'Active' : 'Inactive'}</td>
+                        <td>
+                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modal-${supplier.supplierId}">
+                                Chỉnh sửa
+                            </button>
+                            <button type="button" class="btn btn-danger" id="delete-${supplier.supplierId}" data-supplier-id=${supplier.supplierId}>Xóa</button>
+                            ${renderModal(supplier)}
+                        </td>
+                    </tr>`;
+
+                $('#supplierTable tbody').append(row);
+            });
+        }
+
+        function renderModal(supplier) {
+            return `
+            <div class="modal fade" id="modal-${supplier.supplierId}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5">Chỉnh sửa nhà cung cấp</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col">
+                                    <label for="supplier_name-${supplier.supplierId}" class="form-label">Tên nhà cung cấp</label>
+                                    <input type="text" class="form-control" id="supplier_name-${supplier.supplierId}" name="supplier_name" value="${supplier.supplierName}" required />
+                                </div>
+                                <div class="col">
+                                    <label for="email-${supplier.supplierId}" class="form-label">Email người liên hệ</label>
+                                    <input type="text" class="form-control" id="email-${supplier.supplierId}" name="email" value="${supplier.email}" required />
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <label for="phone-${supplier.supplierId}" class="form-label">SĐT</label>
+                                    <input type="text" class="form-control" id="phone-${supplier.supplierId}" name="phone" value="${supplier.phone}" required />
+                                </div>
+                                <div class="col">
+                                    <label for="status-${supplier.supplierId}" class="form-label">Trạng thái</label>
+                                    <select class="form-control" id="status-${supplier.supplierId}" name="status">
+                                        <option value="true" ${supplier.status === true ? 'selected' : ''}>Active</option>
+                                        <option value="false" ${supplier.status === false ? 'selected' : ''}>Inactive</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label for="address-${supplier.supplierId} class="form-label">Địa chỉ</label>
+                                <input type="text" class="form-control" id="address-${supplier.supplierId}" name="address" value="${supplier.address}" required />
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                            <button type="button" class="btn btn-primary save-changes" id="save-change-${supplier.supplierId}"  data-supplier-id="${supplier.supplierId}">Lưu thay đổi</button>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+
+
+        }
+
+        // API lấy danh sách supplier
+        $.ajax({
+            url: '/api/suppliers',
+            method: 'GET',
+            success: function(res) {
+                suppliers = res.data;
+                displaySupplier(suppliers);
+            },
+            error: function(xhr, status, error) {
+                console.error("Error: " + status + " " + error);
+            }
+        })
+
+         $(document).on("click", ".save-changes", function () {
+            var supplierId = $(this).data("supplier-id");
+            var supplierName = $(`#supplier_name-${supplierId}`).val();
+            var email = $(`#email-${supplierId}`).val();
+            var phone = $(`#phone-${supplierId}`).val();
+            var address = $(`#address-${supplierId}`).val();
+            var status = $(`#status-${supplierId}`).val() === "true";
+
+            // Chỉnh sửa supplier
+            $.ajax({
+                url: `/api/suppliers/${supplierId}`,
+                method: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify({ 
+                    SupplierId: supplierId,
+                    SupplierName: supplierName,
+                    Address: address,
+                    Phone: phone,
+                    Email: email,
+                    Status: status 
+                }),
+                success: function() {
+                    alert("Cập nhật thành công!");
+                    displaySupplier(suppliers);
+                    $(`#modal-${supplierId}`).modal('hide');
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error updating supplier:", error);
+                    alert("Cập nhật thất bại.");
+                }
+            });
+        });
+
+        // API xóa supplier
+        $(document).on("click", ".btn-danger", function () {
+            var supplierId = $(this).data("supplier-id");
+
+            $.ajax({
+                url: `/api/suppliers/${supplierId}`,
+                method: 'DELETE',
+                success: function() {
+                    alert("Xóa thành công!");
+                    displaySupplier(suppliers);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error deleting supplier:", error);
+                    alert("Xóa thất bại.");
+                }
+            });
+        });
+
+        // API thêm supplier
+        $("#btnSupplier").click(function(e) {
+            const supplierData = {
+                SupplierName: $("#supplier_name").val(),
+                Address: $("#address").val(),
+                Phone: $("#phone").val(),
+                Email: $("#email").val(),
+                Status: true
+            };
+
+            $.ajax({
+                url: "/api/suppliers",
+                method: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(supplierData),
+                success: function(res) {
+                    alert("Thêm nhà cung cấp thành công!");
+                    $("#modalThemNCC").modal("hide");
+                },
+                error: function (xhr, status, error) {
+                console.error("Error:", error);
+                alert("Đã xảy ra lỗi khi thêm nhà cung cấp.");
+                }
+            });
+        })
+
+        // Tìm kiếm supplier
+        $("#search-input").on("keyup", function() {
+            var searchTerm = $(this).val().toLowerCase();
+
+            var filteredSuppliers = suppliers.filter(function(supplier) {
+                return normalizeString(supplier.supplierName).includes(normalizeString(searchTerm))
+            });
+            displaySupplier(filteredSuppliers);
+        })
+
+        function normalizeString(str) {
+            return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+        }
+    });
+</script>

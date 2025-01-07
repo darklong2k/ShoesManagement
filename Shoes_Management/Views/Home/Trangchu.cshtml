@@ -327,7 +327,8 @@
                     var html = `
                             <div class="col">
                     <div class="card h-100">
-                        <a href="https://kingshoes.vn/air-force-1-cw2288-111.html">
+                        <a href="/Home/TrangChiTietSP/${product.productId}">
+
                             <img src="/images/${product.image}"
                                  class="card-img-top" alt="AIR FORCE 1">
                         </a>
@@ -391,10 +392,10 @@
                 res.forEach(function (cate,index) {
                     html += `
                            <li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center  ${index == 0 ? 'active' : ''}"
-                           data-category="${cate.categoryId}" 
+                           data-category="${cate.categoryId}"
                       >${cate.name}</li>
                     `;
-                }); 
+                });
                 $('#ListCategory').on('click', '.grid_sorting_button', function () {
                     var categoryId = $(this).data('category');
                     loadProductByCategory(categoryId);
@@ -405,7 +406,7 @@
                 $('#ListCategory').append(html);
                 var defaultChoose = res[0].categoryId
                 loadProductByCategory(defaultChoose);
-                
+
             }
         });
 
@@ -417,7 +418,7 @@
                 type:'GET',
                 success:function(res){
                     $('#ListProd').empty();
-                    if (res.length === 0) 
+                    if (res.length === 0)
                     {
                         $('#ListProd').html(`<p class="text-center" style="width: 100%; margin-top: 20px;">Không tìm thấy sản phẩm nào.</p>`);
                     }
@@ -446,7 +447,7 @@
                             `;
                             $('#ListProd').append(html);
                         });
-                    }  
+                    }
                 }
             });
         }
