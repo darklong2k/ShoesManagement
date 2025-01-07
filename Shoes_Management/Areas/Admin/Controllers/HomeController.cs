@@ -13,6 +13,7 @@ namespace Shoes_Management.Areas.Admin.Controllers
 		}
         public IActionResult TrangDanhMucSanPham()
         {
+			
             return View();
         }
 
