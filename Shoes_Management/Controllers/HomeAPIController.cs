@@ -230,25 +230,25 @@ namespace Shoes_Management.Controllers
             return Ok(new { blog = blog, sidebarBlog });
         }
         [HttpPost("ChangePassWord/{$id}")]
-        public IActionResult ChangePassWord(int id,[FromBody]  Account updateAcc)
+        public IActionResult ChangePassWord([FromForm] int acc_id, [FromForm] string CurrentPassword, [FromForm] string newPassword)
         {
             // Lấy thông tin tài khoản từ session hoặc database
           
-            var acc = _context.Accounts.FirstOrDefault(a => a.AccountId == updateAcc.AccountId);
-
+            var acc = _context.Accounts.FirstOrDefault(a => a.AccountId == acc_id);
+            Console.WriteLine(acc);
             if (acc == null)
             {
                 return Ok(new { success = false, message = "Tài khoản không tồn tại" });
             }
 
             // Kiểm tra mật khẩu hiện tại
-            if (acc.Password != HashPassWord(updateAcc.Password))
+            if (acc.Password != HashPassWord(CurrentPassword))
             {
                 return Ok(new { success = false, message = "Mật khẩu hiện tại không đúng" });
             }
 
             // Cập nhật mật khẩu mới
-            acc.Password = HashPassWord(updateAcc.Password);
+            acc.Password = HashPassWord(newPassword);
             _context.SaveChanges();
 
             return Ok(new { success = true, message = "Mật khẩu đã được thay đổi thành công." });

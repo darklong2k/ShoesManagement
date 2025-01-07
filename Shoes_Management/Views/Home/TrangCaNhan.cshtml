@@ -125,7 +125,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="changePasswordForm">
+                <form id="changePasswordForm" method="post">
                     <div class="mb-3">
                         <label for="currentPassword" class="form-label">Mật khẩu hiện tại</label>
                         <input type="password" class="form-control" id="currentPassword" placeholder="Nhập mật khẩu hiện tại" required>
@@ -175,6 +175,8 @@
                 $('#CUS_ADDRESS').text(res.custumerInFo.address || '');
                 $('#CUS_SEX').text(res.custumerInFo.sex === 1 ? 'Nam' : 'Nữ');
                 $('#customerId').val(res.custumerInFo.customerId);
+                $('#acc_id').val(res.custumerInFo.accountId);
+                console.log(res);
 
                 // Gán sự kiện khi nhấn nút "Chỉnh Sửa Thông Tin Cá Nhân"
                 $('#EditInFo').click(function () {
@@ -265,26 +267,27 @@
                                         </td>
                                     </tr>`;
                 });
-
+                
                 // Hiển thị bảng danh sách đơn hàng
                 var orderTable = `
-                                <div class="card shadow-sm">
-                                    <div class="card-body">
-                                        <table class="table table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th>Mã đơn hàng</th>
-                                                    <th>Ngày đặt</th>
-                                                    <th>Trạng thái</th>
-                                                    <th>Thao tác</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                ${orderRows}
-                                            </tbody>
-                                        </table>
+                                    <div class="card shadow-sm">
+                                        <div class="card-body">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Mã đơn hàng</th>
+                                                        <th>Ngày đặt</th>
+                                                        <th>Trạng thái</th>
+                                                        <th>Thao tác</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    ${orderRows}
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
-                                </div>`;
+                                   `;
 
                 $('#order-list').html(orderTable);
             } else {
@@ -371,7 +374,7 @@
                         productsHtml += `
                                     <div class="col-md-4 mb-3">
                                         <div class="card shadow-sm">
-                                                    <img src="${product.productImage}" class="card-img-top" alt="Product Image">
+                                                    <img src="/images/${product.productImage}" class="card-img-top" alt="Product Image">
                                             <div class="card-body">
                                                         <h5 class="card-title">${product.productName}</h5>
                                                         <p class="card-text">Giá: ${product.prodcutPrice}</p>
@@ -386,7 +389,7 @@
                             </div>`
 
                     // Chèn HTML vào phần tử có id là 'favorite-products'
-                    $('#favorite-products').html(productsHtml);
+                    $('#favorite-products').html(table);
                 }
             },
             error: function (error) {
@@ -443,7 +446,7 @@
                         productsHtml += `
                                 <div class="col-md-4 mb-3">
                                     <div class="card shadow-sm">
-                                        <img src="${product.productImage || 'https://via.placeholder.com/150'}"
+                                            <img src="/images/${product.productImage}"
                                              class="card-img-top" alt="Product Image">
                                         <div class="card-body">
                                             <h5 class="card-title">${product.productName}</h5>
@@ -478,7 +481,7 @@
             event.preventDefault(); // Ngừng hành động mặc định của form
 
             var acc_id = $('#acc_id').val(); // Lấy giá trị từ input acc_id
-            var currentPassword = $('#currentPassword').val(); // Lấy mật khẩu hiện tại
+            var CurrentPassword = $('#currentPassword').val(); // Lấy mật khẩu hiện tại
             var newPassword = $('#newPassword').val(); // Lấy mật khẩu mới
             var confirmNewPassword = $('#confirmNewPassword').val(); // Lấy mật khẩu xác nhận
 
@@ -491,15 +494,15 @@
             // Tạo đối tượng updatePassWord với các giá trị
             var updatePassWord = {
                 AccountId: acc_id,
-                Password: newPassword // Chỉnh sửa: gửi mật khẩu mới thay vì mật khẩu xác nhận
-            };
 
+                Password: newPassword // Chỉnh sửa: gửi mật khẩu mới thay vì mật khẩu xác nhận // matkhau moi
+            };
+            console.log(updatePassWord);
             // Gửi yêu cầu AJAX tới API
             $.ajax({
                 url: `https://localhost:7103/api/homeapi/ChangePassWord/${acc_id}`,  // URL tới API, sử dụng template string đúng
-                type: 'PUT', // Đổi mật khẩu sử dụng PUT
-                contentType: 'application/json',
-                data: JSON.stringify(updatePassWord), // Gửi đối tượng updatePassWord vào body
+                type: 'POST', // Đổi mật khẩu sử dụng PUT
+                data: { acc_id: acc_id, newPassword: newPassword, CurrentPassword: CurrentPassword }, // Gửi đối tượng updatePassWord vào body
                 success: function (response) {
                     if (response.success) {
                         alert("Mật khẩu đã được thay đổi thành công.");
