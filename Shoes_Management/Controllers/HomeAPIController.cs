@@ -49,19 +49,24 @@ namespace Shoes_Management.Controllers
         }
 
         [HttpPost("DangNhap")]
-        public IActionResult DangNhap([FromForm] string username, [FromForm] string password)//PhucNguyen2004
+        public IActionResult DangNhap([FromForm] string username, [FromForm] string password)//PhucNguyen2004 caothang Caothang1
         {
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            if (!Regex.IsMatch(username,@"^[a-z]{4,8}"))
             {
-                return Ok(new { success = false, message = "Mật khẩu và xác nhận mật khẩu không khớp"});
+
+                return Ok(new { success = false, message = "Tên đăng nhập gồm chữ cái và độ dài tối thiểu 4 đến 8 ký tự."});
+            }
+            if (!Regex.IsMatch(password, @"^(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{6,}$"))
+            {
+                return Ok(new { success = false, message = "Mật khẩu phải chứa ít nhất một chữ hoa, một số và tối thiểu 6 ký tự." });
             }
             else
             {
-                var acc = _context.Accounts.FirstOrDefault(a => a.Username == username && a.Password == HashPassWord(password));
-                
+                var acc = _context.Accounts.Where(a => a.Status == "Active")
+                    .FirstOrDefault(a => a.Username == username && a.Password == HashPassWord(password));
                 if (acc == null)
                 {
-                    return Ok(new { success = false, message = "Tài khoản và mật khẩu không hợp lệ" });
+                    return Ok(new { success = false, message = "Tài khoản và mật khẩu không chính xác" });
                 }
                 else
                 {
@@ -71,10 +76,11 @@ namespace Shoes_Management.Controllers
                         HttpContext.Session.SetString("is_admin", acc.IsAdmin.ToString());
                         return Ok(new { admin = true, url = "/Admin/Home/Dashboard" });
                     }
+
                     HttpContext.Session.SetString("acc_id", acc.AccountId.ToString());
-                    return Ok(new { success = true, url = "/home/trangcanhan" });
+                    return Ok(new { success = true, url = "/home/trangchu" });
                 }
-                
+
             }
         }
 
@@ -84,7 +90,7 @@ namespace Shoes_Management.Controllers
             var acc_id = HttpContext.Session.GetString("acc_id");
             var username = HttpContext.Session.GetString("username");
             var custumerInFo = _context.Customers.FirstOrDefault(c => c.AccountId.ToString() == acc_id);
-            return Ok(new { success = true, custumerInFo,username });
+            return Ok(new { success = true, custumerInFo, username, acc_id });
         }
 
         [HttpGet("DangXuat")]
@@ -101,7 +107,7 @@ namespace Shoes_Management.Controllers
             var cate = _context.Categories.Take(2);
             var brand = _context.Brands;
             var website = _context.Websites.First();
-            return Ok(new { cate, brand, website,accName });
+            return Ok(new { cate, brand, website, accName });
         }
 
         //Trang chủ
@@ -109,7 +115,7 @@ namespace Shoes_Management.Controllers
         public IActionResult GetProducts()
         {
             //PRoduct new
-            var products = _context.Products.Take(4).OrderByDescending(p => p.CreatedAt);
+            var products = _context.Products.Take(4).OrderByDescending(p => p.CreatedAt).Where(p => p.Status == "Active");
             //Product Best seller
             var bestSeller = _context.OrderDetails
                 .Where(od => od.Order.Status == "Delivered")
@@ -120,7 +126,8 @@ namespace Shoes_Management.Controllers
                     TotalQuantity = grouped.Sum(od => od.Quantity)
                 })
                 .OrderByDescending(od => od.TotalQuantity)
-                .Take(4);
+                .Take(4)
+                .Where(p => p.Product.Status == "Active");
             return Ok(new { products, bestSeller });
         }
 
@@ -128,7 +135,7 @@ namespace Shoes_Management.Controllers
         [HttpGet("GetCategories")]
         public IActionResult GetCategories()
         {
-            var categories = _context.Categories.Skip(2);
+            var categories = _context.Categories.Skip(2).Where(c => c.Status == true);
             return Ok(categories);
         }
 
@@ -136,33 +143,36 @@ namespace Shoes_Management.Controllers
         [HttpGet("GetProductsByCategory/{categoryId}")]
         public IActionResult GetProductsByCategory(int categoryId)
         {
-            var product = _context.Products.Where(p => p.CategoryId == categoryId);
+            var product = _context.Products.Where(p => p.CategoryId == categoryId && p.Status == "Active");
             return Ok(product);
         }
 
         //TrangSanPham
         [HttpGet("Products_Page")]
-        public IActionResult Products_Page(int page = 1, string search = null, int brandId = 0, int categoryId = 0,int priceId = 0)
-        {
-            int pageSize = 3;
 
-            var query = _context.Products.AsQueryable();
+        public IActionResult Products_Page(int page = 1, string search = null, int brandId = 0, string categorySlug = null,int priceId = 0)
+
+        {
+            int pageSize = 4;
+
+            var query = _context.Products.Where(p => p.Status == "Active").AsQueryable();
             if (!string.IsNullOrEmpty(search))
             {
                 query = query.Where(p => p.Name.Contains(search));
             }
-            if (categoryId != 0)
+            if (categorySlug != null)
             {
-                var categoryid = _context.Categories.Where(c => c.ParentId == categoryId).Select(c => c.CategoryId).ToList();
+                var CategorySlug = _context.Categories.FirstOrDefault(c => c.slug == categorySlug);
+                var categoryid = _context.Categories.Where(c => c.ParentId == CategorySlug.CategoryId).Select(c => c.CategoryId).ToList();
                 query = query.Where(p => categoryid.Contains(p.CategoryId ?? 0));
             }
             if (brandId != 0)
             {
                 query = query.Where(p => p.BrandId == brandId);
             }
-            if (priceId != 0) 
+            if (priceId != 0)
             {
-                switch (priceId) 
+                switch (priceId)
                 {
                     case 1:
                         query = query.Where(p => p.Price < 2000000);
@@ -181,7 +191,7 @@ namespace Shoes_Management.Controllers
             var TotalProducts = query.Count();
             var products = query.Skip((page - 1) * pageSize).Take(pageSize);
             int totalPage = (int)Math.Ceiling((double)TotalProducts / pageSize);
-            return Ok(new { currentPage = page, totalPage, pageSize, products });
+            return Ok(new { currentPage = page, totalPage, pageSize, products,TotalProducts });
         }
 
         //Hiện lên bộ lọc
@@ -195,14 +205,16 @@ namespace Shoes_Management.Controllers
 
         //Lấy dsach cac bai blog và hiển thị giới thiệu shop
         [HttpGet("GetBlogs")]
-        public IActionResult GetBlogs(int page=1)
+        public IActionResult GetBlogs(int page = 1)
         {
             int pagesize = 2;
-            var blogs = _context.Blogs.Skip((page - 1)*pagesize).Take(pagesize);
+            var blogs = _context.Blogs.Skip((page - 1) * pagesize).Take(pagesize);
             var totalBlogs = _context.Blogs.Count();
             int totalPage = (int)Math.Ceiling((double)totalBlogs / pagesize);
-            var website = _context.Websites.First();
-            return Ok(new { blogs = blogs, currentPage = page,totalPage,pagesize,website });
+
+            var gioithieu = _context.Blogs.Find(4);
+            return Ok(new { blogs = blogs, currentPage = page,totalPage,pagesize,gioithieu });
+
         }
 
         //Hiện trang blog theo id
@@ -225,10 +237,37 @@ namespace Shoes_Management.Controllers
                     b.BlogContent,
                     BlogImages = b.BlogImages.Select(img => img.ImageUrl).ToList()
                 })
-                .FirstOrDefault(b => b.BlogId == blogid);
+                .First();
 
             return Ok(new { blog = blog, sidebarBlog });
         }
+        [HttpPost("ChangePassWord/{$id}")]
+        public IActionResult ChangePassWord(int id,[FromBody]  Account updateAcc)
+        {
+            // Lấy thông tin tài khoản từ session hoặc database
+          
+            var acc = _context.Accounts.FirstOrDefault(a => a.AccountId == updateAcc.AccountId);
+
+            if (acc == null)
+            {
+                return Ok(new { success = false, message = "Tài khoản không tồn tại" });
+            }
+
+            // Kiểm tra mật khẩu hiện tại
+            if (acc.Password != HashPassWord(updateAcc.Password))
+            {
+                return Ok(new { success = false, message = "Mật khẩu hiện tại không đúng" });
+            }
+
+            // Cập nhật mật khẩu mới
+            acc.Password = HashPassWord(updateAcc.Password);
+            _context.SaveChanges();
+
+            return Ok(new { success = true, message = "Mật khẩu đã được thay đổi thành công." });
+        }
+
+   
+
 
         [HttpPost("DangKy")]
         public IActionResult DangKy([FromForm]string username, [FromForm] string password, [FromForm]string passwordConfirm)
@@ -241,6 +280,14 @@ namespace Shoes_Management.Controllers
             {
                 return Ok(new {success=false,message = "Tài khoản đã tồn tại"});
             }
+            if (!Regex.IsMatch(username, @"^[a-zA]{4,8}"))
+            {
+                return Ok(new { success = false, message = "Tên đăng nhập tối thiểu chữ cái và độ dài 4 đến 8 ký tự." });
+            }
+            if (!Regex.IsMatch(password, @"^(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{6,}$"))
+            {
+                return Ok(new { success = false, message = "Mật khẩu phải chứa ít nhất một chữ hoa, một số và tối thiểu 6 ký tự." });
+            }
             var acc = new Account();
             acc.Username = username;
             acc.Password = HashPassWord(passwordConfirm);
@@ -249,6 +296,10 @@ namespace Shoes_Management.Controllers
             acc.CreatedAt = DateTime.UtcNow;
             acc.UpdatedAt = DateTime.UtcNow;
             _context.Accounts.Add(acc);
+            _context.SaveChanges();
+            var cus = new Customer();
+            cus.AccountId = acc.AccountId;
+            _context.Customers.Add(cus);
             _context.SaveChanges();
             return Ok(new {success=true});
         }
