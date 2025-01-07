@@ -1,4 +1,7 @@
-﻿<style>
+﻿@{
+    ViewData["Title"]="";
+}
+<style>
     .sidebarblog-title h2 {
         font-size: 18px;
         font-weight: bold;
@@ -25,59 +28,43 @@
             font-weight: 500;
         }
 
-
 </style>
+<section class="pt-4 pb-4" id="ListBlogs">
+    <div class="container">
+        <!-- Phần Danh Sách Bài Viết Blog -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <h1 class="text-center mb-4" id="Title">Danh Sách Bài Viết Blog</h1>
+
+                <div class="list-group">
+
+
+                    <!-- Thêm các bài viết khác ở đây -->
+                </div>
+
+                <!-- Phân trang -->
+                <!-- Phân trang -->
+                <nav class="mt-4">
+                    <ul class="pagination justify-content-center" id="PhanTrang">
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
 <div class="container">
     <div class="row">
         <!-- Nội dung chính -->
         <div class="col-md-9 col-sm-12 col-xs-12">
             <div class="content-page">
-                <div class="article-content">
-                    <div class="box-article-heading clearfix">
-                        <h1 class="sb-title-article mt-3">Giới thiệu về T1</h1>
-                    </div>
-                    <div class="article-pages">
-                        <!-- Nội dung bài viết -->
-                        <p>1./ T1 đang dần trở thành một cái tên quen thuộc với tất cả các bạn trẻ</p>
-                        <p>
-                            Có mặt trên thị trường hơn 10 năm và đang ngày càng khẳng định vị thế trong lòng khách hàng,
-                            MWC với những sản phẩm độc quyền mang thương hiệu riêng, sự đang dạng về mẫu mã, kiểu dáng,
-                            chất liệu, tính năng … sẽ mang lại nhiều sự lựa chọn cho khách hàng. MWC luôn không ngừng đổi mới và phát triển, trở thành người bạn đồng hành thân thiết mang lại cho bạn sự thoải mái,
-                            tự tin khi sử dụng, và là sự lựa chọn hoàn hảo phong cách thời trang của bạn.
-                        </p>
-                    </div>
-                    <div class="article-pages">
-                        <!-- Nội dung bài viết -->
-                        <p>2./ Sản phẩm nằm trong phân khúc giá HSSV với nhiều ưu đãi hấp dẫn phù hợp với túi tiền của tất cả khách hàng</p>
-                        <p>
-                            Với lợi thế sản xuất trực tiếp, ngoài việc chủ động trong việc thiết kế mẫu mã,
-                            kiểm soát tốt chất lượng thì giá thành sản phẩm rẻ nhất so với chất lượng mang lại là cầu nối để khách hàng tiếp cận,
-                            trải nghiệm, mua sắm, và trở thành khách hàng thân thiết của T1.
-                        </p>
-                    </div>
-                    <div class="article-pages">
-                        <!-- Nội dung bài viết -->
-                        <p>3./ Kênh phân phối rộng khắp</p>
-                        <p>
-                            Với hơn 82 cửa hàng trải dài rộng khắp hơn 28 tỉnh thành trên toàn quốc cùng với các nền tảng mua sắm online hoàn thiện trên facebook,
-                            web, app, TMĐT (Shopee, Tiki, Lazada, Sendo)
-                            sẽ đáp ứng nhu cầu mua sắm mọi lúc mọi nơi sẽ mang lại cho khách hàng những trải nghiệm mua sắm tuyệt vời nhất
-                        </p>
-                    </div>
-                    <div class="article-pages">
-                        <!-- Nội dung bài viết -->
-                        <p>4./ Sự hài lòng của các bạn chính là mục tiêu phấn đấu của chúng tôi.</p>
-                        <p>
-                            Chất lượng sản phẩm được khẳng định với chính sách bảo hành keo vĩnh viễn cùng với các chính sách hậu mãi,
-                            CSKH tận tâm sẽ mang lại sự hài lòng cho khách hàng khi đến với T1
-                        </p>
-                    </div>
+                <div class="article-content" id="Blog">
+                    
                 </div>
             </div>
         </div>
 
         <!-- Bài viết khác -->
-        <div class="col-md-3 col-sm-12 col-xs-12">
+        <div class="col-md-3 col-sm-12 col-xs-12" id="BAIVETKHAC">
             <div class="sidebar-blog">
                 <div class="news-latest clearfix">
                     <!-- Tiêu đề -->
@@ -86,35 +73,10 @@
                         <hr class="mx-auto" style="width: 50%; border: 1px solid black;">
                     </div>
                     <!-- Danh sách bài viết -->
-                    <ul class="list-unstyled">
+                    <ul class="list-unstyled" id="Sidebar">
                         <!-- Bài viết 1 -->
-                        <li class="d-flex align-items-center mb-3">
-                            <a href="/post/1" class="thumbnail mr-2">
-                                <img src="https://img.mwc.com.vn/giay-thoi-trang?FileInput=/Resources/Post/2024/08/22/0fbd881e-223a-4c5c-bfa6-7de0132e36f5.jpg" alt="Bài viết 1" class="img-fluid" style="width: 70px; height: 70px;">
-                            </a>
-                            <a href="/post/1" class="text-decoration-none text-dark ms-lg-2">
-                                <span>Những kiểu giày thể thao được ưa chuộng cho năm học mới</span>
-                            </a>
-                        </li>
-                        <!-- Bài viết 2 -->
-                        <li class="d-flex align-items-center mb-3">
-                            <a href="/post/2" class="thumbnail mr-2">
-                                <img src="https://img.mwc.com.vn/giay-thoi-trang?FileInput=/Resources/Post/2024/08/22/0fbd881e-223a-4c5c-bfa6-7de0132e36f5.jpg" alt="Bài viết 2" class="img-fluid" style="width: 70px; height: 70px;">
-                            </a>
-                            <a href="/post/2" class="text-decoration-none text-dark ms-lg-2">
-                                <span>BST giày đón xuân không thể bỏ lỡ của T1 shop</span>
-                            </a>
-                        </li>
-                        <!-- Thêm các bài viết khác -->
-                        <li class="d-flex align-items-center mb-3">
-                            <a href="/post/3" class="thumbnail mr-2">
-                                <img src="https://img.mwc.com.vn/giay-thoi-trang?FileInput=/Resources/Post/2024/08/22/0fbd881e-223a-4c5c-bfa6-7de0132e36f5.jpg" alt="Bài viết 3" class="img-fluid" style="width: 70px; height: 70px;">
-                            </a>
-                            <a href="/post/3" class="text-decoration-none text-dark ms-lg-2">
-                                <span>Khuyến mãi không giới hạn cho tài khoản đầu tiên</span>
-                            </a>
-                        </li>
-                        <!-- Lặp lại cho các bài viết -->
+                        
+                        
                     </ul>
                 </div>
             </div>
@@ -151,13 +113,10 @@
                         var html = '';
                         res.blogs.forEach(function (blo) {
                             html += `
-                                     <a href="/Home/TrangBlog?blogid=${blo.blogId}" 
-                                     class="list-group-item list-group-item-action" data-id=${blo.blogId}>
+                                     <a href="/Home/TrangBlog?blogid=${blo.blogId}" class="list-group-item list-group-item-action" data-id=${blo.blogId}>
                                      <h5 class="mb-1">${blo.blogTitle}</h5>
                                      <p class="mb-1">${truncateContent(blo.blogContent)}</p >
-                                     <small class="text-muted">
-                                     Ngày đăng: ${new Date(blo.createdDate).toLocaleDateString()}
-                                     </small>
+                                     <small class="text-muted">Ngày đăng: ${new Date(blo.createdDate).toLocaleDateString()}</small>
                                 </a>
                             `;
                         });
@@ -202,8 +161,7 @@
                     if (res.blog.blogImages) {
                         Image = `
                             <div style="text-align:center;" >
-                            <img src="/images/${res.blog.blogImages}" 
-                            alt="Blog Image" class="img-fluid mb-3"  style="width: 600px; height: 600px;"/>
+                            <img src="/images/${res.blog.blogImages}" alt="Blog Image" class="img-fluid mb-3"  style="width: 600px; height: 600px;"/>
                         </div>
                         ` ;
                     }
@@ -231,11 +189,9 @@
                         sidebar += `
                             <li class="d-flex align-items-center mb-3">
                                 <a href="/Home/TrangBlog?blogid=${blog.blogId}" class="thumbnail mr-2">
-                                        <img src="/images/${blog.blogImage}" alt="Blog Image" 
-                                        class="img-fluid mb-3"  style="width: 70px; height: 70px;"/>
+                                        <img src="/images/${blog.blogImage}" alt="Blog Image" class="img-fluid mb-3"  style="width: 70px; height: 70px;"/>
                                 </a>
-                                <a href="/Home/TrangBlog?blogid=${blog.blogId}" 
-                                class="text-decoration-none text-dark ms-lg-2">
+                                <a href="/Home/TrangBlog?blogid=${blog.blogId}" class="text-decoration-none text-dark ms-lg-2">
                                     <span>${blog.blogTitle}</span>
                                 </a>
                             </li>

@@ -1,18 +1,27 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+	using Microsoft.AspNetCore.Mvc;
+using Shoes_Management.Models;
 
 namespace Shoes_Management.Areas.Admin.Controllers
 {
     [Area("Admin")]
+	[ServiceFilter(typeof(AdminAuthorizationFilter))]
     public class HomeController : Controller
     {
+        private readonly Shoescontext _context;
 
-		public IActionResult Index()
+        public HomeController(Shoescontext context)
+        {
+            _context = context;
+        }
+        public IActionResult Index()
 		{
 			return View();
 		}
         public IActionResult TrangDanhMucSanPham()
         {
-            return View();
+			var categories = _context.Categories.ToList();
+            return View(categories);
         }
 
         public IActionResult TrangQuanLyDonHang()
@@ -22,6 +31,7 @@ namespace Shoes_Management.Areas.Admin.Controllers
 
         public IActionResult TrangQuanLyNCC()
         {
+
             return View();
         }
 
@@ -57,7 +67,6 @@ namespace Shoes_Management.Areas.Admin.Controllers
 		public IActionResult Statistics()
 		{ 
 			return View(); 
-
 		}
 		public IActionResult Add_Product_Page()
 		{

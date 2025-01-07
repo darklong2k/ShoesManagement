@@ -17,7 +17,7 @@
                                 </div>
                                 <div class="ms-5">
                                     <p class="mb-1 text-muted">Đơn hàng</p>
-                                    <h5>1785</h5>
+                                    <h5 id="TotalQuantity"></h5>
                                 </div>
                             </div>
                         </div>
@@ -30,7 +30,7 @@
                                 </div>
                                 <div class="ms-3">
                                     <p class="mb-1 text-muted">Doanh thu</p>
-                                    <h5>200,000,000 VND</h5>
+                                <h5 id=" TotalRevenue"></h5>
                                 </div>
                             </div>
                         </div>
@@ -43,7 +43,7 @@
                                 </div>
                                 <div class="ms-3">
                                     <p class="mb-1 text-muted">Sản phẩm</p>
-                                    <h5>108</h5>
+                                <h5 id="TotalProducts"></h5>
                                 </div>
                             </div>
                         </div>
@@ -125,7 +125,72 @@
 
 
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Gọi API để lấy tổng số lượng sản phẩm đã bán
+        $.ajax({
+            url: 'https://localhost:7103/api/dashboardapi/TotalQuantity', // Đường dẫn API
+            type: 'GET', // Phương thức HTTP
+            success: function (res) {
+                if (res.success) {
+                    // Hiển thị tổng số lượng lên giao diện
+                    $('#TotalQuantity').text(res.totalQuantitySold);
+                } else {
+                    alert('Không thể lấy dữ liệu: ' + res.message);
+                }
+            },
+            error: function (err) {
+                console.error('Lỗi khi gọi API:', err);
+                alert('Không thể tải dữ liệu tổng số lượng.');
+            }
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: 'https://localhost:7103/api/dashboardapi/TotalRevenue', // URL API
+            type: 'GET',
+            success: function (res) {
+                if (res.success) {
+                    // Hiển thị tổng doanh thu lên giao diện, định dạng số nếu cần
+                    $('#TotalRevenue').text(res.totalRevenue);
+                } else {
+                    alert('Không thể lấy dữ liệu: ' + res.message);
+                }
+            },
+            error: function (err) {
+                console.error('Lỗi khi gọi API:', err);
+                alert('Không thể tải dữ liệu tổng doanh thu.');
+            }
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: 'https://localhost:7103/api/dashboardapi/TotalProducts', // URL API
+            type: 'GET',
+            success: function (res) {
+                if (res.success) {
+                    // Hiển thị tổng sản phẩm lên giao diện
+                    $('#TotalProducts').text(res.totalProducts);
+                } else {
+                    alert('Không thể lấy dữ liệu: ' + res.message);
+                }
+            },
+            error: function (err) {
+                console.error('Lỗi khi gọi API:', err);
+                alert('Không thể tải dữ liệu tổng sản phẩm.');
+            }
+        });
+    });
+</script>
+
 @section Scripts{
+
 <script>
 
 

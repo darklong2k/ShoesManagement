@@ -1,8 +1,33 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
+using Shoes_Management;
+using Shoes_Management.Models;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+	options.IdleTimeout = TimeSpan.FromMinutes(30);
+	options.Cookie.HttpOnly = true;
+	options.Cookie.IsEssential = true;
+});
+builder.Services.AddScoped<AdminAuthorizationFilter>();
+builder.Services.AddDbContext<Shoescontext>(opts =>
+	opts.UseSqlServer(builder.Configuration.GetConnectionString("Connection"))
+);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -13,13 +38,16 @@ if (!app.Environment.IsDevelopment())
 	app.UseHsts();
 }
 
+app.UseCors("AllowAll");
+
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
-	app.UseAuthorization();
-
+app.UseSession();
+app.UseAuthorization();
+app.MapControllers();
 app.UseEndpoints(endpoints =>
 {
 	endpoints.MapControllerRoute(
@@ -29,9 +57,7 @@ app.UseEndpoints(endpoints =>
 
 	endpoints.MapControllerRoute(
 	name: "default",
-	pattern: "{controller=Home}/{action=Index}/{id?}");
+	pattern: "{controller=Home}/{action=TrangChu}/{id?}");
 });
-
-
 
 app.Run();
