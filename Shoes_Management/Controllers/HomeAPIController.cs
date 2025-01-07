@@ -47,18 +47,18 @@ namespace Shoes_Management.Controllers
                 return Ok(new { success = true, url = "/home/trangcanhan" });
             }
         }
-        
+
         [HttpPost("DangNhap")]
         public IActionResult DangNhap([FromForm] string username, [FromForm] string password)//PhucNguyen2004
         {
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
-                return Ok(new { success = false, message = "Mật khẩu và xác nhận mật khẩu không khớp"});
+                return Ok(new { success = false, message = "Mật khẩu và xác nhận mật khẩu không khớp" });
             }
             else
             {
                 var acc = _context.Accounts.FirstOrDefault(a => a.Username == username && a.Password == HashPassWord(password));
-                
+
                 if (acc == null)
                 {
                     return Ok(new { success = false, message = "Tài khoản và mật khẩu không hợp lệ" });
@@ -74,7 +74,7 @@ namespace Shoes_Management.Controllers
                     HttpContext.Session.SetString("acc_id", acc.AccountId.ToString());
                     return Ok(new { success = true, url = "/home/trangcanhan" });
                 }
-                
+
             }
         }
 
@@ -84,7 +84,7 @@ namespace Shoes_Management.Controllers
             var acc_id = HttpContext.Session.GetString("acc_id");
             var username = HttpContext.Session.GetString("username");
             var custumerInFo = _context.Customers.FirstOrDefault(c => c.AccountId.ToString() == acc_id);
-            return Ok(new { success = true, custumerInFo,username,acc_id });
+            return Ok(new { success = true, custumerInFo, username, acc_id });
         }
 
         [HttpGet("DangXuat")]
@@ -101,7 +101,7 @@ namespace Shoes_Management.Controllers
             var cate = _context.Categories.Take(2);
             var brand = _context.Brands;
             var website = _context.Websites.First();
-            return Ok(new { cate, brand, website,accName });
+            return Ok(new { cate, brand, website, accName });
         }
 
         //Trang chủ
@@ -142,7 +142,7 @@ namespace Shoes_Management.Controllers
 
         //TrangSanPham
         [HttpGet("Products_Page")]
-        public IActionResult Products_Page(int page = 1, string search = null, int brandId = 0, int categoryId = 0,int priceId = 0)
+        public IActionResult Products_Page(int page = 1, string search = null, int brandId = 0, int categoryId = 0, int priceId = 0)
         {
             int pageSize = 3;
 
@@ -160,9 +160,9 @@ namespace Shoes_Management.Controllers
             {
                 query = query.Where(p => p.BrandId == brandId);
             }
-            if (priceId != 0) 
+            if (priceId != 0)
             {
-                switch (priceId) 
+                switch (priceId)
                 {
                     case 1:
                         query = query.Where(p => p.Price < 2000000);
@@ -195,14 +195,14 @@ namespace Shoes_Management.Controllers
 
         //Lấy dsach cac bai blog và hiển thị giới thiệu shop
         [HttpGet("GetBlogs")]
-        public IActionResult GetBlogs(int page=1)
+        public IActionResult GetBlogs(int page = 1)
         {
             int pagesize = 2;
-            var blogs = _context.Blogs.Skip((page - 1)*pagesize).Take(pagesize);
+            var blogs = _context.Blogs.Skip((page - 1) * pagesize).Take(pagesize);
             var totalBlogs = _context.Blogs.Count();
             int totalPage = (int)Math.Ceiling((double)totalBlogs / pagesize);
             var website = _context.Websites.First();
-            return Ok(new { blogs = blogs, currentPage = page,totalPage,pagesize,website });
+            return Ok(new { blogs = blogs, currentPage = page, totalPage, pagesize, website });
         }
 
         //Hiện trang blog theo id
@@ -229,40 +229,33 @@ namespace Shoes_Management.Controllers
 
             return Ok(new { blog = blog, sidebarBlog });
         }
-        [HttpPost("ChangePassWord/{id}")]
-        public IActionResult ChangePassWord(int id, [FromForm] string username, [FromForm] string password, [FromForm] string passwordConfirm)
+        [HttpPost("ChangePassWord/{$id}")]
+        public IActionResult ChangePassWord(int id,[FromBody]  Account updateAcc)
         {
-            // Lấy acc_id từ session
-            var acc_id = HttpContext.Session.GetString("acc_id");
+            // Lấy thông tin tài khoản từ session hoặc database
+          
+            var acc = _context.Accounts.FirstOrDefault(a => a.AccountId == updateAcc.AccountId);
 
-            // Kiểm tra xem tài khoản có tồn tại không
-            var acc = _context.Accounts.FirstOrDefault(a => a.AccountId.ToString() == acc_id);
             if (acc == null)
             {
-                return Ok(new { success = false, message = "Tài khoản không tồn tại hoặc không khớp với thông tin đăng nhập" });
+                return Ok(new { success = false, message = "Tài khoản không tồn tại" });
             }
 
             // Kiểm tra mật khẩu hiện tại
-            if (acc.Password != HashPassWord(password))  // Kiểm tra mật khẩu cũ đã được hash chưa
+            if (acc.Password != HashPassWord(updateAcc.Password))
             {
                 return Ok(new { success = false, message = "Mật khẩu hiện tại không đúng" });
             }
 
-            // Kiểm tra mật khẩu mới và xác nhận mật khẩu có khớp không
-            if (password != passwordConfirm)
-            {
-                return Ok(new { success = false, message = "Mật khẩu và xác nhận mật khẩu không khớp" });
-            }
-
-            // Cập nhật mật khẩu mới sau khi đã hash
-            acc.Password = HashPassWord(passwordConfirm);  // Hash mật khẩu mới và lưu vào cơ sở dữ liệu
-            acc.UpdatedAt = DateTime.UtcNow;
-
-            // Lưu thay đổi vào cơ sở dữ liệu
+            // Cập nhật mật khẩu mới
+            acc.Password = HashPassWord(updateAcc.Password);
             _context.SaveChanges();
 
             return Ok(new { success = true, message = "Mật khẩu đã được thay đổi thành công." });
         }
+
+   
+
 
         [HttpPost("DangKy")]
         public IActionResult DangKy([FromForm]string username, [FromForm] string password, [FromForm]string passwordConfirm)

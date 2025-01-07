@@ -125,7 +125,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form>
+                <form id="changePasswordForm">
                     <div class="mb-3">
                         <label for="currentPassword" class="form-label">Mật khẩu hiện tại</label>
                         <input type="password" class="form-control" id="currentPassword" placeholder="Nhập mật khẩu hiện tại" required>
@@ -138,12 +138,13 @@
                         <label for="confirmNewPassword" class="form-label">Xác nhận mật khẩu mới</label>
                         <input type="password" class="form-control" id="confirmNewPassword" placeholder="Xác nhận mật khẩu mới" required>
                     </div>
-                    <button type="submit" id="submitChangePassword" onclick="changepass()" class="btn btn-primary w-100">Cập nhật mật khẩu</button>
+                    <button type="submit" class="btn btn-primary w-100">Cập nhật mật khẩu</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
 
 
 
@@ -471,16 +472,15 @@
     });
 </script>
 <script>
-
     $(document).ready(function () {
-        // Xử lý sự kiện khi người dùng nhấn nút "Cập nhật mật khẩu"
+        // Lắng nghe sự kiện submit form
         $('#changePasswordForm').on('submit', function (event) {
-            event.preventDefault();  // Ngừng hành động mặc định của form (reload trang)
+            event.preventDefault(); // Ngừng hành động mặc định của form
 
-            // Lấy giá trị từ các trường nhập liệu
-            var currentPassword = $('#currentPassword').val();
-            var newPassword = $('#newPassword').val();
-            var confirmNewPassword = $('#confirmNewPassword').val();
+            var acc_id = $('#acc_id').val(); // Lấy giá trị từ input acc_id
+            var currentPassword = $('#currentPassword').val(); // Lấy mật khẩu hiện tại
+            var newPassword = $('#newPassword').val(); // Lấy mật khẩu mới
+            var confirmNewPassword = $('#confirmNewPassword').val(); // Lấy mật khẩu xác nhận
 
             // Kiểm tra xem mật khẩu mới và xác nhận mật khẩu có khớp không
             if (newPassword !== confirmNewPassword) {
@@ -488,15 +488,18 @@
                 return;
             }
 
+            // Tạo đối tượng updatePassWord với các giá trị
+            var updatePassWord = {
+                AccountId: acc_id,
+                Password: newPassword // Chỉnh sửa: gửi mật khẩu mới thay vì mật khẩu xác nhận
+            };
+
             // Gửi yêu cầu AJAX tới API
             $.ajax({
-                url: 'https://localhost:7103/api/homeapi/ChangePassWord/${acc_id}',  // URL đến API đổi mật khẩu
-                type: 'POST',
-                data: {
-                    
-                    password: currentPassword,
-                    passwordConfirm: newPassword
-                },
+                url: `https://localhost:7103/api/homeapi/ChangePassWord/${acc_id}`,  // URL tới API, sử dụng template string đúng
+                type: 'PUT', // Đổi mật khẩu sử dụng PUT
+                contentType: 'application/json',
+                data: JSON.stringify(updatePassWord), // Gửi đối tượng updatePassWord vào body
                 success: function (response) {
                     if (response.success) {
                         alert("Mật khẩu đã được thay đổi thành công.");
@@ -511,28 +514,4 @@
             });
         });
     });
-    // Hàm gửi yêu cầu hủy đơn
-    function changepass() {
-        var acc_id = $('#acc_id').val();
-
-        if (confirm('Bạn có chắc chắn muốn đổi mật khẩu?')) {
-            $.ajax({
-                url: `https://localhost:7103/api/homeapi/ChangePassWord/${acc_id}`,
-                method: 'POST',
-                success: function (res) {
-                    if (res.success) {
-                        alert('Đổi mật khẩu thành công.');
-                        location.reload(); // Tải lại trang để cập nhật danh sách
-                    } else {
-                        alert('Không thể hủy đơn hàng. Vui lòng thử lại.');
-                    }
-                },
-                error: function (err) {
-                    console.error("Lỗi khi hủy đơn:", err);
-                    alert('Đã xảy ra lỗi. Vui lòng thử lại.');
-                }
-            });
-        }
-    }
-
 </script>
