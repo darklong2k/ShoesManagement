@@ -10,7 +10,7 @@
     <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h3 class="fw-bold mb-0">Sản phẩm</h3>
-            @* <span class="text-muted">Tổng số sản phẩm: <strong>100</strong></span> *@
+            <span class="text-muted">Tổng số sản phẩm: <strong id="COUNT"></strong></span>
         </div>
         <div class="row">
             <div class="col-lg-3 col-md-4">
@@ -89,6 +89,9 @@
             type:'GET',
             success:function(res){
                 var html='';
+                if(!res.success){
+                        $('#listProd').html(`<p class="text-center">${res.message}</p>`);
+                }
                 if(res.products.length === 0)
                 {
                     $('#listProd').html(`<p class="text-center">Không tìm thấy sản phẩm nào.</p>`);
@@ -112,6 +115,7 @@
                     `;               
                 });
                 $('#listProd').html(html);
+                $('#COUNT').text(res.totalProducts);
                 for(let i = 1; i <= res.totalPage;i++){
                     const activeClass = i == page ? 'active' : '';
                     $('#PhanTrang').append(`
@@ -202,7 +206,7 @@
                         `;
                         $('#listProd').append(html);
                     });
-
+                    $('#COUNT').text(res.totalProducts);
                     for (let i = 1; i <= res.totalPage; i++) {
                         const activeClass = i == page ? 'active' : '';
                         $('#PhanTrang').append(`

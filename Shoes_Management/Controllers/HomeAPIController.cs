@@ -49,19 +49,23 @@ namespace Shoes_Management.Controllers
         }
         
         [HttpPost("DangNhap")]
-        public IActionResult DangNhap([FromForm] string username, [FromForm] string password)//PhucNguyen2004
+        public IActionResult DangNhap([FromForm] string username, [FromForm] string password)//PhucNguyen2004 caothang Caothang1
         {
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            if (!Regex.IsMatch(username,@"^[a-z]{4,8}"))
             {
-                return Ok(new { success = false, message = "Mật khẩu và xác nhận mật khẩu không khớp"});
+                return Ok(new { success = false, message = "Tên đăng nhập gồm chữ cái và độ dài tối thiểu 4 đến 8 ký tự."});
+            }
+            if (!Regex.IsMatch(password, @"^(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{6,}$"))
+            {
+                return Ok(new { success = false, message = "Mật khẩu phải chứa ít nhất một chữ hoa, một số và tối thiểu 6 ký tự." });
             }
             else
             {
-                var acc = _context.Accounts.Where(a => a.Status == "Active").FirstOrDefault(a => a.Username == username && a.Password == HashPassWord(password));
-                
+                var acc = _context.Accounts.Where(a => a.Status == "Active")
+                    .FirstOrDefault(a => a.Username == username && a.Password == HashPassWord(password));
                 if (acc == null)
                 {
-                    return Ok(new { success = false, message = "Tài khoản và mật khẩu không hợp lệ" });
+                    return Ok(new { success = false, message = "Tài khoản và mật khẩu không chính xác" });
                 }
                 else
                 {
@@ -71,10 +75,10 @@ namespace Shoes_Management.Controllers
                         HttpContext.Session.SetString("is_admin", acc.IsAdmin.ToString());
                         return Ok(new { admin = true, url = "/Admin/Home/Dashboard" });
                     }
+
                     HttpContext.Session.SetString("acc_id", acc.AccountId.ToString());
-                    return Ok(new { success = true, url = "/home/trangcanhan" });
+                    return Ok(new { success = true, url = "/home/trangchu" });
                 }
-                
             }
         }
 
@@ -183,7 +187,7 @@ namespace Shoes_Management.Controllers
             var TotalProducts = query.Count();
             var products = query.Skip((page - 1) * pageSize).Take(pageSize);
             int totalPage = (int)Math.Ceiling((double)TotalProducts / pageSize);
-            return Ok(new { currentPage = page, totalPage, pageSize, products });
+            return Ok(new { currentPage = page, totalPage, pageSize, products,TotalProducts });
         }
 
         //Hiện lên bộ lọc
@@ -203,8 +207,8 @@ namespace Shoes_Management.Controllers
             var blogs = _context.Blogs.Skip((page - 1)*pagesize).Take(pagesize);
             var totalBlogs = _context.Blogs.Count();
             int totalPage = (int)Math.Ceiling((double)totalBlogs / pagesize);
-            var website = _context.Websites.First();
-            return Ok(new { blogs = blogs, currentPage = page,totalPage,pagesize,website });
+            var gioithieu = _context.Blogs.Find(4);
+            return Ok(new { blogs = blogs, currentPage = page,totalPage,pagesize,gioithieu });
         }
 
         //Hiện trang blog theo id
@@ -227,7 +231,7 @@ namespace Shoes_Management.Controllers
                     b.BlogContent,
                     BlogImages = b.BlogImages.Select(img => img.ImageUrl).ToList()
                 })
-                .FirstOrDefault(b => b.BlogId == blogid);
+                .First();
 
             return Ok(new { blog = blog, sidebarBlog });
         }
@@ -277,7 +281,14 @@ namespace Shoes_Management.Controllers
             {
                 return Ok(new {success=false,message = "Tài khoản đã tồn tại"});
             }
-            
+            if (!Regex.IsMatch(username, @"^[a-zA]{4,8}"))
+            {
+                return Ok(new { success = false, message = "Tên đăng nhập tối thiểu chữ cái và độ dài 4 đến 8 ký tự." });
+            }
+            if (!Regex.IsMatch(password, @"^(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{6,}$"))
+            {
+                return Ok(new { success = false, message = "Mật khẩu phải chứa ít nhất một chữ hoa, một số và tối thiểu 6 ký tự." });
+            }
             var acc = new Account();
             acc.Username = username;
             acc.Password = HashPassWord(passwordConfirm);
