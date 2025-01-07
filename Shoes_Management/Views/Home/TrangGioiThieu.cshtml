@@ -68,4 +68,63 @@
     </div>
 </section>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function truncateContent(content)
+    {
+        if(content.length > 100)
+        {
+            return content.substring(0, 100) + '...';
+        }
+        return content;
+    }
+    $(document).ready(function () {
+        let page = 1;
+        function loadBlogs(page){
+            $.ajax({
+                url: `https://localhost:7103/api/homeapi/GetBlogs?page=${page}`,
+                type: 'GET',
+                success: function (res) {
+                    var html = '';
+
+                    $('#Title').text(res.gioithieu.blogTitle);
+                    $('#Introduce').html(res.gioithieu.blogContent);
+
+                    res.blogs.forEach(function (blo) {
+                        html += `
+                                 <a href="/Home/TrangBlog?blogid=${blo.blogId}" class="list-group-item list-group-item-action" data-id=${blo.blogId}>
+                                 <h5 class="mb-1">${blo.blogTitle}</h5>
+                                 <p class="mb-1">${truncateContent(blo.blogContent)}</p >
+                                 <small class="text-muted">Ngày đăng: ${new Date(blo.createdDate).toLocaleDateString()}</small>
+                            </a>
+                        `;
+                    });
+                    $('#ListBlogs').html(html);
+
+                    $('#PhanTrang').empty();
+                    for (let i = 1; i <= res.totalPage; i++) {
+                        const activeClass = i == page ? 'active' : '';
+                        $('#PhanTrang').append(`
+                                    <li class="page-item ${activeClass}">
+                                        <a class ="page-link" href="#" data-page="${i}">${i}</a>
+                                    </li>
+                                `);
+                    }
+
+                }
+            });
+        }
+        loadBlogs(page);
+
+        $(document).on('click', '.page-link', function (e) {
+            e.preventDefault();
+            const page = $(this).data('page');
+            if (page) {
+                currentPage = page;
+                loadBlogs(currentPage);
+            }
+        });
+    });
+</script>
+
 
