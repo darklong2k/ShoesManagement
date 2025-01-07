@@ -169,49 +169,49 @@
             loadCategories();
         });
 
-        // Hàm load danh mục
+       
         // Hàm load danh mục
         function loadCategories() {
             $.ajax({
-                url: '/api/CategoryAPI/GetAll',
+                url: 'https://localhost:7103/api/categoryAPI/getall', // URL API chính xác
                 type: 'GET',
                 success: function (response) {
-                    if (response.Success) {
-                        // Làm sạch bảng
-                        $('tbody').empty();
+                    console.log(response); // In ra phản hồi để kiểm tra
 
-                        // Hiển thị danh mục trong bảng
-                        response.Data.forEach(category => {
-                            $('tbody').append(`
-                                <tr>
-                                    <td>${category.id}</td>
-                                    <td>${category.name}</td>
-                                    <td>${category.parentId}</td>
-                                    <td>${category.description}</td>
-                                    <td>${category.status}</td>
-                                    <td>${category.createdAt}</td>
-                                    <td>${category.updatedAt}</td>
-                                    <td>
-                                        <button class="btn btn-warning" onclick="showEditModal(${category.id})">Chỉnh sửa</button>
-                                        <button class="btn btn-danger" onclick="deleteCategory(${category.id})">Xóa</button>
-                                    </td>
-                                </tr>
-                            `);
-                        });
-                    } else {
-                        alert('Không có danh mục sản phẩm.');
-                    }
+                    // Làm sạch bảng trước khi thêm mới
+                    $('tbody').empty();
+
+                    // Lặp qua các danh mục và hiển thị
+                    response.forEach(category => {
+                        $('tbody').append(`
+                            <tr>
+                                <td>${category.categoryId}</td>
+                                <td>${category.name}</td>
+                                <td>${category.parentId !== null ? category.parentId : 'không có'}</td>
+                                <td>${category.description}</td>
+                                <td>${category.status ? 'hoạt động' : 'Không hoạt động'}</td>
+                                <td>${category.createdAt }</td>
+                                <td>${category.updatedAt }</td>
+                                <td>
+                                    <button class="btn btn-warning" onclick="showEditModal(${category.categoryId})">Chỉnh sửa</button>
+                                    <button class="btn btn-danger" onclick="deleteCategory(${category.categoryId})">Xoá</button>
+                                </td>
+                            </tr>
+                        `);
+                    });
                 },
-                error: function (xhr) {
+                error: function (xhr, status,) {
+                    
                     alert('Không thể tải danh sách danh mục.');
                 }
             });
         }
 
+
         // Hiển thị modal chỉnh sửa
         function showEditModal(id) {
             $.ajax({
-                url: `/api/Category/Get/${id}`,
+                url: `https://localhost:7103/api/categoryAPI/Get/${id}`,
                 type: 'GET',
                 success: function (response) {
                     const category = response.data;
@@ -239,7 +239,7 @@
             };
 
             $.ajax({
-                url: '/api/Category/Create',
+                url: 'https://localhost:7103/api/categoryAPI/Create',
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(categoryData),
@@ -265,7 +265,7 @@
             };
 
             $.ajax({
-                url: '/api/Category/Edit',
+                url: 'https://localhost:7103/api/categoryAPI/Edit',
                 type: 'PUT',
                 contentType: 'application/json',
                 data: JSON.stringify(categoryData),
@@ -284,7 +284,7 @@
         function deleteCategory(id) {
             if (confirm('Bạn có chắc chắn muốn xóa danh mục này?')) {
                 $.ajax({
-                    url: `/api/Category/Delete/${id}`,
+                    url: `https://localhost:7103/api/categoryAPI/Delete/${id}`,
                     type: 'DELETE',
                     success: function (response) {
                         alert(response.message);
