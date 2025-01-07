@@ -90,24 +90,10 @@
                                 `);
                     }
 
-                    $(document).on('click', '.list-group-item', function () {
-                        const blogId = $(this).data('id');
-                        RedirectBlogDetail(blogId);
-                    });
                 }
             });
         }
         loadBlogs(page);
-        
-        // function RedirectBlogDetail(id) { 
-        //     $.ajax({
-        //         url: `https://localhost:7103/api/homeapi/BlogId?blogid=${id}`,
-        //         type:'GET',
-        //         success:function(res){
-        //             window.location.href = `/Home/TrangBlog?blogid=${id}`;
-        //         }
-        //     });
-        // }
 
         $(document).on('click', '.page-link', function (e) {
             e.preventDefault();
