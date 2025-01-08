@@ -77,7 +77,7 @@ namespace Shoes_Management.Controllers
                     }
 
                     HttpContext.Session.SetString("acc_id", acc.AccountId.ToString());
-                    return Ok(new { success = true, url = "/home/trangchu" });
+                    return Ok(new { success = true});
                 }
             }
         }

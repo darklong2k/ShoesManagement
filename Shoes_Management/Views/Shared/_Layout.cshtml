@@ -357,9 +357,6 @@
         </div>
     </div>
 
-
-
-
     <!-- Thêm Bootstrap 5 JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -477,7 +474,7 @@
                     `;
                     $('#websiteINFO').html(websiteInfo);
                     var SocialInfo = `
-                                <p><a href="${res.website.websiteLinkFb}" target="_blank" class="text-white"><strong>Facebook: </strong>${res.website.websiteLinkFb}</a></p>
+                                <p><a href="${res.website.websiteLinkFb}" target="_blank" class="text-white"><strong>Facebook </strong></a></p>
                     `;
                     $('#SocialINFO').html(SocialInfo);
                     $('#LOGOANDNAME').html(`
@@ -521,10 +518,11 @@
                 type:'POST',
                 data: { username: username, password: password },
                 success: function (res) {
-                    if (res.success) {
-                        window.location.href = res.url;
+                    if(res.success)
+                    {
+                        location.reload();
                     }
-                    if(res.admin){
+                    else if(res.admin){
                         window.location.href = res.url;
                     }
                     else{
