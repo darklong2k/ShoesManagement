@@ -274,7 +274,16 @@
                 </div>
 
                 <div class="col-lg-2 mb-2" id="menuFooter">
-                    
+                    <ul class="navbar-nav mx-auto" id="menuNavbar">
+                        <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="TrangChu">Trang chủ</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="TrangSanPham">Sản phẩm</a></li>
+
+
+
+                        <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="TrangLienHe">Liên hệ</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="TrangGioiThieu">Giới thiệu</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="TrangBlog">Blog</a></li>
+                    </ul>
                 </div>
 
                 <div class="col-lg-5 mb-5" id="websiteINFO">
@@ -433,13 +442,15 @@
                 res.cate.forEach(function(category){
                     var brandHtml = '';
                     res.brand.forEach(function(brand){
-                        brandHtml += `<li><a class="dropdown-item" href="/Home/TrangSanPham?categorySlug=${category.slug}&brandId=${brand.brandId}">${brand.brandName}</a></li>`;
+                        brandHtml += `<li><a class="dropdown-item" 
+                        href="/Home/TrangSanPham?categorySlug=${category.slug}&brandId=${brand.brandId}">
+                        ${brand.brandName}</a></li>`;
                     });
                     menuHtml += `
                             <li class="nav-item dropdown" id="ListNav">
-                                                    <a class="nav-link dropdown-toggle" href="/Home/TrangSanPham?categorySlug=${category.slug}" id="navbarDropdown" role="button"
-                                    aria-expanded="false">
-                                    ${category.name}
+                                <a class="nav-link dropdown-toggle" href="/Home/TrangSanPham?categorySlug=${category.slug}" id="navbarDropdown" role="button"
+                                 aria-expanded="false">
+                                 ${category.name}
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     ${brandHtml}
@@ -457,11 +468,6 @@
                 else{
                     $('#USER').show();
                 }
-
-                //Lấy menu dọc
-                res.brand.forEach(function (brand) {
-                    brandFooter += `<p><a href="/Home/TrangSanPham?brandId=${brand.brandId}">${brand.brandName}</a></p>`;
-                });$('#menuFooter').append(brandFooter);
 
                 //Lấy dữ liệu website
                 if (res.website)
