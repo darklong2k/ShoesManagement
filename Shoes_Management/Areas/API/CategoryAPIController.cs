@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Shoes_Management.Models;
 
-namespace Shoes_Management.Areas.Admin.Controllers
+namespace Shoes_Management.Areas.API
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -17,18 +17,28 @@ namespace Shoes_Management.Areas.Admin.Controllers
             _context = context;
         }
         [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAll()
+        public IActionResult GetAll()
         {
             try
             {
-                var categories = await _context.Categories
-                    .ToListAsync();
+                var categories = _context.Categories
+                    .Select(c => new
+                    {
+                        c.CategoryId,
+                        c.Name,
+                        c.Description,
+                        c.ParentId,
+                        c.Status,
+                        c.CreatedAt,
+                        c.UpdatedAt
+                    })
+                    .ToList();
 
                 return Ok(categories); // Trả về kết quả dưới dạng JSON
             }
             catch (Exception ex)
             {
-                
+
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }

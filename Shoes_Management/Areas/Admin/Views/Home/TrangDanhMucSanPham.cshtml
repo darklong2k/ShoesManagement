@@ -146,6 +146,31 @@
                               placeholder="Nhập mô tả danh mục">Default Description</textarea> <!-- Thay bằng giá trị động -->
                 </div>
 
+                                    <!-- Dropdown Status -->
+                                    <div class="mb-3">
+                                        <label for="status" class="form-label">Trạng thái</label>
+                                        <select class="form-control" id="status" name="status">
+                                            <option value="available" selected>Available</option>
+                                            <option value="out_of_stock">Out of Stock</option>
+                                            <option value="discontinued">Discontinued</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                    <button type="button" class="btn btn-primary">Lưu thay đổi</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-danger">
+                        Xóa
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
                 <!-- Dropdown Status -->
                 <div class="mb-3">
                     <label for="status" class="form-label">Trạng thái</label>
@@ -169,49 +194,143 @@
             loadCategories();
         });
 
-        // Hàm load danh mục
+       
         // Hàm load danh mục
         function loadCategories() {
             $.ajax({
-                url: '/api/CategoryAPI/GetAll',
+                url: 'https://localhost:7103/api/categoryAPI/getall', // URL API chính xác
                 type: 'GET',
                 success: function (response) {
-                    if (response.Success) {
-                        // Làm sạch bảng
-                        $('tbody').empty();
+                    console.log(response); // In ra phản hồi để kiểm tra
 
-                        // Hiển thị danh mục trong bảng
-                        response.Data.forEach(category => {
-                            $('tbody').append(`
-                                <tr>
-                                    <td>${category.id}</td>
-                                    <td>${category.name}</td>
-                                    <td>${category.parentId}</td>
-                                    <td>${category.description}</td>
-                                    <td>${category.status}</td>
-                                    <td>${category.createdAt}</td>
-                                    <td>${category.updatedAt}</td>
-                                    <td>
-                                        <button class="btn btn-warning" onclick="showEditModal(${category.id})">Chỉnh sửa</button>
-                                        <button class="btn btn-danger" onclick="deleteCategory(${category.id})">Xóa</button>
-                                    </td>
-                                </tr>
-                            `);
-                        });
-                    } else {
-                        alert('Không có danh mục sản phẩm.');
-                    }
+                    // Làm sạch bảng trước khi thêm mới
+                    $('tbody').empty();
+
+                    // Lặp qua các danh mục và hiển thị
+                    response.forEach(category => {
+                        $('tbody').append(`
+                            <tr>
+                                <td>${category.categoryId}</td>
+                                <td>${category.name}</td>
+                                <td>${category.parentId !== null ? category.parentId : 'không có'}</td>
+                                <td>${category.description}</td>
+                                <td>${category.status ? 'hoạt động' : 'Không hoạt động'}</td>
+                                <td>${category.createdAt }</td>
+                                <td>${category.updatedAt }</td>
+                                <td>
+                                    <button class="btn btn-warning" onclick="showEditModal(${category.categoryId})">Chỉnh sửa</button>
+                                    <button class="btn btn-danger" onclick="deleteCategory(${category.categoryId})">Xoá</button>
+                                </td>
+                            </tr>
+                        `);
+                    });
                 },
-                error: function (xhr) {
+                error: function (xhr, status,) {
+                    
                     alert('Không thể tải danh sách danh mục.');
                 }
             });
         }
 
+
         // Hiển thị modal chỉnh sửa
         function showEditModal(id) {
             $.ajax({
-                url: `/api/Category/Get/${id}`,
+                url: `https://localhost:7103/api/categoryAPI/Get/${id}`,
+                type: 'GET',
+                success: function (response) {
+                    const category = response.data;
+                    $('#category_id').val(category.categoryId);
+                    $('#name').val(category.name);
+                    $('#parent_id').val(category.parentId);
+                    $('#description').val(category.description);
+                    $('#status').val(category.status);
+
+                    // Hiển thị modal chỉnh sửa
+                    $('#modalChinhSuaDanhMuc').modal('show');
+                },
+                error: function (xhr) {
+                    alert('Không thể lấy dữ liệu danh mục.');
+                }
+            });
+        }
+
+        // Thêm danh mục
+        function addCategory() {
+            const categoryData = {
+                name: $('#name').val(),
+                parentId: $('#parent_id').val(),
+                description: $('#description').val()
+            };
+        }
+        </script>
+        }
+                <!-- Dropdown Status -->
+                <div class="mb-3">
+                    <label for="status" class="form-label">Trạng thái</label>
+                    <select class="form-control" id="status" name="status">
+                        <option value="true" selected>Hoạt động</option>
+                        <option value="false">Không hoạt động</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary">Lưu thay đổi</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Load danh mục khi trang được tải
+            loadCategories();
+        });
+
+       
+        // Hàm load danh mục
+        function loadCategories() {
+            $.ajax({
+                url: 'https://localhost:7103/api/categoryAPI/getall', // URL API chính xác
+                type: 'GET',
+                success: function (response) {
+                    console.log(response); // In ra phản hồi để kiểm tra
+
+                    // Làm sạch bảng trước khi thêm mới
+                    $('tbody').empty();
+
+                    // Lặp qua các danh mục và hiển thị
+                    response.forEach(category => {
+                        $('tbody').append(`
+                            <tr>
+                                <td>${category.categoryId}</td>
+                                <td>${category.name}</td>
+                                <td>${category.parentId !== null ? category.parentId : 'không có'}</td>
+                                <td>${category.description}</td>
+                                <td>${category.status ? 'hoạt động' : 'Không hoạt động'}</td>
+                                <td>${category.createdAt }</td>
+                                <td>${category.updatedAt }</td>
+                                <td>
+                                    <button class="btn btn-warning" onclick="showEditModal(${category.categoryId})">Chỉnh sửa</button>
+                                    <button class="btn btn-danger" onclick="deleteCategory(${category.categoryId})">Xoá</button>
+                                </td>
+                            </tr>
+                        `);
+                    });
+                },
+                error: function (xhr, status,) {
+                    
+                    alert('Không thể tải danh sách danh mục.');
+                }
+            });
+        }
+
+
+        // Hiển thị modal chỉnh sửa
+        function showEditModal(id) {
+            $.ajax({
+                url: `https://localhost:7103/api/categoryAPI/Get/${id}`,
                 type: 'GET',
                 success: function (response) {
                     const category = response.data;
@@ -239,7 +358,7 @@
             };
 
             $.ajax({
-                url: '/api/Category/Create',
+                url: 'https://localhost:7103/api/categoryAPI/Create',
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(categoryData),
@@ -265,7 +384,7 @@
             };
 
             $.ajax({
-                url: '/api/Category/Edit',
+                url: 'https://localhost:7103/api/categoryAPI/Edit',
                 type: 'PUT',
                 contentType: 'application/json',
                 data: JSON.stringify(categoryData),
@@ -284,7 +403,7 @@
         function deleteCategory(id) {
             if (confirm('Bạn có chắc chắn muốn xóa danh mục này?')) {
                 $.ajax({
-                    url: `/api/Category/Delete/${id}`,
+                    url: `https://localhost:7103/api/categoryAPI/Delete/${id}`,
                     type: 'DELETE',
                     success: function (response) {
                         alert(response.message);
