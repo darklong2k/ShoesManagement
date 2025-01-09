@@ -1,14 +1,9 @@
 ﻿
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
 <div class="mt-3 m-lg-3">
     <h1>Quản lý danh mục sản phẩm</h1>
 
     <!-- Nút thêm danh mục -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalThemDanhMuc">
+    <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalThemDanhMuc">
         Thêm danh mục sản phẩm
     </button>
 
@@ -17,7 +12,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <!-- Begin Form -->
-                <form action="/submit-category" method="POST">
+                <form action="" method="POST">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Thêm danh mục sản phẩm</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -32,8 +27,7 @@
                         <div class="mb-3">
                             <label for="parent_id" class="form-label">Danh mục cha</label>
                             <select class="form-control" id="parent_id" name="parent_id">
-                                <option value="1">Giày Nam</option>
-                                <option value="2">Giày Nữ</option>
+                                
                             </select>
                         </div>
                         <!-- Textarea Description -->
@@ -46,7 +40,7 @@
                         <!-- Cancel Button -->
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
                         <!-- Submit Button -->
-                        <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                        <button type="button" class="btn btn-primary" onclick="addCategory()">Lưu thay đổi</button>
                     </div>
                 </form>
                 <!-- End Form -->
@@ -115,7 +109,7 @@
                            class="form-control"
                            id="category_id"
                            name="category_id"
-                           value="12345" required />
+                           value="" required />
                 </div>
 
                 <!-- Input Name -->
@@ -123,78 +117,119 @@
                     <label for="name" class="form-label">Tên danh mục</label>
                     <input type="text"
                            class="form-control"
-                           id="name"
-                           name="name"
+                           id="name_edit"
+                           name="name_edit"
                            placeholder="Nhập tên danh mục"
-                           value="Default Name" required />
+                           value="" required />
                 </div>
 
                 <div class="mb-3">
                     <label for="parent_id" class="form-label">Danh mục cha</label>
-                    <select class="form-control" id="parent_id" name="parent_id">
-                        <option value="1">Giày Nam</option>
-                        <option value="2">Giày Nữ</option>
+                    <select class="form-control" id="parent_id_edit" name="parent_id_edit">
+                        
                     </select>
                 </div>
 
                 <div class="mb-3">
                     <label for="description" class="form-label">Mô tả</label>
                     <textarea class="form-control"
-                              id="description"
-                              name="description"
+                              id="description_edit"
+                              name="description_edit"
                               rows="3"
-                              placeholder="Nhập mô tả danh mục">Default Description</textarea> <!-- Thay bằng giá trị động -->
+                              placeholder="Nhập mô tả danh mục"></textarea> <!-- Thay bằng giá trị động -->
                 </div>
 
-                                    <!-- Dropdown Status -->
-                                    <div class="mb-3">
-                                        <label for="status" class="form-label">Trạng thái</label>
-                                        <select class="form-control" id="status" name="status">
-                                            <option value="available" selected>Available</option>
-                                            <option value="out_of_stock">Out of Stock</option>
-                                            <option value="discontinued">Discontinued</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                                    <button type="button" class="btn btn-primary">Lưu thay đổi</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <button type="button" class="btn btn-danger">
-                        Xóa
-                    </button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
                 <!-- Dropdown Status -->
-                <div class="mb-3">
-                    <label for="status" class="form-label">Trạng thái</label>
-                    <select class="form-control" id="status" name="status">
-                        <option value="true" selected>Hoạt động</option>
-                        <option value="false">Không hoạt động</option>
-                    </select>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                <button type="button" class="btn btn-primary">Lưu thay đổi</button>
-            </div>
-        </div>
-    </div>
+				<div class="mb-3">
+					<label for="status" class="form-label">Trạng thái</label>
+					<select class="form-control" id="status" name="status">
+                        <option value="1">Hoạt động</option>
+                        <option value="0">Không hoạt động</option>
+					</select>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+				<button type="button" class="btn btn-primary" onclick="editCategory()">Lưu thay đổi</button>
+			</div>
+		</div>
+	</div>
 </div>
+
+<!-- Success Alert -->
+<div id="success-alert" class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
+    <strong>Thành công!</strong> <span id="success-message"></span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
+<!-- Error Alert -->
+<div id="error-alert" class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;">
+    <strong>Lỗi!</strong> <span id="error-message"></span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+ 
 @section Scripts {
     <script>
         $(document).ready(function () {
             // Load danh mục khi trang được tải
             loadCategories();
-        });
+            $('#modalThemDanhMuc').on('show.bs.modal', function () {
+                loadParentCategories(0, 0, 'parent_id');
+            });
+            $('#modalThemDanhMuc').on('hidden.bs.modal', function () {
+                // Reset các trường input và textarea
+                $('#name').val(''); // Reset tên danh mục
+                $('#description').val(''); // Reset mô tả
 
-       
+                // Reset dropdown danh mục cha
+                $('#parent_id').empty();
+
+                    
+            });
+
+            $('#modalChinhSuaDanhMuc').on('hidden.bs.modal', function () {
+                // Reset các trường input và textarea
+                $('#category_id').val(''); // Reset mã danh mục
+                $('#name_edit').val(''); // Reset tên danh mục
+                $('#description_edit').val(''); // Reset mô tả
+
+                // Reset dropdown danh mục cha
+                $('#parent_id_edit').empty();
+
+                // Reset trạng thái về giá trị mặc định
+                $('#status').val('1'); // Mặc định là "Hoạt động"
+
+                
+            });
+
+        });
+        // Hiển thị thông báo thành công
+        function showSuccessAlert(message) {
+            $('#success-message').text(message);
+            $('#success-alert').fadeIn();
+        }
+
+        // Hiển thị thông báo lỗi
+        function showErrorAlert(message) {
+            $('#error-message').text(message);
+            $('#error-alert').fadeIn();
+        }
+        
+        // Hàm định dạng ngày
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0'); // Tháng bắt đầu từ 0
+            const year = date.getFullYear();
+            return `${day}/${month}/${year}`;
+        }
+        //Hàm giới hạn description
+        function truncateText(text, maxLength) {
+            if (text.length > maxLength) {
+                return text.substring(0, maxLength) + '...';
+            }
+            return text;
+        }
         // Hàm load danh mục
         function loadCategories() {
             $.ajax({
@@ -213,10 +248,10 @@
                                 <td>${category.categoryId}</td>
                                 <td>${category.name}</td>
                                 <td>${category.parentId !== null ? category.parentId : 'không có'}</td>
-                                <td>${category.description}</td>
-                                <td>${category.status ? 'hoạt động' : 'Không hoạt động'}</td>
-                                <td>${category.createdAt }</td>
-                                <td>${category.updatedAt }</td>
+                                <td title="${category.description}">${truncateText(category.description, 50)}</td>
+                                <td>${category.status ? 'Hoạt động' : 'Không hoạt động'}</td>
+                                <td>${formatDate(category.createdAt)}</td>
+                                <td>${formatDate(category.createdAt)}</td>
                                 <td>
                                     <button class="btn btn-warning" onclick="showEditModal(${category.categoryId})">Chỉnh sửa</button>
                                     <button class="btn btn-danger" onclick="deleteCategory(${category.categoryId})">Xoá</button>
@@ -225,9 +260,40 @@
                         `);
                     });
                 },
+               
                 error: function (xhr, status,) {
-                    
-                    alert('Không thể tải danh sách danh mục.');
+
+                showErrorAlert(errorMessage);
+                }
+            });
+        }
+        function loadParentCategories(selectedParentId = 0, currentCategoryId = 0, selectElementId = "") {
+            $.ajax({
+                url: 'https://localhost:7103/api/categoryAPI/getall', // URL API lấy danh mục cha
+                type: 'GET',
+                success: function (response) {
+                    // Làm sạch danh sách trước khi thêm mới
+                    $(`#${selectElementId}`).empty();
+
+                    // Thêm một mục mặc định
+                    $(`#${selectElementId}`).append('<option value="0">Chọn danh mục cha</option>');
+
+                    // Lặp qua dữ liệu trả về và thêm vào <select>
+                    response.forEach(category => {
+                        // Bỏ qua mục có `categoryId` trùng với `currentCategoryId`
+                        if (category.categoryId !== currentCategoryId) {
+                            $(`#${selectElementId}`).append(`<option value="${category.categoryId}">${category.name}</option>`);
+                        }
+                    });
+
+                    // Tự động chọn danh mục cha nếu `selectedParentId` được cung cấp
+                    if (selectedParentId !== 0) {
+                        $(`#${selectElementId} option[value="${selectedParentId}"]`).prop('selected', true);
+                    }
+                },
+                error: function (xhr) {
+                    const errorMessage = xhr.responseJSON?.message || "Có lỗi xảy ra. Vui lòng thử lại.";
+                    showErrorAlert(errorMessage);
                 }
             });
         }
@@ -240,108 +306,18 @@
                 type: 'GET',
                 success: function (response) {
                     const category = response.data;
+                    
                     $('#category_id').val(category.categoryId);
-                    $('#name').val(category.name);
-                    $('#parent_id').val(category.parentId);
-                    $('#description').val(category.description);
-                    $('#status').val(category.status);
-
-                    // Hiển thị modal chỉnh sửa
-                    $('#modalChinhSuaDanhMuc').modal('show');
-                },
-                error: function (xhr) {
-                    alert('Không thể lấy dữ liệu danh mục.');
-                }
-            });
-        }
-
-        // Thêm danh mục
-        function addCategory() {
-            const categoryData = {
-                name: $('#name').val(),
-                parentId: $('#parent_id').val(),
-                description: $('#description').val()
-            };
-        }
-        </script>
-        }
-                <!-- Dropdown Status -->
-                <div class="mb-3">
-                    <label for="status" class="form-label">Trạng thái</label>
-                    <select class="form-control" id="status" name="status">
-                        <option value="true" selected>Hoạt động</option>
-                        <option value="false">Không hoạt động</option>
-                    </select>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                <button type="button" class="btn btn-primary">Lưu thay đổi</button>
-            </div>
-        </div>
-    </div>
-</div>
-@section Scripts {
-    <script>
-        $(document).ready(function () {
-            // Load danh mục khi trang được tải
-            loadCategories();
-        });
-
-       
-        // Hàm load danh mục
-        function loadCategories() {
-            $.ajax({
-                url: 'https://localhost:7103/api/categoryAPI/getall', // URL API chính xác
-                type: 'GET',
-                success: function (response) {
-                    console.log(response); // In ra phản hồi để kiểm tra
-
-                    // Làm sạch bảng trước khi thêm mới
-                    $('tbody').empty();
-
-                    // Lặp qua các danh mục và hiển thị
-                    response.forEach(category => {
-                        $('tbody').append(`
-                            <tr>
-                                <td>${category.categoryId}</td>
-                                <td>${category.name}</td>
-                                <td>${category.parentId !== null ? category.parentId : 'không có'}</td>
-                                <td>${category.description}</td>
-                                <td>${category.status ? 'hoạt động' : 'Không hoạt động'}</td>
-                                <td>${category.createdAt }</td>
-                                <td>${category.updatedAt }</td>
-                                <td>
-                                    <button class="btn btn-warning" onclick="showEditModal(${category.categoryId})">Chỉnh sửa</button>
-                                    <button class="btn btn-danger" onclick="deleteCategory(${category.categoryId})">Xoá</button>
-                                </td>
-                            </tr>
-                        `);
-                    });
-                },
-                error: function (xhr, status,) {
+                    $('#name_edit').val(category.name);
                     
-                    alert('Không thể tải danh sách danh mục.');
-                }
-            });
-        }
-
-
-        // Hiển thị modal chỉnh sửa
-        function showEditModal(id) {
-            $.ajax({
-                url: `https://localhost:7103/api/categoryAPI/Get/${id}`,
-                type: 'GET',
-                success: function (response) {
-                    const category = response.data;
-                    $('#category_id').val(category.id);
-                    $('#name').val(category.name);
-                    $('#parent_id').val(category.parentId);
-                    $('#description').val(category.description);
-                    $('#status').val(category.status);
-
+                    $('#description_edit').val(category.description);
+                    loadParentCategories(category.parentId, category.categoryId, 'parent_id_edit');
+                    // Gán trạng thái cho select box
+                    $('#status_edit').val(category.status ? "1" : "0");
+          
                     // Hiển thị modal chỉnh sửa
                     $('#modalChinhSuaDanhMuc').modal('show');
+                    
                 },
                 error: function (xhr) {
                     alert('Không thể lấy dữ liệu danh mục.');
@@ -351,37 +327,67 @@
 
         // Thêm danh mục
         function addCategory() {
+            const name = $('#name').val().trim();
+            const description = $('#description').val().trim();
+            const parentId = $('#parent_id').val();
+
+            // Validation trên client
+            if (name === "" || name.length > 255) {
+                alert("Tên danh mục là bắt buộc và không được vượt quá 255 ký tự.");
+                return;
+            }
+
+            if (description.length > 255) {
+                alert("Mô tả không được vượt quá 255 ký tự.");
+                return;
+            }
+
             const categoryData = {
-                name: $('#name').val(),
-                parentId: $('#parent_id').val(),
-                description: $('#description').val()
+                name: name,
+                parentId: parentId,
+                description: description
             };
 
+            console.log("Dữ liệu gửi đi:", JSON.stringify(categoryData));
+            debugger;
             $.ajax({
                 url: 'https://localhost:7103/api/categoryAPI/Create',
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(categoryData),
                 success: function (response) {
-                    alert(response.message);
+                    showSuccessAlert(response.message); 
                     $('#modalThemDanhMuc').modal('hide');
                     loadCategories();
                 },
                 error: function (xhr) {
-                    alert(xhr.responseJSON.message);
+                    const errorMessage = xhr.responseJSON?.message || "Đã xảy ra lỗi. Vui lòng thử lại.";
+                    showErrorAlert(errorMessage);
                 }
             });
         }
 
+
         // Chỉnh sửa danh mục
         function editCategory() {
             const categoryData = {
-                id: $('#category_id').val(),
-                name: $('#name').val(),
-                parentId: $('#parent_id').val(),
-                description: $('#description').val(),
-                status: $('#status').val()
+                categoryId: $('#category_id').val(),
+                name: $('#name_edit').val().trim(),
+                parentId: $('#parent_id_edit').val() || null,
+                description: $('#description_edit').val().trim(),
+                status: $('#status_edit').val() === "1" // Chuyển trạng thái thành boolean
             };
+
+            // Validation trên client
+            if (categoryData.name === "" || categoryData.name.length > 255) {
+                alert("Tên danh mục là bắt buộc và không được vượt quá 255 ký tự.");
+                return;
+            }
+
+            if (categoryData.description.length > 255) {
+                alert("Mô tả không được vượt quá 255 ký tự.");
+                return;
+            }
 
             $.ajax({
                 url: 'https://localhost:7103/api/categoryAPI/Edit',
@@ -390,11 +396,13 @@
                 data: JSON.stringify(categoryData),
                 success: function (response) {
                     alert(response.message);
-                    $('#modalChinhSuaDanhMuc').modal('hide');
-                    loadCategories();
+                    $('#modalChinhSuaDanhMuc').modal('hide'); // Đóng modal sau khi chỉnh sửa thành công
+                    showSuccessAlert(response.message);
+                    loadCategories(); // Load lại danh sách danh mục
                 },
                 error: function (xhr) {
-                    alert(xhr.responseJSON.message);
+                    alert(xhr.responseJSON?.message || "Đã xảy ra lỗi khi chỉnh sửa danh mục.");
+                    showErrorAlert(errorMessage);
                 }
             });
         }
