@@ -78,7 +78,7 @@ namespace Shoes_Management.Controllers
                     }
 
                     HttpContext.Session.SetString("acc_id", acc.AccountId.ToString());
-                    return Ok(new { success = true, url = "/home/trangchu" });
+                    return Ok(new { success = true});
                 }
 
             }
@@ -150,10 +150,10 @@ namespace Shoes_Management.Controllers
         //TrangSanPham
         [HttpGet("Products_Page")]
 
-        public IActionResult Products_Page(int page = 1, string search = null, int brandId = 0, string categorySlug = null,int priceId = 0)
+        public IActionResult Products_Page(int page = 1, string search = null, int brandId = 0, string categorySlug = null,int priceId = 0,string outstanding = null)
 
         {
-            int pageSize = 4;
+            int pageSize = 6;
 
             var query = _context.Products.Where(p => p.Status == "Active").AsQueryable();
             if (!string.IsNullOrEmpty(search))
@@ -187,6 +187,10 @@ namespace Shoes_Management.Controllers
                         query = query.Where(p => p.Price >= 4000000);
                         break;
                 }
+            }
+            if (!string.IsNullOrEmpty(outstanding))
+            {
+                query = query.Where(p => p.Outstanding == true);
             }
             var TotalProducts = query.Count();
             var products = query.Skip((page - 1) * pageSize).Take(pageSize);
@@ -280,7 +284,7 @@ namespace Shoes_Management.Controllers
             {
                 return Ok(new {success=false,message = "Tài khoản đã tồn tại"});
             }
-            if (!Regex.IsMatch(username, @"^[a-zA]{4,8}"))
+            if (!Regex.IsMatch(username, @"^[a-z]{4,8}"))
             {
                 return Ok(new { success = false, message = "Tên đăng nhập tối thiểu chữ cái và độ dài 4 đến 8 ký tự." });
             }
