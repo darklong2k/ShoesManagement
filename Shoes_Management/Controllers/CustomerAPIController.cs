@@ -22,20 +22,19 @@ namespace Shoes_Management.Controllers
             var custumerInFo = _context.Customers.FirstOrDefault(c => c.AccountId.ToString() == acc_id);
             var orderInFo = (from od in _context.Orders
                              join ct in _context.Customers on od.CustomerId equals ct.CustomerId
-                             join ac in _context.Accounts on ct.AccountId equals ac.AccountId
-                             where ac.AccountId.ToString() == acc_id
+                             //join ac in _context.Accounts on ct.AccountId equals ac.AccountId
+                             where ct.AccountId.ToString() == acc_id
                              select new
                              {
                                  OrderId = od.OrderId,
                                  OrderDate = od.OrderDate,
                                  Status = od.Status
-
                              }).ToList();
             var likedProducts = (from ct in _context.Customers
                                  join wl in _context.Wishlists on ct.CustomerId equals wl.CustomerId
                                  join pd in _context.Products on wl.ProductId equals pd.ProductId
-                                 join acc in _context.Accounts on ct.AccountId equals acc.AccountId
-                                 where acc.AccountId.ToString() == acc_id
+                                 //join acc in _context.Accounts on ct.AccountId equals acc.AccountId
+                                 where ct.AccountId.ToString() == acc_id
                                  select new
                                  {
                                      CustomerId = ct.CustomerId,
