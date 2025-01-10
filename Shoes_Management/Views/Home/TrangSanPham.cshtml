@@ -93,6 +93,7 @@
                 if(!res.success){
                         $('#listProd').html(`<p class="text-center">${res.message}</p>`);
                 }
+                $('#COUNT').text(res.totalProducts);
                 if(res.products.length === 0)
                 {
                     $('#listProd').html(`<p class="text-center">Không tìm thấy sản phẩm nào.</p>`);
@@ -116,7 +117,6 @@
                     `;               
                 });
                 $('#listProd').html(html);
-                $('#COUNT').text(res.totalProducts);
                 for(let i = 1; i <= res.totalPage;i++){
                     const activeClass = i == page ? 'active' : '';
                     $('#PhanTrang').append(`
