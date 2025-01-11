@@ -30,7 +30,7 @@
                                 </div>
                                 <div class="ms-3">
                                     <p class="mb-1 text-muted">Doanh thu</p>
-                                <h5 id=" TotalRevenue"></h5>
+                                <h5 id="TotalRevenue"></h5>
                                 </div>
                             </div>
                         </div>
@@ -156,7 +156,7 @@
             success: function (res) {
                 if (res.success) {
                     // Hiển thị tổng doanh thu lên giao diện, định dạng số nếu cần
-                    $('#TotalRevenue').text(res.totalRevenue);
+                    $('#TotalRevenue').text(res.totalRevenue+' VND');
                 } else {
                     alert('Không thể lấy dữ liệu: ' + res.message);
                 }

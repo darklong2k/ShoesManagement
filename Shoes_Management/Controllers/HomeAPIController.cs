@@ -262,7 +262,14 @@ namespace Shoes_Management.Controllers
             {
                 return Ok(new { success = false, message = "Mật khẩu hiện tại không đúng" });
             }
-
+            if (!Regex.IsMatch(newPassword, @"^(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{6,}$"))
+            {
+                return Ok(new { success = false, message = "Mật khẩu phải chứa ít nhất một chữ hoa, một số và tối thiểu 6 ký tự." });
+            }
+            if (acc.Password == HashPassWord(newPassword))
+            {
+                return Ok(new{ success = false, message = "Mật khẩu mới không được trùng với mật khẩu hiện tại" });
+            }
             // Cập nhật mật khẩu mới
             acc.Password = HashPassWord(newPassword);
             _context.SaveChanges();

@@ -88,7 +88,48 @@ namespace Shoes_Management.Controllers
 
             return BadRequest(new { success = false, message = "Không thể hủy đơn hàng ở trạng thái này." });
         }
+        [HttpGet("OrderDetails/{orderId}")]
+        public IActionResult GetOrder(int orderId)
+        {
+            try
+            {
+                // Truy vấn dữ liệu từ cơ sở dữ liệu
+                var orderDetails = (from od in _context.Orders
+                                    join oddt in _context.OrderDetails on od.OrderId equals oddt.OrderId
+                                    join pddt in _context.ProductDetails on oddt.ProductDetailId equals pddt.ProductDetailId
+                                    join pd in _context.Products on pddt.ProductId equals pd.ProductId
+                                    join rv in _context.Reviews on pddt.ProductDetailId equals rv.ProductDetailId into reviews
+                                    join co in _context.Colors on pddt.ColorId equals co.ColorId
+                                    join s in _context.Sizes on pddt.SizeId equals s.SizeId
+                                    from rv in reviews.DefaultIfEmpty() // Sử dụng Left Join
+                                    where od.OrderId == orderId
+                                    select new
+                                    {
+                                        OrderId = od.OrderId,
+                                        ProductDetailId = oddt.ProductDetailId,
+                                        ProductName = pd.Name,
+                                        ProductDescription = pd.Description,
+                                        Price = pd.Price,
+                                        SizeName = s.SizeName,
+                                        ColorName = co.ColorName,
+                                        Comment = rv != null ? rv.Comment : null
+                                    }).ToList();
 
+                // Kiểm tra kết quả
+                if (!orderDetails.Any())
+                {
+                    return NotFound(new { success = false, message = "Không tìm thấy chi tiết đơn hàng." });
+                }
+
+                // Trả về kết quả
+                return Ok(new { success = true, orderDetails });
+            }
+            catch (Exception ex)
+            {
+                // Xử lý lỗi
+                return StatusCode(500, new { success = false, message = "Đã xảy ra lỗi trong quá trình xử lý.", error = ex.Message });
+            }
+        }
         [HttpPut("updatePersonalInfo/{id}")]
         public IActionResult UpdatePersonalInfo(int id, [FromBody] Customer updatedInfo)
         {
@@ -136,6 +177,6 @@ namespace Shoes_Management.Controllers
 
             return Ok(new { success = true, message = "Sản phẩm đã được bỏ yêu thích." });
         }
-
+       
     }
 }
