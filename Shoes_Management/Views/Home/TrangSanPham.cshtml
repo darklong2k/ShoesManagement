@@ -104,11 +104,14 @@
                     html += `
                         <div class="col">
                         <div class="card h-100">
-                            <a href="#">
+                            <a href="/Home/TrangChiTietSP/${product.productId}">
                                     <img src="/images/${product.image}" class="card-img-top" alt="Sản phẩm">
                             </a>
                             <div class="card-body">
-                                <h5 class="card-title">${product.name}</h5>
+                                <a href="/Home/TrangChiTietSP/${product.productId}">
+<h5 class="card-title">${product.name}</h5>
+                             </a>
+                                
                                 <p class="text-warning">${rating}</p>
                                 <p class="text-danger fw-bold">${product.price.toLocaleString()}đ</p>
                             </div>
