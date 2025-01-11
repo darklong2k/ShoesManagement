@@ -45,7 +45,7 @@ namespace Shoes_Management.Areas.Admin.Controllers
         public IActionResult GetTotalProducts()
         {
             // Đếm tổng số sản phẩm trong bảng ProductDetails
-            var totalProducts = _context.ProductDetails.Count();
+            var totalProducts = _context.Products.Count();
 
             return Ok(new
             {
@@ -53,6 +53,7 @@ namespace Shoes_Management.Areas.Admin.Controllers
                 totalProducts
             });
         }
+        
 
     }
 }

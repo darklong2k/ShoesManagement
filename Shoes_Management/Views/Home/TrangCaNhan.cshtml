@@ -11,7 +11,7 @@
                         <i class="fas fa-user-circle"></i> Thông Tin Cá Nhân
                     </a>
                     <a href="javascript:void(0);" class="nav-link text-dark" onclick="showSection('order-list')" id="nav-order-list">
-                        <i class="fas fa-box"></i> Danh Sách Đơn Hàng
+                        <i class="fas fa-box"></i> Quản Lý Đơn Hàng
                     </a>
                     <a href="javascript:void(0);" class="nav-link text-dark" onclick="showSection('favorite-products')" id="nav-favorite-products">
                         <i class="fas fa-heart"></i> Sản Phẩm Yêu Thích
@@ -49,9 +49,12 @@
             </div>
 
             <div id="order-list" class="section-content mb-4" style="display: none;">
-                <h4 class="mb-3">Danh Sách Đơn Hàng</h4>
+                <h4 class="mb-3">Quản Lý Đơn Hàng</h4>
+               
                 
-                
+            </div>
+            <div id="order-details" class="section-content mb-4" style="display: none;">
+                <h4 class="mb-3">Quản Lý Đơn Hàng</h4>
             </div>
 
             <div id="favorite-products" class="section-content mb-4" style="display: none;">
@@ -240,9 +243,9 @@
             const cancelBtn = (order.status === 'Pending' || order.status === 'Packing')
                 ? `<button class="btn btn-danger btn-sm" onclick="cancelOrder('${order.orderId}')">Hủy đơn</button>`
                 : '';
-            const reviewBtn = (order.status === 'Delivered')
-                ? `<button class="btn btn-primary btn-sm" onclick="openReviewPopup('${order.orderId}')">Đánh giá</button>`
-                : '';
+            // const reviewBtn = (order.status === 'Delivered')
+            //     ? `<button class="btn btn-primary btn-sm" onclick="openReviewPopup('${order.orderId}')">Đánh giá</button>`
+            //     : '';
 
             return `
                     <tr>
@@ -252,7 +255,7 @@
                         <td>
                             <button class="btn btn-info btn-sm" onclick="viewDetails('${order.orderId}')">Chi tiết</button>
                             ${cancelBtn}
-                            ${reviewBtn}
+                            
                         </td>
                     </tr>`;
         }).join('');
@@ -315,6 +318,67 @@
                 }
             });
         }
+    }
+    // Hàm hiển thị chi tiết đơn hàng
+    function viewDetails(orderId) {
+        $.ajax({
+            url: `https://localhost:7103/api/Customerapi/OrderDetails/${orderId}`,
+            method: 'GET',
+            success: function (res) {
+                if (res.success) {
+                    const orderDetails = res.orderDetails || [];
+                    const detailRows = orderDetails.map(detail => `
+                        <tr>
+                                <td>${detail.productName}</td>
+                                <td>${detail.productDescription}</td>
+                                <td>${detail.price.toLocaleString('vi-VN')} đ</td>
+                                <td>${detail.sizeName || 'N/A'}</td>
+                                <td>${detail.colorName || 'N/A'}</td>
+                            
+                        </tr>
+                    `).join('');
+
+                    const detailTable = `
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <button class="btn btn-secondary mb-3" onclick="returnToOrderList()">Trở về</button>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Tên sản phẩm</th>
+                                            <th>Mô tả</th>
+                                            <th>Giá</th>
+                                            <th>Kích thước</th>
+                                            <th>Màu sắc</th>
+                                            <th>Nhận xét</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${detailRows}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    `;
+
+                    // Hiển thị chi tiết đơn hàng
+                    $('#order-list').hide(); // Ẩn danh sách đơn hàng
+                    $('#order-details').html(detailTable).show(); // Hiển thị chi tiết đơn hàng
+                } else {
+                    alert('Không thể tải chi tiết đơn hàng. Vui lòng thử lại.');
+                }
+            },
+            error: function (err) {
+                console.error("Lỗi khi tải chi tiết đơn hàng:", err);
+                alert('Đã xảy ra lỗi. Vui lòng thử lại.');
+            }
+        });
+    }
+
+    // Hàm trở về danh sách đơn hàng
+    function returnToOrderList() {
+        $('#order-details').hide(); // Ẩn chi tiết đơn hàng
+        $('#order-list').show(); // Hiển thị danh sách đơn hàng
     }
 
     // Gọi loadOrderList() khi trang được tải
@@ -407,7 +471,7 @@
         // ID của khách hàng, có thể lấy từ thông tin đăng nhập hoặc session
         var customerId = $('#customerId').val();
         // Gửi yêu cầu DELETE để xóa sản phẩm khỏi danh sách yêu thích
-        if (confirm('Bạn có chắc chắn muốn bỏ sản phẩm này?')) {
+        if (confirm('Bạn có chắc chắn muốn bỏ yêu thích sản phẩm này?')) {
             $.ajax({
 
                 url: `https://localhost:7103/api/Customerapi/RemoveFromWishlist/${productId}/${customerId}`,  // Địa chỉ API của bạn
