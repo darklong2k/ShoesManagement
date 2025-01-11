@@ -22,26 +22,6 @@
 
     <!-- Tab Content -->
     <div class="tab-content mt-3" id="reviewTabsContent">
-        <!-- Tab: Đánh giá đã duyệt -->
-        <div class="tab-pane fade show active" id="approvedReviews" role="tabpanel" aria-labelledby="approved-tab">
-            <h4>Đánh giá đã duyệt</h4>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Khách Hàng</th>
-                        <th>Chi Tiết Sản Phẩm</th>
-                        <th>Rating</th>
-                        <th>Comment</th>
-                        <th>Trạng Thái</th>
-                    </tr>
-                </thead>
-                <tbody id="approvedReviewsTable">
-                    <!-- Dynamic Content Here -->
-                </tbody>
-            </table>
-        </div>
-
         <!-- Tab: Đánh giá chưa duyệt -->
         <div class="tab-pane fade" id="pendingReviews" role="tabpanel" aria-labelledby="pending-tab">
             <h4>Đánh giá chưa duyệt</h4>
@@ -62,6 +42,28 @@
                 </tbody>
             </table>
         </div>
+
+        <!-- Tab: Đánh giá đã duyệt -->
+        <div class="tab-pane fade show active" id="approvedReviews" role="tabpanel" aria-labelledby="approved-tab">
+            <h4>Đánh giá đã duyệt</h4>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Khách Hàng</th>
+                        <th>Chi Tiết Sản Phẩm</th>
+                        <th>Rating</th>
+                        <th>Comment</th>
+                        <th>Trạng Thái</th>
+                    </tr>
+                </thead>
+                <tbody id="approvedReviewsTable">
+                    <!-- Dynamic Content Here -->
+                </tbody>
+            </table>
+        </div>
+
+        
 
         <!-- Tab: Đánh giá đã từ chối -->
         <div class="tab-pane fade" id="rejectedReviews" role="tabpanel" aria-labelledby="rejected-tab">
@@ -85,69 +87,87 @@
     </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer">
+</script>
+
 <script>
-    // Mock dữ liệu (thay bằng dữ liệu thật từ backend)
-    const reviews = [
-        { id: 1, customer: "Nguyễn Văn A", product: "Giày Da - Đen - Size 43", rating: 5, comment: "Rất tốt!", status: "approved" },
-        { id: 2, customer: "Trần Thị B", product: "Giày Thể Thao - Xanh - Size 40", rating: 4, comment: "Ổn", status: "pending" },
-        { id: 3, customer: "Lê Văn C", product: "Giày Tây - Nâu - Size 42", rating: 2, comment: "Không ưng ý", status: "rejected" },
-    ];
-
-    // Render bảng đánh giá theo trạng thái
-    function renderReviews() {
-        const approvedTable = document.getElementById("approvedReviewsTable");
-        const pendingTable = document.getElementById("pendingReviewsTable");
-        const rejectedTable = document.getElementById("rejectedReviewsTable");
-
-        approvedTable.innerHTML = "";
-        pendingTable.innerHTML = "";
-        rejectedTable.innerHTML = "";
-
-        reviews.forEach((review, index) => {
-            const row = `
+    function displayReview(review, index) {
+         const actionButtons = review.reviewStatus === "pending"
+        ? `<td>
+             <button class="btn btn-info btn-sm btn-approved" data-product-detail-id=${review.productDetailId} data-customer-id=${review.customerId}>Duyệt</button>
+             <button class="btn btn-danger btn-sm btn-rejected" data-product-detail-id=${review.productDetailId} data-customer-id=${review.customerId}>Từ chối</button>
+           </td>`
+        : ``; // Không có nút cho trạng thái đã duyệt hoặc từ chối
+        const row = `
                 <tr>
                     <td>${index + 1}</td>
-                    <td>${review.customer}</td>
-                    <td>${review.product}</td>
+                    <td>${review.customerName}</td>
+                    <td>${review.productName} - ${review.colorName} - ${review.sizeName}</td>
                     <td>${review.rating}</td>
                     <td>${review.comment}</td>
-                    <td>${review.status === "approved" ? "Đã duyệt" : review.status === "rejected" ? "Đã từ chối" : "Chưa duyệt"}</td>
-                    ${
-                        review.status === "pending"
-                            ? `<td>
-                                <button class="btn btn-success btn-sm" onclick="handleApprove(${review.id})">Duyệt</button>
-                                <button class="btn btn-danger btn-sm" onclick="handleReject(${review.id})">Từ chối</button>
-                              </td>`
-                            : ""
-                    }
+                    <td>
+                      ${review.reviewStatus === "approved" ? "Đã duyệt" :
+                        review.reviewStatus === "rejected" ? "Đã từ chối" : "Chưa duyệt"}
+                    </td>
+                    ${actionButtons}
                 </tr>
             `;
-            if (review.status === "approved") approvedTable.innerHTML += row;
-            if (review.status === "pending") pendingTable.innerHTML += row;
-            if (review.status === "rejected") rejectedTable.innerHTML += row;
-        });
-    }
-
-    // Xác nhận duyệt đánh giá
-    function handleApprove(id) {
-        if (confirm("Bạn có chắc chắn muốn duyệt đánh giá này không?")) {
-            const review = reviews.find((r) => r.id === id);
-            review.status = "approved";
-            renderReviews();
-            alert("Đánh giá đã được duyệt!");
+        if (review.reviewStatus == "approved") {
+            $('#approvedReviewsTable').append(row);
+        } else if (review.reviewStatus == "rejected") {
+            $('#rejectedReviewsTable').append(row);
+        } else {
+            $('#pendingReviewsTable').append(row);
         }
-    }
 
-    // Xác nhận từ chối đánh giá
-    function handleReject(id) {
-        if (confirm("Bạn có chắc chắn muốn từ chối đánh giá này không?")) {
-            const review = reviews.find((r) => r.id === id);
-            review.status = "rejected";
-            renderReviews();
-            alert("Đánh giá đã bị từ chối!");
-        }
     }
+    $(document).ready(function() {
+        $.ajax({
+            url: '/api/reviews',
+            method: 'GET',
+            success: function(res) {
+                var reviews = res;
+                console.log(reviews);
+                reviews.forEach(function(review, index) {
+                        displayReview(review, index);
+                })
+            },
+            error: function(xhr, status, error) {
+                console.error("Error: " + status + " " + error);
+            }
+        })
 
-    // Khởi tạo
-    renderReviews();
+        $(document).on('click', '.btn-approved, .btn-rejected', function(e) {
+            e.preventDefault();
+            var productDetailId = $(this).data('product-detail-id');
+            var customerId = $(this).data('customer-id');
+            var newStatus = $(this).hasClass('btn-approved') ? 'approved' : 'rejected';
+
+            if (newStatus === 'rejected') {
+                var confirmDelete = confirm("Bạn có chắc chắn muốn xóa đánh giá này không?");
+                if (!confirmDelete) {
+                    return; // Người dùng chọn 'Hủy bỏ'
+                }
+            }
+            console.log(newStatus);
+            $.ajax({
+                url: `/api/reviews/${productDetailId}/${customerId}/${newStatus}`,
+                method: 'PATCH',
+                success: function (response) {
+                alert('Cập nhật trạng thái thành công!');
+                console.log(response);
+                location.reload();
+                // Cập nhật giao diện nếu cần
+            },
+            error: function (xhr, status, error) {
+                console.error("Lỗi khi cập nhật trạng thái:", error);
+                alert("Không thể cập nhật trạng thái. Vui lòng thử lại.");
+            }
+            })
+        })
+    })
+
 </script>

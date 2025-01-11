@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"]="";
+    ViewData["Title"]="Trang blog";
 }
 <style>
     .sidebarblog-title h2 {
@@ -34,7 +34,7 @@
         <!-- Phần Danh Sách Bài Viết Blog -->
         <div class="row mt-5">
             <div class="col-12">
-                <h1 class="text-center mb-4" id="Title">Danh Sách Bài Viết Blog</h1>
+                <h1 class="text-center mb-4" id="title">Danh Sách Bài Viết Blog</h1>
 
                 <div class="list-group">
 
@@ -121,7 +121,6 @@
                             `;
                         });
                         $('.list-group').html(html);
-
                         $('#PhanTrang').empty();
                         for (let i = 1; i <= res.totalPage; i++) {
                             const activeClass = i == page ? 'active' : '';
@@ -148,7 +147,7 @@
         }
         else 
         {
-            $('#Title').hide();
+            $('#title').hide();
             $('#BAIVETKHAC').show();
             $.ajax({
                 url: `https://localhost:7103/api/homeapi/BlogId?blogid=${blogid}`,
@@ -165,7 +164,6 @@
                         </div>
                         ` ;
                     }
-
                     //Tạo hình ảnh ở giữa
                     $('title').text(res.blog.blogTitle);
                     var middleContent = Math.floor(contentParts.length / 2);

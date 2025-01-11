@@ -274,7 +274,16 @@
                 </div>
 
                 <div class="col-lg-2 mb-2" id="menuFooter">
-                    
+                    <ul class="navbar-nav mx-auto" id="menuNavbar">
+                        <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="TrangChu">Trang chủ</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="TrangSanPham">Sản phẩm</a></li>
+
+
+
+                        <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="TrangLienHe">Liên hệ</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="TrangGioiThieu">Giới thiệu</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="TrangBlog">Blog</a></li>
+                    </ul>
                 </div>
 
                 <div class="col-lg-5 mb-5" id="websiteINFO">
@@ -357,9 +366,6 @@
         </div>
     </div>
 
-
-
-
     <!-- Thêm Bootstrap 5 JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -436,13 +442,15 @@
                 res.cate.forEach(function(category){
                     var brandHtml = '';
                     res.brand.forEach(function(brand){
-                        brandHtml += `<li><a class="dropdown-item" href="/Home/TrangSanPham?categorySlug=${category.slug}&brandId=${brand.brandId}">${brand.brandName}</a></li>`;
+                        brandHtml += `<li><a class="dropdown-item" 
+                        href="/Home/TrangSanPham?categorySlug=${category.slug}&brandId=${brand.brandId}">
+                        ${brand.brandName}</a></li>`;
                     });
                     menuHtml += `
                             <li class="nav-item dropdown" id="ListNav">
-                                                    <a class="nav-link dropdown-toggle" href="/Home/TrangSanPham?categorySlug=${category.slug}" id="navbarDropdown" role="button"
-                                    aria-expanded="false">
-                                    ${category.name}
+                                <a class="nav-link dropdown-toggle" href="/Home/TrangSanPham?categorySlug=${category.slug}" id="navbarDropdown" role="button"
+                                 aria-expanded="false">
+                                 ${category.name}
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     ${brandHtml}
@@ -461,11 +469,6 @@
                     $('#USER').show();
                 }
 
-                //Lấy menu dọc
-                res.brand.forEach(function (brand) {
-                    brandFooter += `<p><a href="/Home/TrangSanPham?brandId=${brand.brandId}">${brand.brandName}</a></p>`;
-                });$('#menuFooter').append(brandFooter);
-
                 //Lấy dữ liệu website
                 if (res.website)
                 {
@@ -477,7 +480,7 @@
                     `;
                     $('#websiteINFO').html(websiteInfo);
                     var SocialInfo = `
-                                <p><a href="${res.website.websiteLinkFb}" target="_blank" class="text-white"><strong>Facebook: </strong>${res.website.websiteLinkFb}</a></p>
+                                <p><a href="${res.website.websiteLinkFb}" target="_blank" class="text-white"><strong>Facebook </strong></a></p>
                     `;
                     $('#SocialINFO').html(SocialInfo);
                     $('#LOGOANDNAME').html(`
@@ -521,10 +524,11 @@
                 type:'POST',
                 data: { username: username, password: password },
                 success: function (res) {
-                    if (res.success) {
-                        window.location.href = res.url;
+                    if(res.success)
+                    {
+                        location.reload();
                     }
-                    if(res.admin){
+                    else if(res.admin){
                         window.location.href = res.url;
                     }
                     else{

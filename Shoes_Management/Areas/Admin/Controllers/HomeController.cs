@@ -20,8 +20,8 @@ namespace Shoes_Management.Areas.Admin.Controllers
 		}
         public IActionResult TrangDanhMucSanPham()
         {
-			var categories = _context.Categories.ToList();
-            return View(categories);
+			
+            return View();
         }
 
         public IActionResult TrangQuanLyDonHang()
