@@ -5,7 +5,7 @@
     <ul class="nav nav-tabs" id="contactTabs" role="tablist">
         <li class="nav-item" role="presentation">
             <button class="nav-link active" id="unresponded-tab" data-bs-toggle="tab" data-bs-target="#unresponded" type="button" role="tab" aria-controls="unresponded" aria-selected="true">
-                Liên hệ chưa phản hồi (<span id="unrespondedCount"></span>)
+                Liên hệ chưa phản hồi
             </button>
         </li>
         <li class="nav-item" role="presentation">
@@ -154,6 +154,10 @@
         })
 
         $(document).on('click', '.delete-button', function() {
+            var confirmDelete = confirm("Bạn có chắc chắn muốn xóa không?");
+            if (!confirmDelete) {
+                return; // Người dùng chọn 'Hủy bỏ'
+            }
             var contactId = $(this).data('contact-id');
             $.ajax({
                 url: '/api/contacts/' + contactId,
