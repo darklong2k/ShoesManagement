@@ -47,6 +47,7 @@ namespace Shoes_Management.Controllers
                 success = true,
                 product = new
                 {
+                    product.Image,
                     product.Name,
                     product.Description,
                     product.Price,

@@ -182,6 +182,7 @@
         // Cập nhật thông tin sản phẩm
         function displayProductInfo(product) {
             const totalStock = product.productDetails.reduce((sum, pd) => sum + pd.stockQuantity, 0);
+            $('#mainImage').attr('src', '/images/' + product.image)
             $('.product-info h3').text(product.name);
             $('.product-info .text-danger').text(new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price));
             $('#totalStock').text(`${totalStock} sản phẩm`);
