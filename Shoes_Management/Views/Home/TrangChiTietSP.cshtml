@@ -18,7 +18,7 @@
             <h3 class="fw-bold">Đang tải...</h3> <!-- Để mặc định là "Đang tải..." -->
             <div class="d-flex align-items-center">
                 <span class="text-warning me-2">★★★★☆</span>
-                <span>(4.5)</span>
+                <span id="ratingAvg">(4.5)</span>
                 <span class="ms-4"><strong>Lượt thích:</strong> 120</span>
                 <span class="ms-4"><strong>Lượt xem:</strong> 300</span>
             </div>
@@ -238,6 +238,7 @@
         // Hiển thị đánh giá sản phẩm
         function updateReviews(data) {
             $('#averageRating').text(`${data.averageRating}/5.0`);
+            $('#ratingAvg').text(`(${data.averageRating})`);
             $('#totalReviews').text(`${data.totalReviews} đánh giá`);
 
             let reviewsHtml = data.reviews.map(function (review) {

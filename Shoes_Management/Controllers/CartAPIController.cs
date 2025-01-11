@@ -101,7 +101,7 @@ namespace Shoes_Management.Controllers
             }
 
             // Tính tổng số lượng sản phẩm và tổng tiền
-            int totalItems = cartDetails.Sum(cd => cd.Quantity ?? 0);
+            int totalItems = cartDetails.Select(cd => cd.ProductDetail.ProductId).Distinct().Count();
             decimal totalPrice = cartDetails.Sum(cd => (cd.Quantity ?? 0) * (cd.TotalPrice ?? 0));
 
             return Ok(new
