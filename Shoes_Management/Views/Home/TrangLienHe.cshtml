@@ -47,13 +47,28 @@
     $(document).ready(function() {
         $('#fcontact').on('submit', function(e) {
             e.preventDefault();
-            var messenger = $('#fmessenger').val();
-            var name = $('#fname').val();
-            var email = $('#femail').val();
-            var phone = $('#fphone').val();
+
+            // Lấy giá trị từ các trường nhập
+            var messenger = $('#fmessenger').val().trim();
+            var name = $('#fname').val().trim();
+            var email = $('#femail').val().trim();
+            var phone = $('#fphone').val().trim();
+
+            // Kiểm tra các trường bắt buộc
+            if (!messenger || !name || !email || !phone) {
+                alert("Vui lòng điền đầy đủ thông tin!");
+                return;
+            }
+
+            // Kiểm tra số điện thoại
+            var phonePattern = /^[0-9]{10}$/;
+            if (!phonePattern.test(phone)) {
+                alert("Số điện thoại phải là 10 chữ số!");
+                return;
+            }
 
             $.ajax({
-                url: '/api/contacts ',
+                url: '/api/contacts',
                 method: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify({
@@ -66,12 +81,20 @@
                 success: function(res) {
                     alert("Bạn đã gửi thành công");
                     console.log(res);
+                    $('#fcontact')[0].reset();
+                    location.reload();
+
                 },
                 error: function(xhr, status, error) {
                     console.error("Error:", status, error);
                 }
                 
             })
+
+            $('#fphone').on('input', function() {
+            var value = $(this).val();
+            $(this).val(value.replace(/[^0-9]/g, ''));  // Remove non-numeric characters
+        });
         })
         
     })
