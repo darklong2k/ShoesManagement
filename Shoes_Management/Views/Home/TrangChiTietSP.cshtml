@@ -9,20 +9,21 @@
         <!-- Product Images -->
         <div class="col-md-6">
             <div class="text-center mb-3">
-                <img style="border: 1px solid black;border-radius:5px" id="mainImage" src="~/images/T1.svg" class="img-fluid rounded" alt="Main Shoe Image">
+                <img style="border: 1px solid black; border-radius: 5px;" id="mainImage" src="~/images/T1.svg" class="img-fluid rounded" alt="Main Shoe Image">
             </div>
         </div>
 
         <!-- Product Info -->
         <div class="col-md-6 product-info">
-            <h3 class="fw-bold" >Đang tải...</h3> <!-- Để mặc định là "Đang tải..." -->
+            <h3 class="fw-bold">Đang tải...</h3> <!-- Để mặc định là "Đang tải..." -->
             <div class="d-flex align-items-center">
                 <span class="text-warning me-2">★★★★☆</span>
                 <span>(4.5)</span>
                 <span class="ms-4"><strong>Lượt thích:</strong> 120</span>
                 <span class="ms-4"><strong>Lượt xem:</strong> 300</span>
             </div>
-            <p class="mt-2"><strong>Tổng kho:</strong> <span id="totalStock">Đang tải...</span></p>
+            <p class="mt-2"><strong>Tổng kho:</strong> <span id="totalStock">Đang tải...</span> (<span id="stockStatus"></span>)</p>
+
             <h4 class="text-danger fw-bold mt-3">Đang tải...</h4> <!-- Hiển thị giá sản phẩm sau khi API trả về -->
             <!-- Color and Size -->
             <div>
@@ -67,20 +68,9 @@
     <div class="row mt-5">
         <h4>Đánh giá của khách hàng</h4>
         <div class="col-md-12">
-            <!-- Hiển thị điểm trung bình và số lượng đánh giá -->
-            <p><strong>Đánh giá trung bình:</strong> 4.5/5.0</p>
-            <p><strong>Tổng số đánh giá:</strong> 2 đánh giá</p>
-
-            <!-- Danh sách các đánh giá -->
-            <div class="review">
-                <p><strong>John Doe</strong> - <span class="text-warning">★★★★★</span> 4.5/5.0</p>
-                <p>Rất thoải mái và phong cách. Rất đáng mua!</p>
-            </div>
-            <hr>
-            <div class="review">
-                <p><strong>Jane Smith</strong> - <span class="text-warning">★★★★☆</span> 4.0/5.0</p>
-                <p>Giá cả hợp lý, nhưng độ bền của đế giày có thể cải thiện.</p>
-            </div>
+            <p><strong>Đánh giá trung bình:</strong> <span id="averageRating">5.0/5.0</span></p>
+            <p><strong>Tổng số đánh giá:</strong> <span id="totalReviews">0 đánh giá</span></p>
+            <div id="reviewsList"></div>
         </div>
     </div>
 
@@ -92,58 +82,19 @@
                 <a href="/tat-ca-san-pham" class="btn btn-outline-primary btn-sm">Xem tất cả</a>
             </div>
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
-                <!-- Sản phẩm liên quan: Giữ nguyên phần này -->
-                <div class="col">
-                    <div class="card h-100">
-                        <a href="https://kingshoes.vn/air-force-1-cw2288-111.html">
-                            <img src="https://kingshoes.vn/data/upload/thumb/sneaker-315122-111-air-force-1-07-nike-kingshoesvn-tphcm-tanbinh-17-logo-1551924204-jpg/500_SNEAKER-315122-111-AIR-FORCE-1-07-NIKE-KINGSHOES.VN-TPHCM-TANBINH-17-logo-1551924204-.jpg.webp"
-                                 class="card-img-top" alt="AIR FORCE 1">
-                        </a>
-                        <div class="card-body">
-                            <a href="https://kingshoes.vn/air-force-1-cw2288-111.html" style="text-decoration:none">
-                                <h5 class="card-title">AIR FORCE 1</h5>
-                            </a>
-                            <div>
-                                <span class="text-warning">★★★★☆</span>
-                            </div>
-                            <p class="text-danger">3,200,000 đ</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Các sản phẩm khác giữ nguyên -->
-                <div class="col">
-                    <div class="card h-100">
-                        <a href="https://kingshoes.vn/air-force-1-cw2288-111.html">
-                            <img src="https://kingshoes.vn/data/upload/thumb/sneaker-315122-111-air-force-1-07-nike-kingshoesvn-tphcm-tanbinh-17-logo-1551924204-jpg/500_SNEAKER-315122-111-AIR-FORCE-1-07-NIKE-KINGSHOES.VN-TPHCM-TANBINH-17-logo-1551924204-.jpg.webp"
-                                 class="card-img-top" alt="AIR FORCE 1">
-                        </a>
-                        <div class="card-body">
-                            <a href="https://kingshoes.vn/air-force-1-cw2288-111.html" style="text-decoration:none">
-                                <h5 class="card-title">AIR FORCE 1</h5>
-                            </a>
-                            <div>
-                                <span class="text-warning">★★★★☆</span>
-                            </div>
-                            <p class="text-danger">3,200,000 đ</p>
-                        </div>
-                    </div>
-                </div>
+                <!-- Placeholder for related products -->
             </div>
         </div>
     </section>
-
 </div>
-
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-
     $(document).ready(function () {
-        const productId = 1; // Thay bằng ID động nếu cần
+        const productId = window.location.href.split('/').pop();
         const apiUrl = `/api/user/ProductDetailsAPI/GetProductDetails/${productId}`;
 
-
-        // Gọi API bằng Ajax
+        // Lấy dữ liệu sản phẩm từ API
         $.ajax({
             url: apiUrl,
             type: 'GET',
@@ -151,42 +102,10 @@
             success: function (data) {
                 console.log("Dữ liệu nhận được từ API: ", data);
                 if (data.success) {
-
                     const product = data.product;
-                    var html = ""
-
-                    // Hiển thị thông tin sản phẩm
-                    $('.product-info h3').text(product.name);
-                    $('.product-info .text-danger').text(new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price));
-                    $('#totalStock').text(`${product.productDetails.reduce((sum, p) => sum + p.stockQuantity, 0)} sản phẩm`);
-                    $('#productDescription').text(product.description);
-
-                   
-
-                    // Đổ dữ liệu vào select màu sắc
-                    const colorSelect = $('#colorSelect');
-                    const colors = [...new Set(product.productDetails.map(pd => pd.color))];
-                    colorSelect.empty(); // Xóa các option cũ
-                    colors.forEach(color => {
-                        colorSelect.append(new Option(color, color));
-                    });
-
-                    // Đổ dữ liệu vào select kích thước
-                    const sizeSelect = $('#sizeSelect');
-                    const sizes = [...new Set(product.poductDetails.map(pd => pd.size))];
-                    sizeSelect.empty(); // Xóa các option cũ
-                    sizes.forEach(size => {
-                        sizeSelect.append(new Option(size, size));
-                    });
-
-                    // Cập nhật tồn kho theo màu sắc và kích thước
-                    window.stockData = product.productDetails.reduce((acc, pd) => {
-                        acc[pd.Color] = acc[pd.Color] || {};
-                        acc[pd.Color][pd.Size] = pd.stockQuantity;
-                        return acc;
-                    }, {});
-
-                    updateStock(); // Cập nhật hiển thị số lượng tồn kho ban đầu
+                    displayProductInfo(product);
+                    populateSelectors(product);
+                    updateStock();
                 } else {
                     $('.product-info').html('<div class="alert alert-danger">Sản phẩm không tồn tại hoặc đã bị ẩn.</div>');
                 }
@@ -197,18 +116,106 @@
             }
         });
 
-        // Hàm cập nhật tồn kho dựa trên lựa chọn
+        // Hiển thị thông tin sản phẩm
+        function displayProductInfo(product) {
+            const totalStock = product.productDetails.reduce((sum, pd) => sum + pd.stockQuantity, 0);
+            $('.product-info h3').text(product.name);
+            $('.product-info .text-danger').text(new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price));
+            $('#totalStock').text(`${totalStock} sản phẩm`);
+            if (totalStock > 0) {
+                $('#stockStatus').text("Còn hàng").removeClass("out-of-stock").addClass("in-stock");
+            } else {
+                $('#stockStatus').text("Hết hàng").removeClass("in-stock").addClass("out-of-stock");
+            }
+            $('#productDescription').text(product.description);
+        }
+
+        // Đổ dữ liệu vào các select (màu sắc và kích thước)
+        function populateSelectors(product) {
+            const colorSelect = $('#colorSelect');
+            const sizeSelect = $('#sizeSelect');
+            const colors = Array.from(new Set(product.productDetails.map(pd => `${pd.colorId}:${pd.colorName}`)));
+            const sizes = Array.from(new Set(product.productDetails.map(pd => `${pd.sizeId}:${pd.sizeName}`)));
+
+            colorSelect.empty();
+            sizeSelect.empty();
+
+            colors.forEach(colorString => {
+                const [colorId, colorName] = colorString.split(":");
+                colorSelect.append(new Option(colorName, colorId));
+            });
+
+            sizes.forEach(sizeString => {
+                const [sizeId, size] = sizeString.split(":");
+                sizeSelect.append(new Option(size, sizeId));
+            });
+
+            window.stockData = product.productDetails.reduce((acc, pd) => {
+                acc[pd.colorId] = acc[pd.colorId] || {};
+                acc[pd.colorId][pd.sizeId] = pd.stockQuantity;
+                return acc;
+            }, {});
+        }
+
+        // Cập nhật số lượng tồn kho
         function updateStock() {
             const color = $('#colorSelect').val();
             const size = $('#sizeSelect').val();
-
             const stock = window.stockData[color] && window.stockData[color][size] ? window.stockData[color][size] : 0;
-
             $('#stockCount').text(stock);
         }
 
-        // Gắn sự kiện onchange cho các select
+        // Gắn sự kiện thay đổi cho màu sắc và kích thước
         $('#colorSelect, #sizeSelect').on('change', updateStock);
+
+        // Lấy dữ liệu đánh giá từ API
+        $.ajax({
+            url: `/api/user/ProductDetailsAPI/GetProductReviews/${productId}`,
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                if (data.success) {
+                    if (data.message) {
+                        $('#reviewsList').html('<p>' + data.message + '</p>');
+                    } else {
+                        $('#averageRating').text(`${data.averageRating}/5.0`);
+                        $('#totalReviews').text(`${data.totalReviews} đánh giá`);
+                        let reviewsHtml = '';
+                        data.reviews.forEach(function (review) {
+                            reviewsHtml += `
+                                <div class="review">
+                                    <p><strong>${review.name}</strong> - <span class="text-warning">${getStarRating(review.rating)}</span> ${review.rating}/5.0</p>
+                                    <p>${review.comment}</p>
+                                </div>
+                                <hr>
+                            `;
+                        });
+                        $('#reviewsList').html(reviewsHtml);
+                    }
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Lỗi khi gọi API:", error);
+                alert('Lỗi khi tải dữ liệu đánh giá.');
+            }
+        });
+
+        // Hàm tạo sao theo điểm đánh giá
+        function getStarRating(rating) {
+            let fullStars = Math.floor(rating);
+            let halfStars = (rating % 1) >= 0.5 ? 1 : 0;
+            let emptyStars = 5 - fullStars - halfStars;
+            let stars = '';
+            for (let i = 0; i < fullStars; i++) {
+                stars += '★';
+            }
+            if (halfStars) {
+                stars += '☆';
+            }
+            for (let i = 0; i < emptyStars; i++) {
+                stars += '☆';
+            }
+            return stars;
+        }
     });
 </script>
-
