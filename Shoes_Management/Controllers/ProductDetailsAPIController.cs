@@ -134,7 +134,7 @@ namespace Shoes_Management.Controllers
                 {
                     ProductId = productId,
                     CustomerId = customer.CustomerId,
-                    CreatedAt = DateTime.UtcNow
+                    CreatedAt = DateTime.Now
                 });
             }
 
