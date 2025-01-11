@@ -38,6 +38,7 @@ namespace Shoes_Management.Controllers
                                  where ct.AccountId.ToString() == acc_id
                                  select new
                                  {
+                                    
                                      CustomerId = ct.CustomerId,
                                      ProductName = pd.Name,
                                      ProdcutPrice = pd.Price,
@@ -51,6 +52,7 @@ namespace Shoes_Management.Controllers
                                  where ct.AccountId.ToString() == acc_id
                                  select new
                                  {
+                                     ProductId=pd.ProductId,
                                      ProductName = pd.Name,
                                      ProductPrice = pd.Price,
                                      ProductImage = pd.Image,

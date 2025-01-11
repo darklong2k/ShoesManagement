@@ -449,11 +449,15 @@
                         productsHtml += `
                                     <div class="col-md-4 mb-3">
                                         <div class="card shadow-sm">
-                                                    <img src="/images/${product.productImage}" class="card-img-top" alt="Product Image">
+
+                                                     <a href="/Home/TrangChiTietSP/${product.prodcuctId}">
+                                            <img src="/images/${product.productImage}"
+                                         class="card-img-top" alt="">
+                                            </a>       
                                             <div class="card-body">
                                                         <h5 class="card-title">${product.productName}</h5>
                                                             <p class="card-text">Giá: ${product.prodcutPrice.toLocaleString()} VND</p>
-                                                                 <button class="btn btn-danger btn-sm" data-id="${product.prodcuctId}" onclick="removeFromWishlist(${product.prodcuctId})">Bỏ yêu thích</button>
+                                                  <button class="btn btn-danger btn-sm" data-id="${product.prodcuctId}" onclick="removeFromWishlist(${product.prodcuctId})">Bỏ yêu thích</button>
                                             </div>
                                         </div>
                                     </div>
@@ -524,8 +528,10 @@
                         productsHtml += `
                                 <div class="col-md-4 mb-3">
                                     <div class="card shadow-sm">
-                                            <img src="/images/${product.productImage}"
-                                             class="card-img-top" alt="Product Image">
+                                            <a href="/Home/TrangChiTietSP/${product.productId}">
+                                                <img src="/images/${product.productImage}"
+                                             class="card-img-top" alt="">
+                                                </a>
                                         <div class="card-body">
                                             <h5 class="card-title">${product.productName}</h5>
                                             <p class="card-text">Giá: ${product.productPrice.toLocaleString()} VND</p>
