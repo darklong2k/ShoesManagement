@@ -16,7 +16,7 @@ public partial class Category
     [StringLength(255, ErrorMessage = "Mô tả không được vượt quá 255 ký tự.")]
     public string? Description { get; set; }
 
-    public bool? Status { get; set; }
+    public bool Status { get; set; }
    
     [RegularExpression(@"^[a-z0-9]+(?:-[a-z0-9]+)*$", ErrorMessage = "Slug chỉ chứa các ký tự chữ thường, số, và dấu gạch ngang.")]
     [StringLength(255, ErrorMessage = "Slug không được vượt quá 255 ký tự.")]

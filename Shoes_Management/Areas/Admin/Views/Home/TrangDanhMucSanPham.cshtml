@@ -142,7 +142,7 @@
                 <!-- Dropdown Status -->
 				<div class="mb-3">
 					<label for="status" class="form-label">Trạng thái</label>
-					<select class="form-control" id="status" name="status">
+                    <select class="form-control" id="status_edit" name="status_edit">
                         <option value="1">Hoạt động</option>
                         <option value="0">Không hoạt động</option>
 					</select>
@@ -155,7 +155,9 @@
 		</div>
 	</div>
 </div>
-
+<div id="pagination" class="d-flex justify-content-center mt-3">
+    <!-- Nút phân trang sẽ được thêm động tại đây -->
+</div>
 <!-- Success Alert -->
 <div id="success-alert" class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
     <strong>Thành công!</strong> <span id="success-message"></span>
@@ -203,6 +205,7 @@
             });
 
         });
+
         // Hiển thị thông báo thành công
         function showSuccessAlert(message) {
             $('#success-message').text(message);
@@ -230,28 +233,94 @@
             }
             return text;
         }
+        // Hàm cập nhật nút phân trang
+        function updatePagination() {
+            const paginationContainer = $('#pagination');
+            paginationContainer.empty(); // Xóa các nút cũ
+
+            // Thêm nút "Trước"
+            if (currentPage > 1) {
+                paginationContainer.append(`<button class="btn btn-outline-primary mx-1" onclick="loadCategories(${currentPage - 1})">Trước</button>`);
+            }
+
+            // Thêm các nút số trang
+            for (let i = 1; i <= totalPages; i++) {
+                paginationContainer.append(`
+                            <button class="btn ${i === currentPage ? 'btn-primary' : 'btn-outline-primary'} mx-1" onclick="loadCategories(${i})">
+                                ${i}
+                            </button>
+                        `);
+            }
+
+            // Thêm nút "Sau"
+            if (currentPage < totalPages) {
+                paginationContainer.append(`<button class="btn btn-outline-primary mx-1" onclick="loadCategories(${currentPage + 1})">Sau</button>`);
+            }
+        }
         // Hàm load danh mục
-        function loadCategories() {
+        let currentPage = 1; // Trang hiện tại
+        let totalPages = 1; // Tổng số trang (cập nhật khi nhận phản hồi API)
+        // Hàm tải danh mục với phân trang
+        function loadCategories(page = 1) {
+            currentPage = page; // Cập nhật trang hiện tại
+            const pageSize = 10; // Số lượng danh mục trên mỗi trang
+
             $.ajax({
-                url: 'https://localhost:7103/api/categoryAPI/getall', // URL API chính xác
+                url: `https://localhost:7103/api/categoryAPI/getall?page=${page}&pageSize=${pageSize}`,
                 type: 'GET',
                 success: function (response) {
-                    console.log(response); // In ra phản hồi để kiểm tra
-
+                    console.log(response);
+                    
                     // Làm sạch bảng trước khi thêm mới
                     $('tbody').empty();
-
                     // Lặp qua các danh mục và hiển thị
-                    response.forEach(category => {
+                    response.categories.forEach(category => {
                         $('tbody').append(`
                             <tr>
                                 <td>${category.categoryId}</td>
                                 <td>${category.name}</td>
                                 <td>${category.parentId !== null ? category.parentId : 'không có'}</td>
-                                <td title="${category.description}">${truncateText(category.description, 50)}</td>
+                                <td>${truncateText(category.description, 50)}</td>
                                 <td>${category.status ? 'Hoạt động' : 'Không hoạt động'}</td>
                                 <td>${formatDate(category.createdAt)}</td>
+                                <td>${formatDate(category.updatedAt)}</td>
+                                <td>
+                                    <button class="btn btn-warning" onclick="showEditModal(${category.categoryId})">Chỉnh sửa</button>
+                                    <button class="btn btn-danger" onclick="deleteCategory(${category.categoryId})">Xoá</button>
+                                </td>
+                            </tr>
+                        `);
+                    });
+
+                    totalPages = response.totalPages; // Cập nhật tổng số trang
+                    updatePagination(); // Cập nhật nút phân trang
+                },
+                error: function (xhr) {
+                    showErrorAlert("Không thể tải dữ liệu. Vui lòng thử lại.");
+                }
+            });
+        }
+        
+        // Hàm tìm kiếm
+        function searchCategories() {
+            const searchQuery = $('input[aria-label="Search"]').val().trim();
+
+            $.ajax({
+                url: `https://localhost:7103/api/categoryAPI/GetAll?search=${encodeURIComponent(searchQuery)}`,
+                type: 'GET',
+                success: function (response) {
+                    console.log(response); // Kiểm tra kết quả trả về
+                    $('tbody').empty(); // Xóa bảng cũ trước khi hiển thị kết quả mới
+                    response.categories.forEach(category => {
+                        $('tbody').append(`
+                            <tr>
+                                <td>${category.categoryId}</td>
+                                <td>${category.name}</td>
+                                <td>${category.parentId !== null ? category.parentId : 'không có'}</td>
+                                <td>${truncateText(category.description, 50)}</td>
+                                <td>${category.status ? 'Hoạt động' : 'Không hoạt động'}</td>
                                 <td>${formatDate(category.createdAt)}</td>
+                                <td>${formatDate(category.updatedAt)}</td>
                                 <td>
                                     <button class="btn btn-warning" onclick="showEditModal(${category.categoryId})">Chỉnh sửa</button>
                                     <button class="btn btn-danger" onclick="deleteCategory(${category.categoryId})">Xoá</button>
@@ -260,13 +329,17 @@
                         `);
                     });
                 },
-               
-                error: function (xhr, status,) {
-
-                showErrorAlert(errorMessage);
+                error: function (xhr) {
+                    alert('Không thể tải dữ liệu.');
                 }
             });
         }
+
+        // Sự kiện khi người dùng gõ phím trong ô tìm kiếm
+        $(document).on('keyup', 'input[aria-label="Search"]', function () {
+            searchCategories();
+        });
+        //hien danh muc cha
         function loadParentCategories(selectedParentId = 0, currentCategoryId = 0, selectElementId = "") {
             $.ajax({
                 url: 'https://localhost:7103/api/categoryAPI/getall', // URL API lấy danh mục cha
@@ -279,7 +352,7 @@
                     $(`#${selectElementId}`).append('<option value="0">Chọn danh mục cha</option>');
 
                     // Lặp qua dữ liệu trả về và thêm vào <select>
-                    response.forEach(category => {
+                    response.categories.forEach(category => {
                         // Bỏ qua mục có `categoryId` trùng với `currentCategoryId`
                         if (category.categoryId !== currentCategoryId) {
                             $(`#${selectElementId}`).append(`<option value="${category.categoryId}">${category.name}</option>`);
@@ -306,6 +379,7 @@
                 type: 'GET',
                 success: function (response) {
                     const category = response.data;
+                    console.log(category);
                     
                     $('#category_id').val(category.categoryId);
                     $('#name_edit').val(category.name);
@@ -313,7 +387,7 @@
                     $('#description_edit').val(category.description);
                     loadParentCategories(category.parentId, category.categoryId, 'parent_id_edit');
                     // Gán trạng thái cho select box
-                    $('#status_edit').val(category.status ? "1" : "0");
+                    $('#status_edit').val(category.status==true ? "1" : "0");
           
                     // Hiển thị modal chỉnh sửa
                     $('#modalChinhSuaDanhMuc').modal('show');

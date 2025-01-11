@@ -25,11 +25,22 @@ namespace Shoes_Management.Areas.API
             return slug;
         }
         [HttpGet("GetAll")]
-        public IActionResult GetAll()
+        public IActionResult GetAll([FromQuery] string? search, [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
             try
             {
-                var categories = _context.Categories
+                var categoriesQuery = _context.Categories.AsQueryable();
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    categoriesQuery = categoriesQuery.Where(c =>
+                        c.Name.Contains(search) || c.Description.Contains(search));
+                }
+
+                var totalItems = categoriesQuery.Count();
+                var categories = categoriesQuery
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize)
                     .Select(c => new
                     {
                         c.CategoryId,
@@ -42,11 +53,10 @@ namespace Shoes_Management.Areas.API
                     })
                     .ToList();
 
-                return Ok(categories); // Trả về kết quả dưới dạng JSON
+                return Ok(new { totalItems, categories });
             }
             catch (Exception ex)
             {
-
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
@@ -125,6 +135,7 @@ namespace Shoes_Management.Areas.API
                 if (model.ParentId == 0) category.ParentId = null;
                 else category.ParentId = model.ParentId;
                 category.Description = model.Description;
+
                 category.Status = model.Status;
                 category.UpdatedAt = DateTime.Now;
 
