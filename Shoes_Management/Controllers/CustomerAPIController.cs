@@ -106,6 +106,7 @@ namespace Shoes_Management.Controllers
                                     select new
                                     {
                                         OrderId = od.OrderId,
+                                        OrderStatus = od.Status,
                                         ProductDetailId = oddt.ProductDetailId,
                                         ProductImage=pd.Image,
                                         ProductName = pd.Name,

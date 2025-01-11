@@ -245,9 +245,9 @@
             const cancelBtn = (order.status === 'Pending' || order.status === 'Packing')
                 ? `<button class="btn btn-danger btn-sm" onclick="cancelOrder('${order.orderId}')">Hủy đơn</button>`
                 : '';
-            // const reviewBtn = (order.status === 'Delivered')
-            //     ? `<button class="btn btn-primary btn-sm" onclick="openReviewPopup('${order.orderId}')">Đánh giá</button>`
-            //     : '';
+             const reviewBtn = (order.status === 'Delivered')
+                 ? `<button class="btn btn-primary btn-sm" onclick="openReviewPopup('${order.orderId}')">Đánh giá</button>`
+                 : '';
 
             return `
                     <tr>
@@ -257,7 +257,7 @@
                         <td>
                             <button class="btn btn-info btn-sm" onclick="viewDetails('${order.orderId}')">Chi tiết</button>
                             ${cancelBtn}
-                            
+                            ${reviewBtn}
                         </td>
                     </tr>`;
         }).join('');
@@ -340,6 +340,7 @@
                                 <td>${detail.price.toLocaleString('vi-VN')} đ</td>
                                 <td>${detail.sizeName || 'N/A'}</td>
                                 <td>${detail.colorName || 'N/A'}</td>
+
                             
                         </tr>
                     `).join('');
@@ -357,7 +358,7 @@
                                             <th>Giá</th>
                                             <th>Kích thước</th>
                                             <th>Màu sắc</th>
-                                            <th>Nhận xét</th>
+                                            
                                         </tr>
                                     </thead>
                                     <tbody>
