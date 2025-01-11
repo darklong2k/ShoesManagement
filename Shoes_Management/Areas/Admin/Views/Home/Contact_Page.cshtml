@@ -5,7 +5,7 @@
     <ul class="nav nav-tabs" id="contactTabs" role="tablist">
         <li class="nav-item" role="presentation">
             <button class="nav-link active" id="unresponded-tab" data-bs-toggle="tab" data-bs-target="#unresponded" type="button" role="tab" aria-controls="unresponded" aria-selected="true">
-                Liên hệ chưa phản hồi (<span id="unrespondedCount">2</span>)
+                Liên hệ chưa phản hồi
             </button>
         </li>
         <li class="nav-item" role="presentation">
@@ -34,38 +34,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Nguyễn Văn A</td>
-                                <td>Chúng tôi cần hỗ trợ về kỹ thuật</td>
-                                <td>0369852147</td>
-                                <td>toi@gmail.com</td>
-                                <td><span class="badge bg-warning text-dark">Chưa phản hồi</span></td>
-                                <td>
-                                    <button class="btn btn-success btn-sm btn-confirm-response">
-                                        <i class="fas fa-check"></i> Xác nhận phản hồi
-                                    </button>
-                                    <button class="btn btn-danger btn-sm">
-                                        <i class="fas fa-trash"></i> Xóa
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Trần Thị B</td>
-                                <td>Cần thêm thông tin về sản phẩm</td>
-                                <td>0345678921</td>
-                                <td>tranb@gmail.com</td>
-                                <td><span class="badge bg-warning text-dark">Chưa phản hồi</span></td>
-                                <td>
-                                    <button class="btn btn-success btn-sm btn-confirm-response">
-                                        <i class="fas fa-check"></i> Xác nhận phản hồi
-                                    </button>
-                                    <button class="btn btn-danger btn-sm">
-                                        <i class="fas fa-trash"></i> Xóa
-                                    </button>
-                                </td>
-                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -85,7 +53,6 @@
                                 <th>Số điện thoại</th>
                                 <th>Email</th>
                                 <th>Trạng thái</th>
-                                <th>Hành động</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -98,31 +65,111 @@
     </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer">
+</script>
+
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Xử lý sự kiện nút "Xác nhận phản hồi"
-        const unrespondedTable = document.getElementById('unrespondedTable');
-        const respondedTable = document.getElementById('respondedTable').querySelector('tbody');
-        const unrespondedCount = document.getElementById('unrespondedCount');
+    var contacts = [];
 
-        unrespondedTable.addEventListener('click', function (e) {
-            if (e.target.classList.contains('btn-confirm-response')) {
-                const row = e.target.closest('tr');
-                const cloneRow = row.cloneNode(true);
+    @* Hiển thị contacts *@
+    function displayContacts(contact) {
+            var row = `
+            <tr>
+                <td>${contact.contactId}</td>
+                <td>${contact.contactName}</td>
+                <td>${contact.contactContent}</td>
+                <td>${contact.contactPhone}</td>
+                <td>${contact.contactEmail}</td>
+                <td><span class="badge bg-warning text-dark">${contact.contactStatus}</span></td>
+                <td>
+                    <button class="btn btn-info btn-sm btn-confirm-response resolve-button" data-contact-id="${contact.contactId}">
+                        <i class="fas fa-check"></i> Xác nhận phản hồi
+                    </button>
+                    <button class="btn btn-danger btn-sm delete-button" data-contact-id="${contact.contactId}">
+                        <i class="fas fa-trash"></i> Xóa
+                    </button>
+                </td>
+            </tr>
+            `
+        $('#unrespondedTable tbody').append(row);
 
-                // Chuyển trạng thái sang "Đã phản hồi"
-                cloneRow.querySelector('td:nth-child(6)').innerHTML = '<span class="badge bg-success text-light">Đã phản hồi</span>';
-                cloneRow.querySelector('.btn-confirm-response')?.remove(); // Xóa nút "Xác nhận phản hồi"
+    }
 
-                // Thêm vào bảng "Đã phản hồi"
-                respondedTable.appendChild(cloneRow);
-
-                // Xóa khỏi bảng "Chưa phản hồi"
-                row.remove();
-
-                // Cập nhật số lượng liên hệ chưa phản hồi
-                unrespondedCount.textContent = unrespondedTable.querySelectorAll('tbody tr').length;
+    function displayContactsResolved(contact) {
+            var row = `
+            <tr>
+                <td>${contact.contactId}</td>
+                <td>${contact.contactName}</td>
+                <td>${contact.contactContent}</td>
+                <td>${contact.contactPhone}</td>
+                <td>${contact.contactEmail}</td>
+                <td><span class="badge bg-success text-light">${contact.contactStatus}</span></td>
+            </tr>
+            `
+        $('#respondedTable tbody').append(row);
+    }
+    $(document).ready(function() {
+        // API lấy danh sách khách hàng
+        $.ajax({
+            url:'/api/contacts',
+            method: 'GET',
+            success: function(res) {
+                contacts = res;
+                console.log(res);
+                contacts.forEach(function(contact) {
+                    console.log(contact);
+                    if (contact.contactStatus === "Pending") {
+                        displayContacts(contact);
+                    } else if (contact.contactStatus === "Resolved") {
+                        displayContactsResolved(contact);
+                    }
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error("Error: " + status + " " + error);
             }
         });
-    });
+
+        $(document).on('click', '.resolve-button', function() {
+            var contactId = $(this).data('contact-id');
+            $.ajax({
+                url: '/api/contacts/' + contactId,
+                method: 'PATCH',
+                data: JSON.stringify({
+                    contactStatus: 'Resolved'
+                }),
+                contentType: 'application/json',
+                success: function(res) {
+                    console.log("Status updated successfully:", res);
+                    displayContactsResolved(res);
+                    location.reload();
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error updating status: " + status + " " + error);
+                }
+            })
+        })
+
+        $(document).on('click', '.delete-button', function() {
+            var confirmDelete = confirm("Bạn có chắc chắn muốn xóa không?");
+            if (!confirmDelete) {
+                return; // Người dùng chọn 'Hủy bỏ'
+            }
+            var contactId = $(this).data('contact-id');
+            $.ajax({
+                url: '/api/contacts/' + contactId,
+                method: 'DELETE',
+                success: function(res) {
+                    console.log(res);
+                    location.reload();
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error delete contact: " + status + " " + error);
+                }
+            })
+        })
+    })
 </script>

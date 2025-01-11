@@ -79,13 +79,14 @@
         const searchQuery = getQueryParam('search') || '';
         const categorySlug = getQueryParam('categorySlug') || '';
         const brandId = getQueryParam('brandId') || 0;
+        const outStanding = getQueryParam('outstanding') || '';
         
         function loadProduct(page,search='')
         {
             $('#listProd').empty();
             $('#PhanTrang').empty();
             $.ajax({
-                url: `https://localhost:7103/api/homeapi/products_Page?page=${page}&search=${searchQuery}&brandId=${brandId}&categorySlug=${categorySlug}`,
+            url: `https://localhost:7103/api/homeapi/products_Page?page=${page}&search=${searchQuery}&brandId=${brandId}&categorySlug=${categorySlug}&outstanding=${outStanding}`,
             type:'GET',
             success:function(res){
                 var html='';
