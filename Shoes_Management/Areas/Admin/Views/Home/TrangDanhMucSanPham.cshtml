@@ -91,7 +91,9 @@
         </tbody>
     </table>
 </div>
-
+<div id="pagination" class="d-flex justify-content-center mt-3">
+    <!-- Nút phân trang sẽ được thêm động tại đây -->
+</div>
 
 <!-- Popup cho chỉnh sửa danh mục -->
 <div class="modal fade" id="modalChinhSuaDanhMuc" tabindex="-1" aria-labelledby="modalChinhSuaDanhMuc" aria-hidden="true">
@@ -155,9 +157,7 @@
 		</div>
 	</div>
 </div>
-<div id="pagination" class="d-flex justify-content-center mt-3">
-    <!-- Nút phân trang sẽ được thêm động tại đây -->
-</div>
+
 <!-- Success Alert -->
 <div id="success-alert" class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
     <strong>Thành công!</strong> <span id="success-message"></span>
@@ -172,6 +172,9 @@
  
 @section Scripts {
     <script>
+        // Hàm load danh mục
+        let currentPage = 1; // Trang hiện tại
+        let totalPages = 1; // Tổng số trang (cập nhật khi nhận phản hồi API)
         $(document).ready(function () {
             // Load danh mục khi trang được tải
             loadCategories();
@@ -185,7 +188,9 @@
 
                 // Reset dropdown danh mục cha
                 $('#parent_id').empty();
-
+                // Xóa lớp nền (backdrop) nếu còn tồn tại
+                $('.modal-backdrop').remove();
+                
                     
             });
 
@@ -201,8 +206,9 @@
                 // Reset trạng thái về giá trị mặc định
                 $('#status').val('1'); // Mặc định là "Hoạt động"
 
-                
-            });
+                // Xóa lớp nền (backdrop) nếu còn tồn tại
+                $('.modal-backdrop').remove();
+               });
 
         });
 
@@ -233,33 +239,37 @@
             }
             return text;
         }
-        // Hàm cập nhật nút phân trang
         function updatePagination() {
             const paginationContainer = $('#pagination');
+            console.log(currentPage);
+            console.log(totalPages);
+
             paginationContainer.empty(); // Xóa các nút cũ
 
             // Thêm nút "Trước"
             if (currentPage > 1) {
-                paginationContainer.append(`<button class="btn btn-outline-primary mx-1" onclick="loadCategories(${currentPage - 1})">Trước</button>`);
+                paginationContainer.append(
+                    `<button class="btn btn-outline-primary mx-1" onclick="loadCategories(${currentPage - 1})">Trước</button>`
+                );
             }
 
             // Thêm các nút số trang
             for (let i = 1; i <= totalPages; i++) {
-                paginationContainer.append(`
-                            <button class="btn ${i === currentPage ? 'btn-primary' : 'btn-outline-primary'} mx-1" onclick="loadCategories(${i})">
-                                ${i}
-                            </button>
-                        `);
+                paginationContainer.append(
+                    `<button class="btn ${i === currentPage ? 'btn-primary' : 'btn-outline-primary'} mx-1" onclick="loadCategories(${i})">
+                        ${i}
+                    </button>`
+                );
             }
 
             // Thêm nút "Sau"
             if (currentPage < totalPages) {
-                paginationContainer.append(`<button class="btn btn-outline-primary mx-1" onclick="loadCategories(${currentPage + 1})">Sau</button>`);
+                paginationContainer.append(
+                    `<button class="btn btn-outline-primary mx-1" onclick="loadCategories(${currentPage + 1})">Sau</button>`
+                );
             }
         }
-        // Hàm load danh mục
-        let currentPage = 1; // Trang hiện tại
-        let totalPages = 1; // Tổng số trang (cập nhật khi nhận phản hồi API)
+        
         // Hàm tải danh mục với phân trang
         function loadCategories(page = 1) {
             currentPage = page; // Cập nhật trang hiện tại
@@ -292,7 +302,7 @@
                         `);
                     });
 
-                    totalPages = response.totalPages; // Cập nhật tổng số trang
+                    totalPages = Math.ceil(response.totalItems/10); // Cập nhật tổng số trang
                     updatePagination(); // Cập nhật nút phân trang
                 },
                 error: function (xhr) {
@@ -354,7 +364,7 @@
                     // Lặp qua dữ liệu trả về và thêm vào <select>
                     response.categories.forEach(category => {
                         // Bỏ qua mục có `categoryId` trùng với `currentCategoryId`
-                        if (category.categoryId !== currentCategoryId) {
+                        if (category.categoryId !== currentCategoryId && category.status ===true) {
                             $(`#${selectElementId}`).append(`<option value="${category.categoryId}">${category.name}</option>`);
                         }
                     });
@@ -432,6 +442,7 @@
                 success: function (response) {
                     showSuccessAlert(response.message); 
                     $('#modalThemDanhMuc').modal('hide');
+
                     loadCategories();
                 },
                 error: function (xhr) {
@@ -492,7 +503,8 @@
                         loadCategories();
                     },
                     error: function (xhr) {
-                        alert(xhr.responseJSON.message);
+                        alert(xhr.responseJSON?.message || "Đã xảy ra lỗi khi chỉnh sửa danh mục.");
+                    showErrorAlert(errorMessage);
                     }
                 });
             }

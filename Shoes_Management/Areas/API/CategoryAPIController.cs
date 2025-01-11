@@ -39,6 +39,7 @@ namespace Shoes_Management.Areas.API
 
                 var totalItems = categoriesQuery.Count();
                 var categories = categoriesQuery
+                    .OrderByDescending(c => c.Status)
                     .Skip((page - 1) * pageSize)
                     .Take(pageSize)
                     .Select(c => new
@@ -51,6 +52,7 @@ namespace Shoes_Management.Areas.API
                         c.CreatedAt,
                         c.UpdatedAt
                     })
+                    
                     .ToList();
 
                 return Ok(new { totalItems, categories });
@@ -164,8 +166,9 @@ namespace Shoes_Management.Areas.API
             var category = await _context.Categories.FindAsync(id);
             if (category == null)
                 return NotFound(new { Success = false, Message = "Category not found." });
+            category.Status = false;
 
-            _context.Categories.Remove(category);
+            _context.Categories.Update(category);
             await _context.SaveChangesAsync();
 
             return Ok(new { Success = true, Message = "Category deleted successfully." });
