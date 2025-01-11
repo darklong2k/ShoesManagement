@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Shoes_Management.Models;
+using System.Text.RegularExpressions;
 
 namespace Shoes_Management.Controllers
 {
@@ -146,6 +147,11 @@ namespace Shoes_Management.Controllers
             {
                 return BadRequest(new { success = false, message = "Email này đã được sử dụng bởi khách hàng khác." });
             }
+            if (!Regex.IsMatch(updatedInfo.Phone, @"^\d{10}$"))
+            {
+                return Ok(new { success = false, message = "Số điện thoại phải là 10 chữ số." });
+            }
+
 
             // Cập nhật các thông tin
             customer.Name = updatedInfo.Name;
