@@ -285,8 +285,12 @@
                 url: `/api/user/ProductDetailsAPI/CheckWishlistStatus/${productId}`,
                 type: 'GET',
                 success: function (response) {
-                    const text = response.isFavorite ? 'Xóa khỏi danh sách yêu thích' : 'Thêm vào danh sách yêu thích';
-                    $('#wishlistBtnContainer').text(text);
+                    const text = response.isFavorite
+                        ? '<i class="bi bi-heart-fill"></i> Xóa khỏi danh sách yêu thích'
+                        : '<i class="bi bi-heart"></i> Thêm vào danh sách yêu thích';
+                    $('#wishlistBtnContainer').html(text);
+
+
                 },
                 error: function () {
                     console.error("Không thể kiểm tra trạng thái yêu thích.");
@@ -303,8 +307,10 @@
                 data: JSON.stringify(productId),
                 success: function (response) {
                     alert(response.message);
-                    const text = response.isFavorite ? 'Xóa khỏi danh sách yêu thích' : 'Thêm vào danh sách yêu thích';
-                    $('#wishlistBtnContainer').text(text);
+                    const text = response.isFavorite
+                        ? '<i class="bi bi-heart-fill"></i> Xóa khỏi danh sách yêu thích'
+                        : '<i class="bi bi-heart"></i> Thêm vào danh sách yêu thích';
+                    $('#wishlistBtnContainer').html(text);
                 },
                 error: function (xhr) {
                     if (xhr.status === 401) {
