@@ -151,7 +151,6 @@ namespace Shoes_Management.Controllers
         [HttpGet("Products_Page")]
 
         public IActionResult Products_Page(int page = 1, string search = null, int brandId = 0, string categorySlug = null,int priceId = 0,string outstanding = null)
-
         {
             int pageSize = 6;
 
