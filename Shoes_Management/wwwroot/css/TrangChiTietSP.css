@@ -18,15 +18,7 @@
         color: #555;
     }
 
-.btn-wishlist {
-    border-color: #ff4d4f;
-    color: #ff4d4f;
-}
 
-    .btn-wishlist:hover {
-        background-color: #ff4d4f;
-        color: white;
-    }
 
 .product-info select {
     margin-bottom: 15px;

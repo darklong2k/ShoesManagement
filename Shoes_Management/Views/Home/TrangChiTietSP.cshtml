@@ -42,14 +42,14 @@
             <!-- Quantity -->
             <div>
                 <label for="quantityInput" class="form-label">Số lượng</label>
-                <input type="number" id="quantityInput" class="form-control w-25" value="1" min="1">
+                <input type="number" id="quantityInput" class="form-control w-25" value="1" min="1" >
                 <p class="mb-0"><strong>Còn lại:</strong> <span id="stockCount">Đang tải...</span> sản phẩm</p>
             </div>
 
             <!-- Buttons -->
             <div class="d-flex align-items-center mt-4">
                 <button class="btn btn-primary me-2">Thêm vào giỏ hàng</button>
-                <button class="btn btn-outline-danger btn-wishlist">
+                <button class="btn btn-outline-danger btn-wishlist" id="wishlistBtnContainer">
                     <i class="bi bi-heart"></i> Thêm vào danh sách yêu thích
                 </button>
             </div>
@@ -92,64 +92,81 @@
 <script>
     $(document).ready(function () {
         const productId = window.location.href.split('/').pop();
-        const apiUrl = `/api/user/ProductDetailsAPI/GetProductDetails/${productId}`;
 
-        // Lấy dữ liệu sản phẩm từ API
-        $.ajax({
-            url: apiUrl,
-            type: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                console.log("Dữ liệu nhận được từ API: ", data);
-                if (data.success) {
-                    const product = data.product;
-                    displayProductInfo(product);
-                    populateSelectors(product);
-                    updateStock();
-                } else {
-                    $('.product-info').html('<div class="alert alert-danger">Sản phẩm không tồn tại hoặc đã bị ẩn.</div>');
+        // Gọi API để lấy dữ liệu sản phẩm
+        function fetchProductData() {
+            $.ajax({
+                url: `/api/user/ProductDetailsAPI/GetProductDetails/${productId}`,
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    if (data.success) {
+                        const product = data.product;
+                        displayProductInfo(product);
+                        populateSelectors(product);
+                        updateStock();
+                    } else {
+                        showErrorMessage('Sản phẩm không tồn tại hoặc đã bị ẩn.');
+                    }
+                },
+                error: function () {
+                    showErrorMessage('Lỗi khi tải dữ liệu sản phẩm.');
                 }
-            },
-            error: function (xhr, status, error) {
-                console.error("Lỗi khi gọi API:", xhr.responseText);
-                alert('Lỗi khi tải dữ liệu từ máy chủ.');
-            }
-        });
+            });
+        }
 
-        // Hiển thị thông tin sản phẩm
+        // Gọi API để lấy dữ liệu đánh giá sản phẩm
+        function fetchProductReviews() {
+            $.ajax({
+                url: `/api/user/ProductDetailsAPI/GetProductReviews/${productId}`,
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    if (data.success) {
+                        updateReviews(data);
+                    } else {
+                        $('#reviewsList').html('<p>Không có đánh giá nào.</p>');
+                    }
+                },
+                error: function () {
+                    showErrorMessage('Lỗi khi tải dữ liệu đánh giá.');
+                }
+            });
+        }
+
+        // Hiển thị thông báo lỗi
+        function showErrorMessage(message) {
+            $('.product-info').html(`<div class="alert alert-danger">${message}</div>`);
+        }
+
+        // Cập nhật thông tin sản phẩm
         function displayProductInfo(product) {
             const totalStock = product.productDetails.reduce((sum, pd) => sum + pd.stockQuantity, 0);
             $('.product-info h3').text(product.name);
             $('.product-info .text-danger').text(new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price));
             $('#totalStock').text(`${totalStock} sản phẩm`);
-            if (totalStock > 0) {
-                $('#stockStatus').text("Còn hàng").removeClass("out-of-stock").addClass("in-stock");
-            } else {
-                $('#stockStatus').text("Hết hàng").removeClass("in-stock").addClass("out-of-stock");
-            }
+            $('#stockStatus').text(totalStock > 0 ? 'Còn hàng' : 'Hết hàng').toggleClass('in-stock', totalStock > 0).toggleClass('out-of-stock', totalStock === 0);
             $('#productDescription').text(product.description);
         }
 
-        // Đổ dữ liệu vào các select (màu sắc và kích thước)
+        // Cập nhật dữ liệu liên quan đến màu sắc và kích thước
         function populateSelectors(product) {
             const colorSelect = $('#colorSelect');
             const sizeSelect = $('#sizeSelect');
             const colors = Array.from(new Set(product.productDetails.map(pd => `${pd.colorId}:${pd.colorName}`)));
             const sizes = Array.from(new Set(product.productDetails.map(pd => `${pd.sizeId}:${pd.sizeName}`)));
 
-            colorSelect.empty();
-            sizeSelect.empty();
-
-            colors.forEach(colorString => {
+            colorSelect.empty().append(colors.map(colorString => {
                 const [colorId, colorName] = colorString.split(":");
-                colorSelect.append(new Option(colorName, colorId));
-            });
+                return new Option(colorName, colorId);
+            }));
 
-            sizes.forEach(sizeString => {
+            sizeSelect.empty().append(sizes.map(sizeString => {
                 const [sizeId, size] = sizeString.split(":");
-                sizeSelect.append(new Option(size, sizeId));
-            });
+                return new Option(size, sizeId);
+            }));
 
+            // Lưu dữ liệu số lượng tồn kho
             window.stockData = product.productDetails.reduce((acc, pd) => {
                 acc[pd.colorId] = acc[pd.colorId] || {};
                 acc[pd.colorId][pd.sizeId] = pd.stockQuantity;
@@ -165,57 +182,98 @@
             $('#stockCount').text(stock);
         }
 
-        // Gắn sự kiện thay đổi cho màu sắc và kích thước
-        $('#colorSelect, #sizeSelect').on('change', updateStock);
+        // Hiển thị đánh giá sản phẩm
+        function updateReviews(data) {
+            $('#averageRating').text(`${data.averageRating}/5.0`);
+            $('#totalReviews').text(`${data.totalReviews} đánh giá`);
 
-        // Lấy dữ liệu đánh giá từ API
-        $.ajax({
-            url: `/api/user/ProductDetailsAPI/GetProductReviews/${productId}`,
-            type: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                if (data.success) {
-                    if (data.message) {
-                        $('#reviewsList').html('<p>' + data.message + '</p>');
-                    } else {
-                        $('#averageRating').text(`${data.averageRating}/5.0`);
-                        $('#totalReviews').text(`${data.totalReviews} đánh giá`);
-                        let reviewsHtml = '';
-                        data.reviews.forEach(function (review) {
-                            reviewsHtml += `
-                                <div class="review">
-                                    <p><strong>${review.name}</strong> - <span class="text-warning">${getStarRating(review.rating)}</span> ${review.rating}/5.0</p>
-                                    <p>${review.comment}</p>
-                                </div>
-                                <hr>
-                            `;
-                        });
-                        $('#reviewsList').html(reviewsHtml);
-                    }
-                }
-            },
-            error: function (xhr, status, error) {
-                console.error("Lỗi khi gọi API:", error);
-                alert('Lỗi khi tải dữ liệu đánh giá.');
-            }
-        });
+            let reviewsHtml = data.reviews.map(function (review) {
+                return `
+                <div class="review">
+                    <p><strong>${review.name}</strong> - <span class="text-warning">${getStarRating(review.rating)}</span> ${review.rating}/5.0</p>
+                    <p>${review.comment}</p>
+                </div><hr>
+            `;
+            }).join('');
 
-        // Hàm tạo sao theo điểm đánh giá
+            $('#reviewsList').html(reviewsHtml);
+        }
+
+        // Tạo sao đánh giá
         function getStarRating(rating) {
             let fullStars = Math.floor(rating);
             let halfStars = (rating % 1) >= 0.5 ? 1 : 0;
             let emptyStars = 5 - fullStars - halfStars;
-            let stars = '';
-            for (let i = 0; i < fullStars; i++) {
-                stars += '★';
-            }
-            if (halfStars) {
-                stars += '☆';
-            }
-            for (let i = 0; i < emptyStars; i++) {
-                stars += '☆';
-            }
-            return stars;
+            return '★'.repeat(fullStars) + (halfStars ? '☆' : '') + '☆'.repeat(emptyStars);
         }
+
+        // Kiểm tra trạng thái đăng nhập
+        function checkLoginStatus() {
+            $.ajax({
+                url: `/api/user/ProductDetailsAPI/CheckLoginStatus`,
+                type: 'GET',
+                success: function (response) {
+                    if (response.isLoggedIn) {
+                        $('#wishlistBtnContainer').show();
+                        checkWishlistStatus(productId);
+                    } else {
+                        $('#wishlistBtnContainer').hide();
+                    }
+                },
+                error: function () {
+                    $('#wishlistBtnContainer').hide();
+                }
+            });
+        }
+
+        // Kiểm tra trạng thái yêu thích
+        function checkWishlistStatus(productId) {
+            $.ajax({
+                url: `/api/user/ProductDetailsAPI/CheckWishlistStatus/${productId}`,
+                type: 'GET',
+                success: function (response) {
+                    const text = response.isFavorite ? 'Xóa khỏi danh sách yêu thích' : 'Thêm vào danh sách yêu thích';
+                    $('#wishlistBtnContainer').text(text);
+                },
+                error: function () {
+                    console.error("Không thể kiểm tra trạng thái yêu thích.");
+                }
+            });
+        }
+
+        // Thêm/xóa sản phẩm khỏi danh sách yêu thích
+        function toggleWishlist() {
+            $.ajax({
+                url: '/api/user/ProductDetailsAPI/ToggleWishlist',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(productId),
+                success: function (response) {
+                    alert(response.message);
+                    const text = response.isFavorite ? 'Xóa khỏi danh sách yêu thích' : 'Thêm vào danh sách yêu thích';
+                    $('#wishlistBtnContainer').text(text);
+                },
+                error: function (xhr) {
+                    if (xhr.status === 401) {
+                        alert('Bạn cần đăng nhập để thực hiện thao tác này.');
+                    } else {
+                        console.error("Lỗi khi thêm/xóa sản phẩm khỏi danh sách yêu thích:", xhr.responseText);
+                    }
+                }
+            });
+        }
+
+        // Gọi các hàm khởi tạo
+        fetchProductData();
+        fetchProductReviews();
+        checkLoginStatus();
+
+        // Gắn sự kiện thay đổi cho các chọn lựa
+        $('#colorSelect, #sizeSelect').on('change', updateStock);
+
+        // Gắn sự kiện cho nút yêu thích
+        $('#wishlistBtnContainer').on('click', toggleWishlist);
     });
+
+
 </script>
