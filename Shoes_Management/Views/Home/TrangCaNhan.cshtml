@@ -329,6 +329,10 @@
                     const orderDetails = res.orderDetails || [];
                     const detailRows = orderDetails.map(detail => `
                         <tr>
+                                    <td>
+                                <img src="/images/${detail.productImage}" alt="Hình ảnh sản phẩm" style="width: 50px; height: 50px; object-fit: cover;" />
+                                    </td>
+
                                 <td>${detail.productName}</td>
                                 <td>${detail.productDescription}</td>
                                 <td>${detail.price.toLocaleString('vi-VN')} đ</td>
@@ -345,6 +349,7 @@
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
+                                        <th>Ảnh</th>
                                             <th>Tên sản phẩm</th>
                                             <th>Mô tả</th>
                                             <th>Giá</th>

@@ -107,6 +107,7 @@ namespace Shoes_Management.Controllers
                                     {
                                         OrderId = od.OrderId,
                                         ProductDetailId = oddt.ProductDetailId,
+                                        ProductImage=pd.Image,
                                         ProductName = pd.Name,
                                         ProductDescription = pd.Description,
                                         Price = pd.Price,
