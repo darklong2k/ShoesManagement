@@ -34,7 +34,7 @@
 
                     <!-- Submit and Reset Buttons -->
                     <div class="mt-4 text-center">
-                        <button type="submit" class="btn btn-primary me-2">Gửi ngay</button>
+                        <button type="submit" class="btn btn-primary me-2" id="contactBtn">Gửi ngay</button>
                         <button type="reset" class="btn btn-secondary">Nhập lại</button>
                     </div>
                 </form>
@@ -42,4 +42,61 @@
         </div>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#fcontact').on('submit', function(e) {
+            e.preventDefault();
 
+            // Lấy giá trị từ các trường nhập
+            var messenger = $('#fmessenger').val().trim();
+            var name = $('#fname').val().trim();
+            var email = $('#femail').val().trim();
+            var phone = $('#fphone').val().trim();
+
+            // Kiểm tra các trường bắt buộc
+            if (!messenger || !name || !email || !phone) {
+                alert("Vui lòng điền đầy đủ thông tin!");
+                return;
+            }
+
+            // Kiểm tra số điện thoại
+            var phonePattern = /^[0-9]{10}$/;
+            if (!phonePattern.test(phone)) {
+                alert("Số điện thoại không hợp lệ");
+                return;
+            }
+
+            // API POST contact
+            $.ajax({
+                url: '/api/contacts',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    contactContent: messenger,
+                    contactEmail: email,
+                    contactName: name,
+                    contactPhone: phone,
+                    contactStatus: "Pending"
+                }),
+                success: function(res) {
+                    alert("Bạn đã gửi thành công");
+                    console.log(res);
+                    $('#fcontact')[0].reset();
+                    location.reload();
+
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error:", status, error);
+                }
+                
+            })
+
+            $('#fphone').on('input', function() {
+            var value = $(this).val();
+            $(this).val(value.replace(/[^0-9]/g, ''));  // Remove non-numeric characters
+        });
+        })
+        
+    })
+</script>

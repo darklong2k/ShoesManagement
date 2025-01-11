@@ -13,7 +13,7 @@
                         <i class="fas fa-user-circle"></i> Thông Tin Cá Nhân
                     </a>
                     <a href="javascript:void(0);" class="nav-link text-dark" onclick="showSection('order-list')" id="nav-order-list">
-                        <i class="fas fa-box"></i> Danh Sách Đơn Hàng
+                        <i class="fas fa-box"></i> Quản Lý Đơn Hàng
                     </a>
                     <a href="javascript:void(0);" class="nav-link text-dark" onclick="showSection('favorite-products')" id="nav-favorite-products">
                         <i class="fas fa-heart"></i> Sản Phẩm Yêu Thích
@@ -51,9 +51,12 @@
             </div>
 
             <div id="order-list" class="section-content mb-4" style="display: none;">
-                <h4 class="mb-3">Danh Sách Đơn Hàng</h4>
+                <h4 class="mb-3">Quản Lý Đơn Hàng</h4>
+               
                 
-                
+            </div>
+            <div id="order-details" class="section-content mb-4" style="display: none;">
+                <h4 class="mb-3">Quản Lý Đơn Hàng</h4>
             </div>
 
             <div id="favorite-products" class="section-content mb-4" style="display: none;">
@@ -63,7 +66,7 @@
 
             <div id="rated-products" class="section-content mb-4" style="display: none;">
                 <h4 class="mb-3">Sản Phẩm Đã Chấm Điểm</h4>
-          
+               
             </div>
         </div>
     </div>
@@ -212,95 +215,91 @@
 </script>
 @*  // Hiện danh sách đơn hàng *@
 <script>
-
-    $.ajax({
-        url: 'https://localhost:7103/api/Customerapi/PersonalPage',
-        method: 'GET',
-        success: function (res) {
-            if (res.success) {
-                var orders = res.orderInFo || [];
-                var orderRows = '';
-
-                // Hàm ánh xạ trạng thái sang badge
-                function getStatusBadge(status) {
-                    switch (status) {
-                        case 'Cancelled':
-                            return `<span class="badge bg-danger"><i class="fas fa-times-circle"></i> ${status}</span>`;
-                        case 'Pending':
-                            return `<span class="badge bg-warning"><i class="fas fa-hourglass-half"></i> ${status}</span>`;
-                        case 'Packing':
-                            return `<span class="badge bg-info"><i class="fas fa-box"></i> ${status}</span>`;
-                        case 'Shipping':
-                            return `<span class="badge bg-primary"><i class="fas fa-truck"></i> ${status}</span>`;
-                        case 'Delivered':
-                            return `<span class="badge bg-success"><i class="fas fa-check-circle"></i> ${status}</span>`;
-                        default:
-                            return `<span class="badge bg-secondary">${status}</span>`;
-                    }
-                }
-
-                // Tạo các dòng <tr> cho bảng đơn hàng
-                orders.forEach(order => {
-                    var statusBadge = getStatusBadge(order.status);
-                    var orderDate = order.orderDate
-                        ? new Date(order.orderDate).toLocaleDateString('vi-VN')
-                        : 'N/A';
-
-                    // Hiển thị nút "Hủy đơn" nếu trạng thái là Pending confirmation hoặc Packing
-                    var cancelBtn =
-                        order.status === 'Pending' || order.status === 'Packing'
-                            ? `<button class="btn btn-danger btn-sm" onclick="cancelOrder('${order.orderId}')">Hủy đơn</button>`
-                            : '';
-
-                    // Hiển thị nút "Đánh giá" nếu trạng thái là Delivered
-                    var reviewBtn =
-                        order.status === 'Delivered'
-                            ? `<button class="btn btn-primary btn-sm" onclick="openReviewPopup('${order.orderId}')">Đánh giá</button>`
-                            : '';
-
-                    orderRows += `
-                                    <tr>
-                                        <td>${order.orderId || 'N/A'}</td>
-                                        <td>${orderDate}</td>
-                                        <td>${statusBadge}</td>
-                                        <td>
-                                            <button class="btn btn-info btn-sm" onclick="viewDetails('${order.orderId}')">Chi tiết</button>
-                                            ${cancelBtn}
-                                            ${reviewBtn}
-                                        </td>
-                                    </tr>`;
-                });
-                
-                // Hiển thị bảng danh sách đơn hàng
-                var orderTable = `
-                                    <div class="card shadow-sm">
-                                        <div class="card-body">
-                                            <table class="table table-bordered">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Mã đơn hàng</th>
-                                                        <th>Ngày đặt</th>
-                                                        <th>Trạng thái</th>
-                                                        <th>Thao tác</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    ${orderRows}
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                   `;
-
-                $('#order-list').html(orderTable);
-            } else {
-                console.error("API trả về dữ liệu không hợp lệ:", res);
-            }
-        },
-        error: function (err) {
-            console.error("Lỗi khi gọi API:", err);
+    // Hàm ánh xạ trạng thái sang badge
+    function getStatusBadge(status) {
+        switch (status) {
+            case 'Cancelled':
+                return `<span class="badge bg-danger"><i class="fas fa-times-circle"></i>Đã hủy</span>`;
+            case 'Pending':
+                return `<span class="badge bg-warning"><i class="fas fa-hourglass-half"></i> Đang chờ xác nhận</span>`;
+            case 'Packing':
+                return `<span class="badge bg-info"><i class="fas fa-box"></i> Đang đóng gói</span>`;
+            case 'Shipping':
+                return `<span class="badge bg-primary"><i class="fas fa-truck"></i> Đang vận chuyển</span>`;
+            case 'Delivered':
+                return `<span class="badge bg-success"><i class="fas fa-check-circle"></i> Đã giao</span>`;
+            default:
+                return `<span class="badge bg-secondary">${status}</span>`;
         }
-    });
+    }
+
+    // Hàm xây dựng danh sách đơn hàng
+    function buildOrderRows(orders) {
+        return orders.map(order => {
+            const statusBadge = getStatusBadge(order.status);
+            const orderDate = order.orderDate
+                ? new Date(order.orderDate).toLocaleDateString('vi-VN')
+                : 'N/A';
+
+            // Nút "Hủy đơn" và "Đánh giá"
+            const cancelBtn = (order.status === 'Pending' || order.status === 'Packing')
+                ? `<button class="btn btn-danger btn-sm" onclick="cancelOrder('${order.orderId}')">Hủy đơn</button>`
+                : '';
+            // const reviewBtn = (order.status === 'Delivered')
+            //     ? `<button class="btn btn-primary btn-sm" onclick="openReviewPopup('${order.orderId}')">Đánh giá</button>`
+            //     : '';
+
+            return `
+                    <tr>
+                        <td>${order.orderId || 'N/A'}</td>
+                        <td>${orderDate}</td>
+                        <td>${statusBadge}</td>
+                        <td>
+                            <button class="btn btn-info btn-sm" onclick="viewDetails('${order.orderId}')">Chi tiết</button>
+                            ${cancelBtn}
+                            
+                        </td>
+                    </tr>`;
+        }).join('');
+    }
+
+    // Hàm tải danh sách đơn hàng
+    function loadOrderList() {
+        $.ajax({
+            url: 'https://localhost:7103/api/Customerapi/PersonalPage',
+            method: 'GET',
+            success: function (res) {
+                if (res.success) {
+                    const orderRows = buildOrderRows(res.orderInFo || []);
+                    const orderTable = `
+                            <div class="card shadow-sm">
+                                <div class="card-body">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Mã đơn hàng</th>
+                                                <th>Ngày đặt</th>
+                                                <th>Trạng thái</th>
+                                                <th>Thao tác</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            ${orderRows}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>`;
+                    $('#order-list').html(orderTable);
+                } else {
+                    console.error("API trả về dữ liệu không hợp lệ:", res);
+                }
+            },
+            error: function (err) {
+                console.error("Lỗi khi gọi API:", err);
+            }
+        });
+    }
+
     // Hàm gửi yêu cầu hủy đơn
     function cancelOrder(orderId) {
         if (confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')) {
@@ -310,7 +309,7 @@
                 success: function (res) {
                     if (res.success) {
                         alert('Đơn hàng đã được hủy.');
-                        location.reload(); // Tải lại trang để cập nhật danh sách
+                        loadOrderList(); // Cập nhật danh sách
                     } else {
                         alert('Không thể hủy đơn hàng. Vui lòng thử lại.');
                     }
@@ -322,7 +321,74 @@
             });
         }
     }
+    // Hàm hiển thị chi tiết đơn hàng
+    function viewDetails(orderId) {
+        $.ajax({
+            url: `https://localhost:7103/api/Customerapi/OrderDetails/${orderId}`,
+            method: 'GET',
+            success: function (res) {
+                if (res.success) {
+                    const orderDetails = res.orderDetails || [];
+                    const detailRows = orderDetails.map(detail => `
+                        <tr>
+                                <td>${detail.productName}</td>
+                                <td>${detail.productDescription}</td>
+                                <td>${detail.price.toLocaleString('vi-VN')} đ</td>
+                                <td>${detail.sizeName || 'N/A'}</td>
+                                <td>${detail.colorName || 'N/A'}</td>
+                            
+                        </tr>
+                    `).join('');
+
+                    const detailTable = `
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <button class="btn btn-secondary mb-3" onclick="returnToOrderList()">Trở về</button>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Tên sản phẩm</th>
+                                            <th>Mô tả</th>
+                                            <th>Giá</th>
+                                            <th>Kích thước</th>
+                                            <th>Màu sắc</th>
+                                            <th>Nhận xét</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${detailRows}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    `;
+
+                    // Hiển thị chi tiết đơn hàng
+                    $('#order-list').hide(); // Ẩn danh sách đơn hàng
+                    $('#order-details').html(detailTable).show(); // Hiển thị chi tiết đơn hàng
+                } else {
+                    alert('Không thể tải chi tiết đơn hàng. Vui lòng thử lại.');
+                }
+            },
+            error: function (err) {
+                console.error("Lỗi khi tải chi tiết đơn hàng:", err);
+                alert('Đã xảy ra lỗi. Vui lòng thử lại.');
+            }
+        });
+    }
+
+    // Hàm trở về danh sách đơn hàng
+    function returnToOrderList() {
+        $('#order-details').hide(); // Ẩn chi tiết đơn hàng
+        $('#order-list').show(); // Hiển thị danh sách đơn hàng
+    }
+
+    // Gọi loadOrderList() khi trang được tải
+    $(document).ready(function () {
+        loadOrderList();
+    });
 </script>
+
 @* Lưu đổi thông tin cá nhân *@
 <script>
     $(document).ready(function () {
@@ -380,7 +446,7 @@
                                                     <img src="/images/${product.productImage}" class="card-img-top" alt="Product Image">
                                             <div class="card-body">
                                                         <h5 class="card-title">${product.productName}</h5>
-                                                        <p class="card-text">Giá: ${product.prodcutPrice}</p>
+                                                            <p class="card-text">Giá: ${product.prodcutPrice.toLocaleString()} VND</p>
                                                                  <button class="btn btn-danger btn-sm" data-id="${product.prodcuctId}" onclick="removeFromWishlist(${product.prodcuctId})">Bỏ yêu thích</button>
                                             </div>
                                         </div>
@@ -407,7 +473,7 @@
         // ID của khách hàng, có thể lấy từ thông tin đăng nhập hoặc session
         var customerId = $('#customerId').val();
         // Gửi yêu cầu DELETE để xóa sản phẩm khỏi danh sách yêu thích
-        if (confirm('Bạn có chắc chắn muốn bỏ sản phẩm này?')) {
+        if (confirm('Bạn có chắc chắn muốn bỏ yêu thích sản phẩm này?')) {
             $.ajax({
 
                 url: `https://localhost:7103/api/Customerapi/RemoveFromWishlist/${productId}/${customerId}`,  // Địa chỉ API của bạn
@@ -441,12 +507,14 @@
                 if (res.success) {
                     var ratedProducts = res.ratedProducts || [];  // Lấy danh sách sản phẩm đã chấm điểm
                     var productsHtml = '';  // Khởi tạo chuỗi HTML rỗng
+                    
 
                     // Bắt đầu thẻ row trước vòng lặp
                     productsHtml += '<div class="row">';
 
                     // Lặp qua danh sách sản phẩm và thêm vào DOM
                     ratedProducts.forEach(product => {
+                        var rating = '★'.repeat(Math.floor(product.rating)) + '☆'.repeat(5 - Math.floor(product.rating));
                         productsHtml += `
                                 <div class="col-md-4 mb-3">
                                     <div class="card shadow-sm">
@@ -455,7 +523,7 @@
                                         <div class="card-body">
                                             <h5 class="card-title">${product.productName}</h5>
                                             <p class="card-text">Giá: ${product.productPrice.toLocaleString()} VND</p>
-                                            <p class="card-text">Đánh giá: ${product.rating}/5</p>
+                                            <p class="card-text">Đánh giá: ${rating}</p>
                                         </div>
                                     </div>
                                 </div>
