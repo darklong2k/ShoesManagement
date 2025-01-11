@@ -245,9 +245,9 @@
             const cancelBtn = (order.status === 'Pending' || order.status === 'Packing')
                 ? `<button class="btn btn-danger btn-sm" onclick="cancelOrder('${order.orderId}')">Hủy đơn</button>`
                 : '';
-            // const reviewBtn = (order.status === 'Delivered')
-            //     ? `<button class="btn btn-primary btn-sm" onclick="openReviewPopup('${order.orderId}')">Đánh giá</button>`
-            //     : '';
+             const reviewBtn = (order.status === 'Delivered')
+                 ? `<button class="btn btn-primary btn-sm" onclick="openReviewPopup('${order.orderId}')">Đánh giá</button>`
+                 : '';
 
             return `
                     <tr>
@@ -257,7 +257,7 @@
                         <td>
                             <button class="btn btn-info btn-sm" onclick="viewDetails('${order.orderId}')">Chi tiết</button>
                             ${cancelBtn}
-                            
+                            ${reviewBtn}
                         </td>
                     </tr>`;
         }).join('');
@@ -331,11 +331,16 @@
                     const orderDetails = res.orderDetails || [];
                     const detailRows = orderDetails.map(detail => `
                         <tr>
+                                    <td>
+                                <img src="/images/${detail.productImage}" alt="Hình ảnh sản phẩm" style="width: 50px; height: 50px; object-fit: cover;" />
+                                    </td>
+
                                 <td>${detail.productName}</td>
                                 <td>${detail.productDescription}</td>
                                 <td>${detail.price.toLocaleString('vi-VN')} đ</td>
                                 <td>${detail.sizeName || 'N/A'}</td>
                                 <td>${detail.colorName || 'N/A'}</td>
+
                             
                         </tr>
                     `).join('');
@@ -347,12 +352,13 @@
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
+                                        <th>Ảnh</th>
                                             <th>Tên sản phẩm</th>
                                             <th>Mô tả</th>
                                             <th>Giá</th>
                                             <th>Kích thước</th>
                                             <th>Màu sắc</th>
-                                            <th>Nhận xét</th>
+                                            
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -443,11 +449,15 @@
                         productsHtml += `
                                     <div class="col-md-4 mb-3">
                                         <div class="card shadow-sm">
-                                                    <img src="/images/${product.productImage}" class="card-img-top" alt="Product Image">
+
+                                                     <a href="/Home/TrangChiTietSP/${product.prodcuctId}">
+                                            <img src="/images/${product.productImage}"
+                                         class="card-img-top" alt="">
+                                            </a>       
                                             <div class="card-body">
                                                         <h5 class="card-title">${product.productName}</h5>
                                                             <p class="card-text">Giá: ${product.prodcutPrice.toLocaleString()} VND</p>
-                                                                 <button class="btn btn-danger btn-sm" data-id="${product.prodcuctId}" onclick="removeFromWishlist(${product.prodcuctId})">Bỏ yêu thích</button>
+                                                  <button class="btn btn-danger btn-sm" data-id="${product.prodcuctId}" onclick="removeFromWishlist(${product.prodcuctId})">Bỏ yêu thích</button>
                                             </div>
                                         </div>
                                     </div>
@@ -518,8 +528,10 @@
                         productsHtml += `
                                 <div class="col-md-4 mb-3">
                                     <div class="card shadow-sm">
-                                            <img src="/images/${product.productImage}"
-                                             class="card-img-top" alt="Product Image">
+                                            <a href="/Home/TrangChiTietSP/${product.productId}">
+                                                <img src="/images/${product.productImage}"
+                                             class="card-img-top" alt="">
+                                                </a>
                                         <div class="card-body">
                                             <h5 class="card-title">${product.productName}</h5>
                                             <p class="card-text">Giá: ${product.productPrice.toLocaleString()} VND</p>
