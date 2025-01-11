@@ -13,6 +13,8 @@ namespace Shoes_Management.Areas.API
         {
             _shoescontext = shoescontext;
         }
+        
+        // API lấy contact
         [HttpGet]
         public IActionResult GetContact()
         {
@@ -21,6 +23,8 @@ namespace Shoes_Management.Areas.API
 
             return Ok(contacts);
         }
+
+        // Lấy contact bằng id contact
         public Contact GetContactById(int contactId)
         {
             try
@@ -40,6 +44,8 @@ namespace Shoes_Management.Areas.API
                 throw new Exception("An error occurred while retrieving the contact", ex);
             }
         }
+
+        // Chỉnh sửa status contact bằng id contact
         [HttpPatch("{contactId}")]
         public IActionResult ChangeContactStatus(int contactId)
         {
@@ -63,6 +69,8 @@ namespace Shoes_Management.Areas.API
 
             return Ok(contact);
         }
+
+        // Xóa contact
         [HttpDelete("{contactId}")]
         public IActionResult DeleteContact(int contactId)
         {
@@ -86,6 +94,8 @@ namespace Shoes_Management.Areas.API
 
             return Ok(contact);
         }
+
+        // Tạo contact
         [HttpPost]
         public IActionResult CreateContact([FromBody] Contact contact)
         {

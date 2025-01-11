@@ -63,10 +63,11 @@
             // Kiểm tra số điện thoại
             var phonePattern = /^[0-9]{10}$/;
             if (!phonePattern.test(phone)) {
-                alert("Số điện thoại phải là 10 chữ số!");
+                alert("Số điện thoại không hợp lệ");
                 return;
             }
 
+            // API POST contact
             $.ajax({
                 url: '/api/contacts',
                 method: 'POST',

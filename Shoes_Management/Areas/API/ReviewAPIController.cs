@@ -14,9 +14,11 @@ namespace Shoes_Management.Areas.API
         {
             _shoescontext = shoescontext;
         }
+        // API lấy reviews
         [HttpGet]
         public IActionResult GetReview()
         {
+            // Kết bảng ProductDetails, Customers, Colors, Sizes, Reviews
             var query = from c in _shoescontext.Customers
                         join r in _shoescontext.Reviews on c.CustomerId equals r.CustomerId
                         join pd in _shoescontext.ProductDetails on r.ProductDetailId equals pd.ProductDetailId
@@ -44,12 +46,15 @@ namespace Shoes_Management.Areas.API
 
             return Ok(reviews);
         }
+        // Lấy review bằng id product detail và id customer
         public Review GetReviewByProductDetailIdAndCustomerId(int product_detail_id, int customer_id)
         {
             var reviews = _shoescontext.Reviews.ToList();
             var review = reviews.FirstOrDefault(review => review.CustomerId == customer_id && review.ProductDetailId == product_detail_id);
             return review;
         }
+
+        // Chỉnh sửa review bằng id product detail và id customer
         [HttpPatch("{product_detail_id}/{customer_id}/{status}")]
         public IActionResult ChangeStatusReview(int product_detail_id, int customer_id, string status) 
         {
