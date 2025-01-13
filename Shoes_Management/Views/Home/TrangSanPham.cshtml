@@ -84,7 +84,9 @@
         function loadProduct(page)
         {
             const categorySlug = $('#ListCate').val() || '';
-            const brandId = $('input[name="brand"]:checked').val() || 0;
+            const brandId = $('input[name="brand"]:checked').map(function(){
+                return parseInt(this.value);
+            }).get();
             const priceId = $('#SelectPrice').val() || 0;
             $('#listProd').empty();
             $('#PhanTrang').empty();
@@ -94,7 +96,7 @@
             data:{
                     page: page,
                     search: searchQuery,
-                    brandId: brandId,
+                    brandId:JSON.stringify(brandId),
                     categorySlug: categorySlug,
                     priceId: priceId,
                     outstanding: outStanding
@@ -128,6 +130,7 @@
                     `;               
                 });
                 $('#listProd').html(html);
+                console.log(brandId);
                 for(let i = 1; i <= res.totalPage;i++){
                     const activeClass = i == page ? 'active' : '';
                     $('#PhanTrang').append(`
@@ -156,7 +159,7 @@
                 res.brands.forEach(function (brand) {
                     htmlbrand += `
                                 <div class="form-check">
-                                             <input class="form-check-input" type="checkbox" value="${brand.brandId}" id="brand${brand.brandId}" />
+                                             <input class="form-check-input" type="checkbox" name="brand" value="${brand.brandId}" id="brand${brand.brandId}" />
                                             <label class="form-check-label" for="${brand.brandId}">${brand.brandName}</label>
                                     </div>
                         `;
