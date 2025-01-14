@@ -29,6 +29,7 @@
                         <div class="mb-3">
                             <h6 class="fw-bold">Khoảng giá</h6>
                             <select class="form-select" id="SelectPrice">
+                                <option value="0">Tất cả</option>
                                 <option value="1">Dưới 2 triệu</option>
                                 <option value="2">Từ 2 đến 3 triệu </option>
                                 <option value="3">Từ 3 đến 4 triệu</option>
@@ -75,19 +76,31 @@
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get(param);
         }
-
         const searchQuery = getQueryParam('search') || '';
         const categorySlug = getQueryParam('categorySlug') || '';
         const brandId = getQueryParam('brandId') || 0;
         const outStanding = getQueryParam('outstanding') || '';
-        
-        function loadProduct(page,search='')
+
+        function loadProduct(page)
         {
+            const categorySlug = $('#ListCate').val() || '';
+            const brandId = $('input[name="brand"]:checked').map(function(){
+                return parseInt(this.value);
+            }).get();
+            const priceId = $('#SelectPrice').val() || 0;
             $('#listProd').empty();
             $('#PhanTrang').empty();
             $.ajax({
-            url: `https://localhost:7103/api/homeapi/products_Page?page=${page}&search=${searchQuery}&brandId=${brandId}&categorySlug=${categorySlug}&outstanding=${outStanding}`,
+            url: `https://localhost:7103/api/homeapi/products_Page`,
             type:'GET',
+            data:{
+                    page: page,
+                    search: searchQuery,
+                    brandId:JSON.stringify(brandId),
+                    categorySlug: categorySlug,
+                    priceId: priceId,
+                    outstanding: outStanding
+            },
             success:function(res){
                 var html='';
                 if(!res.success){
@@ -120,6 +133,7 @@
                     `;               
                 });
                 $('#listProd').html(html);
+                console.log(brandId);
                 for(let i = 1; i <= res.totalPage;i++){
                     const activeClass = i == page ? 'active' : '';
                     $('#PhanTrang').append(`
@@ -131,21 +145,13 @@
             }
         });
         }
-        $(document).on('click','.page-link',function(e){
-            e.preventDefault();
-            const page = $(this).data('page');
-            if(page){
-                currentPage=page;
-                loadProduct(currentPage);
-            }
-        });
 
         //Chọn tự động bộ lọc
         $.ajax({
             url: 'https://localhost:7103/api/homeapi/TrangSanPham',
             type: 'GET',
             success: function (res) {
-                var htmlcate = '';
+                var htmlcate = '<option value="">Tất cả</option>';
                 var htmlbrand = '';
                 res.category.forEach(function (category) {
                     htmlcate += `
@@ -156,7 +162,7 @@
                 res.brands.forEach(function (brand) {
                     htmlbrand += `
                                 <div class="form-check">
-                                             <input class="form-check-input" type="radio" name="brand" value="${brand.brandId}" id="brand${brand.brandId}" />
+                                             <input class="form-check-input" type="checkbox" name="brand" value="${brand.brandId}" id="brand${brand.brandId}" />
                                             <label class="form-check-label" for="${brand.brandId}">${brand.brandName}</label>
                                     </div>
                         `;
@@ -166,7 +172,7 @@
                     $(`#ListCate option[value="${categorySlug}"]`).prop('selected', true);
                 }
                 if (brandId) {
-                    $(`#ListBrand input[type="radio"][value="${brandId}"]`).prop('checked', true);
+                    $(`#ListBrand input[type="checkbox"][value="${brandId}"]`).prop('checked', true);
                 }
                 loadProduct(currentPage);
             }
@@ -176,51 +182,17 @@
         //Gửi bộ lọc
         $('#FormFilter').on('submit', function (e) { 
             e.preventDefault();
-            var categorySlug = $('#ListCate').val() || '';
-            console.log(brandId);
-            var brandId  = $('input[name="brand"]:checked').val() || 0;
-            var priceId = $('#SelectPrice').val() || 0;
-            $.ajax({
-                url: 'https://localhost:7103/api/homeapi/products_Page',
-                type:'GET',
-                data: { page: 1, search: '', brandId: brandId, categorySlug: categorySlug, priceId: priceId },
-                success:function(res)
-                {
-                    $('#listProd').empty();
-                    $('#PhanTrang').empty();
-                    if (res.products.length === 0) {
-                        $('#listProd').html(`<p class="text-center">Không tìm thấy sản phẩm nào.</p>`);
-                        return;
-                    }
-                    res.products.forEach(function (product) {
-                        var rating = '★'.repeat(Math.floor(product.ratingAvg)) + '☆'.repeat(5 - (Math.floor(product.ratingAvg)));
-                        html = `
-                            <div class="col">
-                            <div class="card h-100">
-                                <a href="#">
-                                        <img src="/images/${product.image}" class="card-img-top" alt="Sản phẩm">
-                                </a>
-                                <div class="card-body">
-                                    <h5 class="card-title">${product.name}</h5>
-                                    <p class="text-warning">${rating}</p>
-                                    <p class="text-danger fw-bold">${product.price.toLocaleString()}đ</p>
-                                </div>
-                            </div>
-                        </div>
-                        `;
-                        $('#listProd').append(html);
-                    });
-                    $('#COUNT').text(res.totalProducts);
-                    for (let i = 1; i <= res.totalPage; i++) {
-                        const activeClass = i == page ? 'active' : '';
-                        $('#PhanTrang').append(`
-                            <li class="page-item ${activeClass}">
-                                <a class ="page-link" href="#" data-page="${i}">${i}</a>
-                            </li>
-                        `);
-                    }
-                }
-            });
+            currentPage = 1;
+            loadProduct(currentPage);
+        });
+
+        $(document).on('click', '.page-link', function (e) {
+            e.preventDefault();
+            const page = $(this).data('page');
+            if (page) {
+                currentPage = page;
+                loadProduct(currentPage);
+            }
         });
     });
 </script>
