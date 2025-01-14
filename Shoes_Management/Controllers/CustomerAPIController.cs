@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Shoes_Management.Models;
+using System.Text.RegularExpressions;
 
 namespace Shoes_Management.Controllers
 {
@@ -37,6 +38,7 @@ namespace Shoes_Management.Controllers
                                  where ct.AccountId.ToString() == acc_id
                                  select new
                                  {
+                                    
                                      CustomerId = ct.CustomerId,
                                      ProductName = pd.Name,
                                      ProdcutPrice = pd.Price,
@@ -50,6 +52,7 @@ namespace Shoes_Management.Controllers
                                  where ct.AccountId.ToString() == acc_id
                                  select new
                                  {
+                                     ProductId=pd.ProductId,
                                      ProductName = pd.Name,
                                      ProductPrice = pd.Price,
                                      ProductImage = pd.Image,
@@ -106,7 +109,9 @@ namespace Shoes_Management.Controllers
                                     select new
                                     {
                                         OrderId = od.OrderId,
+                                        OrderStatus = od.Status,
                                         ProductDetailId = oddt.ProductDetailId,
+                                        ProductImage=pd.Image,
                                         ProductName = pd.Name,
                                         ProductDescription = pd.Description,
                                         Price = pd.Price,
@@ -146,6 +151,11 @@ namespace Shoes_Management.Controllers
             {
                 return BadRequest(new { success = false, message = "Email này đã được sử dụng bởi khách hàng khác." });
             }
+            if (!Regex.IsMatch(updatedInfo.Phone, @"^\d{10}$"))
+            {
+                return Ok(new { success = false, message = "Số điện thoại phải là 10 chữ số." });
+            }
+
 
             // Cập nhật các thông tin
             customer.Name = updatedInfo.Name;

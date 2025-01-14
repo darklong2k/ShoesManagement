@@ -203,7 +203,7 @@
                     </ul>
 
                     <!-- Form tìm kiếm -->
-                    <form class="d-flex ms-3" id="formSearch">
+                    <form class="d-flex ms-2" id="formSearch">
                         <div class="input-group">
                             <input class="form-control" type="search" placeholder="Tìm kiếm" id="search" aria-label="Search" required>
                             <button class="btn btn-outline-secondary" type="submit">
@@ -213,7 +213,7 @@
                     </form>
 
                     <!-- Các mục biểu tượng user và giỏ hàng -->
-                    <ul class="navbar-nav ms-3">
+                    <ul class="navbar-nav ms-" style="padding-top:11px">
                         <li class="nav-item">
                             <!-- Biểu tượng user mở popup đăng nhập -->
                             <a class="nav-link" href="#" id="UserICON" data-bs-toggle="modal" data-bs-target="#loginModal">
@@ -224,6 +224,7 @@
                         <li class="nav-item">
                             <!-- Biểu tượng giỏ hàng -->
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="TrangGioHang">
+                                <i>Tổng tiền: <span id="total-price">0 VNĐ</span></i>
                                 <i class="fas fa-shopping-cart position-relative">
                                     <!-- Hiển thị số lượng sản phẩm trong giỏ -->
                                     <span id="cart-item-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
@@ -371,6 +372,32 @@
 
     <!-- JavaScript để chuyển đổi giữa đăng nhập và đăng ký -->
     <script>
+
+        function updateCartSummary() {
+            $.ajax({
+                url: '/api/CartAPI/GetCartSummary', // API lấy thông tin giỏ hàng
+                type: 'GET',
+                success: function (data) {
+                    console.log("dsdf", data)
+                    if (data) {
+                        // Cập nhật số lượng sản phẩm trong giỏ
+                        $('#cart-item-count').text(data.totalItems);
+
+                        // Cập nhật tổng tiền giỏ hàng
+                        $('#total-price').text(data.totalPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }));
+                    }
+                },
+                error: function (error) {
+                    console.log("Lỗi khi lấy giỏ hàng:", error);
+                }
+            });
+        }
+
+        // Cập nhật giỏ hàng khi trang được tải
+        updateCartSummary();
+
+
+
         // Chuyển đổi giữa đăng nhập và đăng ký
         // Khi nhấn vào "showSignup", ẩn form đăng nhập và hiển thị form đăng ký
         document.getElementById('showSignup').addEventListener('click', function () {
@@ -474,9 +501,9 @@
                 {
                     var websiteInfo = `
                                         <p><strong>${res.website.websiteName} Trang Thông Tin Chính Thức.</strong></p>
-                                <p><strong>Địa chỉ:</strong> ${res.website.websiteAddress}</p>
-                                <p><strong>Email:</strong>${res.website.websiteEmail}</p>
-                                <p><strong>Hotline:</strong>${res.website.websitePhone}</p>
+                                <p><strong>Địa chỉ: </strong> ${res.website.websiteAddress}</p>
+                                <p><strong>Email: </strong>${res.website.websiteEmail}</p>
+                                <p><strong>Hotline: </strong>${res.website.websitePhone}</p>
                     `;
                     $('#websiteINFO').html(websiteInfo);
                     var SocialInfo = `

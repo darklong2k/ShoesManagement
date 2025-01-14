@@ -32,6 +32,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
     <!-- Flatpickr CSS -->
     <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
+    <style>
+        .alert {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1055;
+            width: auto;
+            min-width: 300px;
+        }
+    </style>
 </head> <!--end::Head--> <!--begin::Body-->
 
 <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
@@ -87,7 +97,7 @@
             <div class="sidebar-brand">
                 <!--begin::Brand Link--> <a href="./index.html" class="brand-link">
                     <!--begin::Brand Image-->
-                    <img src="~/images/T1.png" alt="AdminLTE Logo" class="brand-image opacity-75 shadow"> <!--end::Brand Image-->
+                    <img src="/images/T1.svg" alt="AdminLTE Logo" class="brand-image opacity-75 shadow"> <!--end::Brand Image-->
                     <!--begin::Brand Text-->
                     <span class="brand-text fw-light">T1 Shoes</span> <!--end::Brand Text-->
                 </a>
@@ -122,7 +132,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="./widgets/info-box.html" class="nav-link">
+                                    <a href="@Url.Action("TrangDanhMucSanPham", "Home")" class="nav-link">
                                         <i class="nav-icon bi bi-circle"></i>
                                         <p>Quản lý danh mục sản phẩm</p>
                                     </a>
