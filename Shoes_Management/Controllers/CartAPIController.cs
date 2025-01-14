@@ -16,100 +16,149 @@ namespace Shoes_Management.Controllers
             _context = context;
         }
 
-        public class AddToCartRequest
+        // Helper function to get customer by session account ID
+        private async Task<Customer> GetCustomerFromSession()
         {
-            public int ProductDetailId { get; set; }
+            var accountId = HttpContext.Session.GetString("acc_id");
+            if (accountId == null)
+            {
+                return null;
+            }
+
+            return await _context.Customers.FirstOrDefaultAsync(c => c.AccountId.ToString() == accountId);
+        }
+
+        [HttpGet("getCartItems")]
+        public async Task<IActionResult> GetCartItems()
+        {
+            var customer = await GetCustomerFromSession();
+            if (customer == null)
+            {
+                return Unauthorized(new { message = "Bạn cần đăng nhập để thực hiện thao tác này." });
+            }
+
+            var cartItems = await _context.CartDetails
+                .Where(cd => cd.CustomerId == customer.CustomerId)
+                .Include(cd => cd.ProductDetail)
+                .ThenInclude(pd => pd.Product)
+                .Include(cd => cd.ProductDetail)
+                .ThenInclude(pd => pd.Color)
+                .Include(cd => cd.ProductDetail)
+                .ThenInclude(pd => pd.Size)
+                .Select(cd => new
+                {
+                    cd.ProductDetailId,
+                    cd.Quantity,
+                    ProductName = cd.ProductDetail.Product.Name,
+                    ProductImage = cd.ProductDetail.Product.Image,
+                    ProductColor = cd.ProductDetail.Color.ColorName,
+                    ProductSize = cd.ProductDetail.Size.SizeName,
+                    ProductPrice = cd.ProductDetail.Product.Price
+                })
+                .ToListAsync();
+
+            return Ok(new { success = true, cartItems });
+        }
+
+        [HttpDelete("removeItem/{productDetailId}")]
+        public async Task<IActionResult> RemoveItem(int productDetailId)
+        {
+            var customer = await GetCustomerFromSession();
+            if (customer == null)
+            {
+                return Unauthorized(new { message = "Bạn cần đăng nhập để thực hiện thao tác này." });
+            }
+
+            var item = await _context.CartDetails
+                .FirstOrDefaultAsync(cd => cd.ProductDetailId == productDetailId && cd.CustomerId == customer.CustomerId);
+
+            if (item == null)
+            {
+                return NotFound(new { success = false, message = "Sản phẩm không tồn tại trong giỏ hàng của bạn." });
+            }
+
+            _context.CartDetails.Remove(item);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { success = true, message = "Sản phẩm đã được xóa khỏi giỏ hàng." });
+        }
+
+        [HttpDelete("clearCart")]
+        public async Task<IActionResult> ClearCart()
+        {
+            var customer = await GetCustomerFromSession();
+            if (customer == null)
+            {
+                return Unauthorized(new { message = "Bạn cần đăng nhập để thực hiện thao tác này." });
+            }
+
+            var cartItems = await _context.CartDetails
+                .Where(cd => cd.CustomerId == customer.CustomerId)
+                .ToListAsync();
+
+            if (cartItems.Count == 0)
+            {
+                return Ok(new { success = false, message = "Giỏ hàng đã trống." });
+            }
+
+            _context.CartDetails.RemoveRange(cartItems);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { success = true, message = "Giỏ hàng đã được xóa." });
+        }
+
+        public class UpdateQuantityRequest
+        {
             public int Quantity { get; set; }
         }
 
-        [HttpGet("GetCartDetails")]
-        public async Task<IActionResult> GetCartDetails()
+        [HttpPut("updateQuantity/{productDetailId}")]
+        public async Task<IActionResult> UpdateQuantity(int productDetailId,[FromBody] UpdateQuantityRequest request)
         {
-            var accountId = HttpContext.Session.GetString("acc_id");
-            if (accountId == null)
-            {
-                return Unauthorized(new { message = "Bạn cần đăng nhập để sử dụng giỏ hàng." });
-            }
-
-            var customer = await _context.Customers
-                .FirstOrDefaultAsync(c => c.AccountId.ToString() == accountId);
-
+            var customer = await GetCustomerFromSession();
             if (customer == null)
             {
-                return NotFound(new { message = "Khách hàng không tồn tại." });
+                return Unauthorized(new { message = "Bạn cần đăng nhập để thực hiện thao tác này." });
             }
 
-            var cartDetails = await _context.CartDetails
-                .Include(cd => cd.ProductDetail) // Load thông tin chi tiết sản phẩm
-                .ThenInclude(pd => pd.Product)  // Load thông tin sản phẩm
-                .Where(cd => cd.CustomerId == customer.CustomerId)
-                .ToListAsync();
+            var item = await _context.CartDetails
+                .FirstOrDefaultAsync(cd => cd.ProductDetailId == productDetailId && cd.CustomerId == customer.CustomerId);
 
-            if (!cartDetails.Any())
+            if (item == null)
             {
-                return NotFound(new { message = "Giỏ hàng rỗng hoặc không tồn tại." });
+                return NotFound(new { success = false, message = "Sản phẩm không tồn tại trong giỏ hàng của bạn." });
             }
 
-            var result = cartDetails.Select(cd => new
-            {
-                cd.CustomerId,
-                cd.ProductDetailId,
-                cd.Quantity,
-                cd.TotalPrice,
-                cd.CreatedAt,
-                Product = new
-                {
-                    ProductName = cd.ProductDetail.Product.Name,
-                    Color = cd.ProductDetail.Color,
-                    Size = cd.ProductDetail.Size,
-                    Price = cd.ProductDetail.Product.Price,
-                    Image = cd.ProductDetail.Product.Image
-                }
-            });
+            item.Quantity = Math.Max(1, request.Quantity); // Ensure quantity is at least 1
+            await _context.SaveChangesAsync();
 
-            return Ok(result);
+            return Ok(new { success = true });
         }
-        [HttpGet("GetCartSummary")]
-        public async Task<IActionResult> GetCartSummary()
+
+        [HttpGet("getTotalPrice")]
+        public async Task<IActionResult> GetTotalPrice()
         {
-            // Kiểm tra xem người dùng đã đăng nhập chưa
-            var accountId = HttpContext.Session.GetString("acc_id");
-            if (accountId == null)
-            {
-                return Unauthorized(new { message = "Bạn cần đăng nhập để xem giỏ hàng." });
-            }
-
-            // Lấy khách hàng dựa trên tài khoản
-            var customer = await _context.Customers
-                .FirstOrDefaultAsync(c => c.AccountId.ToString() == accountId);
-
+            var customer = await GetCustomerFromSession();
             if (customer == null)
             {
-                return NotFound(new { message = "Khách hàng không tồn tại." });
+                return Unauthorized(new { message = "Bạn cần đăng nhập để thực hiện thao tác này." });
             }
 
-            // Lấy thông tin giỏ hàng của khách hàng
-            var cartDetails = await _context.CartDetails
-                .Include(cd => cd.ProductDetail) // Lấy thông tin chi tiết sản phẩm
-                .ThenInclude(pd => pd.Product)  // Lấy thông tin sản phẩm
+            var cartItems = await _context.CartDetails
                 .Where(cd => cd.CustomerId == customer.CustomerId)
+                .Include(cd => cd.ProductDetail)
+                .ThenInclude(pd => pd.Product)
                 .ToListAsync();
 
-            if (cartDetails == null || !cartDetails.Any())
+            if (cartItems.Count == 0)
             {
-                return Ok(new { totalItems = 0, totalPrice = 0 });
+                return Ok(new { success = false, message = "Giỏ hàng trống." });
             }
 
-            // Tính tổng số lượng sản phẩm và tổng tiền
-            int totalItems = cartDetails.Select(cd => cd.ProductDetail.ProductId).Distinct().Count();
-            decimal totalPrice = cartDetails.Sum(cd => (cd.Quantity ?? 0) * (cd.TotalPrice ?? 0));
+            decimal totalPrice = (decimal)cartItems.Sum(item => item.ProductDetail.Product.Price * item.Quantity);
 
-            return Ok(new
-            {
-                totalItems = totalItems,
-                totalPrice = totalPrice
-            });
+
+            return Ok(new { success = true, totalPrice });
         }
     }
-    }
-
+}
