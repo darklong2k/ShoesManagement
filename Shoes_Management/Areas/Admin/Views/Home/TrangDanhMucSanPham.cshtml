@@ -212,16 +212,27 @@
 
         });
 
+   
         // Hiển thị thông báo thành công
         function showSuccessAlert(message) {
             $('#success-message').text(message);
             $('#success-alert').fadeIn();
+
+            // Ẩn thông báo sau 3 giây
+            setTimeout(function () {
+                $('#success-alert').fadeOut();
+            }, 3000);
         }
 
         // Hiển thị thông báo lỗi
         function showErrorAlert(message) {
             $('#error-message').text(message);
             $('#error-alert').fadeIn();
+
+            // Ẩn thông báo sau 3 giây
+            setTimeout(function () {
+                $('#error-alert').fadeOut();
+            }, 3000);
         }
         
         // Hàm định dạng ngày
