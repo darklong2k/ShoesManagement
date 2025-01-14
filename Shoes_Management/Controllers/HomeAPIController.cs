@@ -115,7 +115,7 @@ namespace Shoes_Management.Controllers
         public IActionResult GetProducts()
         {
             //PRoduct new
-            var products = _context.Products.Take(4).OrderByDescending(p => p.CreatedAt).Where(p => p.Status == "Active");
+            var products = _context.Products.Take(4).OrderByDescending(p => p.CreatedAt).Where(p => p.Status == "Active").ToList();
             //Product Best seller
             var bestSeller = _context.OrderDetails
                 .Where(od => od.Order.Status == "Delivered")
@@ -127,7 +127,8 @@ namespace Shoes_Management.Controllers
                 })
                 .OrderByDescending(od => od.TotalQuantity)
                 .Take(4)
-                .Where(p => p.Product.Status == "Active");
+                .Where(p => p.Product.Status == "Active")
+                .ToList();
             return Ok(new { products, bestSeller });
         }
 
@@ -135,7 +136,12 @@ namespace Shoes_Management.Controllers
         [HttpGet("GetCategories")]
         public IActionResult GetCategories()
         {
-            var categories = _context.Categories.Skip(2).Where(c => c.Status == true);
+            var categories = _context.Categories.Skip(2).Where(c => c.Status == true).Take(4)
+                .Select(c => new
+                {
+                    c.CategoryId,
+                    c.Name,
+                });
             return Ok(categories);
         }
 
