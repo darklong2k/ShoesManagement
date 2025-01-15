@@ -115,7 +115,10 @@ namespace Shoes_Management.Controllers
         public IActionResult GetProducts()
         {
             //PRoduct new
-            var products = _context.Products.Take(4).OrderByDescending(p => p.CreatedAt).Where(p => p.Status == "Active").ToList();
+
+            var products = _context.Products.Take(4).OrderByDescending(p => p.CreatedAt)
+                .Where(p => p.Status == "Active");
+
             //Product Best seller
             var bestSeller = _context.OrderDetails
                 .Where(od => od.Order.Status == "Delivered")
