@@ -115,7 +115,7 @@ namespace Shoes_Management.Controllers
         public IActionResult GetProducts()
         {
             //PRoduct new
-            var products = _context.Products.Take(4).OrderByDescending(p => p.CreatedAt).Where(p => p.Status == "Active");
+            var products = _context.Products.Take(4).OrderByDescending(p => p.CreatedAt).Where(p => p.Status == "Active").ToList();
             //Product Best seller
             var bestSeller = _context.OrderDetails
                 .Where(od => od.Order.Status == "Delivered")
@@ -127,7 +127,8 @@ namespace Shoes_Management.Controllers
                 })
                 .OrderByDescending(od => od.TotalQuantity)
                 .Take(4)
-                .Where(p => p.Product.Status == "Active");
+                .Where(p => p.Product.Status == "Active")
+                .ToList();
             return Ok(new { products, bestSeller });
         }
 
@@ -135,7 +136,12 @@ namespace Shoes_Management.Controllers
         [HttpGet("GetCategories")]
         public IActionResult GetCategories()
         {
-            var categories = _context.Categories.Skip(2).Where(c => c.Status == true);
+            var categories = _context.Categories.Skip(2).Where(c => c.Status == true).Take(4)
+                .Select(c => new
+                {
+                    c.CategoryId,
+                    c.Name,
+                });
             return Ok(categories);
         }
 
@@ -150,10 +156,14 @@ namespace Shoes_Management.Controllers
         //TrangSanPham
         [HttpGet("Products_Page")]
 
-        public IActionResult Products_Page(int page = 1, string search = null, int brandId = 0, string categorySlug = null,int priceId = 0,string outstanding = null)
+        public IActionResult Products_Page(int page = 1, string search = null, string brandId = null, string categorySlug = null,int priceId = 0,string outstanding = null)
         {
             int pageSize = 6;
-
+            List<int> brandIds = new List<int>();
+            if(!string.IsNullOrEmpty(brandId))
+            {
+                brandIds = System.Text.Json.JsonSerializer.Deserialize<List<int>>(brandId);
+            }
             var query = _context.Products.Where(p => p.Status == "Active").AsQueryable();
             if (!string.IsNullOrEmpty(search))
             {
@@ -165,9 +175,9 @@ namespace Shoes_Management.Controllers
                 var categoryid = _context.Categories.Where(c => c.ParentId == CategorySlug.CategoryId).Select(c => c.CategoryId).ToList();
                 query = query.Where(p => categoryid.Contains(p.CategoryId ?? 0));
             }
-            if (brandId != 0)
+            if (brandIds.Any())
             {
-                query = query.Where(p => p.BrandId == brandId);
+                query = query.Where(p => brandIds.Contains(p.BrandId ?? 0));
             }
             if (priceId != 0)
             {

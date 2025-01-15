@@ -357,17 +357,18 @@
             type: 'GET',
             success: function (res) {
                 var contain = $('#ContainSPBC');
+                
                 res.bestSeller.forEach(function (prod) {
                     var rating = '★'.repeat(Math.floor(prod.product.ratingAvg)) + '☆'.repeat(5 - Math.floor((prod.product.ratingAvg)));
                     var html = `
                                 <div class="col">
                         <div class="card h-100">
-                            <a href="/Home/TrangChiTietSP/${product.productId}">
+                                <a href="/Home/TrangChiTietSP/${prod.product.productId}">
                                     <img src="/images/${prod.product.image}"
                                      class="card-img-top" alt="AIR FORCE 1">
                             </a>
                             <div class="card-body">
-                                    <a href="/Home/TrangChiTietSP/${product.productId}" style="text-decoration:none">
+                                        <a href="/Home/TrangChiTietSP/${prod.product.productId}" style="text-decoration:none">
                                     <h5 class="card-title">${prod.product.name}</h5>
                                 </a>
                                 <div>
@@ -390,6 +391,7 @@
             type: 'GET',
             success: function (res) {
                 var html='';
+                
                 res.forEach(function (cate,index) {
                     html += `
                            <li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center  ${index == 0 ? 'active' : ''}"
