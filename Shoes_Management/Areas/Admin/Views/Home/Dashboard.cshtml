@@ -7,6 +7,7 @@
         <div class="main-panel flex-grow-1">
             <div class="content container my-4">
                 <!-- Thống kê -->
+
                 <div class="row">
                     <div class="col-lg-4 col-md-6 mb-4">
                         <div class="card">
@@ -29,8 +30,8 @@
                                     <i class="fas fa-shopping-cart text-warning fs-1"></i>
                                 </div>
                                 <div class="ms-3">
-                                    <p class="mb-1 text-muted">Doanh thu</p>
-                                <h5 id="TotalRevenue"></h5>
+                                    <p class="mb-1 text-muted">Khách hàng</p>
+                                <h5 id="TotalCustomer"></h5>
                                 </div>
                             </div>
                         </div>
@@ -49,6 +50,18 @@
                         </div>
                     </div>
                 </div>
+            <div class="row mb-4">
+                <!-- Chọn Năm -->
+                <div class="col-md-6 col-sm-12 mb-3">
+                    <label for="selectYear" class="form-label">Chọn Năm</label>
+                    <select id="selectYear" onchange=getRevenueData() class="form-select">
+                        <option value="2025">2025</option>
+                        <option value="2024" >2024</option>
+                        <option value="2023" >2023</option>
+                        <!-- Add more years here -->
+                    </select>
+                </div>
+            </div>
                 <div class="row">
                     <div class="col-md-8">
                         <div class="pb-3">
@@ -75,50 +88,63 @@
                         </div>
                     </div>
                 </div>
+            <!-- Button to Open Modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editWebsiteModal" id="EditInFo">
+                Chỉnh sửa thông tin website
+            </button>
 
-
-                <!-- Chỉnh sửa thông tin website -->
-                <div class="row mb-4">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Chỉnh sửa thông tin website</h5>
-                                <form id="websiteInfoForm">
-                                    <div class="row">
-                                        <div class="col-md-6 mb-3">
-                                            <label for="websiteName" class="form-label">Tên website</label>
-                                            <input type="text" class="form-control" id="websiteName" placeholder="Nhập tên website">
-                                        </div>
-                                        <div class="col-md-6 mb-3">
-                                            <label for="websiteAddress" class="form-label">Địa chỉ website</label>
-                                            <input type="text" class="form-control" id="websiteAddress" placeholder="Nhập địa chỉ website">
-                                        </div>
-                                        <div class="col-md-6 mb-3">
-                                            <label for="websiteImage" class="form-label">Logo website</label>
-                                            <input type="file" class="form-control" id="websiteImage" accept="image/*">
-                                            <div class="mt-3">
-                                                <img id="imagePreview" src="" alt="Xem trước hình ảnh" class="img-thumbnail" style="max-width: 200px; display: none;">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 mb-3">
-                                            <label for="websiteLinkFB" class="form-label">Link Facebook</label>
-                                            <input type="text" class="form-control" id="websiteLinkFB" placeholder="URL Facebook">
-                                        </div>
-                                        <div class="col-md-6 mb-3">
-                                            <label for="websitePhone" class="form-label">Số điện thoại</label>
-                                            <input type="text" class="form-control" id="websitePhone" placeholder="Nhập số điện thoại">
-                                        </div>
-                                        <div class="col-md-6 mb-3">
-                                            <label for="websiteEmail" class="form-label">Email</label>
-                                            <input type="email" class="form-control" id="websiteEmail" placeholder="Nhập email">
-                                        </div>
+            <!-- Modal -->
+            <div class="modal fade" id="editWebsiteModal" tabindex="-1" aria-labelledby="editWebsiteModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editWebsiteModalLabel">Chỉnh sửa thông tin website</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="websiteInfoForm">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="websiteName" class="form-label">Tên website</label>
+                                        <input type="text" class="form-control" id="websiteName" placeholder="Nhập tên website">
                                     </div>
-                                    <button type="button" class="btn btn-primary" id="saveWebsiteInfo">Lưu thông tin</button>
-                                </form>
-                            </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="websiteAddress" class="form-label">Địa chỉ website</label>
+                                        <input type="text" class="form-control" id="websiteAddress" placeholder="Nhập địa chỉ website">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="websiteImage" class="form-label">Logo website</label>
+                                        <input type="file" class="form-control" id="websiteImage" accept="image/*">
+                                        <div class="mt-3">
+                                            <img id="imagePreview" src="" alt="Xem trước hình ảnh" class="img-thumbnail" style="max-width: 200px; display: none;">
+                                        </div>
+                                    </div> 
+                                    <div class="col-md-6 mb-3">
+                                        <label for="websiteLinkFB" class="form-label">Link Facebook</label>
+                                        <input type="text" class="form-control" id="websiteLinkFB" placeholder="URL Facebook">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="websitePhone" class="form-label">Số điện thoại</label>
+                                        <input type="text" class="form-control" id="websitePhone" placeholder="Nhập số điện thoại">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="websiteEmail" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="websiteEmail" placeholder="Nhập email">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                            <button type="button" class="btn btn-primary" id="saveWebsiteInfo">Lưu thông tin</button>
                         </div>
                     </div>
                 </div>
+            </div>
+
+
+            
+
             </div>
         </div>
     </div>
@@ -151,12 +177,12 @@
 <script>
     $(document).ready(function () {
         $.ajax({
-            url: 'https://localhost:7103/api/dashboardapi/TotalRevenue', // URL API
+            url: 'https://localhost:7103/api/dashboardapi/TotalCustomer', // URL API
             type: 'GET',
             success: function (res) {
                 if (res.success) {
                     // Hiển thị tổng doanh thu lên giao diện, định dạng số nếu cần
-                    $('#TotalRevenue').text(res.totalRevenue+' VND');
+                    $('#TotalCustomer').text(res.totalCustomer);
                 } else {
                     alert('Không thể lấy dữ liệu: ' + res.message);
                 }
@@ -217,7 +243,7 @@
             labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
             datasets: [{
                 label: 'Đơn Hàng',
-                data: [1000, 1500, 1200, 1250, 1350, 1300, 1400, 1150, 1300, 1600, 1700],
+                data: [],
                 borderColor: '#4CAF50',
                 backgroundColor: (ctx) => lineDonHangGradient(ctx.chart.ctx),
                 tension: 0.4,
@@ -226,7 +252,7 @@
         },
         options: {
             responsive: true,
-            plugins: {
+            plugins: {  
                 legend: { position: 'top' },
                 tooltip: {
                     callbacks: {
@@ -253,13 +279,14 @@
     };
 
     // Dữ liệu và cấu hình biểu đồ Doanh Thu
+        
     const areaConfig = {
         type: 'line',
         data: {
             labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
             datasets: [{
                 label: 'Doanh Thu',
-                data: [200000000, 150000000, 300000000, 200000000, 250000000, 100000000, 200000000, 150000000, 300000000, 100000000, 200000000],
+                data: [],
                 borderColor: '#FFC107',
                 backgroundColor: (ctx) => areaDoanhThuGradient(ctx.chart.ctx),
                 tension: 0.4,
@@ -279,7 +306,7 @@
                 }
             },
             scales: {
-                x: { title: { display: true, text: 'Năm 2023' } },
+                x: { title: { display: true, text:'' } },
                 y: {
                     title: { display: true, text: 'Doanh thu (VND)' },
                     beginAtZero: true,
@@ -295,49 +322,118 @@
     window.onload = function () {
         const lineCtx = document.getElementById('lineChart').getContext('2d');
         const areaCtx = document.getElementById('areaChart').getContext('2d');
-        new Chart(lineCtx, lineConfig);
-        new Chart(areaCtx, areaConfig);
+            lineChart = new Chart(lineCtx, lineConfig);
+            areaChart = new Chart(areaCtx, areaConfig);
+
+            // Gọi API lấy dữ liệu doanh thu và đơn hàng
+            getRevenueData();
     };
 
+        function getRevenueData() {
+            var GetYear = $('#selectYear').val();
+            
+
+            $.ajax({
+                url: `https://localhost:7103/api/dashboardapi/MonthlyRevenue/${GetYear}`,  // Thay thế đường dẫn API của bạn
+                method: 'GET',
+                success: function (data) {
+                    // Cập nhật dữ liệu cho biểu đồ Doanh Thu
+                    areaChart.data.datasets[0].data = data.revenue;  // Dữ liệu doanh thu (VND)
+
+                    // Cập nhật và vẽ lại biểu đồ
+                    
+                    areaChart.update();
+                },
+                error: function (error) {
+                    console.error('Lỗi khi lấy dữ liệu', error);
+                }
+            });
+            $.ajax({
+                url: `https://localhost:7103/api/dashboardapi/MonthlyOrders/${GetYear}`,  // Thay thế đường dẫn API của bạn
+                method: 'GET',
+                success: function (data) {
+                    // Cập nhật dữ liệu cho biểu đồ Đơn Hàng
+                    lineChart.data.datasets[0].data = data.revenue;  // Dữ liệu doanh thu (Đơn Hàng)
+
+                    // Cập nhật và vẽ lại biểu đồ
+                    lineChart.update();
+                },
+                error: function (error) {
+                    console.error('Lỗi khi lấy dữ liệu', error);
+                }
+            });
+        }
 </script>
 
 
 <!-- Scripts -->
 <script>
-    // Hiển thị hình ảnh xem trước
-    document.getElementById('websiteImage').addEventListener('change', function (event) {
-        const file = event.target.files[0];
-        const preview = document.getElementById('imagePreview');
+        $(document).ready(function () {
+            // Lấy dữ liệu API khi trang load
+            $.ajax({
+                url: 'https://localhost:7103/api/dashboardapi/GetWebData', // URL API
+                type: 'GET',
+                success: function (res) {
+                    if (res.success) {
+                        // Điền thông tin vào modal và mở modal
+                        $('#EditInFo').click(function () {
+                            // Điền dữ liệu vào modal
+                            $('#websiteName').val(res.webData.websiteName);
+                            $('#websiteAddress').val(res.webData.websiteAddress);
+                            $('#websiteLinkFB').val(res.webData.websiteLinkFb);
+                            $('#websitePhone').val(res.webData.websitePhone);
+                            $('#websiteEmail').val(res.webData.websiteEmail);
+                            // Mở modal sau khi điền thông tin
+                            $('#editWebsiteModal').modal('show');
+                        });
+                    } else {
+                        alert('Không thể lấy dữ liệu: ' + res.webData.message);
+                    }
+                },
+                error: function (err) {
+                    console.error('Lỗi khi gọi API:', err);
+                    alert('Không thể tải dữ liệu tổng sản phẩm.');
+                }
+            });
+        });
 
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                preview.src = e.target.result;
-                preview.style.display = 'block';
-            };
-            reader.readAsDataURL(file);
-        } else {
-            preview.style.display = 'none';
-            preview.src = '';
-        }
-    });
 
-    // Lưu thông tin website
-    document.getElementById('saveWebsiteInfo').addEventListener('click', () => {
-        const websiteName = document.getElementById('websiteName').value;
-        const websiteAddress = document.getElementById('websiteAddress').value;
-        const websiteLinkFB = document.getElementById('websiteLinkFB').value;
-        const websitePhone = document.getElementById('websitePhone').value;
-        const websiteEmail = document.getElementById('websiteEmail').value;
 
-        console.log('Thông tin website:');
-        console.log('Tên:', websiteName);
-        console.log('Địa chỉ:', websiteAddress);
-        console.log('Facebook:', websiteLinkFB);
-        console.log('Số điện thoại:', websitePhone);
-        console.log('Email:', websiteEmail);
-
-        alert('Thông tin đã được lưu!');
-    });
 </script>
+    <script>
+        $(document).ready(function () {
+            $('#saveWebsiteInfo').click(function () {
+
+
+                var websiteInfo = {
+                    websiteName: $('#websiteName').val(),
+                    websiteAddress: $('#websiteAddress').val(),
+                    websiteLinkFb: $('#websiteLinkFB').val(),
+                    websitePhone: $('#websitePhone').val(),
+                    websiteEmail: $('#websiteEmail').val(),
+                    websiteImage: $('#websiteImage')[0].files[0] ? $('#websiteImage')[0].files[0].name : ""
+                };
+
+                // Gửi yêu cầu PUT với ID website
+                $.ajax({
+                    url: 'https://localhost:7103/api/dashboardapi/UpdateWebData',  // Thay `websiteId` bằng ID website thực tế
+                    type: 'PUT',
+                    contentType: 'application/json',
+                    data: JSON.stringify(websiteInfo),
+                    success: function (response) {
+                        if (response.success) {
+                            alert('Cập nhật thông tin website thành công!');
+                            $('#editWebsiteModal').modal('hide'); // Đóng modal
+                            location.reload(); // Tải lại trang để cập nhật thông tin
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function (error) {
+                        alert("Có lỗi xảy ra. Vui lòng thử lại.");
+                    }
+                });
+            });
+        });
+    </script>
 }
