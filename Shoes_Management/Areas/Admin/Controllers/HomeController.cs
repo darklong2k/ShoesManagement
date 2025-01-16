@@ -72,11 +72,21 @@ namespace Shoes_Management.Areas.Admin.Controllers
 		{
 			return View();
 		}
-		public IActionResult Edit_Product_Page()
-		{
-			return View();
-		}
-		public IActionResult Details_Product_Page()
+        [HttpGet]
+        public IActionResult Edit_Product_Page(int productId)
+        {
+            // Lấy thông tin sản phẩm từ cơ sở dữ liệu dựa trên productId
+            var product = _context.Products.FirstOrDefault(p => p.ProductId == productId);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            // Trả về view với thông tin sản phẩm
+            return View(product);
+        }
+        public IActionResult Details_Product_Page()
 		{
 
 			return View();

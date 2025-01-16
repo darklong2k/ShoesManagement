@@ -73,7 +73,7 @@ namespace Shoes_Management.Areas.API
             return Ok(new { Success = true, Data = category });
         }
 
-        // POST: api/Category/Create
+        // POST: api/CategoryAPI/Create
         [HttpPost("Create")]
         public async Task<IActionResult> Create([FromBody] Category model)
         {
@@ -88,7 +88,7 @@ namespace Shoes_Management.Areas.API
                     .FirstOrDefaultAsync(c => c.Name.ToLower() == model.Name.ToLower());
                 if (existingCategory != null)
                 {
-                    return BadRequest(new { Success = false, Message = "Tên danh mục đã tồn tại. Vui lòng nhập tên khác." });
+                    return BadRequest(new { Success = false, Message = "Tên danh mục đã tồn tại. Vui lòng nhập tên khác."    });
                 }
 
                 model.CreatedAt = DateTime.Now;
