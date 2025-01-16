@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Shoes_Management.Models;
 using System.Text.RegularExpressions;
 
@@ -117,6 +118,7 @@ namespace Shoes_Management.Controllers
                                         Price = pd.Price,
                                         SizeName = s.SizeName,
                                         ColorName = co.ColorName,
+                                        Status= od.Status,
                                         Comment = rv != null ? rv.Comment : null
                                     }).ToList();
 
@@ -187,6 +189,54 @@ namespace Shoes_Management.Controllers
 
             return Ok(new { success = true, message = "Sản phẩm đã được bỏ yêu thích." });
         }
-       
+        [HttpPost("ThemReview/{product_detail_id}/{customerId}")]
+        public IActionResult AddReview([FromBody] Review review,int product_detail_id,int customerId)
+        {
+            try
+            {
+                // Kiểm tra xem đã tồn tại đánh giá chưa
+                var rv = _context.Reviews.FirstOrDefault(r => r.CustomerId == customerId && r.ProductDetailId == product_detail_id);
+
+                if (rv == null)
+                {
+                    // Tạo mới nếu chưa có đánh giá
+                    rv = new Review
+                    {
+                        ProductDetailId = review.ProductDetailId,
+                        CustomerId = review.CustomerId,
+                        Rating = (byte)review.Rating, // Ép kiểu về byte cho tương thích với TINYINT
+                        Comment = review.Comment,
+                        Status = review.Status,
+                        ReviewDate = DateTime.Now
+                    };
+
+                    _context.Reviews.Add(rv);
+                }
+                else
+                {
+                    // Cập nhật nếu đã có đánh giá
+                    rv.Rating = (byte)review.Rating; // Ép kiểu về byte
+                    rv.Comment = review.Comment;
+                    rv.Status = review.Status;
+                    rv.ReviewDate = DateTime.Now;
+                }
+
+                // Lưu thay đổi vào cơ sở dữ liệu
+                _context.SaveChanges();
+
+                return Ok(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                // Trả về thông báo lỗi
+                return Ok(new { success = false, message = "k ket noi dc" });
+            }
+        }
+
+
+
+
     }
+
+
 }

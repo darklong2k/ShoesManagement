@@ -34,8 +34,9 @@
                 </div>
                 <div class="card shadow-sm">
                     <div class="card-body">
-                        <input type="hidden" id="customerId"/>
-                        <input type ="hidden" id="acc_id"/>
+                        <input type="hidden" id="customerId" />
+                        <input type="hidden" id="acc_id" />
+                        <input type="hidden" id="product_detail_id" />
                         <table class="table table-bordered">
                             <tbody>
                                 <tr><th>Tên:</th><td id="CUS_NAME"></td></tr>
@@ -119,6 +120,38 @@
 </div>
 
 
+<div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="reviewModalLabel">Đánh giá sản phẩm</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="reviewForm">
+                    <div class="mb-3">
+                        <label for="rating" class="form-label">Chọn số sao</label>
+                        <select id="rating" class="form-select">
+                            <option value="1">1 sao</option>
+                            <option value="2">2 sao</option>
+                            <option value="3">3 sao</option>
+                            <option value="4">4 sao</option>
+                            <option value="5">5 sao</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="comment" class="form-label">Bình luận</label>
+                        <textarea id="comment" class="form-control" rows="3" placeholder="Viết bình luận"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary" onclick="submitReview()">Gửi đánh giá</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <!-- Modal Đổi Mật Khẩu -->
@@ -245,9 +278,7 @@
             const cancelBtn = (order.status === 'Pending' || order.status === 'Packing')
                 ? `<button class="btn btn-danger btn-sm" onclick="cancelOrder('${order.orderId}')">Hủy đơn</button>`
                 : '';
-             const reviewBtn = (order.status === 'Delivered')
-                 ? `<button class="btn btn-primary btn-sm" onclick="openReviewPopup('${order.orderId}')">Đánh giá</button>`
-                 : '';
+             
 
             return `
                     <tr>
@@ -257,7 +288,7 @@
                         <td>
                             <button class="btn btn-info btn-sm" onclick="viewDetails('${order.orderId}')">Chi tiết</button>
                             ${cancelBtn}
-                            ${reviewBtn}
+                          
                         </td>
                     </tr>`;
         }).join('');
@@ -329,21 +360,34 @@
             success: function (res) {
                 if (res.success) {
                     const orderDetails = res.orderDetails || [];
-                    const detailRows = orderDetails.map(detail => `
-                        <tr>
-                                    <td>
-                                <img src="/images/${detail.productImage}" alt="Hình ảnh sản phẩm" style="width: 50px; height: 50px; object-fit: cover;" />
-                                    </td>
+                    // Lấy productDetailId từ chi tiết đầu tiên
+                    const firstDetail = orderDetails[0]; // Lấy phần tử đầu tiên trong danh sách
+                    if (firstDetail) {
+                        $('#product_detail_id').val(firstDetail.productDetailId); // Gán giá trị vào input ẩn
+                    }
+                    const detailRows = orderDetails.map(detail => {
+                        // Tạo nút đánh giá nếu trạng thái là "Delivered"
+                        const reviewBtn = detail.status === 'Delivered'
+                            ? `<button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#reviewModal">Đánh giá</button>
+    `
+                            : '';
+                       
 
+                        // Tạo hàng chi tiết
+                        return `
+                            <tr>
+                                <td>
+                                    <img src="/images/${detail.productImage}" alt="Hình ảnh sản phẩm" style="width: 50px; height: 50px; object-fit: cover;" />
+                                </td>
                                 <td>${detail.productName}</td>
                                 <td>${detail.productDescription}</td>
-                                <td>${detail.price.toLocaleString('vi-VN')} đ</td>
+                                <td>${(detail.price || 0).toLocaleString('vi-VN')} đ</td>
                                 <td>${detail.sizeName || 'N/A'}</td>
                                 <td>${detail.colorName || 'N/A'}</td>
-
-                            
-                        </tr>
-                    `).join('');
+                                <td>${reviewBtn}</td>
+                            </tr>
+                        `;
+                    }).join('');
 
                     const detailTable = `
                         <div class="card shadow-sm">
@@ -352,13 +396,13 @@
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
-                                        <th>Ảnh</th>
+                                            <th>Ảnh</th>
                                             <th>Tên sản phẩm</th>
                                             <th>Mô tả</th>
                                             <th>Giá</th>
                                             <th>Kích thước</th>
                                             <th>Màu sắc</th>
-                                            
+                                            <th>Đánh giá</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -382,7 +426,6 @@
             }
         });
     }
-
     // Hàm trở về danh sách đơn hàng
     function returnToOrderList() {
         $('#order-details').hide(); // Ẩn chi tiết đơn hàng
@@ -393,6 +436,7 @@
     $(document).ready(function () {
         loadOrderList();
     });
+
 </script>
 
 @* Lưu đổi thông tin cá nhân *@
@@ -433,6 +477,54 @@
         });
     });
 </script>
+
+<script>
+    function submitReview() {
+        var productDetailId = $('#product_detail_id').val(); // Lấy giá trị từ trường ẩn (product_detail_id)
+        var customerId = $('#customerId').val(); // Lấy giá trị từ trường ẩn (customerId)
+        var rating = $('#rating').val(); // Lấy giá trị rating từ select
+        var comment = $('#comment').val(); // Lấy giá trị bình luận từ textarea
+        var status = 'alive'; // Giá trị chuỗi cho status
+
+        // Kiểm tra dữ liệu trước khi gửi
+        if (!productDetailId || !customerId || !rating || !comment) {
+            alert('Vui lòng điền đầy đủ thông tin đánh giá.');
+            return;
+        }
+
+        // Dữ liệu gửi đi
+        var reviewData = {
+            ProductDetailId: parseInt(productDetailId), // Chuyển thành số
+            CustomerId: parseInt(customerId), // Chuyển thành số
+            Rating: parseInt(rating), // Chuyển thành số
+            Comment: comment,
+            Status: status // Truyền chuỗi
+        };
+
+        console.log(reviewData); // Kiểm tra dữ liệu
+
+        // Gửi yêu cầu AJAX
+        $.ajax({
+            url: `https://localhost:7103/api/customerapi/AddReview/${productDetailId}/${customerId}`, // Địa chỉ API
+            method: 'POST',
+            contentType: 'application/json',  // Chỉ định content type là JSON
+            data: JSON.stringify(reviewData),  // Chuyển đối tượng thành chuỗi JSON
+            success: function (response) {
+                if (response.success) {
+                    alert('Đánh giá của bạn đã được gửi thành công!');
+                    $('#reviewModal').modal('hide'); // Đóng modal sau khi gửi thành công
+                } else {
+                    alert(response.message || 'Gửi đánh giá không thành công.');
+                }
+            },
+            error: function (err) {
+                console.error('Lỗi khi gửi đánh giá:', err);
+                alert('Đã xảy ra lỗi. Vui lòng thử lại.');
+            }
+        });
+    }
+
+    </script>
 <script>
     $(document).ready(function () {
         // Gửi yêu cầu AJAX để lấy danh sách sản phẩm
@@ -585,7 +677,7 @@
             // Gửi yêu cầu AJAX tới API
             $.ajax({
                 url: `https://localhost:7103/api/homeapi/ChangePassWord/${acc_id}`,  // URL tới API, sử dụng template string đúng
-                type: 'POST', // Đổi mật khẩu sử dụng PUT
+                type: 'POST', 
                 data: { acc_id: acc_id, newPassword: newPassword, CurrentPassword: CurrentPassword }, // Gửi đối tượng updatePassWord vào body
                 success: function (response) {
                     if (response.success) {
@@ -602,3 +694,4 @@
         });
     });
 </script>
+
