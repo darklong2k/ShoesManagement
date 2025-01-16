@@ -41,6 +41,10 @@
             width: auto;
             min-width: 300px;
         }
+
+        body {
+            overflow-y: auto; /* Đảm bảo thanh cuộn luôn hiển thị */
+        }
     </style>
 </head> <!--end::Head--> <!--begin::Body-->
 
@@ -126,7 +130,7 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="./widgets/small-box.html" class="nav-link">
+                                    <a href="@Url.Action("Product_Page", "Home")" class="nav-link">
                                         <i class="nav-icon bi bi-circle"></i>
                                         <p>Quản lý sản phẩm</p>
                                     </a>

@@ -4,7 +4,7 @@ using Shoes_Management.Models;
 
 namespace Shoes_Management.Areas.API
 {
-    [Route("api/suppliers")]
+    [Route("api/[controller]")]
     [ApiController]
     public class SupplierAPIController : ControllerBase
     {
@@ -13,7 +13,7 @@ namespace Shoes_Management.Areas.API
         {
             _shoescontext = shoescontext;
         }
-        [HttpPost]
+        [HttpPost("Create")]
         public IActionResult CreateSupplier([FromBody] Supplier supplier) 
         {
             if (supplier == null)
@@ -22,10 +22,10 @@ namespace Shoes_Management.Areas.API
             }
             _shoescontext.Suppliers.Add(supplier);
             _shoescontext.SaveChanges();
-            return Ok(new { data = supplier });
+            return Ok(new { Success = true, data = supplier });
         }
-        [HttpGet]
-        public IActionResult GetListSuppliers()
+        [HttpGet("Getall")]
+        public IActionResult Getall()
         {
             return Ok(new {data = _shoescontext.Suppliers.ToList()});
         }

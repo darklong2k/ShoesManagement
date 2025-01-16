@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Shoes_Management.Models;
 
@@ -29,11 +30,14 @@ public partial class Product
 
     public string? Image { get; set; }
 
+
     public bool? Outstanding { get; set; }
 
     public int? Views { get; set; }
 
     public int? Likes { get; set; }
+    [NotMapped]
+    public IFormFile ImageFile { get; set; }
 
     public string? Status { get; set; }
 

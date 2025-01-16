@@ -3,10 +3,10 @@
 
     <!-- Nút Thêm Sản Phẩm và Nhập Hàng -->
     <div class="d-flex justify-content-between mb-3">
-        <button class="btn btn-primary" data-toggle="modal" data-target="#addProductModal">
-            <i class="fas fa-plus"></i> Thêm Sản Phẩm
-        </button>
-        <a href="nhap-hang.html" class="btn btn-success">
+        <a href="@Url.Action("Add_Product_Page", "Home")" class="btn btn-success">
+            <i class="fas fa-truck"></i> Thêm sản phẩm
+        </a>
+        <a href="@Url.Action("NhapHang_Page", "Home")" class="btn btn-success">
             <i class="fas fa-truck"></i> Nhập Hàng
         </a>
     </div>
@@ -25,20 +25,23 @@
                     <tr>
                         <th>#</th>
                         <th>Tên Sản Phẩm</th>
+                        <th>Mô tả</th>
                         <th>Giá</th>
                         <th>Tồn Kho</th>
                         <th>Rating</th>
+                        <th>Trạng Thái</th>
                         <th>Hành Động</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Các sản phẩm được thêm từ backend -->
+                    @* <!-- Các sản phẩm được thêm từ backend -->
                     <tr>
                         <td>1</td>
                         <td>Sản phẩm A</td>
                         <td>100.000</td>
                         <td>50</td>
                         <td>5.0</td>
+
                         <td>
                             <button class="btn btn-warning btn-sm">
                                 <i class="fas fa-edit"></i> Sửa
@@ -50,14 +53,148 @@
                                 <i class="fas fa-info-circle"></i> Chi Tiết
                             </button>
                         </td>
-                    </tr>
+                    </tr> *@
                 </tbody>
             </table>
         </div>
     </div>
+    <div>
+        <nav>
+            <ul id="pagination" class="pagination justify-content-center"></ul>
+        </nav>
+    </div>
 </div>
 
+@section Scripts{
 
+    <script>
+
+        $(document).ready(function () {
+            var currentPage = 1; // Lưu trang hiện tại
+            loadProducts();
+           
+        });
+       
+        // Hàm tải danh sách sản phẩm
+        function loadProducts(search = '',currentPage_new=1,pageSize_new=10) {
+            $.ajax({
+                url: `/api/ProductAPI/getall`,
+                type: 'GET',
+                data: { search: search, page: currentPage_new, pageSize: pageSize_new }, // Gửi thông tin phân trang
+                success: function (data) {
+                    console.log(data);
+                    if (data.products.length === 0) {
+                        $('#productTable tbody').html('<tr><td colspan="8">Không có sản phẩm nào!</td></tr>');
+                    } else {
+                        renderTable(data.products); // Hiển thị danh sách sản phẩm
+                    }
+                    renderPagination(data.totalPages, data.currentPage); // Hiển thị phân trang
+                }
+            }); 
+        }
+        // Tìm kiếm sản phẩm
+        $('#searchInput').on('input', function () {
+            currentPage = 1; // Quay về trang đầu tiên khi tìm kiếm
+            loadProducts($(this).val());
+        });
+        // Hiển thị bảng sản phẩm
+        function renderTable(products) {
+            const tableBody = $('#productTable tbody');
+            tableBody.empty();
+            products.forEach((product) => {
+                tableBody.append(`
+                                <tr>
+                                    <td>${product.productId}</td>
+                                    <td>${product.name}</td>
+                                    <td>${product.description}</td>
+                                    <td>${product.price.toLocaleString()}</td>
+                                    <td>${product.stock === null ? 0 : product.stock}</td>
+                                    <td>${product.ratingAvg}</td>
+                                    <td>${product.status === "Active" ? 'Hoạt động' : 'Không hoạt động'}</td>
+                                    <td>
+                                        <a href="/Admin/Home/Edit_Product_Page?productId=${product.productId}" class="btn btn-warning btn-sm">
+                                            <i class="fas fa-edit"></i> Sửa
+                                        </a>
+                                        <button class="btn btn-danger btn-sm btn-delete" data-id="${product.productId}">
+                                            <i class="fas fa-trash"></i> Xóa
+                                        </button>
+                                    </td>
+                                </tr>
+                            `);
+            });
+
+            $('.btn-delete').on('click', function () {
+                const id = $(this).data('id');
+                showDeleteConfirmation(id);
+            });
+        }
+
+        // Hiển thị phân trang
+        function renderPagination(totalPages, currentPage) {
+            const pagination = $('#pagination');
+            pagination.empty();
+
+            if (totalPages > 1) {
+                // Thêm nút 'Previous'
+                pagination.append(`
+                    <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+                        <a class="page-link" href="#" data-page="${currentPage - 1}">&laquo;</a>
+                    </li>
+                `);
+
+                // Thêm các nút trang
+                for (let i = 1; i <= totalPages; i++) {
+                    pagination.append(`
+                        <li class="page-item ${i === currentPage ? 'active' : ''}">
+                            <a class="page-link" href="#" data-page="${i}">${i}</a>
+                        </li>
+                    `);
+                }
+
+                // Thêm nút 'Next'
+                pagination.append(`
+                    <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+                        <a class="page-link" href="#" data-page="${currentPage + 1}">&raquo;</a>
+                    </li>
+                `);
+
+                // Gắn sự kiện phân trang sau khi render các phần tử
+                $('.page-link').on('click', function (e) {
+                    e.preventDefault();
+                    const page = $(this).data('page');
+                    if (page !== currentPage) {
+                        currentPage = page;
+                        console.log(currentPage); // Kiểm tra trang hiện tại trong console
+                        loadProducts($('#searchInput').val(),currentPage) // Tải lại sản phẩm với trang mới
+                    }
+                });
+            }
+        }
+
+        function showDeleteConfirmation(id) {
+            if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) {
+                const captcha = prompt('Nhập mã Captcha:');
+                if (captcha === '1234') { // Replace with actual captcha validation
+                    $.ajax({
+                        url: `/api/ProductAPI/Delete/${id}`,
+                        type: 'DELETE',
+                        success: function () {
+                            alert('Xóa sản phẩm thành công!');
+                            loadProducts();
+                        }
+                    });
+                } else {
+                    alert('Captcha không chính xác!');
+                }
+            }
+        }
+        
+           
+        
+        
+    </script>
+
+}
 
 
 
