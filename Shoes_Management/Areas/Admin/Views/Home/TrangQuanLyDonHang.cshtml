@@ -192,7 +192,7 @@
 
         if (orderDetail.status === "Canceled" || orderDetail.status === "Delivered") {
             actionButtons = ``;
-        } else if (orderDetail.status = "Processing Canceled") {
+        } else if (orderDetail.status === "Processing Canceled") {
     ;            actionButtons = `<td>
                     <button class="btn btn-danger btn-sm btn-rejected" data-order-id=${orderDetail.orderId}>Hủy</button>
                    </td>`;
@@ -241,6 +241,7 @@
         $.ajax({
             url: '/api/orderdetails',
             method: 'GET',
+             dataType: 'json',
             success: function(orderDetails) {
                 console.log(orderDetails);
                 orderDetails.forEach(orderDetail => displayOrderDetail(orderDetail));
@@ -272,12 +273,13 @@
 
             var confirmDelete = confirm("Bạn có chắc chắn muốn hủy đơn hàng này không?");
                 if (!confirmDelete) {
-                    return; // Người dùng chọn 'Hủy bỏ'
+                    return;
                 }
 
             $.ajax({
                 url: `/api/orderdetails/${orderId}`,
                 method: 'DELETE',
+                dataType: 'json',
                 success: function() {
                     alert('Xóa thành công');
                     location.reload();

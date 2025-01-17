@@ -36,12 +36,12 @@ namespace Shoes_Management.Areas.API
                     throw new Exception("Contact not found");
                 }
 
-                return contact; // Return the found contact
+                return contact;
             }
             catch (Exception ex)
             {
                 
-                throw new Exception("An error occurred while retrieving the contact", ex);
+                throw new Exception("Lỗi ở GetContactById", ex);
             }
         }
 
@@ -52,13 +52,12 @@ namespace Shoes_Management.Areas.API
             Contact contact = GetContactById(contactId);
             if (contact == null)
             {
-                return NotFound(); // Return a 404 if the contact does not exist
+                return NotFound();
             }
 
             contact.ContactStatus = "Resolved";
             try
             {
-                // Save changes to the database
                 _shoescontext.SaveChanges();
             }
             catch (Exception ex)
@@ -77,29 +76,27 @@ namespace Shoes_Management.Areas.API
             Contact contact = GetContactById(contactId);
             if (contact == null)
             {
-                return NotFound(); // Return a 404 if the contact does not exist
+                return NotFound();
             }
 
             try
             {
                 _shoescontext.Contacts.Remove(contact);
-                // Save changes to the database
                 _shoescontext.SaveChanges();
             }
             catch (Exception ex)
             {
-                // Handle any errors that occur during saving
                 return StatusCode(500, "Internal server error: " + ex.Message);
             }
 
-            return Ok(contact);
+            return Ok("Đã xóa contact");
         }
 
         // Tạo contact
         [HttpPost]
         public IActionResult CreateContact([FromBody] Contact contact)
         {
-            _shoescontext.Add(contact);
+            _shoescontext.Contacts.Add(contact);
             _shoescontext.SaveChanges();
             return Ok(contact);
         }

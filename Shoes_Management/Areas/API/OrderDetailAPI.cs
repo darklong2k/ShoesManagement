@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 using Shoes_Management.Models;
 using static NuGet.Packaging.PackagingConstants;
+using Microsoft.EntityFrameworkCore;
 
 namespace Shoes_Management.Areas.API
 {
@@ -83,6 +85,7 @@ namespace Shoes_Management.Areas.API
         public IActionResult CancelOrder(int orderId)
         {
             var order = GetOrderById(orderId);
+
             order.Status = "Canceled";
 
             _shoescontext.SaveChanges();

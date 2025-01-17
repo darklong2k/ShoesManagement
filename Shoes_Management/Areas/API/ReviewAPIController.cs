@@ -40,8 +40,6 @@ namespace Shoes_Management.Areas.API
 
             var reviews = query.ToList();
 
-
-
             if (reviews == null) return BadRequest();
 
             return Ok(reviews);
