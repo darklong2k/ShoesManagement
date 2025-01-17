@@ -128,7 +128,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="reviewForm">
+                <form id="reviewForm" method="post">
                     <div class="mb-3">
                         <label for="rating" class="form-label">Chọn số sao</label>
                         <select id="rating" class="form-select">
@@ -143,12 +143,13 @@
                         <label for="comment" class="form-label">Bình luận</label>
                         <textarea id="comment" class="form-control" rows="3" placeholder="Viết bình luận"></textarea>
                     </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                        <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
+                    </div>
                 </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                <button type="button" class="btn btn-primary" onclick="submitReview()">Gửi đánh giá</button>
-            </div>
+          
         </div>
     </div>
 </div>
@@ -361,7 +362,7 @@
                 if (res.success) {
                     const orderDetails = res.orderDetails || [];
                     // Lấy productDetailId từ chi tiết đầu tiên
-                    const firstDetail = orderDetails[0]; // Lấy phần tử đầu tiên trong danh sách
+                    var firstDetail = orderDetails[0]; // Lấy phần tử đầu tiên trong danh sách
                     if (firstDetail) {
                         $('#product_detail_id').val(firstDetail.productDetailId); // Gán giá trị vào input ẩn
                     }
@@ -479,50 +480,52 @@
 </script>
 
 <script>
-    function submitReview() {
-        var productDetailId = $('#product_detail_id').val(); // Lấy giá trị từ trường ẩn (product_detail_id)
-        var customerId = $('#customerId').val(); // Lấy giá trị từ trường ẩn (customerId)
-        var rating = $('#rating').val(); // Lấy giá trị rating từ select
-        var comment = $('#comment').val(); // Lấy giá trị bình luận từ textarea
-        var status = 'alive'; // Giá trị chuỗi cho status
+    $(document).ready(function () {
+        $('#reviewForm').on('submit', function (e) {
+            e.preventDefault();
 
-        // Kiểm tra dữ liệu trước khi gửi
-        if (!productDetailId || !customerId || !rating || !comment) {
-            alert('Vui lòng điền đầy đủ thông tin đánh giá.');
-            return;
-        }
+            var productDetailId = $('#product_detail_id').val();
+            var customerId = $('#customerId').val();
+            var rating = $('#rating').val();
+            var comment = $('#comment').val();
+            var status = 'alive';
 
-        // Dữ liệu gửi đi
-        var reviewData = {
-            ProductDetailId: parseInt(productDetailId), // Chuyển thành số
-            CustomerId: parseInt(customerId), // Chuyển thành số
-            Rating: parseInt(rating), // Chuyển thành số
-            Comment: comment,
-            Status: status // Truyền chuỗi
-        };
-
-        console.log(reviewData); // Kiểm tra dữ liệu
-
-        // Gửi yêu cầu AJAX
-        $.ajax({
-            url: `https://localhost:7103/api/customerapi/AddReview/${productDetailId}/${customerId}`, // Địa chỉ API
-            method: 'POST',
-            contentType: 'application/json',  // Chỉ định content type là JSON
-            data: JSON.stringify(reviewData),  // Chuyển đối tượng thành chuỗi JSON
-            success: function (response) {
-                if (response.success) {
-                    alert('Đánh giá của bạn đã được gửi thành công!');
-                    $('#reviewModal').modal('hide'); // Đóng modal sau khi gửi thành công
-                } else {
-                    alert(response.message || 'Gửi đánh giá không thành công.');
-                }
-            },
-            error: function (err) {
-                console.error('Lỗi khi gửi đánh giá:', err);
-                alert('Đã xảy ra lỗi. Vui lòng thử lại.');
+            if (!productDetailId || !customerId || !rating || !comment) {
+                alert('Vui lòng điền đầy đủ thông tin đánh giá.');
+                return;
             }
+
+            var reviewData = {
+                ProductDetailId: parseInt(productDetailId),
+                CustomerId: parseInt(customerId),
+                Rating: parseInt(rating),
+                Comment: comment,
+                Status: status,
+            };
+
+            console.log(reviewData);
+
+            $.ajax({
+                url: `https://localhost:7103/api/customerapi/ThemReview`,
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(reviewData),
+                success: function (response) {
+                    if (response.success) {
+                        alert('Đánh giá của bạn đã được gửi thành công!');
+                        $('#reviewModal').modal('hide');
+                    } else {
+                        alert(response.message || 'Gửi đánh giá không thành công.');
+                    }
+                },
+                error: function (err) {
+                    console.error('Lỗi khi gửi đánh giá:', err);
+                    alert('Đã xảy ra lỗi. Vui lòng thử lại.');
+                }
+            });
         });
-    }
+    });
+
 
     </script>
 <script>

@@ -18,7 +18,7 @@
                                 </div>
                                 <div class="ms-5">
                                     <p class="mb-1 text-muted">Đơn hàng</p>
-                                    <h5 id="TotalQuantity"></h5>
+                                    <h5 id="Totalorders"></h5>
                                 </div>
                             </div>
                         </div>
@@ -58,7 +58,6 @@
                         <option value="2025">2025</option>
                         <option value="2024" >2024</option>
                         <option value="2023" >2023</option>
-                        <!-- Add more years here -->
                     </select>
                 </div>
             </div>
@@ -154,14 +153,14 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function () {
-        // Gọi API để lấy tổng số lượng sản phẩm đã bán
+        var GetYear = $('#selectYear').val();
         $.ajax({
-            url: 'https://localhost:7103/api/dashboardapi/TotalQuantity', // Đường dẫn API
+            url: `https://localhost:7103/api/dashboardapi/TotalOrders/${GetYear}`, // Đường dẫn API
             type: 'GET', // Phương thức HTTP
             success: function (res) {
                 if (res.success) {
                     // Hiển thị tổng số lượng lên giao diện
-                    $('#TotalQuantity').text(res.totalQuantitySold);
+                    $('#Totalorders').text(res.totalQuantitySold);
                 } else {
                     alert('Không thể lấy dữ liệu: ' + res.message);
                 }
@@ -177,7 +176,8 @@
 <script>
     $(document).ready(function () {
         $.ajax({
-            url: 'https://localhost:7103/api/dashboardapi/TotalCustomer', // URL API
+            var GetYear = $('#selectYear').val();
+            url: `https://localhost:7103/api/dashboardapi/TotalCustomer/${GetYear}`, // URL API
             type: 'GET',
             success: function (res) {
                 if (res.success) {
@@ -197,7 +197,8 @@
 <script>
     $(document).ready(function () {
         $.ajax({
-            url: 'https://localhost:7103/api/dashboardapi/TotalProducts', // URL API
+            var GetYear = $('#selectYear').val();
+            url: `https://localhost:7103/api/dashboardapi/TotalProducts/${GetYear}`, // URL API
             type: 'GET',
             success: function (res) {
                 if (res.success) {
@@ -264,7 +265,7 @@
 
             },
             scales: {
-                x: { title: { display: true, text: 'Năm 2023' } },
+                x: { title: { display: true, text: '' } },
                 y: {
                     title: { display: true, text: 'Đơn Hàng' },
                     beginAtZero: true,
@@ -324,24 +325,65 @@
         const areaCtx = document.getElementById('areaChart').getContext('2d');
             lineChart = new Chart(lineCtx, lineConfig);
             areaChart = new Chart(areaCtx, areaConfig);
-
-            // Gọi API lấy dữ liệu doanh thu và đơn hàng
             getRevenueData();
     };
 
         function getRevenueData() {
             var GetYear = $('#selectYear').val();
-            
-
             $.ajax({
-                url: `https://localhost:7103/api/dashboardapi/MonthlyRevenue/${GetYear}`,  // Thay thế đường dẫn API của bạn
+                url: `https://localhost:7103/api/dashboardapi/TotalCustomer/${GetYear}`, 
+                type: 'GET',
+                success: function (res) {
+                    if (res.success) {
+                        $('#TotalCustomer').text(res.totalCustomer);
+                    } else {
+                        alert('Không thể lấy dữ liệu: ' + res.message);
+                    }
+                },
+                error: function (err) {
+                    console.error('Lỗi khi gọi API:', err);
+                    alert('Không thể tải dữ liệu tổng doanh thu.');
+                }
+            });
+            $.ajax({
+                url: `https://localhost:7103/api/dashboardapi/TotalOrders/${GetYear}`, 
+                type: 'GET', // Phương thức HTTP
+                success: function (res) {
+                    if (res.success) {
+                        // Hiển thị tổng số lượng lên giao diện
+                        $('#Totalorders').text(res.totalQuantitySold);
+                    } else {
+                        alert('Không thể lấy dữ liệu: ' + res.message);
+                    }
+                },
+                error: function (err) {
+                    console.error('Lỗi khi gọi API:', err);
+                    alert('Không thể tải dữ liệu tổng số lượng.');
+                }
+            });
+            $.ajax({
+                url: `https://localhost:7103/api/dashboardapi/TotalProducts/${GetYear}`, 
+                type: 'GET',
+                success: function (res) {
+                    if (res.success) {
+                        // Hiển thị tổng sản phẩm lên giao diện
+                        $('#TotalProducts').text(res.totalProducts);
+                    } else {
+                        alert('Không thể lấy dữ liệu: ' + res.message);
+                    }
+                },
+                error: function (err) {
+                    console.error('Lỗi khi gọi API:', err);
+                    alert('Không thể tải dữ liệu tổng sản phẩm.');
+                }
+            });
+            $.ajax({
+                url: `https://localhost:7103/api/dashboardapi/MonthlyRevenue/${GetYear}`,
                 method: 'GET',
                 success: function (data) {
                     // Cập nhật dữ liệu cho biểu đồ Doanh Thu
                     areaChart.data.datasets[0].data = data.revenue;  // Dữ liệu doanh thu (VND)
 
-                    // Cập nhật và vẽ lại biểu đồ
-                    
                     areaChart.update();
                 },
                 error: function (error) {
@@ -349,19 +391,18 @@
                 }
             });
             $.ajax({
-                url: `https://localhost:7103/api/dashboardapi/MonthlyOrders/${GetYear}`,  // Thay thế đường dẫn API của bạn
-                method: 'GET',
+                url: `https://localhost:7103/api/dashboardapi/MonthlyOrders/${GetYear}`, 
                 success: function (data) {
                     // Cập nhật dữ liệu cho biểu đồ Đơn Hàng
                     lineChart.data.datasets[0].data = data.revenue;  // Dữ liệu doanh thu (Đơn Hàng)
 
-                    // Cập nhật và vẽ lại biểu đồ
                     lineChart.update();
                 },
                 error: function (error) {
                     console.error('Lỗi khi lấy dữ liệu', error);
                 }
             });
+         
         }
 </script>
 
@@ -416,7 +457,7 @@
 
                 // Gửi yêu cầu PUT với ID website
                 $.ajax({
-                    url: 'https://localhost:7103/api/dashboardapi/UpdateWebData',  // Thay `websiteId` bằng ID website thực tế
+                    url: 'https://localhost:7103/api/dashboardapi/UpdateWebData', 
                     type: 'PUT',
                     contentType: 'application/json',
                     data: JSON.stringify(websiteInfo),
