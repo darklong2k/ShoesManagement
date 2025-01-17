@@ -15,12 +15,14 @@ namespace Shoes_Management.Areas.Admin.Controllers
         {
             _context = context;
         }
-        [HttpGet("TotalQuantity")]
-        public IActionResult GetTotalQuantity() {
-            // Tính tổng số lượng từ OrderDetails
-            var totalQuantitySold = _context.OrderDetails
-                                            .Where(od => od.Quantity.HasValue) // Bỏ qua các giá trị null
-                                            .Sum(od => od.Quantity.Value); // Tính tổng
+        [HttpGet("TotalOrders/{year}")]
+        public IActionResult TotalOrders(int year) {
+            // Tính tổng số lượng từ Orders
+            var totalQuantitySold = (from ct in _context.Orders
+                                     where ct.OrderDate.HasValue && ct.OrderDate.Value.Year == year
+                                     && ct.Status == "Delivered"
+                                     select ct.OrderId
+                                 ).Count();
 
             return Ok(new
             {
@@ -29,11 +31,14 @@ namespace Shoes_Management.Areas.Admin.Controllers
             });
 
         }
-        [HttpGet("TotalCustomer")]
-        public IActionResult GetTotalCustomer()
+        [HttpGet("TotalCustomer/{year}")]
+        public IActionResult GetTotalCustomer(int year)
         {
             // Tính tổng doanh thu từ cột TotalPrice
-            var totalCustomer = _context.Customers.Count();
+            var totalCustomer = (from ct in _context.Customers
+                                 where ct.CreatedAt.HasValue && ct.CreatedAt.Value.Year== year
+                                 select ct.CustomerId
+                                 ).Count();
 
             return Ok(new
             {
@@ -41,11 +46,14 @@ namespace Shoes_Management.Areas.Admin.Controllers
                 totalCustomer
             });
         }
-        [HttpGet("TotalProducts")]
-        public IActionResult GetTotalProducts()
+        [HttpGet("TotalProducts/{year}")]
+        public IActionResult GetTotalProducts(int year)
         {
             // Đếm tổng số sản phẩm trong bảng ProductDetails
-            var totalProducts = _context.Products.Count();
+            var totalProducts = (from ct in _context.Products
+                                 where ct.CreatedAt.HasValue && ct.CreatedAt.Value.Year == year
+                                 select ct.ProductId
+                                 ).Count();
 
             return Ok(new
             {
@@ -210,7 +218,7 @@ namespace Shoes_Management.Areas.Admin.Controllers
         [HttpGet("GetWebData")]
         public IActionResult GetWebData()
         {
-            // Truy vấn dữ liệu từ bảng Websites với website_id = 2
+            
             var webData = _context.Websites
                 .Where(w => w.WebsiteId == 2)
                 .Select(w => new
@@ -269,7 +277,6 @@ namespace Shoes_Management.Areas.Admin.Controllers
                 return Ok(new { success = false, message = "Email không hợp lệ hoặc dài hơn 255 ký tự." });
             }
 
-            // Tìm website hiện tại bằng ID
             var existingWebsite = await _context.Websites.FirstOrDefaultAsync(w => w.WebsiteId == 2);
             if (existingWebsite == null)
             {
