@@ -10,6 +10,11 @@
         </div>
     </div>
 
+
+
+    <div id="cart-content"></div>
+
+
     <!-- Kiểm tra giỏ hàng có sản phẩm hay không -->
     <div id="cart-container">
         <!-- Giỏ hàng trống -->
@@ -17,6 +22,7 @@
             <p>Giỏ hàng của bạn đang trống. Hãy thêm sản phẩm vào giỏ hàng.</p>
             <a href="/Home/TrangSanPham" class="btn btn-primary">Quay lại mua tiếp</a>
         </div>
+
 
         <!-- Giỏ hàng có sản phẩm -->
         <div id="non-empty-cart" class="d-none">
@@ -57,8 +63,8 @@
 
                 <div class="col-12 d-flex justify-content-end mt-2">
                     <button class="btn btn-outline-danger me-2" onclick="clearCart()">Xóa hết giỏ hàng <i class="bi bi-arrow-clockwise"></i></button>
-                    <a class="btn btn-outline-primary me-2" href="san-pham"><i class="bi bi-arrow-left"></i> Mua tiếp</a>
-                    <button class="btn btn-success" onclick="placeOrder()">Đặt hàng <i class="bi bi-arrow-right"></i></button>
+                    <a class="btn btn-outline-primary me-2" href="/home/trangsanpham"><i class="bi bi-arrow-left"></i> Mua tiếp</a>
+                    <a href="/home/trangthongtingiaohang"><button class="btn btn-success" onclick="placeOrder()">Đặt hàng <i class="bi bi-arrow-right"></i></button></a>
                 </div>
             </div>
         </div>
@@ -66,7 +72,25 @@
 </div>
 
 <script>
+
     document.addEventListener('DOMContentLoaded', function () {
+        var isLoggedIn = @Html.Raw(Json.Serialize(ViewBag.IsLoggedIn));
+
+// Chặn các hành động nếu chưa đăng nhập
+        if (!isLoggedIn) {
+            const cartContent = document.getElementById('cart-content');
+            cartContent.innerHTML = `
+            <div class="text-center mt-4">
+                <p class="text-danger fw-bold">Bạn cần đăng nhập để xem nội dung giỏ hàng.</p>
+                <a class="btn btn-outline-primary mt-3" href="#" id="UserICON" data-bs-toggle="modal" data-bs-target="#loginModal">
+                    Đăng nhập ngay
+                </a>
+            </div>
+        `;
+        }
+        else {
+
+        
         let cartItems = [];
         const itemsPerPage = 5;
         let currentPage = 1;
@@ -177,46 +201,50 @@
         // Hàm xóa sản phẩm khỏi giỏ hàng
         window.removeItem = function (productDetailId) {
             console.log("Xóa sản phẩm có ID:", productDetailId);
-
-            $.ajax({
-                url: `/api/CartAPI/removeItem/${productDetailId}`,
-                type: 'DELETE',
-                success: function (response) {
-                    if (response.success) {
-                        cartItems = cartItems.filter(item => item.productDetailId !== productDetailId);
-                        displayCart();
-                        alert("Sản phẩm đã được xóa.");
-                    } else {
-                        console.error("Server trả về lỗi:", response.message);
-                        alert(response.message || "Không thể xóa sản phẩm.");
+            if (confirm("Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?")) {
+                $.ajax({
+                    url: `/api/CartAPI/removeItem/${productDetailId}`,
+                    type: 'DELETE',
+                    success: function (response) {
+                        if (response.success) {
+                            cartItems = cartItems.filter(item => item.productDetailId !== productDetailId);
+                            displayCart();
+                            alert("Sản phẩm đã được xóa.");
+                        } else {
+                            console.error("Server trả về lỗi:", response.message);
+                            alert(response.message || "Không thể xóa sản phẩm.");
+                        }
+                    },
+                    error: function (xhr) {
+                        console.error("Lỗi từ server:", xhr.responseText);
+                        alert("Có lỗi xảy ra khi xóa sản phẩm.");
                     }
-                },
-                error: function (xhr) {
-                    console.error("Lỗi từ server:", xhr.responseText);
-                    alert("Có lỗi xảy ra khi xóa sản phẩm.");
-                }
-            });
+                });
+            }
+
         };
 
         // Hàm xóa toàn bộ giỏ hàng
         window.clearCart = function () {
-            $.ajax({
-                url: '/api/CartAPI/clearCart',
-                type: 'DELETE',
-                success: function (response) {
-                    if (response.success) {
-                        cartItems = [];
-                        displayCart();
-                        alert(response.message || "Giỏ hàng đã được xóa.");
-                    } else {
-                        alert(response.message || "Không thể xóa giỏ hàng.");
+            if (confirm("Bạn có chắc muốn xóa toàn bộ giỏ hàng?")) {
+                $.ajax({
+                    url: '/api/CartAPI/clearCart',
+                    type: 'DELETE',
+                    success: function (response) {
+                        if (response.success) {
+                            cartItems = [];
+                            displayCart();
+                            alert(response.message || "Giỏ hàng đã được xóa.");
+                        } else {
+                            alert(response.message || "Không thể xóa giỏ hàng.");
+                        }
+                    },
+                    error: function (xhr) {
+                        console.error("Lỗi khi xóa giỏ hàng:", xhr.responseText);
+                        alert("Có lỗi xảy ra khi xóa giỏ hàng.");
                     }
-                },
-                error: function (xhr) {
-                    console.error("Lỗi khi xóa giỏ hàng:", xhr.responseText);
-                    alert("Có lỗi xảy ra khi xóa giỏ hàng.");
-                }
-            });
+                });
+            }
         };
 
         // Lấy giỏ hàng khi trang web được tải
@@ -268,6 +296,8 @@
         });
 
         // Tải giỏ hàng khi trang được tải
-        fetchCartItems();
-    });
+            fetchCartItems();
+        }
+        });
+    
 </script>
