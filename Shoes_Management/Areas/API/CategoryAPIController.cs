@@ -82,7 +82,6 @@ namespace Shoes_Management.Areas.API
                 // Kiểm tra dữ liệu đầu vào
                 if (!ModelState.IsValid)
                     return BadRequest(new { Success = false, Message = "Dữ liệu không hợp lệ." });
-
                 // Kiểm tra tên danh mục trùng lặp
                 var existingCategory = await _context.Categories
                     .FirstOrDefaultAsync(c => c.Name.ToLower() == model.Name.ToLower());
@@ -90,7 +89,6 @@ namespace Shoes_Management.Areas.API
                 {
                     return BadRequest(new { Success = false, Message = "Tên danh mục đã tồn tại. Vui lòng nhập tên khác."    });
                 }
-
                 model.CreatedAt = DateTime.Now;
                 model.UpdatedAt = DateTime.Now;
                 model.Status = true;

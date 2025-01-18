@@ -38,36 +38,34 @@ namespace Shoes_Management.Areas.API
 
                 var totalItems = productsQuery.Count();
                 var products = productsQuery
+                                        .GroupJoin(_context.ProductDetails
+                                        .GroupBy(pd => pd.ProductId)
+                                        .Select(g => new
+                                         {
+                                             ProductId = g.Key,
+                                             TotalQuantity = g.Sum(pd => pd.StockQuantity) // Tính tổng số lượng
+                                         }),
+                                         p => p.ProductId,
+                                         pd => pd.ProductId,
+                                         (p, productDetails) => new
+                                         {
+                                             p.ProductId,
+                                             p.Name,
+                                             p.Price,
+                                             p.Description,
+                                             Stock = productDetails.Select(pd => pd.TotalQuantity).FirstOrDefault() != 0
+                                                     ? productDetails.Select(pd => pd.TotalQuantity).FirstOrDefault()
+                                                     : 0, // Gán 0 nếu không có dữ liệu
+                                             p.RatingAvg,
+                                             p.Status
+                                         }
+                                     )
+                                     // Sắp xếp để đảm bảo thứ tự
+                                     .OrderBy(p=>p.Status)
      
-     .GroupJoin(
-         _context.ProductDetails
-             .GroupBy(pd => pd.ProductId)
-             .Select(g => new
-             {
-                 ProductId = g.Key,
-                 TotalQuantity = g.Sum(pd => pd.StockQuantity) // Tính tổng số lượng
-             }),
-         p => p.ProductId,
-         pd => pd.ProductId,
-         (p, productDetails) => new
-         {
-             p.ProductId,
-             p.Name,
-             p.Price,
-             p.Description,
-             Stock = productDetails.Select(pd => pd.TotalQuantity).FirstOrDefault() != 0
-                     ? productDetails.Select(pd => pd.TotalQuantity).FirstOrDefault()
-                     : 0, // Gán 0 nếu không có dữ liệu
-             p.RatingAvg,
-             p.Status
-         }
-     )
-     // Sắp xếp để đảm bảo thứ tự
-     .OrderBy(p=>p.Status)
-     
-     .Skip((page - 1) * pageSize) // Phân trang
-     .Take(pageSize) // Phân trang   
-     .ToList();
+                                     .Skip((page - 1) * pageSize) // Phân trang
+                                     .Take(pageSize) // Phân trang   
+                                     .ToList();
 
 
                 return Ok(new
@@ -93,7 +91,11 @@ namespace Shoes_Management.Areas.API
                 // Kiểm tra dữ liệu đầu vào
                 if (!ModelState.IsValid)
                     return BadRequest(new { Success = false, Message = "Dữ liệu không hợp lệ." });
-
+                //Kiểm tra tên sản phẩm không vượt quá 255 ký tự
+                if (model.Name.Length > 255)
+                {
+                    return BadRequest(new { Success = false, Message = "Tên sản phẩm không được vượt quá 255 ký tự." });
+                }
                 // Kiểm tra tên sản phẩm trùng lặp
                 var existingProduct = await _context.Products
                     .FirstOrDefaultAsync(p => p.Name.ToLower() == model.Name.ToLower());
