@@ -31,7 +31,7 @@ namespace Shoes_Management.Controllers
 
             if (product == null)
             {
-                return Ok(new { success = false, message = "Sản phẩm không tồn tại hoặc đã bị ẩn" });
+                return Ok(new { success = false, message = "Sản phẩm không tồn tại " });
             }
 
             // Định dạng phản hồi

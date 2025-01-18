@@ -90,7 +90,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function () {
-        const productId = window.location.href.split('/').pop();
+        const productId = '@ViewData["ProductId"]';
 
         // Gọi API để lấy dữ liệu sản phẩm
         function fetchProductData() {
@@ -201,7 +201,7 @@
         }
 
 
-    
+
 
         $('#quantityInput').on('input', function () {
             const stock = parseInt($('#stockCount').text());
@@ -339,15 +339,15 @@
                 <a href="/Home/TrangChiTietSP/${product.productId}" >
                           <img src="/images/${product.image}" class="card-img-top" alt="${product.name}">
                 </a>
-          
+
                     <div class="card-body">
                     <a href="/Home/TrangChiTietSP/${product.productId}" >
                      <h5 class="card-title">${product.name}</h5></a>
-                       
+
                         <p class="card-text text-danger fw-bold">
                             ${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price)}
                         </p>
-                        
+
                     </div>
                 </div>
             </div>

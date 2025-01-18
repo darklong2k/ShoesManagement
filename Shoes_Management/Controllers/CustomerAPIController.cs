@@ -189,13 +189,13 @@ namespace Shoes_Management.Controllers
 
             return Ok(new { success = true, message = "Sản phẩm đã được bỏ yêu thích." });
         }
-        [HttpPost("ThemReview/{product_detail_id}/{customerId}")]
-        public IActionResult AddReview([FromBody] Review review,int product_detail_id,int customerId)
+        [HttpPost("ThemReview")]
+        public IActionResult AddReview([FromBody] Review review)
         {
             try
             {
                 // Kiểm tra xem đã tồn tại đánh giá chưa
-                var rv = _context.Reviews.FirstOrDefault(r => r.CustomerId == customerId && r.ProductDetailId == product_detail_id);
+                var rv = _context.Reviews.FirstOrDefault(r => r.CustomerId == review.CustomerId && r.ProductDetailId == review.ProductDetailId);
 
                 if (rv == null)
                 {
