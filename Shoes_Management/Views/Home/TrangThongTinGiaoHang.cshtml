@@ -1,4 +1,4 @@
-﻿<div class="container my-4" style="max-width: 850px;">
+﻿<div class="container my-4 trangthongtingiaohang">
     <ul class="breadcrumb">
         <li class="breadcrumb-item">
             <a href="gio-hang">Giỏ hàng</a>
@@ -7,45 +7,180 @@
             Thông tin giao hàng
         </li>
     </ul>
-    <div class="mb-4">
-        <h2 class="h4">Thông tin giao hàng</h2>
-    </div>
-    <div>
-        <form>
-            <div class="row mb-3">
-                <!-- Họ và tên (7 phần) -->
-                <div class="col-md-9">
-                    <input type="text" id="billing_address_full_name" name="billing_address_full_name" class="form-control text-capitalize" placeholder="Họ và tên" required style="font-size: 14px; padding: 0.5rem;">
-                </div>
-                <!-- Số điện thoại (3 phần) -->
-                <div class="col-md-3">
-                    <input type="tel" id="billing_address_phone" name="billing_address_phone" class="form-control" placeholder="Số điện thoại" maxlength="12" minlength="10" required style="font-size: 14px; padding: 0.5rem;">
-                </div>
-            </div>
 
-            <!-- Địa chỉ -->
-            <div class="mb-3">
-                <input type="text" id="billing_address_address" name="billing_address_address" class="form-control text-capitalize" placeholder="Địa chỉ" required style="font-size: 14px; padding: 0.5rem;">
+    <div class="row">
+        <!-- Cột bên trái: Thông tin giao hàng -->
+        <div class="col-md-6">
+            <div class="mb-4">
+                <h2 class="h4">Thông tin giao hàng</h2>
             </div>
+            <form>
+                <div class="mb-3">
+                    <input type="text" id="billing_address_full_name" name="billing_address_full_name"
+                           class="form-control text-capitalize" placeholder="Họ và tên" required>
+                </div>
+                <div class="mb-3">
+                    <input type="tel" id="billing_address_phone" name="billing_address_phone"
+                           class="form-control" placeholder="Số điện thoại" maxlength="12" minlength="10" required>
+                </div>
+                <div class="mb-3">
+                    <input type="text" id="billing_address_address" name="billing_address_address"
+                           class="form-control text-capitalize" placeholder="Địa chỉ" required>
+                </div>
+                <div class="mb-3">
+                    <input type="email" id="billing_email" name="billing_email"
+                           class="form-control" placeholder="Email: example@domain.com" required>
+                </div>
+                <!-- Ghi chú -->
+                <div class="mb-3">
+                    <textarea id="billing_note" name="billing_note" class="form-control" placeholder="Nhập ghi chú về đơn hàng (nếu có)" rows="4"></textarea>
+                </div>
+                <div class="d-flex justify-content-between mt-4">
+                    <a href="/Home/TrangGioHang" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left"></i> Quay lại giỏ hàng
+                    </a>
+                    <a asp-area="" asp-controller="Home" asp-action="TrangThanhToan" class="btn btn-primary">
+                        Tiếp tục đến phương thức thanh toán <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </form>
+        </div>
 
-            <!-- Email -->
-            <div class="mb-3">
-                <input type="email" id="billing_email" name="billing_email" class="form-control" placeholder="Email: example@domain.com" required style="font-size: 14px; padding: 0.5rem;">
+        <!-- Cột bên phải: Thông tin giỏ hàng -->
+        <div class="col-md-6">
+            <div id="cart-details">
+                <h5 class="mb-3">Sản phẩm trong giỏ hàng</h5>
+                <div id="cart-items" class="mb-3 border rounded p-3" style="background-color: #f8f9fa;"></div>
+                <h6 id="tong-tien" class="text-end mt-3">Tổng tiền: 0 VNĐ</h6>
             </div>
-            <!-- Nội dung -->
-            <div class="mb-3">
-                <textarea id="billing_note" name="billing_note" class="form-control" placeholder="Nội dung" style="font-size: 14px; padding: 0.5rem;"></textarea>
-            </div>
-            <div class="d-flex justify-content-between mt-4">
-                <!-- Nút quay lại giỏ hàng -->
-                <a href="gio-hang" class="btn btn-outline-secondary" style="font-size: 14px;">
-                    <i class="fas fa-arrow-left"></i> Quay lại giỏ hàng
-                </a>
-                <!-- Nút tiếp tục đến phương thức thanh toán -->
-                <a asp-area="" asp-controller="Home" asp-action="TrangThanhToan" class="btn btn-primary" style="font-size: 14px;">
-                    Tiếp tục đến phương thức thanh toán <i class="fas fa-arrow-right"></i>
-                </a>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
+
+<!-- Styles -->
+<style>
+
+    .breadcrumb {
+        background-color: #ffffff;
+        padding: 0.5rem 1rem;
+        border-radius: 0.375rem;
+    }
+
+    .container trangthongtingiaohang {
+        background-color: #ffffff;
+        padding: 2rem;
+        border-radius: 0.375rem;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    #cart-details {
+        border: 1px solid #e9ecef;
+        border-radius: 0.375rem;
+        padding: 1rem;
+    }
+
+    #cart-items .cart-item {
+        padding: 0.5rem 0;
+        border-bottom: 1px solid #e9ecef;
+    }
+
+        #cart-items .cart-item:last-child {
+            border-bottom: none;
+        }
+
+    .btn {
+        border-radius: 0.375rem;
+        font-weight: 500;
+    }
+</style>
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Fetch customer details using session-based account ID
+        $.ajax({
+            url: `/api/CartApi/GetBySession`,
+            method: "GET",
+            success: function (data) {
+                // Populate the form fields with the fetched data
+                $("#billing_address_full_name").val(data.name || "");
+                $("#billing_email").val(data.email || "");
+                $("#billing_address_address").val(data.address || "");
+                $("#billing_address_phone").val(data.phone || "");
+            },
+            error: function (err) {
+                if (err.status === 401) {
+                    alert("Bạn cần đăng nhập để thực hiện thao tác này.");
+                    window.location.href = "/login"; // Redirect to login page
+                } else {
+                    console.error("Error fetching customer data:", err);
+                    alert("Không thể lấy thông tin khách hàng.");
+                }
+            }
+        });
+    });
+
+
+    $.ajax({
+        url: `/api/CartApi/GetCartDetails`,
+        method: "GET",
+        success: function (data) {
+            const cartItems = data.cartDetails;
+            const totalPrice = data.totalPrice;
+            console.log("Tổng tiền:", totalPrice);
+
+            // Populate cart items
+            const cartItemsHtml = cartItems.map(item => `
+                    <div class="cart-item d-flex justify-content-between">
+                        <div>
+                            <strong>${item.productName}</strong>
+                            <div>Giá: ${item.unitPrice.toLocaleString('vi-VN')} VNĐ</div>
+                            <div>Số lượng: ${item.quantity}</div>
+                        </div>
+                        <div>
+                            Tổng: ${item.totalPrice.toLocaleString('vi-VN')} VNĐ
+                        </div>
+                    </div>
+                `).join("");
+
+            $("#cart-items").html(cartItemsHtml);
+            $("#tong-tien").text(`Tổng tiền: ${totalPrice.toLocaleString('vi-VN')} VNĐ`);
+
+        },
+        error: function (err) {
+            console.error("Error fetching cart details:", err);
+            alert("Không thể lấy thông tin giỏ hàng.");
+        }
+    });
+
+    // Khi nhấn nút "Tiếp tục đến phương thức thanh toán"
+    $(".btn-primary").click(function (e) {
+        e.preventDefault();
+
+        // Lấy thông tin giao hàng từ các trường nhập
+        const fullName = $("#billing_address_full_name").val();
+        const phone = $("#billing_address_phone").val();
+        const address = $("#billing_address_address").val();
+        const email = $("#billing_email").val();
+        const note = $("#billing_note").val();
+
+        // Lưu thông tin giao hàng và giỏ hàng vào sessionStorage để truyền dữ liệu
+        const paymentData = {
+            fullName: fullName,
+            phone: phone,
+            address: address,
+            email: email,
+            note: note,
+        };
+
+        // Lưu thông tin giao hàng và giỏ hàng vào sessionStorage
+        sessionStorage.setItem('paymentData', JSON.stringify(paymentData));
+
+        // Chuyển hướng đến trang thanh toán
+        window.location.href = '/Home/TrangThanhToan';
+    });
+</script>
+

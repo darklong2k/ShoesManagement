@@ -1,5 +1,6 @@
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Shoes_Management.Models;
 using System.Diagnostics;
 
@@ -9,11 +10,13 @@ namespace Shoes_Management.Controllers
 	public class HomeController : Controller
 	{
 		private readonly ILogger<HomeController> _logger;
+        private readonly Shoescontext _context;
 
-		public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, Shoescontext context)
 		{
 			_logger = logger;
-		}
+            _context = context;
+        }
 
 		public IActionResult Index()
 		{
@@ -55,12 +58,39 @@ namespace Shoes_Management.Controllers
 			return View();
 		}
 
-		public IActionResult TrangChiTietSP()
-		{
-			return View();
-		}
+        [Route("Home/TrangChiTietSP/{id:int}")]
+        public IActionResult RedirectToSlug(int id)
+        {
+            // Tìm sản phẩm theo ID
+            var product = _context.Products.FirstOrDefault(p => p.ProductId == id);
 
-		public IActionResult TrangGioHang()
+            if (product == null)
+            {
+                return NotFound(); // Nếu không tìm thấy sản phẩm
+            }
+
+            // Chuyển hướng đến URL có slug
+            return RedirectToAction("TrangChiTietSP", new { slug = product.Slug });
+        }
+
+        // Route để hiển thị trang chi tiết sản phẩm qua slug
+        [Route("Home/TrangChiTietSP/{slug}")]
+        public IActionResult TrangChiTietSP(string slug)
+        {
+            // Tìm sản phẩm theo slug
+            var product = _context.Products.FirstOrDefault(p => p.Slug == slug);
+
+            if (product == null)
+            {
+                return NotFound(); // Nếu không tìm thấy sản phẩm
+            }
+            ViewData["ProductId"] = product.ProductId;
+
+            // Trả về view chi tiết sản phẩm
+            return View(product);
+        }
+
+        public IActionResult TrangGioHang()
 		{
 			return View();
 		}
