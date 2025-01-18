@@ -87,12 +87,35 @@ namespace Shoes_Management.Controllers
             ViewData["ProductId"] = product.ProductId;
 
             // Trả về view chi tiết sản phẩm
+            var accountId = HttpContext.Session.GetString("acc_id");
+            if (accountId == null)
+            {
+                // Người dùng chưa đăng nhập
+                ViewBag.IsLoggedIn = false;
+            }
+            else
+            {
+                // Người dùng đã đăng nhập
+                ViewBag.IsLoggedIn = true;
+            }
             return View(product);
         }
 
         public IActionResult TrangGioHang()
 		{
-			return View();
+            var accountId = HttpContext.Session.GetString("acc_id");
+            if (accountId == null)
+            {
+                // Người dùng chưa đăng nhập
+                ViewBag.IsLoggedIn = false;
+            }
+            else
+            {
+                // Người dùng đã đăng nhập
+                ViewBag.IsLoggedIn = true;
+            }
+
+            return View();
 		}
 
 		public IActionResult TrangLienHe()

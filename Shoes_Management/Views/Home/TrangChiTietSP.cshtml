@@ -91,6 +91,7 @@
 <script>
     $(document).ready(function () {
         const productId = '@ViewData["ProductId"]';
+        var isLoggedIn = @Html.Raw(Json.Serialize(ViewBag.IsLoggedIn));
 
         // Gọi API để lấy dữ liệu sản phẩm
         function fetchProductData() {
@@ -373,60 +374,67 @@
         }
 
         function addProductToCart() {
-            const color = $('#colorSelect').val();
-            const size = $('#sizeSelect').val();
-            const quantity = parseInt($('#quantityInput').val(), 10); // Chuyển đổi số lượng thành số nguyên
-            let productDetailId = 0;
+            if (!isLoggedIn) {
+                // Hiển thị thông báo yêu cầu đăng nhập và nút "Đăng nhập ngay"
+                alert("Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng")
 
-            // Kiểm tra nếu màu sắc và kích thước hợp lệ
-            if (!color || !size) {
-                alert("Vui lòng chọn màu sắc và kích thước.");
-                return;
             }
+            else {
+                const color = $('#colorSelect').val();
+                const size = $('#sizeSelect').val();
+                const quantity = parseInt($('#quantityInput').val(), 10); // Chuyển đổi số lượng thành số nguyên
+                let productDetailId = 0;
 
-            // Kiểm tra sự tồn tại của dữ liệu cho màu sắc và kích thước
-            if (window.stockData[color] && window.stockData[color][size]) {
-                const stockData = window.stockData[color][size];
-                productDetailId = stockData.productDetailId;
-            } else {
-                alert("Thông tin về sản phẩm này không hợp lệ.");
-                return;
-            }
-
-            // Kiểm tra số lượng nhập vào
-            if (isNaN(quantity) || quantity <= 0) {
-                alert("Vui lòng nhập số lượng hợp lệ.");
-                return;
-            }
-
-            // Thông tin gửi lên server
-            let info = {
-                productId: productId,
-                productDetailId: productDetailId,
-                quantity: quantity
-            };
-
-            console.log('info', info); // Debug thông tin trước khi gửi
-
-            // Gửi AJAX request đến API
-            $.ajax({
-                url: `/api/user/ProductDetailsAPI/addProductToCart/`,
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify(info),
-                success: function (response) {
-                    if (response.success) {
-                        alert("Sản phẩm đã được thêm vào giỏ hàng!");
-                        // Có thể thêm một số logic khác sau khi thành công như cập nhật giỏ hàng hiển thị trên giao diện
-                    } else {
-                        alert(response.message || "Không thể thêm sản phẩm vào giỏ hàng.");
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.error("Lỗi khi thêm sản phẩm vào giỏ hàng:", xhr.responseText);
-                    alert("Có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng.");
+                // Kiểm tra nếu màu sắc và kích thước hợp lệ
+                if (!color || !size) {
+                    alert("Vui lòng chọn màu sắc và kích thước.");
+                    return;
                 }
-            });
+
+                // Kiểm tra sự tồn tại của dữ liệu cho màu sắc và kích thước
+                if (window.stockData[color] && window.stockData[color][size]) {
+                    const stockData = window.stockData[color][size];
+                    productDetailId = stockData.productDetailId;
+                } else {
+                    alert("Thông tin về sản phẩm này không hợp lệ.");
+                    return;
+                }
+
+                // Kiểm tra số lượng nhập vào
+                if (isNaN(quantity) || quantity <= 0) {
+                    alert("Vui lòng nhập số lượng hợp lệ.");
+                    return;
+                }
+
+                // Thông tin gửi lên server
+                let info = {
+                    productId: productId,
+                    productDetailId: productDetailId,
+                    quantity: quantity
+                };
+
+                console.log('info', info); // Debug thông tin trước khi gửi
+
+                // Gửi AJAX request đến API
+                $.ajax({
+                    url: `/api/user/ProductDetailsAPI/addProductToCart/`,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(info),
+                    success: function (response) {
+                        if (response.success) {
+                            alert("Sản phẩm đã được thêm vào giỏ hàng!");
+                            // Có thể thêm một số logic khác sau khi thành công như cập nhật giỏ hàng hiển thị trên giao diện
+                        } else {
+                            alert(response.message || "Không thể thêm sản phẩm vào giỏ hàng.");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Lỗi khi thêm sản phẩm vào giỏ hàng:", xhr.responseText);
+                        alert("Có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng.");
+                    }
+                });
+            }
         }
 
 
@@ -446,7 +454,10 @@
 
         // Gắn sự kiện cho nút yêu thích
         $('#wishlistBtnContainer').on('click', toggleWishlist);
-        $('#addtocart').on('click', addProductToCart);
+
+            $('#addtocart').on('click', addProductToCart);
+
+
 
 
 
