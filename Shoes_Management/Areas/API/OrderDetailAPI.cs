@@ -55,15 +55,23 @@ namespace Shoes_Management.Areas.API
         }
         public Order GetOrderById(int orderId)
         {
-            var orders = _shoescontext.Orders.ToList();
+            var orders = _shoescontext.Orders;
 
-            var findedOrder = orders.FirstOrDefault(order => order.OrderId == orderId);
+            var findedOrder = orders.First(order => order.OrderId == orderId);
             return findedOrder;
+        }
+        public Payment GetPaymentByOrderId(int orderId)
+        {
+            var payments = _shoescontext.Payments;
+
+            var findedPayment = payments.First(payment => payment.OrderId == orderId);
+            return findedPayment;
         }
         [HttpPatch("{orderId}")]
         public IActionResult ChangeStatusOrder(int orderId) 
         {
             var order = GetOrderById(orderId);
+            var payment = GetPaymentByOrderId(orderId);
             switch(order.Status)
             {
                 case "Pending":
@@ -74,11 +82,17 @@ namespace Shoes_Management.Areas.API
                     break;
                 case "Shipping":
                     order.Status = "Delivered";
+                    payment.Status = "Paid";
                     break;
             }
 
             _shoescontext.SaveChanges();
-            return Ok(order);
+            return Ok(new
+            {
+                OrderId = order.OrderId,
+                OrderStatus = order.Status,
+                PaymentStatus = payment.Status
+            });
         }
 
         [HttpDelete("{orderId}")]
