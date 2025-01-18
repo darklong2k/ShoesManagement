@@ -274,21 +274,28 @@
             var confirmDelete = confirm("Bạn có chắc chắn muốn hủy đơn hàng này không?");
                 if (!confirmDelete) {
                     return;
+                } else {
+                    const captcha = prompt('Nhập mã Captcha:');
+                    if (captcha === '1234') { // Replace with actual captcha validation
+                        $.ajax({
+                            url: `/api/orderdetails/${orderId}`,
+                            method: 'DELETE',
+                            dataType: 'json',
+                            success: function() {
+                                alert('Xóa thành công');
+                                location.reload();
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('Lỗi khi hủy đơn hàng:', status, error);
+                                alert('Cập nhật trạng thái thất bại!');
+                            }
+                        })
+                    } else {
+                        alert('Captcha không chính xác!');
+                    }
                 }
 
-            $.ajax({
-                url: `/api/orderdetails/${orderId}`,
-                method: 'DELETE',
-                dataType: 'json',
-                success: function() {
-                    alert('Xóa thành công');
-                    location.reload();
-                },
-                error: function (xhr, status, error) {
-                    console.error('Lỗi khi hủy đơn hàng:', status, error);
-                    alert('Cập nhật trạng thái thất bại!');
-                }
-            })
+            
         })
     })
 </script>
