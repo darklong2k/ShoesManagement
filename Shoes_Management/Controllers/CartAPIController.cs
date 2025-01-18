@@ -48,13 +48,15 @@ namespace Shoes_Management.Controllers
                 .Select(cd => new
                 {
                     cd.ProductDetailId,
+                    
                     cd.Quantity,
                     ProductName = cd.ProductDetail.Product.Name,
                     ProductImage = cd.ProductDetail.Product.Image,
                     ProductColor = cd.ProductDetail.Color.ColorName,
                     ProductSize = cd.ProductDetail.Size.SizeName,
                     ProductPrice = cd.ProductDetail.Product.Price,
-                    ProductStock = cd.ProductDetail.StockQuantity
+                    ProductStock = cd.ProductDetail.StockQuantity,
+                    ProductId = cd.ProductDetail.ProductId
                 })
                 .ToListAsync();
 
