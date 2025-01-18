@@ -1,7 +1,7 @@
 ﻿<link href="~/css/TrangThanhToan.css" rel="stylesheet" />
 
-<div class="container">
-    <!-- Hiển thị thông tin đã nhập để kiểm tra -->
+<div class="container my-4 trangthongtingiaohang">
+    <!-- Thông tin giao hàng -->
     <div class="mb-4 p-3 border rounded">
         <h5 class="text-primary">Vui lòng kiểm tra lại thông tin giao hàng:</h5>
         <p><strong>Họ và tên:</strong> <span id="display-full-name">Nguyễn Văn A</span></p>
@@ -11,15 +11,18 @@
         <p><strong>Ghi chú:</strong> <span id="display-note">Không có ghi chú</span></p>
         <p class="text-danger">Lưu ý: Hãy đảm bảo thông tin chính xác để tránh nhầm lẫn trong quá trình giao hàng.</p>
     </div>
-</div>
 
-<div class="container my-4">
-    <div class="mb-4">
-        <h2 class="h4">Chọn phương thức thanh toán</h2>
+    <!-- Giỏ hàng -->
+    <div id="cart-details">
+        <h5 class="mb-3">Sản phẩm trong giỏ hàng</h5>
+        <div id="cart-items" class="mb-3 border rounded p-3" style="background-color: #f8f9fa;"></div>
+        <h6 id="tong-tien" class="text-end mt-3">Tổng tiền: 0 VNĐ</h6>
     </div>
-    <div>
+
+    <!-- Chọn phương thức thanh toán -->
+    <div class="mt-4">
+        <h4 class="text-primary">Chọn phương thức thanh toán</h4>
         <form id="payment-form">
-            <!-- Phương thức thanh toán (Radio buttons) -->
             <div class="mb-3">
                 <label class="form-label">Chọn phương thức thanh toán</label><br>
                 <input type="radio" id="payment-method-cod" name="payment_method" value="cod" class="form-check-input" required>
@@ -32,7 +35,6 @@
             <div class="mb-3 d-flex justify-content-end">
                 <button type="submit" class="btn btn-success btn-lg" id="payment-button">Thanh toán</button>
             </div>
-
         </form>
     </div>
 </div>
@@ -42,19 +44,142 @@
     <strong>Thanh toán thành công!</strong> Cảm ơn bạn đã mua hàng.
 </div>
 
-<script>
-    document.getElementById('payment-form').addEventListener('submit', function (event) {
-        event.preventDefault();
-        const codRadio = document.getElementById('payment-method-cod');
-        const momoRadio = document.getElementById('payment-method-momo');
+<!-- Styles -->
+<style>
+    .breadcrumb {
+        background-color: #ffffff;
+        padding: 0.5rem 1rem;
+        border-radius: 0.375rem;
+    }
 
-        if (momoRadio.checked) {
-            window.location.href = 'https://momo.vn'; // Chuyển đến trang thanh toán MoMo
-        } else if (codRadio.checked) {
-            document.getElementById('payment-success').style.display = 'block';
-        } else {
-            alert('Vui lòng chọn phương thức thanh toán.');
+    .container.trangthongtingiaohang {
+        background-color: #ffffff;
+        padding: 2rem;
+        border-radius: 0.375rem;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    #cart-details {
+        border: 1px solid #e9ecef;
+        border-radius: 0.375rem;
+        padding: 1rem;
+    }
+
+    #cart-items .cart-item {
+        padding: 0.5rem 0;
+        border-bottom: 1px solid #e9ecef;
+    }
+
+        #cart-items .cart-item:last-child {
+            border-bottom: none;
         }
+
+    .btn {
+        border-radius: 0.375rem;
+        font-weight: 500;
+    }
+</style>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Lấy thông tin giao hàng từ sessionStorage
+        const paymentData = JSON.parse(sessionStorage.getItem('paymentData'));
+
+        if (paymentData) {
+            // Hiển thị thông tin giao hàng
+            $("#display-full-name").text(paymentData.fullName);
+            $("#display-phone").text(paymentData.phone);
+            $("#display-address").text(paymentData.address);
+            $("#display-email").text(paymentData.email);
+            $("#display-note").text(paymentData.note || "Không có ghi chú");
+        } else {
+            alert("Không tìm thấy thông tin giao hàng.");
+            window.location.href = '/Home/TrangGioHang';
+        }
+
+        // Lấy thông tin giỏ hàng và hiển thị
+        $.ajax({
+            url: `/api/CartApi/GetCartDetails`,
+            method: "GET",
+            success: function (data) {
+                const cartItems = data.cartDetails;
+                const totalPrice = data.totalPrice;
+
+                // Populate cart items
+                const cartItemsHtml = cartItems.map(item => `
+                    <div class="cart-item d-flex justify-content-between">
+                        <div>
+                            <strong>${item.productName}</strong>
+                            <div>Giá: ${item.unitPrice.toLocaleString('vi-VN')} VNĐ</div>
+                            <div>Số lượng: ${item.quantity}</div>
+                        </div>
+                        <div>
+                            Tổng: ${item.totalPrice.toLocaleString('vi-VN')} VNĐ
+                        </div>
+                    </div>
+                `).join("");
+
+                $("#cart-items").html(cartItemsHtml);
+                $("#tong-tien").text(`Tổng tiền: ${totalPrice.toLocaleString('vi-VN')} VNĐ`);
+            },
+            error: function (err) {
+                console.error("Error fetching cart details:", err);
+                alert("Không thể lấy thông tin giỏ hàng.");
+            }
+        });
+
+        // Khi nhấn nút thanh toán
+        $("#payment-form").submit(function (e) {
+            e.preventDefault();
+
+            const codRadio = $("#payment-method-cod");
+            const momoRadio = $("#payment-method-momo");
+
+            let paymentMethod = '';
+            if (momoRadio.is(":checked")) {
+                paymentMethod = 3;
+            } else if (codRadio.is(":checked")) {
+                paymentMethod = 1;
+            }
+
+            if (!paymentMethod) {
+                alert("Vui lòng chọn phương thức thanh toán.");
+                return;
+            }
+            console.log("Dữ liệu thanh toán:", {
+                paymentMethod: paymentMethod,
+                fullName: paymentData.fullName,
+                phone: paymentData.phone,
+                address: paymentData.address,
+                email: paymentData.email,
+                note: paymentData.note
+            });
+            // Gửi yêu cầu thanh toán tới server
+            $.ajax({
+                url: '/api/OrderApi/CreateOrder',
+                method: 'POST',
+                contentType: 'application/json',  // Đảm bảo gửi dữ liệu dưới dạng JSON
+                data: JSON.stringify({
+                    paymentMethod: paymentMethod,
+                    fullName: paymentData.fullName,
+                    phone: paymentData.phone,
+                    address: paymentData.address,
+                    email: paymentData.email,
+                    note: paymentData.note
+                }),
+                success: function (response) {
+                    // Hiển thị thông báo thanh toán thành công
+                    $("#payment-success").show();
+                },
+                error: function (err) {
+                    console.error("Error during payment:", err);
+                    alert("Đã xảy ra lỗi trong quá trình thanh toán.");
+                }
+            });
+
+
+
+        });
     });
 </script>
-

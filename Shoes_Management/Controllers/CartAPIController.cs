@@ -160,5 +160,77 @@ namespace Shoes_Management.Controllers
 
             return Ok(new { success = true, totalPrice });
         }
+
+        [HttpGet("GetBySession")]
+        public IActionResult GetCustomerBySession()
+        {
+            // Get account ID from session
+            var accountId = HttpContext.Session.GetString("acc_id");
+            if (accountId == null)
+            {
+                return Unauthorized(new { message = "Bạn cần đăng nhập để thực hiện thao tác này." });
+            }
+
+            // Find customer using account ID
+            var customer = _context.Customers
+                .Where(c => c.AccountId == int.Parse(accountId))
+                .Select(c => new
+                {
+                    c.Name,
+                    c.Email,
+                    c.Address,
+                    c.Phone,
+                    c.Sex,
+                    c.CreatedAt,
+                    c.UpdatedAt
+                })
+                .FirstOrDefault();
+
+            if (customer == null)
+            {
+                return NotFound(new { message = "Không tìm thấy thông tin khách hàng." });
+            }
+
+            return Ok(customer);
+        }
+
+        [HttpGet("GetCartDetails")]
+        public IActionResult GetCartDetails()
+        {
+            var accountId = HttpContext.Session.GetString("acc_id");
+            if (accountId == null)
+            {
+                return Unauthorized(new { message = "Bạn cần đăng nhập để thực hiện thao tác này." });
+            }
+
+            var customerId = _context.Customers
+                .Where(c => c.AccountId == int.Parse(accountId))
+                .Select(c => c.CustomerId)
+                .FirstOrDefault();
+
+            if (customerId == 0)
+            {
+                return NotFound(new { message = "Không tìm thấy thông tin khách hàng." });
+            }
+
+            var cartDetails = _context.CartDetails
+                .Where(cd => cd.CustomerId == customerId)
+                .Select(cd => new
+                {
+                    ProductName = cd.ProductDetail.Product.Name,
+                    cd.Quantity,
+                    UnitPrice = cd.ProductDetail.Product.Price,
+                    cd.TotalPrice
+                })
+                .ToList();
+
+            var totalPrice = cartDetails.Sum(cd => cd.TotalPrice ?? 0);
+
+            return Ok(new
+            {
+                CartDetails = cartDetails,
+                TotalPrice = totalPrice
+            });
+        }
     }
 }
