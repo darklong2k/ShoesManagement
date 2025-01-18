@@ -152,6 +152,7 @@
             $('#likes').text(likes);
         }
 
+
         // Cập nhật dữ liệu liên quan đến màu sắc và kích thước
         function populateSelectors(product) {
             console.log('sản phảma',product)
@@ -441,7 +442,9 @@
 
 
         // Gọi các hàm khởi tạo
-        fetchProductData();
+        fetchProductData()
+        setInterval(fetchProductData, 5000);
+  
         fetchProductReviews();
         checkLoginStatus();
         fetchRelatedProducts(productId);
