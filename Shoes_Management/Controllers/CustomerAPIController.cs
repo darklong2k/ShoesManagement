@@ -192,6 +192,7 @@ namespace Shoes_Management.Controllers
         [HttpPost("ThemReview")]
         public IActionResult AddReview([FromBody] Review review)
         {
+            
             try
             {
                 // Kiểm tra xem đã tồn tại đánh giá chưa
@@ -207,7 +208,7 @@ namespace Shoes_Management.Controllers
                         Rating = (byte)review.Rating, // Ép kiểu về byte cho tương thích với TINYINT
                         Comment = review.Comment,
                         Status = review.Status,
-                        ReviewDate = DateTime.Now
+                        
                     };
 
                     _context.Reviews.Add(rv);
@@ -218,7 +219,7 @@ namespace Shoes_Management.Controllers
                     rv.Rating = (byte)review.Rating; // Ép kiểu về byte
                     rv.Comment = review.Comment;
                     rv.Status = review.Status;
-                    rv.ReviewDate = DateTime.Now;
+                
                 }
 
                 // Lưu thay đổi vào cơ sở dữ liệu

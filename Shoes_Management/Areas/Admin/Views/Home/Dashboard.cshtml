@@ -391,7 +391,8 @@
                 }
             });
             $.ajax({
-                url: `https://localhost:7103/api/dashboardapi/MonthlyOrders/${GetYear}`, 
+                url: `https://localhost:7103/api/dashboardapi/MonthlyOrders/${GetYear}`,
+                method: 'GET',
                 success: function (data) {
                     // Cập nhật dữ liệu cho biểu đồ Đơn Hàng
                     lineChart.data.datasets[0].data = data.revenue;  // Dữ liệu doanh thu (Đơn Hàng)

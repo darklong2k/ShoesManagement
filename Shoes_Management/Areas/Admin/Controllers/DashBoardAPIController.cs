@@ -36,7 +36,6 @@ namespace Shoes_Management.Areas.Admin.Controllers
         {
             // Tính tổng doanh thu từ cột TotalPrice
             var totalCustomer = (from ct in _context.Customers
-                                 where ct.CreatedAt.HasValue && ct.CreatedAt.Value.Year== year
                                  select ct.CustomerId
                                  ).Count();
 
@@ -51,7 +50,6 @@ namespace Shoes_Management.Areas.Admin.Controllers
         {
             // Đếm tổng số sản phẩm trong bảng ProductDetails
             var totalProducts = (from ct in _context.Products
-                                 where ct.CreatedAt.HasValue && ct.CreatedAt.Value.Year == year
                                  select ct.ProductId
                                  ).Count();
 

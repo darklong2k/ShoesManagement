@@ -53,8 +53,6 @@
 
             <div id="order-list" class="section-content mb-4" style="display: none;">
                 <h4 class="mb-3">Quản Lý Đơn Hàng</h4>
-               
-                
             </div>
             <div id="order-details" class="section-content mb-4" style="display: none;">
                 <h4 class="mb-3">Quản Lý Đơn Hàng</h4>
@@ -506,8 +504,8 @@
             console.log(reviewData);
 
             $.ajax({
-                url: `https://localhost:7103/api/customerapi/ThemReview`,
-                method: 'POST',
+                url: `https://localhost:7103/api/customerapi/themreview`,
+                type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(reviewData),
                 success: function (response) {
@@ -530,16 +528,13 @@
     </script>
 <script>
     $(document).ready(function () {
-        // Gửi yêu cầu AJAX để lấy danh sách sản phẩm
         $.ajax({
-            url: 'https://localhost:7103/api/customerapi/PersonalPage',  // URL API trả về danh sách sản phẩm
+            url: 'https://localhost:7103/api/customerapi/PersonalPage', 
             method: 'GET',
             success: function (res) {
                 if (res.success) {
                     var wishlist = res.likedProducts || [];
-                    var productsHtml = '';  // Khởi tạo chuỗi HTML rỗng
-
-                    // Duyệt qua danh sách sản phẩm trả về
+                    var productsHtml = '';  
                     wishlist.forEach(product => {
                         productsHtml += `
                                     <div class="col-md-4 mb-3">
@@ -575,13 +570,12 @@
 
     // Hàm xử lý xóa sản phẩm khỏi danh sách yêu thích
     function removeFromWishlist(productId) {
-        // ID của khách hàng, có thể lấy từ thông tin đăng nhập hoặc session
         var customerId = $('#customerId').val();
         // Gửi yêu cầu DELETE để xóa sản phẩm khỏi danh sách yêu thích
         if (confirm('Bạn có chắc chắn muốn bỏ yêu thích sản phẩm này?')) {
             $.ajax({
 
-                url: `https://localhost:7103/api/Customerapi/RemoveFromWishlist/${productId}/${customerId}`,  // Địa chỉ API của bạn
+                url: `https://localhost:7103/api/Customerapi/RemoveFromWishlist/${productId}/${customerId}`, 
                 method: 'DELETE',
                 success: function (res) {
                     if (res.success) {
