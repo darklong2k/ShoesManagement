@@ -177,7 +177,7 @@
         function showDeleteConfirmation(id) {
             if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) {
                 const captcha = prompt('Nhập mã Captcha:');
-                if (captcha === '1234') { // Replace with actual captcha validation
+                if (captcha === '1234') { 
                     $.ajax({
                         url: `/api/ProductAPI/Delete/${id}`,
                         type: 'DELETE',
