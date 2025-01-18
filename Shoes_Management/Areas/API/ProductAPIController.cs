@@ -192,17 +192,6 @@ namespace Shoes_Management.Areas.API
                 {
                     return BadRequest(new { Success = false, Message = "Tên sản phẩm đã tồn tại. Vui lòng nhập tên khác." });
                 }
-
-                // Cập nhật thông tin sản phẩm
-                existingProduct.Name = model.Name;
-                existingProduct.Description = model.Description;
-                existingProduct.Price = model.Price;
-                existingProduct.CategoryId = model.CategoryId;
-                existingProduct.BrandId = model.BrandId;
-                existingProduct.SupplierId = model.SupplierId;
-                existingProduct.UpdatedAt = DateTime.Now;
-                existingProduct.Status = model.Status ?? existingProduct.Status;  // Nếu không có trạng thái, giữ nguyên
-
                 // Cập nhật hình ảnh nếu có thay đổi
                 if (model.ImageFile != null)
                 {
@@ -224,6 +213,17 @@ namespace Shoes_Management.Areas.API
                     }
                     existingProduct.Image = model.ImageFile.FileName;
                 }
+                // Cập nhật thông tin sản phẩm
+                existingProduct.Name = model.Name;
+                existingProduct.Description = model.Description;
+                existingProduct.Price = model.Price;
+                existingProduct.CategoryId = model.CategoryId;
+                existingProduct.BrandId = model.BrandId;
+                existingProduct.SupplierId = model.SupplierId;
+                existingProduct.UpdatedAt = DateTime.Now;
+                existingProduct.Status = model.Status ?? existingProduct.Status;  // Nếu không có trạng thái, giữ nguyên
+
+                
 
                 // Cập nhật sản phẩm vào cơ sở dữ liệu
                 _context.Products.Update(existingProduct);
