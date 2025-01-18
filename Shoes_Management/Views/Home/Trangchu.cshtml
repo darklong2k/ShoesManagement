@@ -323,6 +323,7 @@
             type:'GET',
             success:function(res){
                 var contain = $('#ContainSP');
+                console.log(res);
                 res.products.forEach(function (product) {
                     var rating = '★'.repeat(Math.floor(product.ratingAvg)) + '☆'.repeat(5 - Math.floor((product.ratingAvg)));
                     var html = `
@@ -331,7 +332,8 @@
                         <a href="/Home/TrangChiTietSP/${product.productId}">
 
                             <img src="/images/${product.image}"
-                                 class="card-img-top" alt="AIR FORCE 1">
+                                 class="card-img-top" alt="AIR FORCE 1"
+                                     width="300" height="300">
                         </a>
                         <div class="card-body">
                             <a href="/Home/TrangChiTietSP/${product.productId}" style="text-decoration:none">
@@ -357,7 +359,7 @@
             type: 'GET',
             success: function (res) {
                 var contain = $('#ContainSPBC');
-                
+                console.log(res);
                 res.bestSeller.forEach(function (prod) {
                     var rating = '★'.repeat(Math.floor(prod.product.ratingAvg)) + '☆'.repeat(5 - Math.floor((prod.product.ratingAvg)));
                     var html = `
@@ -367,7 +369,8 @@
                             <a href="/Home/TrangChiTietSP/${prod.product.productId}">
 
                                     <img src="/images/${prod.product.image}"
-                                     class="card-img-top" alt="AIR FORCE 1">
+                                     class="card-img-top" alt="AIR FORCE 1"
+                                         width="300" height="300">
                             </a>
                             <div class="card-body">
                                         <a href="/Home/TrangChiTietSP/${prod.product.productId}" style="text-decoration:none">
@@ -436,7 +439,8 @@
                                 <div class="card h-100 shadow-sm border-light">
                                     <a href="/Home/TrangChiTietSP/${prod.productId}">
                                             <img src="/images/${prod.image}"
-                                             class="card-img-top" alt="${prod.name}">
+                                             class="card-img-top" alt="${prod.name}"
+                                                 width="300" height="300">
                                     </a>
                                     <div class="card-body">
                                         <a href="/Home/TrangChiTietSP/${prod.productId}" class="text-decoration-none">

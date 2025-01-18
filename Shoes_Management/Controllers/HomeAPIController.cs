@@ -116,8 +116,10 @@ namespace Shoes_Management.Controllers
         {
             //PRoduct new
 
-            var products = _context.Products.Take(4).OrderByDescending(p => p.CreatedAt)
-                .Where(p => p.Status == "Active");
+            var products = _context.Products
+                .Where(p => p.Status == "Active").OrderByDescending(p => p.CreatedAt)
+                .Take(4);
+                
 
             //Product Best seller
             var bestSeller = _context.OrderDetails
@@ -129,8 +131,8 @@ namespace Shoes_Management.Controllers
                     TotalQuantity = grouped.Sum(od => od.Quantity)
                 })
                 .OrderByDescending(od => od.TotalQuantity)
-                .Take(4)
                 .Where(p => p.Product.Status == "Active")
+                .Take(4)
                 .ToList();
             return Ok(new { products, bestSeller });
         }
