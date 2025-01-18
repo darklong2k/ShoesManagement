@@ -155,19 +155,22 @@
                 email: paymentData.email,
                 note: paymentData.note
             });
+
+            let info = {
+                paymentMethod: paymentMethod,
+                fullName: paymentData.fullName,
+                phone: paymentData.phone,
+                address: paymentData.address,
+                email: paymentData.email,
+                note: paymentData.note
+            }
+
             // Gửi yêu cầu thanh toán tới server
             $.ajax({
-                url: '/api/OrderApi/CreateOrder',
+                url: `/api/OrderApi/CreateOrder`,
                 method: 'POST',
                 contentType: 'application/json',  // Đảm bảo gửi dữ liệu dưới dạng JSON
-                data: JSON.stringify({
-                    paymentMethod: paymentMethod,
-                    fullName: paymentData.fullName,
-                    phone: paymentData.phone,
-                    address: paymentData.address,
-                    email: paymentData.email,
-                    note: paymentData.note
-                }),
+                data: JSON.stringify(info),
                 success: function (response) {
                     // Hiển thị thông báo thanh toán thành công
                     $("#payment-success").show();

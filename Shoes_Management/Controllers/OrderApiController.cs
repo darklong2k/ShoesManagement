@@ -11,17 +11,19 @@ namespace Shoes_Management.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OrderApiController : ControllerBase
+    public class OrderAPIController : ControllerBase
     {
         private readonly Shoescontext _context;
 
-        public OrderApiController(Shoescontext context)
+        public OrderAPIController(Shoescontext context)
         {
             _context = context;
         }
 
+
+
         [HttpPost("CreateOrder")]
-        public async Task<IActionResult> CreateOrder(int paymentMethod, string fullName, string phone, string address, string email, string note)
+        public async Task<IActionResult> CreateOrder([FromBody] OrderRequest info)
         {
             try
             {
@@ -65,9 +67,9 @@ namespace Shoes_Management.Controllers
                 {
                     CustomerId = customer.CustomerId,
                     OrderDate = DateTime.Now,
-                    Address = address,
-                    Phone = phone,
-                    Note = note,
+                    Address = info.Address,
+                    Phone = info.Phone,
+                    Note = info.Note,
                     TotalAmount = totalPrice, // Tổng tiền
                     Status = "Pending" // Trạng thái chờ xử lý
                 };
@@ -80,7 +82,7 @@ namespace Shoes_Management.Controllers
                 var payment = new Payment
                 {
                     OrderId = order.OrderId,
-                    PaymentMethodId = paymentMethod, // ID phương thức thanh toán
+                    PaymentMethodId = info.PaymentMethod, // ID phương thức thanh toán
                     PaymentDate = DateTime.Now,
                     TotalAmount = totalPrice, // Tổng tiền thanh toán
                     Status = "Chưa thanh toán" // Trạng thái chưa thanh toán
@@ -181,5 +183,14 @@ namespace Shoes_Management.Controllers
         public int? Quantity { get; set; }
         public decimal? UnitPrice { get; set; }
         public decimal? TotalPrice { get; set; }
+    }
+    public class OrderRequest
+    {
+        public int PaymentMethod { get; set; }
+        public string FullName { get; set; }
+        public string Phone { get; set; }
+        public string Address { get; set; }
+        public string Email { get; set; }
+        public string Note { get; set; }
     }
 }
