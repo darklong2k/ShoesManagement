@@ -53,7 +53,8 @@ namespace Shoes_Management.Controllers
                     ProductImage = cd.ProductDetail.Product.Image,
                     ProductColor = cd.ProductDetail.Color.ColorName,
                     ProductSize = cd.ProductDetail.Size.SizeName,
-                    ProductPrice = cd.ProductDetail.Product.Price
+                    ProductPrice = cd.ProductDetail.Product.Price,
+                    ProductStock = cd.ProductDetail.StockQuantity
                 })
                 .ToListAsync();
 
